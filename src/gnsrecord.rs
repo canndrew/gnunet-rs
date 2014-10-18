@@ -23,6 +23,51 @@ pub enum GNSRecordType {
   GNS2DNS = 65540,
 }
 
+impl FromStr for GNSRecordType {
+  fn from_str(s: &str) -> Option<GNSRecordType> {
+    match s {
+      "A"       => Some(A),
+      "NS"      => Some(NS),
+      "CNAME"   => Some(CNAME),
+      "SOA"     => Some(SOA),
+      "PTR"     => Some(PTR),
+      "MX"      => Some(MX),
+      "TXT"     => Some(TXT),
+      "AAAA"    => Some(AAAA),
+      "TLSA"    => Some(TLSA),
+
+      "PKEY"    => Some(PKEY),
+      "NICK"    => Some(NICK),
+      "LEHO"    => Some(LEHO),
+      "VPN"     => Some(VPN),
+      "GNS2DNS" => Some(GNS2DNS),
+      _         => None,
+    }
+  }
+}
+
+impl Show for GNSRecordType {
+  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    match self {
+      &A       => "A",
+      &NS      => "NS",
+      &CNAME   => "CNAME",
+      &SOA     => "SOA",
+      &PTR     => "PTR",
+      &MX      => "MX",
+      &TXT     => "TXT",
+      &AAAA    => "AAAA",
+      &TLSA    => "TLSA",
+
+      &PKEY    => "PKEY",
+      &NICK    => "NICK",
+      &LEHO    => "LEHO",
+      &VPN     => "VPN",
+      &GNS2DNS => "GNS2DNS",
+    }.fmt(f)
+  }
+}
+
 pub struct GNSRecord {
   data: ll::Struct_GNUNET_GNSRECORD_Data,
   buff: Vec<u8>,

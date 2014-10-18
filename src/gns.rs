@@ -117,26 +117,26 @@ impl GNS {
     let msg_length = (80 + name_len + 1).to_u16().unwrap();
     let mut mw = MemWriter::with_capacity(msg_length as uint);
 
-    ttry!(mw.write_be_u16(msg_length).map_err(Io));
-    ttry!(mw.write_be_u16(ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP).map_err(Io));
-    ttry!(mw.write_be_u32(id).map_err(Io));
-    ttry!(zone.serialize(&mw).map_err(Io));
-    ttry!(mw.write_be_i16(options as i16).map_err(Io));
-    ttry!(mw.write_be_i16(shorten.is_some() as i16).map_err(Io));
-    ttry!(mw.write_be_i32(record_type as i32).map_err(Io));
+    ttry!(mw.write_be_u16(msg_length));
+    ttry!(mw.write_be_u16(ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP));
+    ttry!(mw.write_be_u32(id));
+    ttry!(zone.serialize(&mw));
+    ttry!(mw.write_be_i16(options as i16));
+    ttry!(mw.write_be_i16(shorten.is_some() as i16));
+    ttry!(mw.write_be_i32(record_type as i32));
     match shorten {
-      Some(z) => ttry!(z.serialize(&mw).map_err(Io)),
-      None    => ttry!(mw.write([0u8, ..32]).map_err(Io)),
+      Some(z) => ttry!(z.serialize(&mw)),
+      None    => ttry!(mw.write([0u8, ..32])),
     };
-    ttry!(mw.write(name.as_bytes()).map_err(Io));
-    ttry!(mw.write_u8(0u8).map_err(Io));
+    ttry!(mw.write(name.as_bytes()));
+    ttry!(mw.write_u8(0u8));
 
     let v = mw.unwrap();
     assert!(v.len() == msg_length as uint);
 
     let (tx, rx) = channel::<GNSRecord>();
     self.lookup_tx.send((id, tx));
-    ttry!(self.service.write(v[]).map_err(Io));
+    ttry!(self.service.write(v[]));
     Ok(LookupHandle {
       gns: self,
       id: id,
