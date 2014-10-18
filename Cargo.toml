@@ -1,0 +1,9 @@
+[package]
+
+name = "gnunet"
+version = "0.0.1"
+authors = ["Andrew Cann <shum@canndrew.org>"]
+
+[dependencies.rust-bindgen]
+git = "https://github.com/crabtw/rust-bindgen.git"
+
