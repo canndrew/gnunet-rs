@@ -1,5 +1,8 @@
 use std::io::IoResult;
-use std::mem::uninitialized;
+use std::from_str::FromStr;
+use std::fmt::{Show, Formatter};
+use std::fmt;
+use std::c_str::CString;
 use libc::c_void;
 
 use ll;
@@ -21,6 +24,30 @@ pub enum GNSRecordType {
   LEHO    = 65538,
   VPN     = 65539,
   GNS2DNS = 65540,
+}
+
+impl GNSRecordType {
+  pub fn from_u32(x: u32) -> Option<GNSRecordType> {
+    Some(match x {
+      1 => A,
+      2 => NS,
+      5 => CNAME,
+      6 => SOA,
+      12 => PTR,
+      15 => MX,
+      16 => TXT,
+      28 => AAAA,
+      52 => TLSA,
+
+      65536 => PKEY,
+      65537 => NICK,
+      65538 => LEHO,
+      65539 => VPN,
+      65540 => GNS2DNS,
+
+      _ => return None,
+    })
+  }
 }
 
 impl FromStr for GNSRecordType {
@@ -68,6 +95,7 @@ impl Show for GNSRecordType {
   }
 }
 
+#[allow(dead_code)]
 pub struct GNSRecord {
   data: ll::Struct_GNUNET_GNSRECORD_Data,
   buff: Vec<u8>,
@@ -75,13 +103,11 @@ pub struct GNSRecord {
 
 impl GNSRecord {
   pub fn deserialize<T>(reader: &mut T) -> IoResult<GNSRecord> where T: Reader {
-    let buff: Vec<u8> = Vec::new();
-
     let expiration_time = ttry!(reader.read_be_u64());
     let data_size = ttry!(reader.read_be_u32()) as u64;
-    buff.reserve_exact(data_size as uint);
     let record_type = ttry!(reader.read_be_u32());
     let flags = ttry!(reader.read_be_u32());
+    let buff = ttry!(reader.read_exact(data_size as uint));
     let data = buff.as_ptr() as *const c_void;
 
     Ok(GNSRecord {
@@ -94,6 +120,27 @@ impl GNSRecord {
       },
       buff: buff,
     })
+  }
+
+  pub fn record_type(&self) -> GNSRecordType {
+    GNSRecordType::from_u32(self.data.record_type).unwrap()
+  }
+}
+
+impl Show for GNSRecord {
+  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    let tpe = self.data.record_type;
+    try!(write!(f, "{}: ", GNSRecordType::from_u32(tpe).unwrap()));
+    unsafe {
+      let cs = ll::GNUNET_GNSRECORD_value_to_string(tpe, self.data.data, self.data.data_size);
+      match cs.is_null() {
+        true  => write!(f, "<malformed record data>"),
+        false => {
+          let cs = CString::new_owned(cs);
+          write!(f, "{}", cs)
+        },
+      }
+    }
   }
 }
 

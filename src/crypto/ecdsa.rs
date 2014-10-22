@@ -2,10 +2,15 @@ use std::io::IoResult;
 use std::from_str::FromStr;
 use std::mem;
 use std::fmt::{Show, Formatter};
-use std::c_str::CString;
 use std::fmt;
+use std::mem::{uninitialized, size_of, size_of_val};
+use std::str::from_utf8;
+use std::slice::raw::buf_as_slice;
+use libc::{c_void, size_t, c_char};
 
 use ll;
+use HashCode;
+use FromError;
 
 pub struct EcdsaPublicKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey,
@@ -14,6 +19,16 @@ pub struct EcdsaPublicKey {
 impl EcdsaPublicKey {
   pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
     w.write(self.data.q_y)
+  }
+
+  pub fn hash(&self) -> HashCode {
+    unsafe {
+      buf_as_slice(
+          &self.data as *const ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey as *const u8,
+          size_of::<ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey>(),
+          HashCode::hash
+      )
+    }
   }
 }
 
@@ -37,9 +52,16 @@ impl FromStr for EcdsaPublicKey {
 impl Show for EcdsaPublicKey {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
-      let s = ll::GNUNET_CRYPTO_ecdsa_public_key_to_string(&self.data);
-      //CString::new(s, true).as_str().unwrap().fmt(f)
-      CString::new(s as *const i8, true).as_str().unwrap().fmt(f)
+      const LEN: uint = 52u;
+      println!("sizeof == {}", size_of_val(&self.data.q_y));
+      assert!(LEN == (size_of_val(&self.data.q_y) * 8 + 4) / 5);
+      let mut enc: [u8, ..LEN] = uninitialized();
+      let res = ll::GNUNET_STRINGS_data_to_string(self.data.q_y.as_ptr() as *const c_void,
+                                                  self.data.q_y.len() as size_t,
+                                                  enc.as_mut_ptr() as *mut c_char,
+                                                  52);
+      assert!(res.is_not_null());
+      from_utf8(enc).unwrap().fmt(f)
     }
   }
 }
@@ -51,6 +73,41 @@ pub struct EcdsaPrivateKey {
 impl EcdsaPrivateKey {
   pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
     w.write(self.data.d)
+  }
+
+  pub fn deserialize<T>(r: &mut T) -> IoResult<EcdsaPrivateKey> where T: Reader {
+    let mut ret: EcdsaPrivateKey = unsafe { uninitialized() };
+    ttry!(r.read(ret.data.d));
+    Ok(ret)
+  }
+
+  pub fn get_public(&self) -> EcdsaPublicKey {
+    unsafe {
+      let mut ret: ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey = uninitialized();
+      ll::GNUNET_CRYPTO_ecdsa_key_get_public(&self.data, &mut ret);
+      EcdsaPublicKey {
+        data: ret,
+      }
+    }
+  }
+
+  pub fn anonymous() -> EcdsaPrivateKey {
+    //let anon = ll::GNUNET_CRYPTO_ecdsa_key_get_anonymous();
+    unsafe {
+      EcdsaPrivateKey {
+        data: *ll::GNUNET_CRYPTO_ecdsa_key_get_anonymous(),
+      }
+    }
+  }
+}
+
+impl Clone for EcdsaPrivateKey {
+  fn clone(&self) -> EcdsaPrivateKey {
+    EcdsaPrivateKey {
+      data: ll::Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
+        d: self.data.d,
+      },
+    }
   }
 }
 
@@ -77,12 +134,12 @@ impl FromStr for EcdsaPrivateKey {
 fn test_ecdsa_to_from_string() {
   use EcdsaPublicKey;
 
-  let s0: &str = "JK55QA8JLAL64MBO8UM209KE93M9JBBO7M2UB8M3M03FKRFSUOMG";
+  //let s0: &str = "JK55QA8JLAL64MBO8UM209KE93M9JBBO7M2UB8M3M03FKRFSUOMG";
+  let s0: &str = "JK55QA8J1A164MB08VM209KE93M9JBB07M2VB8M3M03FKRFSV0MG";
   let key: Option<EcdsaPublicKey> = FromStr::from_str(s0);
-  let s: String = format!("{}", key.unwrap());
-  let s1: &str = s.as_slice();
+  let s1: String = format!("{}", key.unwrap());
   println!("{} {}", s0, s0.len());
   println!("{} {}", s1, s1.len());
-  assert!(s0.equiv(&s1));
+  assert!(s0 == s1[]);
 }
 

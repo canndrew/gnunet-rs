@@ -1,70 +1,93 @@
-use std::io::{Reader, Stream, IoResult, IoError, RefReader};
+use std::io::{Reader, IoResult, IoError, EndOfFile};
 use std::io::net::pipe::UnixStream;
 use std::io::util::LimitReader;
+
+use FromError;
 
 use Configuration;
 
 pub struct Service {
-  connection: Box<Stream + 'static>,
+  //connection: Box<Stream + 'static>,
+  pub connection: Box<UnixStream>,
+  pub cfg: Configuration,
 }
 
+#[deriving(Show)]
 pub enum ServiceConnectError {
   FailedToLoadConfig,
   NotConfigured,
   ConnectionError(IoError),
+  InvalidResponse,
+}
+
+impl FromError<IoError> for ServiceConnectError {
+  fn from_error(x: IoError) -> ServiceConnectError {
+    ConnectionError(x)
+  }
 }
 
 pub enum ProcessMessageResult {
-  Continue,
-  Reconnect,
-  Shutdown,
-}
-
-fn hack<'a, T>(x: &'a mut T) -> RefReader<'a, T> where T: Reader {
-  x.by_ref()
+  ServiceContinue,
+  ServiceReconnect,
+  ServiceShutdown,
 }
 
 impl Service {
-  // TODO: figure out how to make the LimitReader run-time generic in it's type
-  pub fn connect<'a, T>(name: &str, cb: T) -> Result<Service, ServiceConnectError> 
-      where T: FnMut(u16, LimitReader<&'a mut (Reader + 'static)>) -> ProcessMessageResult,
-            T: Send
-  {
-    let cfg = match Configuration::default() {
+  pub fn connect(cfg: Option<Configuration>, name: &str) -> Result<Service, ServiceConnectError> {
+    let cfg = match cfg {
       Some(cfg) => cfg,
-      None      => return Err(FailedToLoadConfig),
+      None      => match Configuration::default() {
+        Some(cfg) => cfg,
+        None      => return Err(FailedToLoadConfig),
+      },
     };
     let unixpath = match cfg.get_value_filename(name, "UNIXPATH") {
       Some(p)   => p,
       None      => return Err(NotConfigured),
     };
-    let stream = match UnixStream::connect(&unixpath) {
-      Ok(us)  => us,
-      Err(e)  => return Err(ConnectionError(e)),
-    };
-    let mut reader = stream.clone();
+    let stream = ttry!(UnixStream::connect(&unixpath));
+    Ok(Service {
+      connection: box stream,
+      cfg: cfg,
+    })
+  }
+
+  // TODO: figure out how to make the LimitReader run-time generic in it's type
+  /*
+  pub fn connect<'a, T>(name: &str, cb: T) -> Result<Service, ServiceConnectError> 
+      where T: FnMut(u16, LimitReader<&'a mut (Reader + 'static)>) -> ProcessMessageResult,
+            T: Send
+  {
+  */
+  pub fn connect_loop<T>(cfg: Option<Configuration>, name: &str, mut cb: T) -> Result<Service, ServiceConnectError> 
+      where T: FnMut(u16, LimitReader<UnixStream>) -> ProcessMessageResult,
+            T: Send
+  {
+    let service = ttry!(Service::connect(cfg, name));
+    let mut reader = (*service.connection).clone();
     //spawn(move |:| {
     spawn(proc() {
       //TODO: implement reconnection (currently fails)
       loop {
-        let len = reader.read_be_u16().unwrap(); // here
+        let len = match reader.read_be_u16() {
+          Ok(x)   => x,
+          Err(e)  => match e.kind {
+            EndOfFile => return,
+            _         => return, //TODO: auto reconnect
+          },
+        };
         let tpe = reader.read_be_u16().unwrap(); // here
         // TODO: remove referencing `reader.by_ref(()`
-        //let lr = LimitReader::new((&mut reader as &Reader).by_ref(), len - 4);
-        //let lr = LimitReader::new(Reader::by_ref(&mut reader), (len - 4) as uint);
-        let lr = LimitReader::new(&mut reader as &mut Reader, (len - 4) as uint);
-        //let lr = LimitReader::new(reader.by_ref(), len as uint - 4);
+        //let lr = LimitReader::new(&mut reader as &mut Reader, (len - 4) as uint);
+        let lr = LimitReader::new(reader.clone(), (len - 4) as uint);
         match cb(tpe, lr) {
-          Continue  => (),
-          Reconnect => assert!(false, "Not implemented"),
-          Shutdown  => break,
+          ServiceContinue  => /* TODO: need lifetimes on closures to do this: assert!(lr.limit() == 0, "callback did not read entire message") */ (),
+          ServiceReconnect => return, //TODO: auto reconnect
+          ServiceShutdown  => return,
         };
       }
     });
-    let ret = Service {
-      connection: box stream,
-    };
-    Ok(ret)
+    Ok(service)
   }
 }
 
@@ -74,11 +97,18 @@ impl Writer for Service {
   }
 }
 
-/*
-impl Drop for Service {
-  fn drop(&mut self) {
-    self.connection.close_read();
+impl Reader for Service {
+  fn read(&mut self, buf: &mut [u8]) -> IoResult<uint> {
+    self.connection.read(buf)
   }
 }
-*/
+
+// TODO: why do I need this unsafe bizo?
+#[unsafe_destructor]
+impl Drop for Service {
+  fn drop(&mut self) {
+    // cause the loop task to exit
+    let _ = self.connection.close_read();
+  }
+}
 

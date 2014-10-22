@@ -4,15 +4,22 @@
 #![feature(overloaded_calls)]
 #![feature(unboxed_closures)]
 #![feature(tuple_indexing)]
+#![feature(slicing_syntax)]
+#![feature(unsafe_destructor)]
+#![feature(default_type_params)]
 
 extern crate libc;
+extern crate sync;
 
 pub use configuration::Configuration;
-pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey};
+//pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey};
+pub use crypto::ecdsa::{EcdsaPublicKey, EcdsaPrivateKey};
+pub use crypto::hashcode::HashCode;
 
-//pub use service::ServiceConnectError;
-//pub use gnsrecord::{GNSRecord, GNSRecordType};
-//pub use gns::GNS;
+pub use service::ServiceConnectError;
+pub use gnsrecord::{GNSRecord, GNSRecordType};
+pub use gns::{GNS, LocalOptions};
+pub use identity::{Ego, IdentityService};
 
 macro_rules! ttry (
     ($expr:expr) => ({
@@ -23,14 +30,25 @@ macro_rules! ttry (
     })
 )
 
+macro_rules! error_chain (
+  ($from:ty, $to:ty, $f:expr) => (
+    impl FromError<$from> for $to {
+      fn from_error(e: $from) -> $to {
+        $f(e)
+      }
+    }
+  )
+)
+
 #[allow(dead_code, non_camel_case_types, non_snake_case, non_uppercase_statics)]
 mod ll;
 
-//mod service;
+mod service;
 mod configuration;
-//mod gns;
-//mod gnsrecord;
+pub mod gns;
+pub mod gnsrecord;
 mod crypto;
+pub mod identity;
 
 pub trait FromError<E> {
   fn from_error(x: E) -> Self;

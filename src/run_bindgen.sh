@@ -3,7 +3,11 @@
 # Run this to regenerate ll.rs after a C library update.
 # This is a tempory measure until bindgen can be worked into the build process
 
-bindgen -builtins -I/usr/lib64/clang/3.4.1/include -I/usr/local/include -lgnunetutil ll.h > ll.rs
+bindgen -builtins \
+        -I/usr/lib64/clang/3.4.1/include -I/usr/local/include \
+        -lgnunetutil \
+        -lgnunetgnsrecord \
+        ll.h > ll.rs
 cat <<EOF >>ll.rs
 
 pub const GNUNET_OK: ::libc::c_int = 1;

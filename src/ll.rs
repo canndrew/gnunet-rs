@@ -3776,7 +3776,6 @@ pub enum Struct_GNUNET_BLOCK_Context { }
 pub type Enum_GNUNET_GNSRECORD_Flags = ::libc::c_uint;
 pub const GNUNET_GNSRECORD_RF_NONE: ::libc::c_uint = 0;
 pub const GNUNET_GNSRECORD_RF_PRIVATE: ::libc::c_uint = 2;
-pub const GNUNET_GNSRECORD_RF_PENDING: ::libc::c_uint = 4;
 pub const GNUNET_GNSRECORD_RF_RELATIVE_EXPIRATION: ::libc::c_uint = 8;
 pub const GNUNET_GNSRECORD_RF_SHADOW_RECORD: ::libc::c_uint = 16;
 #[repr(C)]
@@ -3839,6 +3838,24 @@ pub type Enum_GNUNET_GNS_LocalOptions = ::libc::c_uint;
 pub const GNUNET_GNS_LO_DEFAULT: ::libc::c_uint = 0;
 pub const GNUNET_GNS_LO_NO_DHT: ::libc::c_uint = 1;
 pub const GNUNET_GNS_LO_LOCAL_MASTER: ::libc::c_uint = 2;
+pub enum Struct_GNUNET_IDENTITY_Handle { }
+pub enum Struct_GNUNET_IDENTITY_Ego { }
+pub enum Struct_GNUNET_IDENTITY_Operation { }
+pub type GNUNET_IDENTITY_Callback =
+    ::std::option::Option<extern "C" fn
+                              (arg1: *mut ::libc::c_void,
+                               arg2: *mut Struct_GNUNET_IDENTITY_Ego,
+                               arg3: *mut *mut ::libc::c_void,
+                               arg4: *const ::libc::c_char)>;
+pub type GNUNET_IDENTITY_Continuation =
+    ::std::option::Option<extern "C" fn
+                              (arg1: *mut ::libc::c_void,
+                               arg2: *const ::libc::c_char)>;
+pub type GNUNET_IDENTITY_EgoCallback =
+    ::std::option::Option<extern "C" fn
+                              (arg1: *mut ::libc::c_void,
+                               arg2: *const Struct_GNUNET_IDENTITY_Ego)>;
+pub enum Struct_GNUNET_IDENTITY_EgoLookup { }
 pub type __va_list_tag = Struct___va_list_tag;
 #[repr(C)]
 pub struct Struct___va_list_tag {
@@ -3848,6 +3865,7 @@ pub struct Struct___va_list_tag {
     pub reg_save_area: *mut ::libc::c_void,
 }
 #[link(name = "gnunetutil")]
+#[link(name = "gnunetgnsrecord")]
 extern "C" {
     pub static in6addr_any: Struct_in6_addr;
     pub static in6addr_loopback: Struct_in6_addr;
@@ -8875,10 +8893,66 @@ extern "C" {
                              proc_cls: *mut ::libc::c_void) ->
      *mut Struct_GNUNET_GNS_LookupRequest;
     pub fn GNUNET_GNS_lookup_cancel(lr: *mut Struct_GNUNET_GNS_LookupRequest);
+    pub fn GNUNET_IDENTITY_ego_get_private_key(ego:
+                                                   *const Struct_GNUNET_IDENTITY_Ego)
+     -> *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_IDENTITY_ego_get_anonymous() ->
+     *const Struct_GNUNET_IDENTITY_Ego;
+    pub fn GNUNET_IDENTITY_ego_get_public_key(ego:
+                                                  *const Struct_GNUNET_IDENTITY_Ego,
+                                              pk:
+                                                  *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey);
+    pub fn GNUNET_IDENTITY_connect(cfg:
+                                       *const Struct_GNUNET_CONFIGURATION_Handle,
+                                   cb: GNUNET_IDENTITY_Callback,
+                                   cb_cls: *mut ::libc::c_void) ->
+     *mut Struct_GNUNET_IDENTITY_Handle;
+    pub fn GNUNET_IDENTITY_get(id: *mut Struct_GNUNET_IDENTITY_Handle,
+                               service_name: *const ::libc::c_char,
+                               cb: GNUNET_IDENTITY_Callback,
+                               cb_cls: *mut ::libc::c_void) ->
+     *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_set(id: *mut Struct_GNUNET_IDENTITY_Handle,
+                               service_name: *const ::libc::c_char,
+                               ego: *mut Struct_GNUNET_IDENTITY_Ego,
+                               cont: GNUNET_IDENTITY_Continuation,
+                               cont_cls: *mut ::libc::c_void) ->
+     *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_disconnect(h: *mut Struct_GNUNET_IDENTITY_Handle);
+    pub fn GNUNET_IDENTITY_create(id: *mut Struct_GNUNET_IDENTITY_Handle,
+                                  name: *const ::libc::c_char,
+                                  cont: GNUNET_IDENTITY_Continuation,
+                                  cont_cls: *mut ::libc::c_void) ->
+     *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_rename(id: *mut Struct_GNUNET_IDENTITY_Handle,
+                                  old_name: *const ::libc::c_char,
+                                  new_name: *const ::libc::c_char,
+                                  cb: GNUNET_IDENTITY_Continuation,
+                                  cb_cls: *mut ::libc::c_void) ->
+     *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_delete(id: *mut Struct_GNUNET_IDENTITY_Handle,
+                                  name: *const ::libc::c_char,
+                                  cb: GNUNET_IDENTITY_Continuation,
+                                  cb_cls: *mut ::libc::c_void) ->
+     *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_cancel(op: *mut Struct_GNUNET_IDENTITY_Operation);
+    pub fn GNUNET_IDENTITY_ego_lookup(cfg:
+                                          *const Struct_GNUNET_CONFIGURATION_Handle,
+                                      name: *const ::libc::c_char,
+                                      cb: GNUNET_IDENTITY_EgoCallback,
+                                      cb_cls: *mut ::libc::c_void) ->
+     *mut Struct_GNUNET_IDENTITY_EgoLookup;
+    pub fn GNUNET_IDENTITY_ego_lookup_cancel(el:
+                                                 *mut Struct_GNUNET_IDENTITY_EgoLookup);
 }
 
 pub const GNUNET_OK: ::libc::c_int = 1;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP: u16 = 500;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT: u16 = 501;
+pub const GNUNET_MESSAGE_TYPE_IDENTITY_START: u16 = 624;
+pub const GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE: u16 = 625;
+pub const GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE: u16 = 626;
+pub const GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT: u16 = 627;
+pub const GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT: u16 = 628;
 pub const GNUNET_DNSPARSER_MAX_NAME_LENGTH: u16 = 253;
 
