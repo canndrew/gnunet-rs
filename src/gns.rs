@@ -37,24 +37,9 @@ pub enum LookupError {
   ServiceConnect(ServiceConnectError),
   IdentityLookup(identity::GetDefaultError),
 }
-
-impl FromError<IoError> for LookupError {
-  fn from_error(e: IoError) -> LookupError {
-    Io(e)
-  }
-}
-
-impl FromError<ServiceConnectError> for LookupError {
-  fn from_error(e: ServiceConnectError) -> LookupError {
-    ServiceConnect(e)
-  }
-}
-
-impl FromError<identity::GetDefaultError> for LookupError {
-  fn from_error(e: identity::GetDefaultError) -> LookupError {
-    IdentityLookup(e)
-  }
-}
+error_chain!(IoError, LookupError, Io)
+error_chain!(ServiceConnectError, LookupError, ServiceConnect)
+error_chain!(identity::GetDefaultError, LookupError, IdentityLookup)
 
 impl GNS {
   pub fn connect(cfg: Option<Configuration>) -> Result<GNS, ServiceConnectError> {

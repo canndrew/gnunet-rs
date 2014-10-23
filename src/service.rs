@@ -19,12 +19,7 @@ pub enum ServiceConnectError {
   ConnectionError(IoError),
   InvalidResponse,
 }
-
-impl FromError<IoError> for ServiceConnectError {
-  fn from_error(x: IoError) -> ServiceConnectError {
-    ConnectionError(x)
-  }
-}
+error_chain!(IoError, ServiceConnectError, ConnectionError)
 
 pub enum ProcessMessageResult {
   ServiceContinue,
