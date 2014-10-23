@@ -116,6 +116,21 @@ impl GNS {
   ///
   /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
   /// immediately with a handle that can be queried for results.
+  ///
+  /// # Example
+  ///
+  /// ```rust
+  /// use gnunet::{IdentityService, GNS, gns, gnsrecord};
+  ///
+  /// let mut ids = IdentityService::connect(None).unwrap();
+  /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
+  /// let pk = gns_ego.get_public_key();
+  ///
+  /// let mut gns = GNS::connect(None).unwrap();
+  /// let mut lh = gns.lookup_in_zone("www.gnu", &pk, gnsrecord::A, gns::LOLocalMaster, None).unwrap();
+  /// let record = lh.recv();
+  /// println!("Got the IPv4 record for www.gnu: {}", record);
+  /// ```
   pub fn lookup_in_zone<'a>(
       &'a mut self,
       name: &str,
@@ -160,32 +175,35 @@ impl GNS {
       receiver: rx,
     })
   }
-
-  /// Lookup a GNS record in the master zone.
-  ///
-  /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
-  /// immediately with a handle that can be queried for results.
-  pub fn lookup<'a>(
-      &'a mut self,
-      name: &str,
-      record_type: GNSRecordType,
-      shorten: Option<&EcdsaPrivateKey>) -> Result<LookupHandle<'a>, LookupError> {
-    let mut is = ttry!(IdentityService::connect(Some(self.service.cfg.clone())));
-    let ego = ttry!(is.get_default_ego("gns-master"));
-    let pk = ego.get_public_key();
-    let mut it = name.split('.');
-    let opt = match (it.next(), it.next(), it.next()) {
-      (Some(_), Some("gnu"), None)  => LONoDHT,
-      _                             => LOLocalMaster,
-    };
-    self.lookup_in_zone(name, &pk, record_type, opt, shorten)
-  }
 }
 
 /// Lookup a GNS record in the given zone.
 ///
 /// If `shorten` is not `None` then the result is added to the given shorten zone. This function
 /// will block until it returns the first matching record that it can find.
+///
+/// # Example
+///
+/// ```rust
+/// use gnunet::{identity, gns, gnsrecord};
+///
+/// let gns_ego = identity::get_default_ego(None, "gns-master").unwrap();
+/// let pk = gns_ego.get_public_key();
+/// 
+/// let record = gns::lookup_in_zone(None,
+///                                  "www.gnu",
+///                                  &pk,
+///                                  gnsrecord::A,
+///                                  gns::LOLocalMaster,
+///                                  None).unwrap();
+/// println!("Got the IPv4 record for www.gnu: {}", record);
+/// ```
+///
+/// # Note
+///
+/// This is a convenience function that connects to the GNS service, performs the lookup, retrieves
+/// one result, then disconects. If you are performing multiple lookups this function should be
+/// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup_in_zone(
     cfg: Option<Configuration>,
     name: &str,
@@ -202,14 +220,36 @@ pub fn lookup_in_zone(
 ///
 /// If `shorten` is not `None` then the result is added to the given shorten zone. This function
 /// will block until it returns the first matching record that it can find.
+///
+/// # Example
+///
+/// ```rust
+/// use gnunet::{gns, gnsrecord};
+///
+/// let record = gns::lookup(None, "www.gnu", gnsrecord::A, None).unwrap();
+/// println!("Got the IPv4 record for www.gnu: {}", record);
+/// ```
+///
+/// # Note
+///
+/// This is a convenience function that connects to the identity service, fetches the default ego
+/// for gns-master, then connects to the GNS service, performs the lookup, retrieves one result,
+/// then disconnects from everything. If you are performing lots of lookups this function should be
+/// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup(
     cfg: Option<Configuration>,
     name: &str,
     record_type: GNSRecordType,
     shorten: Option<&EcdsaPrivateKey>) -> Result<GNSRecord, LookupError> {
-  let mut gns = ttry!(GNS::connect(cfg));
-  let mut h = ttry!(gns.lookup(name, record_type, shorten));
-  Ok(h.recv())
+  let mut is = ttry!(IdentityService::connect(cfg.clone()));
+  let ego = ttry!(is.get_default_ego("gns-master"));
+  let pk = ego.get_public_key();
+  let mut it = name.split('.');
+  let opt = match (it.next(), it.next(), it.next()) {
+    (Some(_), Some("gnu"), None)  => LONoDHT,
+    _                             => LOLocalMaster,
+  };
+  lookup_in_zone(cfg, name, &pk, record_type, opt, shorten)
 }
 
 /// A handle returned by `GNS::lookup`.
