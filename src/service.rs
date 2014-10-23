@@ -47,19 +47,11 @@ impl Service {
     })
   }
 
-  // TODO: figure out how to make the LimitReader run-time generic in it's type
-  /*
-  pub fn connect<'a, T>(name: &str, cb: T) -> Result<Service, ServiceConnectError> 
-      where T: FnMut(u16, LimitReader<&'a mut (Reader + 'static)>) -> ProcessMessageResult,
-            T: Send
-  {
-  */
-  pub fn connect_loop<T>(cfg: Option<Configuration>, name: &str, mut cb: T) -> Result<Service, ServiceConnectError> 
+  pub fn init_callback_loop<T>(&mut self, mut cb: T)
       where T: FnMut(u16, LimitReader<UnixStream>) -> ProcessMessageResult,
             T: Send
   {
-    let service = ttry!(Service::connect(cfg, name));
-    let mut reader = (*service.connection).clone();
+    let mut reader = (*self.connection).clone();
     //spawn(move |:| {
     spawn(proc() {
       //TODO: implement reconnection (currently fails)
@@ -82,7 +74,6 @@ impl Service {
         };
       }
     });
-    Ok(service)
   }
 }
 

@@ -46,8 +46,8 @@ impl GNS {
     let (lookup_tx, lookup_rx) = channel::<(u32, Sender<GNSRecord>)>();
     let mut handles: HashMap<u32, Sender<GNSRecord>> = HashMap::new();
 
-    //let service = ttry!(Service::connect("gns", move |&mut: tpe: u16, reader: LimitReader<&mut Reader>| -> ProcessMessageResult {
-    let service = ttry!(Service::connect_loop(cfg, "gns", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
+    let mut service = ttry!(Service::connect(cfg, "gns"));
+    service.init_callback_loop(move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
       loop {
         match lookup_rx.try_recv() {
           Ok((id, sender)) => {
@@ -88,7 +88,7 @@ impl GNS {
         0 => ServiceContinue,
         _ => ServiceReconnect,
       }
-    }));
+    });
     Ok(GNS {
       service: service,
       lookup_id: 0,
