@@ -70,7 +70,7 @@ pub mod gnsrecord;
 mod crypto;
 pub mod identity;
 
-pub trait FromError<E> {
+trait FromError<E> {
   fn from_error(x: E) -> Self;
 }
 

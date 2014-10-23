@@ -12,6 +12,7 @@ use FromError;
 ///
 /// Some of these records exist in the legacy DNS (but are still used in GNS). Others are specific
 /// to GNS. These are marked **Legacy** and **GNS** respectively.
+#[deriving(PartialEq)]
 pub enum GNSRecordType {
   /// **Legacy.** Address record. Stores a 32bit IPv4 address.
   A       = 1,

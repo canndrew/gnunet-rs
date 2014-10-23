@@ -152,8 +152,8 @@ impl IdentityService {
   /// ```rust
   /// use gnunet::IdentityService;
   ///
-  /// let mut ids = IdentityService::connect(None);
-  /// let ego = ids.get_default_ego(None, "gns-master").unwrap();
+  /// let mut ids = IdentityService::connect(None).unwrap();
+  /// let ego = ids.get_default_ego("gns-master").unwrap();
   /// ```
   pub fn get_default_ego(&mut self, name: &str) -> Result<Ego, GetDefaultError> {
     let name_len = name.len();
