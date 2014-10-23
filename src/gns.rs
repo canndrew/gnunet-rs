@@ -18,23 +18,34 @@ use GNSRecordType;
 use IdentityService;
 use Configuration;
 
+/// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
   service: Service,
   lookup_id: u32,
   lookup_tx: Sender<(u32, Sender<GNSRecord>)>,
 }
 
+/// Options for GNS lookups.
 pub enum LocalOptions {
+  /// Default behaviour. Look in the local cache, then in the DHT.
   LODefault     = 0,
+  /// Do not look in the DHT, keep the request to the local cache.
   LONoDHT       = 1,
+  /// For domains controlled by our master zone only look in the cache. Otherwise look in the
+  /// cache, then in the DHT.
   LOLocalMaster = 2,
 }
 
+/// Possible errors returned by the GNS lookup functions.
 #[deriving(Show)]
 pub enum LookupError {
+  /// The specified domain name was too long.
   NameTooLong,
+  /// An I/O error occured while talking to the GNS service.
   Io(IoError),
+  /// Failed to connect to the GNS service.
   ServiceConnect(ServiceConnectError),
+  /// Something went wrong when retrieving the default identity from the identity service.
   IdentityLookup(identity::GetDefaultError),
 }
 error_chain!(IoError, LookupError, Io)
@@ -42,6 +53,11 @@ error_chain!(ServiceConnectError, LookupError, ServiceConnect)
 error_chain!(identity::GetDefaultError, LookupError, IdentityLookup)
 
 impl GNS {
+  /// Connect to the GNS service.
+  ///
+  /// Returns either a handle to the GNS service or a `ServiceConnectError`. `cfg` contains the
+  /// configuration to use to connect to the service. Can be `None` to use the system default
+  /// configuration - this should work on most properly-configured systems.
   pub fn connect(cfg: Option<Configuration>) -> Result<GNS, ServiceConnectError> {
     let (lookup_tx, lookup_rx) = channel::<(u32, Sender<GNSRecord>)>();
     let mut handles: HashMap<u32, Sender<GNSRecord>> = HashMap::new();
@@ -96,6 +112,10 @@ impl GNS {
     })
   }
 
+  /// Lookup a GNS record in the given zone.
+  ///
+  /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
+  /// immediately with a handle that can be queried for results.
   pub fn lookup_in_zone<'a>(
       &'a mut self,
       name: &str,
@@ -141,6 +161,10 @@ impl GNS {
     })
   }
 
+  /// Lookup a GNS record in the master zone.
+  ///
+  /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
+  /// immediately with a handle that can be queried for results.
   pub fn lookup<'a>(
       &'a mut self,
       name: &str,
@@ -158,6 +182,10 @@ impl GNS {
   }
 }
 
+/// Lookup a GNS record in the given zone.
+///
+/// If `shorten` is not `None` then the result is added to the given shorten zone. This function
+/// will block until it returns the first matching record that it can find.
 pub fn lookup_in_zone(
     cfg: Option<Configuration>,
     name: &str,
@@ -170,6 +198,10 @@ pub fn lookup_in_zone(
   Ok(h.recv())
 }
 
+/// Lookup a GNS record in the master zone.
+///
+/// If `shorten` is not `None` then the result is added to the given shorten zone. This function
+/// will block until it returns the first matching record that it can find.
 pub fn lookup(
     cfg: Option<Configuration>,
     name: &str,
@@ -180,15 +212,21 @@ pub fn lookup(
   Ok(h.recv())
 }
 
+/// A handle returned by `GNS::lookup`.
+///
+/// Used to retrieve the results of a lookup.
 pub struct LookupHandle<'a> {
   marker: InvariantLifetime<'a>,
   receiver: Receiver<GNSRecord>,
 }
 
 impl<'a> LookupHandle<'a> {
+  /// Receive a single result from a lookup.
+  ///
+  /// Blocks until a result is available. This function can be called multiple times on a handle to
+  /// receive multiple results.
   pub fn recv(&mut self) -> GNSRecord {
     self.receiver.recv()
   }
 }
-
 

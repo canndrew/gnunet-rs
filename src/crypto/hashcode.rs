@@ -10,11 +10,13 @@ use libc::{c_char, c_uint, c_void, size_t};
 
 use ll;
 
+/// A 512bit hash code used in various places throughout GNUnet.
 pub struct HashCode {
   data: ll::Struct_GNUNET_HashCode,
 }
 
 impl HashCode {
+  /// Compute the hash of a buffer.
   pub fn hash(buf: &[u8]) -> HashCode {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
@@ -25,24 +27,37 @@ impl HashCode {
     }
   }
 
+  /// Compute the distance between two hashes.
   pub fn distance(&self, other: &HashCode) -> u32 {
     unsafe {
       ll::GNUNET_CRYPTO_hash_distance_u32(&self.data, &other.data) as u32
     }
   }
 
+  /// Get the nth bit of a 512bit hash code.
+  ///
+  /// # Failure
+  ///
+  /// Fails if `idx >= 512`.
   pub fn get_bit(&self, idx: uint) -> bool {
+    assert!(idx < 512);
     unsafe {
       ll::GNUNET_CRYPTO_hash_get_bit(&self.data, idx as c_uint) == 1
     }
   }
 
+  /// Compute the length (in bits) of the common prefix of two hashes. ie. two identical hashes
+  /// will return a value of 512u while two hashes that vary in the first bit will return a value
+  /// of 0u.
   pub fn matching_prefix_len(&self, other: &HashCode) -> uint {
     unsafe {
       ll::GNUNET_CRYPTO_hash_matching_bits(&self.data, &other.data) as uint
     }
   }
 
+  /// Determine which hash is closer to `self` in the XOR metric (Kademlia). Returns `Less` if
+  /// `h1` is smaller than `h2` relative to `self`. ie. if `(h1 ^ self) < (h2 ^ self)`. Otherwise
+  /// returns `Greater` or `Equal` if `h1` is greater than or equal to `h2` relative to `self`.
   pub fn xor_cmp(&self, h1: &HashCode, h2: &HashCode) -> Ordering {
     unsafe {
       match ll::GNUNET_CRYPTO_hash_xorcmp(&h1.data, &h2.data, &self.data) {

@@ -12,15 +12,18 @@ use ll;
 use HashCode;
 use FromError;
 
+/// A 256bit ECDSA public key.
 pub struct EcdsaPublicKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey,
 }
 
 impl EcdsaPublicKey {
+  /// Serialize key to a byte stream.
   pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
     w.write(self.data.q_y)
   }
 
+  /// Compute the hash of this key.
   pub fn hash(&self) -> HashCode {
     unsafe {
       buf_as_slice(
@@ -66,21 +69,25 @@ impl Show for EcdsaPublicKey {
   }
 }
 
+/// A 256bit ECDSA private key.
 pub struct EcdsaPrivateKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
 }
 
 impl EcdsaPrivateKey {
+  /// Serialize this key to a byte stream.
   pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
     w.write(self.data.d)
   }
 
+  /// Deserialize a from a byte stream.
   pub fn deserialize<T>(r: &mut T) -> IoResult<EcdsaPrivateKey> where T: Reader {
     let mut ret: EcdsaPrivateKey = unsafe { uninitialized() };
     ttry!(r.read(ret.data.d));
     Ok(ret)
   }
 
+  /// Get the corresponding public key to this private key.
   pub fn get_public(&self) -> EcdsaPublicKey {
     unsafe {
       let mut ret: ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey = uninitialized();
@@ -91,6 +98,7 @@ impl EcdsaPrivateKey {
     }
   }
 
+  /// Return the private key of the global, anonymous user.
   pub fn anonymous() -> EcdsaPrivateKey {
     //let anon = ll::GNUNET_CRYPTO_ecdsa_key_get_anonymous();
     unsafe {

@@ -14,6 +14,9 @@ use service::Service;
 use FromError;
 use Configuration;
 
+/// A GNUnet identity.
+///
+/// An ego consists of a public/private key pair and a name.
 #[deriving(Clone)]
 pub struct Ego {
   pk: EcdsaPrivateKey,
@@ -22,6 +25,7 @@ pub struct Ego {
 }
 
 impl Ego {
+  /// Get a copy of the global, anonymous ego.
   pub fn anonymous() -> Ego {
     let pk = EcdsaPrivateKey::anonymous();
     Ego {
@@ -31,40 +35,57 @@ impl Ego {
     }
   }
 
+  /// Get the public key of an ego.
   pub fn get_public_key(&self) -> EcdsaPublicKey {
     self.pk.get_public()
   }
 
+  /// Get the private key of an ego.
   pub fn get_private_key(&self) -> EcdsaPrivateKey {
     self.pk
   }
 
+  /// Get the name of an ego.
   pub fn get_name(&self) -> Option<String> {
     self.name.clone()
   }
 
+  /// Get the unique id of an ego. This is a hash of the ego's public key.
   pub fn get_id(&self) -> HashCode {
     self.id
   }
 }
 
+/// Errors returned by `get_default_ego`. 
 #[deriving(Show)]
 pub enum GetDefaultError {
+  /// The name of the service was too long.
   NameTooLong,
+  /// An I/O error occured while communicating with the identity service.
   Io(IoError),
+  /// The service responded with an error message.
   ServiceResponse(String),
+  /// Failed to connect to the identity service.
   ServiceConnect(ServiceConnectError),
+  /// The service response was incoherent. You should file a bug-report if you encounter this
+  /// variant.
   InvalidResponse,
 }
 error_chain!(ServiceConnectError, GetDefaultError, ServiceConnect)
 error_chain!(IoError, GetDefaultError, Io)
 
+/// A handle to the identity service.
 pub struct IdentityService {
   service: Service,
   egos: HashMap<HashCode, Ego>,
 }
 
 impl IdentityService {
+  /// Connect to the identity service.
+  ///
+  /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
+  /// the configuration to use to connect to the service. Can be `None` to use the system default
+  /// configuration - this should work on most properly-configured systems.
   pub fn connect(cfg: Option<Configuration>) -> Result<IdentityService, ServiceConnectError> {
     /*
     let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
@@ -122,6 +143,18 @@ impl IdentityService {
     Ok(ret)
   }
 
+  /// Get the default identity associated with a service.
+  ///
+  /// # Example
+  ///
+  /// Get the ego for the default master zone.
+  ///
+  /// ```rust
+  /// use gnunet::IdentityService;
+  ///
+  /// let mut ids = IdentityService::connect(None);
+  /// let ego = ids.get_default_ego(None, "gns-master").unwrap();
+  /// ```
   pub fn get_default_ego(&mut self, name: &str) -> Result<Ego, GetDefaultError> {
     let name_len = name.len();
 
@@ -197,6 +230,23 @@ impl IdentityService {
   }
 }
 
+/// Get the default identity associated with a service.
+///
+/// # Example
+///
+/// Get the ego for the default master zone.
+///
+/// ```rust
+/// use gnunet::identity;
+///
+/// let ego = identity::get_default_ego(None, "gns-master").unwrap();
+/// ```
+///
+/// # Note
+///
+/// This a convenience function that connects to the identity service, does the query, then
+/// disconnects. If you want to do multiple queries you should connect to the service with
+/// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
     cfg: Option<Configuration>,
     name: &str) -> Result<Ego, GetDefaultError> {

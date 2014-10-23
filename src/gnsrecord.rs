@@ -8,25 +8,56 @@ use libc::c_void;
 use ll;
 use FromError;
 
+/// An enum of the different GNS record types.
+///
+/// Some of these records exist in the legacy DNS (but are still used in GNS). Others are specific
+/// to GNS. These are marked **Legacy** and **GNS** respectively.
 pub enum GNSRecordType {
+  /// **Legacy.** Address record. Stores a 32bit IPv4 address.
   A       = 1,
+  /// **Legacy**. Name server record. Delegates a DNS zone to use the given authoritative name servers.
   NS      = 2,
+  /// **Legacy**. Canonical name record. Alias of one name to another.
   CNAME   = 5,
+  /// **Legacy**. Start of authority record. Specifies authoritative information about a DNS zone.
   SOA     = 6,
+  /// **Legacy**. Pointer record. Pointer to a canonical name.
   PTR     = 12,
+  /// **Legacy**. Mail exchange record. Maps a domain name to a list of message transfer agents for that
+  /// domain.
   MX      = 15,
+  /// **Legacy**. Text record. Used to store human-readable data and various forms of machine-readable data.
   TXT     = 16,
+  /// **Legacy**. Address record. Stores a 128bit IPv6 address.
   AAAA    = 28,
+  /// **Legacy**. TLSA certificate association. A record for DNS-based Authentication of Named Entities (DANE).
   TLSA    = 52,
 
+  /// **GNS.** Petname key record. Used to delegate to other users' zones and give those zones a petname.
   PKEY    = 65536,
+  /// **GNS.** Nickname record. Used to give a zone a name.
   NICK    = 65537,
+  /// **GNS.** Legacy hostname record.
   LEHO    = 65538,
+  /// **GNS.** Virtual public network record.
   VPN     = 65539,
+  /// **GNS.** GNS2DNS record. Used to delegate authority to a legacy DNS zone.
   GNS2DNS = 65540,
 }
 
 impl GNSRecordType {
+  /// Creates a GNSRecordType from it's record type number.
+  ///
+  /// # Example
+  ///
+  /// ```rust
+  /// use gnunet::gnsrecord::{GNSRecordType, A};
+  ///
+  /// let x = GNSRecordType::from_u32(1);
+  /// let y = GNSRecordType::from_u32(1234);
+  /// assert!(x == Some(A));
+  /// assert!(y == None);
+  /// ```
   pub fn from_u32(x: u32) -> Option<GNSRecordType> {
     Some(match x {
       1 => A,
@@ -95,6 +126,7 @@ impl Show for GNSRecordType {
   }
 }
 
+/// A record in the GNU Name System.
 #[allow(dead_code)]
 pub struct GNSRecord {
   data: ll::Struct_GNUNET_GNSRECORD_Data,
@@ -102,6 +134,7 @@ pub struct GNSRecord {
 }
 
 impl GNSRecord {
+  /// Deserialize a record from a byte stream.
   pub fn deserialize<T>(reader: &mut T) -> IoResult<GNSRecord> where T: Reader {
     let expiration_time = ttry!(reader.read_be_u64());
     let data_size = ttry!(reader.read_be_u32()) as u64;
@@ -122,6 +155,7 @@ impl GNSRecord {
     })
   }
 
+  /// Get the type of a record.
   pub fn record_type(&self) -> GNSRecordType {
     GNSRecordType::from_u32(self.data.record_type).unwrap()
   }

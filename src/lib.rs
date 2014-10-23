@@ -1,3 +1,19 @@
+//! # Rust interface for GNUnet. GNU's framework for secure peer-to-peer networking.
+//!
+//! This library does not implement a GNUnet peer. You must have the GNUnet software installed and
+//! running in order to use this library.
+//!
+//! # Examples
+//!
+//! Perform a [GNS](https://gnunet.org/gns) lookup.
+//!
+//! ```rust
+//! use gnunet::{gns, gnsrecord};
+//!
+//! let r = gns::lookup(None, "www.gnu", gnsrecord::A, None).unwrap();
+//! println!("Got the following IPv4 record for www.gnu: {}", r);
+//! ```
+
 #![feature(while_let)]
 #![feature(macro_rules)]
 #![feature(if_let)]
@@ -7,6 +23,10 @@
 #![feature(slicing_syntax)]
 #![feature(unsafe_destructor)]
 #![feature(default_type_params)]
+
+#![crate_name = "gnunet"]
+#![experimental]
+#![license = "GPLv3"]
 
 extern crate libc;
 extern crate sync;
