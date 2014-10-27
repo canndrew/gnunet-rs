@@ -28,9 +28,9 @@ pub enum ProcessMessageResult {
 }
 
 impl Service {
-  pub fn connect(cfg: Option<Configuration>, name: &str) -> Result<Service, ServiceConnectError> {
+  pub fn connect(cfg: Option<&Configuration>, name: &str) -> Result<Service, ServiceConnectError> {
     let cfg = match cfg {
-      Some(cfg) => cfg,
+      Some(cfg) => cfg.clone(),
       None      => match Configuration::default() {
         Some(cfg) => cfg,
         None      => return Err(FailedToLoadConfig),

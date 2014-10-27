@@ -58,7 +58,7 @@ impl GNS {
   /// Returns either a handle to the GNS service or a `ServiceConnectError`. `cfg` contains the
   /// configuration to use to connect to the service. Can be `None` to use the system default
   /// configuration - this should work on most properly-configured systems.
-  pub fn connect(cfg: Option<Configuration>) -> Result<GNS, ServiceConnectError> {
+  pub fn connect(cfg: Option<&Configuration>) -> Result<GNS, ServiceConnectError> {
     let (lookup_tx, lookup_rx) = channel::<(u32, Sender<GNSRecord>)>();
     let mut handles: HashMap<u32, Sender<GNSRecord>> = HashMap::new();
 
@@ -205,7 +205,7 @@ impl GNS {
 /// one result, then disconects. If you are performing multiple lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup_in_zone(
-    cfg: Option<Configuration>,
+    cfg: Option<&Configuration>,
     name: &str,
     zone: &EcdsaPublicKey,
     record_type: GNSRecordType,
@@ -237,11 +237,11 @@ pub fn lookup_in_zone(
 /// then disconnects from everything. If you are performing lots of lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup(
-    cfg: Option<Configuration>,
+    cfg: Option<&Configuration>,
     name: &str,
     record_type: GNSRecordType,
     shorten: Option<&EcdsaPrivateKey>) -> Result<GNSRecord, LookupError> {
-  let mut is = ttry!(IdentityService::connect(cfg.clone()));
+  let mut is = ttry!(IdentityService::connect(cfg));
   let ego = ttry!(is.get_default_ego("gns-master"));
   let pk = ego.get_public_key();
   let mut it = name.split('.');

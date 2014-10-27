@@ -86,7 +86,7 @@ impl IdentityService {
   /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
   /// the configuration to use to connect to the service. Can be `None` to use the system default
   /// configuration - this should work on most properly-configured systems.
-  pub fn connect(cfg: Option<Configuration>) -> Result<IdentityService, ServiceConnectError> {
+  pub fn connect(cfg: Option<&Configuration>) -> Result<IdentityService, ServiceConnectError> {
     /*
     let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
     let service = ttry!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
@@ -248,7 +248,7 @@ impl IdentityService {
 /// disconnects. If you want to do multiple queries you should connect to the service with
 /// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
-    cfg: Option<Configuration>,
+    cfg: Option<&Configuration>,
     name: &str) -> Result<Ego, GetDefaultError> {
   let mut is = ttry!(IdentityService::connect(cfg));
   is.get_default_ego(name)
