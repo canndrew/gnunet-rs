@@ -12,11 +12,16 @@ pub struct Service {
   pub cfg: Configuration,
 }
 
+/// Error that can be generated when attempting to connect to a service.
 #[deriving(Show)]
 pub enum ServiceConnectError {
+  /// Could not load the given config file.
   FailedToLoadConfig,
+  /// The config file does not contain information on how to connect to the service.
   NotConfigured,
+  /// There was an I/O error communicating with the service.
   ConnectionError(IoError),
+  /// The service response was incoherent. It is a bug to see this variant.
   InvalidResponse,
 }
 error_chain!(IoError, ServiceConnectError, ConnectionError)

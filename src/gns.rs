@@ -124,10 +124,12 @@ impl GNS {
   ///
   /// let mut ids = IdentityService::connect(None).unwrap();
   /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
-  /// let pk = gns_ego.get_public_key();
-  ///
   /// let mut gns = GNS::connect(None).unwrap();
-  /// let mut lh = gns.lookup_in_zone("www.gnu", &pk, gnsrecord::A, gns::LOLocalMaster, None).unwrap();
+  /// let mut lh = gns.lookup_in_zone("www.gnu",
+  ///                                 &gns_ego.get_public_key(),
+  ///                                 gnsrecord::A,
+  ///                                 gns::LOLocalMaster,
+  ///                                 None).unwrap();
   /// let record = lh.recv();
   /// println!("Got the IPv4 record for www.gnu: {}", record);
   /// ```
@@ -188,11 +190,9 @@ impl GNS {
 /// use gnunet::{identity, gns, gnsrecord};
 ///
 /// let gns_ego = identity::get_default_ego(None, "gns-master").unwrap();
-/// let pk = gns_ego.get_public_key();
-/// 
 /// let record = gns::lookup_in_zone(None,
 ///                                  "www.gnu",
-///                                  &pk,
+///                                  &gns_ego.get_public_key(),
 ///                                  gnsrecord::A,
 ///                                  gns::LOLocalMaster,
 ///                                  None).unwrap();
