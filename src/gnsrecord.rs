@@ -171,7 +171,7 @@ impl Show for GNSRecord {
       match cs.is_null() {
         true  => write!(f, "<malformed record data>"),
         false => {
-          let cs = CString::new_owned(cs);
+          let cs = CString::new(cs as *const i8, true);
           write!(f, "{}", cs)
         },
       }

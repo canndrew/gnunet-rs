@@ -64,7 +64,7 @@ impl HashCode {
         -1  => Less,
         0   => Equal,
         1   => Greater,
-        _   => fail!("Invalid value returned by ll::GNUNET_CRYPTO_hash_xorcmp"),
+        _   => panic!("Invalid value returned by ll::GNUNET_CRYPTO_hash_xorcmp"),
       }
     }
   }
@@ -182,7 +182,7 @@ impl Ord for HashCode {
         -1  => Less,
         0   => Equal,
         1   => Greater,
-        _   => fail!("Invalid return from GNUNET_CRYPTO_hash_cmp"),
+        _   => panic!("Invalid return from GNUNET_CRYPTO_hash_cmp"),
       }
     }
   }

@@ -142,7 +142,7 @@ impl Configuration {
           &mut s);
       let ret = match r {
         //ll::GNUNET_OK => CString::new(s as *const c_char, false).as_str().map(|s| s.to_string()),
-        ll::GNUNET_OK => CString::new(s as *const c_char).as_str().map(|s| s.to_string()),
+        ll::GNUNET_OK => CString::new(s as *const c_char, false).as_str().map(|s| s.to_string()),
         _ => None,
       };
       free(s as *mut c_void);
@@ -201,7 +201,7 @@ impl Configuration {
           &mut s);
       let ret = match r {
         //ll::GNUNET_OK => Path::new_opt(CString::new(s as *const c_char, false)),
-        ll::GNUNET_OK => Path::new_opt(CString::new(s as *const c_char)),
+        ll::GNUNET_OK => Path::new_opt(CString::new(s as *const c_char, false)),
         _ => None,
       };
       free(s as *mut c_void);

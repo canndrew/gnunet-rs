@@ -1,4 +1,4 @@
-use std::io::{Reader, IoError};
+use std::io::{Reader, BytesReader, IoError};
 use std::io::util::LimitReader;
 use std::str::from_utf8;
 use std::io::MemWriter;

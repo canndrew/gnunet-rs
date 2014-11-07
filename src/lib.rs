@@ -60,7 +60,7 @@ macro_rules! error_chain (
   )
 )
 
-#[allow(dead_code, non_camel_case_types, non_snake_case, non_uppercase_statics)]
+#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
 mod ll;
 
 mod service;
