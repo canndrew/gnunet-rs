@@ -8,9 +8,9 @@
 //! Perform a [GNS](https://gnunet.org/gns) lookup.
 //!
 //! ```rust
-//! use gnunet::{gns, gnsrecord};
+//! use gnunet::gns;
 //!
-//! let r = gns::lookup_in_master(None, "www.gnu", gnsrecord::A, None).unwrap();
+//! let r = gns::lookup_in_master(None, "www.gnu", gns::A, None).unwrap();
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
@@ -37,7 +37,7 @@ pub use configuration::Configuration;
 pub use crypto::ecdsa::{EcdsaPublicKey, EcdsaPrivateKey};
 pub use crypto::hashcode::HashCode;
 
-pub use gnsrecord::{GNSRecord, GNSRecordType};
+pub use gns::{Record, RecordType};
 pub use gns::{GNS, LocalOptions};
 pub use identity::{Ego, IdentityService};
 //pub use dht::DHT;
@@ -69,7 +69,6 @@ mod util;
 pub mod service;
 mod configuration;
 pub mod gns;
-pub mod gnsrecord;
 //pub mod dht;
 mod crypto;
 pub mod identity;

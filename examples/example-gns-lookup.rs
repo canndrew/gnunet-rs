@@ -2,7 +2,6 @@ extern crate gnunet;
 
 use std::os;
 
-use gnunet::gnsrecord;
 use gnunet::gns;
 
 fn main() {
@@ -11,7 +10,7 @@ fn main() {
     println!("Usage: example-gns-lookup domain.name.gnu");
     return;
   }
-  let rx = gns::lookup_in_master(None, args[1].as_slice(), gnsrecord::A, None).unwrap();
+  let rx = gns::lookup_in_master(None, args[1].as_slice(), gns::A, None).unwrap();
   println!("\t{}", rx);
 }
 

@@ -1,4 +1,4 @@
-use std::io::{Reader, BytesReader, IoError};
+use std::io::{Reader, BytesReader};
 use std::str::from_utf8;
 use std::collections::HashMap;
 
@@ -7,9 +7,7 @@ use util::CStringReader;
 use EcdsaPrivateKey;
 use EcdsaPublicKey;
 use HashCode;
-use service;
 use service::Service;
-use FromError;
 use Configuration;
 pub use self::error::*;
 

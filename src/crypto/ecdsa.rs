@@ -10,7 +10,6 @@ use libc::{c_void, size_t, c_char};
 
 use ll;
 use HashCode;
-use FromError;
 
 /// A 256bit ECDSA public key.
 pub struct EcdsaPublicKey {

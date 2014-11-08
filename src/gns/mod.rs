@@ -9,20 +9,20 @@ use ll;
 use service;
 use service::{Service, ProcessMessageResult};
 use service::{ServiceContinue, ServiceReconnect, ServiceShutdown};
-use GNSRecord;
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
-use GNSRecordType;
 use Configuration;
 use self::error::*;
+pub use self::record::*;
 
 mod error;
+mod record;
 
 /// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
   service: Service,
   lookup_id: u32,
-  lookup_tx: Sender<(u32, Sender<GNSRecord>)>,
+  lookup_tx: Sender<(u32, Sender<Record>)>,
 }
 
 /// Options for GNS lookups.
@@ -43,8 +43,8 @@ impl GNS {
   /// configuration to use to connect to the service. Can be `None` to use the system default
   /// configuration - this should work on most properly-configured systems.
   pub fn connect(cfg: Option<&Configuration>) -> Result<GNS, service::ConnectError> {
-    let (lookup_tx, lookup_rx) = channel::<(u32, Sender<GNSRecord>)>();
-    let mut handles: HashMap<u32, Sender<GNSRecord>> = HashMap::new();
+    let (lookup_tx, lookup_rx) = channel::<(u32, Sender<Record>)>();
+    let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
 
     let mut service = ttry!(Service::connect(cfg, "gns"));
     service.init_callback_loop(move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
@@ -72,7 +72,7 @@ impl GNS {
                 Err(_)  => return ServiceReconnect,
               };
               for _ in range(0, rd_count) {
-                let rec = match GNSRecord::deserialize(&mut reader) {
+                let rec = match Record::deserialize(&mut reader) {
                   Ok(r)   => r,
                   Err(_)  => return ServiceReconnect,
                 };
@@ -104,14 +104,14 @@ impl GNS {
   /// # Example
   ///
   /// ```rust
-  /// use gnunet::{IdentityService, GNS, gns, gnsrecord};
+  /// use gnunet::{IdentityService, GNS, gns};
   ///
   /// let mut ids = IdentityService::connect(None).unwrap();
   /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
   /// let mut gns = GNS::connect(None).unwrap();
   /// let mut lh = gns.lookup("www.gnu",
   ///                         &gns_ego.get_public_key(),
-  ///                         gnsrecord::A,
+  ///                         gns::A,
   ///                         gns::LOLocalMaster,
   ///                         None).unwrap();
   /// let record = lh.recv();
@@ -121,7 +121,7 @@ impl GNS {
       &'a mut self,
       name: &str,
       zone: &EcdsaPublicKey,
-      record_type: GNSRecordType,
+      record_type: RecordType,
       options: LocalOptions,
       shorten: Option<&EcdsaPrivateKey>
     ) -> Result<LookupHandle<'a>, LookupError> {
@@ -148,7 +148,7 @@ impl GNS {
     ttry!(mw.write(name.as_bytes()));
     ttry!(mw.write_u8(0u8));
 
-    let (tx, rx) = channel::<GNSRecord>();
+    let (tx, rx) = channel::<Record>();
     self.lookup_tx.send((id, tx));
     ttry!(mw.send());
     Ok(LookupHandle {
@@ -166,13 +166,13 @@ impl GNS {
 /// # Example
 ///
 /// ```rust
-/// use gnunet::{identity, gns, gnsrecord};
+/// use gnunet::{identity, gns};
 ///
 /// let gns_ego = identity::get_default_ego(None, "gns-master").unwrap();
 /// let record = gns::lookup(None,
 ///                          "www.gnu",
 ///                          &gns_ego.get_public_key(),
-///                          gnsrecord::A,
+///                          gns::A,
 ///                          gns::LOLocalMaster,
 ///                          None).unwrap();
 /// println!("Got the IPv4 record for www.gnu: {}", record);
@@ -187,9 +187,9 @@ pub fn lookup(
     cfg: Option<&Configuration>,
     name: &str,
     zone: &EcdsaPublicKey,
-    record_type: GNSRecordType,
+    record_type: RecordType,
     options: LocalOptions,
-    shorten: Option<&EcdsaPrivateKey>) -> Result<GNSRecord, ConnectLookupError> {
+    shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupError> {
   let mut gns = ttry!(GNS::connect(cfg));
   let mut h = ttry!(gns.lookup(name, zone, record_type, options, shorten));
   Ok(h.recv())
@@ -203,9 +203,9 @@ pub fn lookup(
 /// # Example
 ///
 /// ```rust
-/// use gnunet::{gns, gnsrecord};
+/// use gnunet::gns;
 ///
-/// let record = gns::lookup_in_master(None, "www.gnu", gnsrecord::A, None).unwrap();
+/// let record = gns::lookup_in_master(None, "www.gnu", gns::A, None).unwrap();
 /// println!("Got the IPv4 record for www.gnu: {}", record);
 /// ```
 ///
@@ -218,8 +218,8 @@ pub fn lookup(
 pub fn lookup_in_master(
     cfg: Option<&Configuration>,
     name: &str,
-    record_type: GNSRecordType,
-    shorten: Option<&EcdsaPrivateKey>) -> Result<GNSRecord, ConnectLookupInMasterError> {
+    record_type: RecordType,
+    shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupInMasterError> {
   let ego = ttry!(identity::get_default_ego(cfg, "gns-master"));
   let pk = ego.get_public_key();
   let mut it = name.split('.');
@@ -236,7 +236,7 @@ pub fn lookup_in_master(
 /// Used to retrieve the results of a lookup.
 pub struct LookupHandle<'a> {
   marker: InvariantLifetime<'a>,
-  receiver: Receiver<GNSRecord>,
+  receiver: Receiver<Record>,
 }
 
 impl<'a> LookupHandle<'a> {
@@ -244,7 +244,7 @@ impl<'a> LookupHandle<'a> {
   ///
   /// Blocks until a result is available. This function can be called multiple times on a handle to
   /// receive multiple results.
-  pub fn recv(&mut self) -> GNSRecord {
+  pub fn recv(&mut self) -> Record {
     self.receiver.recv()
   }
 }

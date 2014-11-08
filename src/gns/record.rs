@@ -12,7 +12,7 @@ use ll;
 /// Some of these records exist in the legacy DNS (but are still used in GNS). Others are specific
 /// to GNS. These are marked **Legacy** and **GNS** respectively.
 #[deriving(PartialEq)]
-pub enum GNSRecordType {
+pub enum RecordType {
   /// **Legacy.** Address record. Stores a 32bit IPv4 address.
   A       = 1,
   /// **Legacy.** Name server record. Delegates a DNS zone to use the given authoritative name servers.
@@ -45,20 +45,20 @@ pub enum GNSRecordType {
   GNS2DNS = 65540,
 }
 
-impl GNSRecordType {
-  /// Creates a GNSRecordType from it's record type number.
+impl RecordType {
+  /// Creates a RecordType from it's record type number.
   ///
   /// # Example
   ///
   /// ```rust
-  /// use gnunet::gnsrecord::{GNSRecordType, A};
+  /// use gnunet::gns::{RecordType, A};
   ///
-  /// let x = GNSRecordType::from_u32(1);
-  /// let y = GNSRecordType::from_u32(1234);
+  /// let x = RecordType::from_u32(1);
+  /// let y = RecordType::from_u32(1234);
   /// assert!(x == Some(A));
   /// assert!(y == None);
   /// ```
-  pub fn from_u32(x: u32) -> Option<GNSRecordType> {
+  pub fn from_u32(x: u32) -> Option<RecordType> {
     Some(match x {
       1 => A,
       2 => NS,
@@ -81,8 +81,8 @@ impl GNSRecordType {
   }
 }
 
-impl FromStr for GNSRecordType {
-  fn from_str(s: &str) -> Option<GNSRecordType> {
+impl FromStr for RecordType {
+  fn from_str(s: &str) -> Option<RecordType> {
     match s {
       "A"       => Some(A),
       "NS"      => Some(NS),
@@ -104,7 +104,7 @@ impl FromStr for GNSRecordType {
   }
 }
 
-impl Show for GNSRecordType {
+impl Show for RecordType {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     match self {
       &A       => "A",
@@ -128,14 +128,14 @@ impl Show for GNSRecordType {
 
 /// A record in the GNU Name System.
 #[allow(dead_code)]
-pub struct GNSRecord {
+pub struct Record {
   data: ll::Struct_GNUNET_GNSRECORD_Data,
   buff: Vec<u8>,
 }
 
-impl GNSRecord {
+impl Record {
   /// Deserialize a record from a byte stream.
-  pub fn deserialize<T>(reader: &mut T) -> IoResult<GNSRecord> where T: Reader {
+  pub fn deserialize<T>(reader: &mut T) -> IoResult<Record> where T: Reader {
     let expiration_time = ttry!(reader.read_be_u64());
     let data_size = ttry!(reader.read_be_u32()) as u64;
     let record_type = ttry!(reader.read_be_u32());
@@ -143,7 +143,7 @@ impl GNSRecord {
     let buff = ttry!(reader.read_exact(data_size as uint));
     let data = buff.as_ptr() as *const c_void;
 
-    Ok(GNSRecord {
+    Ok(Record {
       data: ll::Struct_GNUNET_GNSRECORD_Data {
         data:             data,
         expiration_time:  expiration_time,
@@ -156,15 +156,15 @@ impl GNSRecord {
   }
 
   /// Get the type of a record.
-  pub fn record_type(&self) -> GNSRecordType {
-    GNSRecordType::from_u32(self.data.record_type).unwrap()
+  pub fn record_type(&self) -> RecordType {
+    RecordType::from_u32(self.data.record_type).unwrap()
   }
 }
 
-impl Show for GNSRecord {
+impl Show for Record {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     let tpe = self.data.record_type;
-    try!(write!(f, "{}: ", GNSRecordType::from_u32(tpe).unwrap()));
+    try!(write!(f, "{}: ", RecordType::from_u32(tpe).unwrap()));
     unsafe {
       let cs = ll::GNUNET_GNSRECORD_value_to_string(tpe, self.data.data, self.data.data_size);
       match cs.is_null() {
