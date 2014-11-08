@@ -10,7 +10,7 @@
 //! ```rust
 //! use gnunet::{gns, gnsrecord};
 //!
-//! let r = gns::lookup(None, "www.gnu", gnsrecord::A, None).unwrap();
+//! let r = gns::lookup_in_master(None, "www.gnu", gnsrecord::A, None).unwrap();
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
@@ -23,6 +23,7 @@
 #![feature(slicing_syntax)]
 #![feature(unsafe_destructor)]
 #![feature(default_type_params)]
+#![feature(globs)]
 
 #![crate_name = "gnunet"]
 #![experimental]
@@ -36,13 +37,14 @@ pub use configuration::Configuration;
 pub use crypto::ecdsa::{EcdsaPublicKey, EcdsaPrivateKey};
 pub use crypto::hashcode::HashCode;
 
-pub use service::ServiceConnectError;
 pub use gnsrecord::{GNSRecord, GNSRecordType};
 pub use gns::{GNS, LocalOptions};
 pub use identity::{Ego, IdentityService};
+//pub use dht::DHT;
 
 macro_rules! ttry (
     ($expr:expr) => ({
+        use FromError;
         match $expr {
             Ok(val) => val,
             Err(err) => return Err(FromError::from_error(err))
@@ -62,11 +64,13 @@ macro_rules! error_chain (
 
 #[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
 mod ll;
+mod util;
 
-mod service;
+pub mod service;
 mod configuration;
 pub mod gns;
 pub mod gnsrecord;
+//pub mod dht;
 mod crypto;
 pub mod identity;
 

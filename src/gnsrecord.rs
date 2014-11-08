@@ -6,7 +6,6 @@ use std::c_str::CString;
 use libc::c_void;
 
 use ll;
-use FromError;
 
 /// An enum of the different GNS record types.
 ///
@@ -16,22 +15,22 @@ use FromError;
 pub enum GNSRecordType {
   /// **Legacy.** Address record. Stores a 32bit IPv4 address.
   A       = 1,
-  /// **Legacy**. Name server record. Delegates a DNS zone to use the given authoritative name servers.
+  /// **Legacy.** Name server record. Delegates a DNS zone to use the given authoritative name servers.
   NS      = 2,
-  /// **Legacy**. Canonical name record. Alias of one name to another.
+  /// **Legacy.** Canonical name record. Alias of one name to another.
   CNAME   = 5,
-  /// **Legacy**. Start of authority record. Specifies authoritative information about a DNS zone.
+  /// **Legacy.** Start of authority record. Specifies authoritative information about a DNS zone.
   SOA     = 6,
-  /// **Legacy**. Pointer record. Pointer to a canonical name.
+  /// **Legacy.** Pointer record. Pointer to a canonical name.
   PTR     = 12,
-  /// **Legacy**. Mail exchange record. Maps a domain name to a list of message transfer agents for that
+  /// **Legacy.** Mail exchange record. Maps a domain name to a list of message transfer agents for that
   /// domain.
   MX      = 15,
-  /// **Legacy**. Text record. Used to store human-readable data and various forms of machine-readable data.
+  /// **Legacy.** Text record. Used to store human-readable data and various forms of machine-readable data.
   TXT     = 16,
-  /// **Legacy**. Address record. Stores a 128bit IPv6 address.
+  /// **Legacy.** Address record. Stores a 128bit IPv6 address.
   AAAA    = 28,
-  /// **Legacy**. TLSA certificate association. A record for DNS-based Authentication of Named Entities (DANE).
+  /// **Legacy.** TLSA certificate association. A record for DNS-based Authentication of Named Entities (DANE).
   TLSA    = 52,
 
   /// **GNS.** Petname key record. Used to delegate to other users' zones and give those zones a petname.
