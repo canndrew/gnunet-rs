@@ -8947,6 +8947,7 @@ extern "C" {
 }
 
 pub const GNUNET_OK: ::libc::c_int = 1;
+pub const GNUNET_NO: ::libc::c_int = 0;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP: u16 = 500;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT: u16 = 501;
 pub const GNUNET_MESSAGE_TYPE_IDENTITY_START: u16 = 624;

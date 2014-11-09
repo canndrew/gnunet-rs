@@ -1,11 +1,25 @@
 use std::ptr;
 use std::path;
-use libc::{c_char, c_void, free};
+use libc::{c_char, c_void, size_t, free};
 use std::c_str::CString;
 use std::mem::uninitialized;
 use std::time::Duration;
+use std::from_str::FromStr;
 
 use ll;
+
+/*
+#[deriving(Clone)]
+pub enum ConfigValue {
+  Int(u64),
+  Float(f32),
+  Duration(Duration),
+  Size(u64),
+  String(String),
+  Choice(String),
+  Filename(Path),
+}
+*/
 
 /// A set of key-value pairs containing the configuration of a local GNUnet daemon.
 ///
@@ -16,6 +30,16 @@ pub struct Configuration {
 }
 
 impl Configuration {
+  /// Generate an empty configuration
+  pub fn empty() -> Configuration {
+    unsafe {
+      let cfg = ll::GNUNET_CONFIGURATION_create();
+      Configuration {
+        data: cfg,
+      }
+    }
+  }
+
   /// Generate a default configuration.
   ///
   /// This will find and load the system-wide GNUnet config file. If it cannot find the file then
@@ -206,6 +230,56 @@ impl Configuration {
       };
       free(s as *mut c_void);
       ret
+    }
+  }
+
+  /// Test whether the configuration options have been changed since the last
+  /// save.
+  pub fn is_dirty(&self) -> bool {
+    unsafe {
+      match ll::GNUNET_CONFIGURATION_is_dirty(self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle) {
+        ll::GNUNET_NO => false,
+        _             => true,
+      }
+    }
+  }
+
+  /// Save configuration to a file.
+  pub fn save(&mut self, filename: Path) -> bool {
+    unsafe {
+      match filename.with_c_str(|cs| {
+        ll::GNUNET_CONFIGURATION_write(self.data, cs)
+      }) {
+        ll::GNUNET_OK => true,
+        _             => false,
+      }
+    }
+  }
+}
+
+impl FromStr for Configuration {
+  fn from_str(s: &str) -> Option<Configuration> {
+    unsafe {
+      let cfg = ll::GNUNET_CONFIGURATION_create();
+      match ll::GNUNET_CONFIGURATION_deserialize(cfg, s.as_ptr() as *const c_char, s.len() as size_t, 1) {
+        ll::GNUNET_OK => Some(Configuration {
+          data: cfg,
+        }),
+        _ => None,
+      }
+    }
+  }
+}
+
+impl ToString for Configuration {
+  fn to_string(&self) -> String {
+    unsafe {
+      let mut size: size_t = uninitialized();
+      let cstr = CString::new(ll::GNUNET_CONFIGURATION_serialize(self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle, &mut size) as *const c_char, true);
+      match cstr.as_str() {
+        Some(s) => s.to_string(),
+        None    => panic!("GNUNET_CONFIGURATION_serialize returned invalid utf-8"),
+      }
     }
   }
 }
