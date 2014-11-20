@@ -1,8 +1,7 @@
 use std::mem::{uninitialized, size_of_val};
 use std::fmt::{Show, Formatter};
 use std::fmt;
-use std::str::from_utf8;
-use std::from_str::FromStr;
+use std::str::{from_utf8, FromStr};
 use std::rand::{Rand, Rng};
 use std::hash::Hash;
 use std::hash;
@@ -99,7 +98,7 @@ impl Show for HashCode {
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   enc.len() as size_t);
       assert!(res.is_not_null());
-      from_utf8(enc).unwrap().fmt(f)
+      from_utf8(&enc).unwrap().fmt(f)
     }
   }
 }

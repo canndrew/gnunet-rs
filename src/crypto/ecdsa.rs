@@ -1,5 +1,5 @@
 use std::io::IoResult;
-use std::from_str::FromStr;
+use std::str::FromStr;
 use std::mem;
 use std::fmt::{Show, Formatter};
 use std::fmt;
@@ -19,7 +19,7 @@ pub struct EcdsaPublicKey {
 impl EcdsaPublicKey {
   /// Serialize key to a byte stream.
   pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
-    w.write(self.data.q_y)
+    w.write(&self.data.q_y)
   }
 
   /// Compute the hash of this key.
@@ -63,7 +63,7 @@ impl Show for EcdsaPublicKey {
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   52);
       assert!(res.is_not_null());
-      from_utf8(enc).unwrap().fmt(f)
+      from_utf8(&enc).unwrap().fmt(f)
     }
   }
 }
@@ -76,13 +76,13 @@ pub struct EcdsaPrivateKey {
 impl EcdsaPrivateKey {
   /// Serialize this key to a byte stream.
   pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
-    w.write(self.data.d)
+    w.write(&self.data.d)
   }
 
   /// Deserialize a from a byte stream.
   pub fn deserialize<T>(r: &mut T) -> IoResult<EcdsaPrivateKey> where T: Reader {
     let mut ret: EcdsaPrivateKey = unsafe { uninitialized() };
-    ttry!(r.read(ret.data.d));
+    ttry!(r.read(&mut ret.data.d));
     Ok(ret)
   }
 

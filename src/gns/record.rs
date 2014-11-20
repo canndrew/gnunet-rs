@@ -1,11 +1,12 @@
 use std::io::IoResult;
-use std::from_str::FromStr;
+use std::str::FromStr;
 use std::fmt::{Show, Formatter};
 use std::fmt;
 use std::c_str::CString;
 use libc::c_void;
 
 use ll;
+use self::RecordType::*;
 
 /// An enum of the different GNS record types.
 ///

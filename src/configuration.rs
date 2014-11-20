@@ -4,7 +4,7 @@ use libc::{c_char, c_void, size_t, free};
 use std::c_str::CString;
 use std::mem::uninitialized;
 use std::time::Duration;
-use std::from_str::FromStr;
+use std::str::FromStr;
 
 use ll;
 

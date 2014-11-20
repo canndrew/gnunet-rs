@@ -102,7 +102,7 @@ impl IdentityService {
           };
           let name = match String::from_utf8(v) {
             Ok(n)   => n,
-            Err(v)  => return Err(ConnectError__InvalidName(v)),
+            Err(v)  => return Err(ConnectError::InvalidName(v)),
           };
           let id = pk.get_public().hash();
           egos.insert(id, Ego {
@@ -111,7 +111,7 @@ impl IdentityService {
             id: id,
           });
         },
-        _ => return Err(ConnectError__UnexpectedMessageType(tpe)),
+        _ => return Err(ConnectError::UnexpectedMessageType(tpe)),
       };
     };
     Ok(IdentityService {
@@ -137,7 +137,7 @@ impl IdentityService {
 
     let msg_length = match (8 + name_len + 1).to_u16() {
       Some(l) => l,
-      None    => return Err(GetDefaultEgoError__NameTooLong),
+      None    => return Err(GetDefaultEgoError::NameTooLong),
     };
     {
       let mut mw = self.service.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
@@ -153,7 +153,7 @@ impl IdentityService {
       ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
         ttry!(mr.read_be_u32());
         let s = ttry!(mr.read_cstring(None));
-        Err(GetDefaultEgoError__ServiceResponse(s))
+        Err(GetDefaultEgoError::ServiceResponse(s))
       },
       ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => {
         let reply_name_len = ttry!(mr.read_be_u16());
@@ -167,13 +167,13 @@ impl IdentityService {
                 let id = pk.get_public().hash();
                 Ok(self.egos[id].clone())
               },
-              false => Err(GetDefaultEgoError__InvalidResponse),
+              false => Err(GetDefaultEgoError::InvalidResponse),
             }
           },
-          _ => Err(GetDefaultEgoError__InvalidResponse),
+          _ => Err(GetDefaultEgoError::InvalidResponse),
         }
       },
-      _ => Err(GetDefaultEgoError__InvalidResponse),
+      _ => Err(GetDefaultEgoError::InvalidResponse),
     }
   }
 }

@@ -17,7 +17,6 @@
 #![feature(while_let)]
 #![feature(macro_rules)]
 #![feature(if_let)]
-#![feature(overloaded_calls)]
 #![feature(unboxed_closures)]
 #![feature(tuple_indexing)]
 #![feature(slicing_syntax)]
@@ -53,10 +52,10 @@ macro_rules! ttry (
 )
 
 macro_rules! error_chain (
-  ($from:ty, $to:ty, $f:expr) => (
+  ($from:ty, $to:ident, $f:ident) => (
     impl FromError<$from> for $to {
       fn from_error(e: $from) -> $to {
-        $f(e)
+        $to::$f(e)
       }
     }
   )

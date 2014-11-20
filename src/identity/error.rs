@@ -7,49 +7,49 @@ use FromError;
 #[deriving(Show)]
 pub enum GetDefaultEgoError {
   /// The name of the service was too long.
-  GetDefaultEgoError__NameTooLong,
+  NameTooLong,
   /// An I/O error occured while communicating with the identity service.
-  GetDefaultEgoError__Io(IoError),
+  Io(IoError),
   /// Failed to read a message from the server.
-  GetDefaultEgoError__ReadMessage(service::ReadMessageError),
+  ReadMessage(service::ReadMessageError),
   /// The service responded with an error message.
-  GetDefaultEgoError__ServiceResponse(String),
+  ServiceResponse(String),
   /// Failed to connect to the identity service.
-  GetDefaultEgoError__Connect(ConnectError),
+  Connect(ConnectError),
   /// The service response was incoherent. You should file a bug-report if you encounter this
   /// variant.
-  GetDefaultEgoError__InvalidResponse,
+  InvalidResponse,
 }
-error_chain!(ConnectError, GetDefaultEgoError, GetDefaultEgoError__Connect)
-error_chain!(IoError, GetDefaultEgoError, GetDefaultEgoError__Io)
-error_chain!(service::ReadMessageError, GetDefaultEgoError, GetDefaultEgoError__ReadMessage)
+error_chain!(ConnectError, GetDefaultEgoError, Connect)
+error_chain!(IoError, GetDefaultEgoError, Io)
+error_chain!(service::ReadMessageError, GetDefaultEgoError, ReadMessage)
 
 /// Errors returned by `IdentityService::connect`
 #[deriving(Show)]
 pub enum ConnectError {
   /// Failed to connect to the service.
-  ConnectError__Connect(service::ConnectError),
+  Connect(service::ConnectError),
   /// There was an I/O error communicating with the service.
-  ConnectError__Io(IoError),
+  Io(IoError),
   /// Failed to read a message from the service.
-  ConnectError__ReadMessage(service::ReadMessageError),
+  ReadMessage(service::ReadMessageError),
   /// The service responded with an invalid utf-8 name. *(It is a bug to see this variant)*
-  ConnectError__InvalidName(Vec<u8>),
+  InvalidName(Vec<u8>),
   /// Received an unexpected message from the service. *(It is a bug to see this variant)*
-  ConnectError__UnexpectedMessageType(u16),
+  UnexpectedMessageType(u16),
 }
-error_chain!(service::ConnectError, ConnectError, ConnectError__Connect)
-error_chain!(IoError, ConnectError, ConnectError__Io)
-error_chain!(service::ReadMessageError, ConnectError, ConnectError__ReadMessage)
+error_chain!(service::ConnectError, ConnectError, Connect)
+error_chain!(IoError, ConnectError, Io)
+error_chain!(service::ReadMessageError, ConnectError, ReadMessage)
 
 /// Errors returned by `identity::get_default_ego`
 #[deriving(Show)]
 pub enum ConnectGetDefaultEgoError {
   /// Ego lookup failed.
-  ConnectGetDefaultEgoError__GetDefaultEgo(GetDefaultEgoError),
+  GetDefaultEgo(GetDefaultEgoError),
   /// Failed to connect to the service and perform initialization.
-  ConnectGetDefaultEgoError__Connect(ConnectError),
+  Connect(ConnectError),
 }
-error_chain!(GetDefaultEgoError, ConnectGetDefaultEgoError, ConnectGetDefaultEgoError__GetDefaultEgo)
-error_chain!(ConnectError, ConnectGetDefaultEgoError, ConnectGetDefaultEgoError__Connect)
+error_chain!(GetDefaultEgoError, ConnectGetDefaultEgoError, GetDefaultEgo)
+error_chain!(ConnectError, ConnectGetDefaultEgoError, Connect)
 

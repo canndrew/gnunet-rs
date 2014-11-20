@@ -16,9 +16,9 @@ pub struct Service {
 }
 
 pub enum ProcessMessageResult {
-  ServiceContinue,
-  ServiceReconnect,
-  ServiceShutdown,
+  Continue,
+  Reconnect,
+  Shutdown,
 }
 
 impl Service {
@@ -27,12 +27,12 @@ impl Service {
       Some(cfg) => cfg.clone(),
       None      => match Configuration::default() {
         Some(cfg) => cfg,
-        None      => return Err(ConnectError__FailedToLoadConfig),
+        None      => return Err(ConnectError::FailedToLoadConfig),
       },
     };
     let unixpath = match cfg.get_value_filename(name, "UNIXPATH") {
       Some(p)   => p,
-      None      => return Err(ConnectError__NotConfigured),
+      None      => return Err(ConnectError::NotConfigured),
     };
     let stream = ttry!(UnixStream::connect(&unixpath));
     Ok(Service {
@@ -62,9 +62,9 @@ impl Service {
         //let lr = LimitReader::new(&mut reader as &mut Reader, (len - 4) as uint);
         let lr = LimitReader::new(reader.clone(), (len - 4) as uint);
         match cb(tpe, lr) {
-          ServiceContinue  => /* TODO: need lifetimes on closures to do this: assert!(lr.limit() == 0, "callback did not read entire message") */ (),
-          ServiceReconnect => return, //TODO: auto reconnect
-          ServiceShutdown  => return,
+          ProcessMessageResult::Continue  => /* TODO: need lifetimes on closures to do this: assert!(lr.limit() == 0, "callback did not read entire message") */ (),
+          ProcessMessageResult::Reconnect => return, //TODO: auto reconnect
+          ProcessMessageResult::Shutdown  => return,
         };
       }
     });
@@ -73,7 +73,7 @@ impl Service {
   pub fn read_message(&mut self) -> Result<(u16, MemReader), ReadMessageError> {
     let len = ttry!(self.connection.read_be_u16());
     if len < 4 {
-      return Err(ReadMessageError__ShortMessage(len));
+      return Err(ReadMessageError::ShortMessage(len));
     }
     let v = ttry!(self.connection.read_exact(len as uint - 2));
     let mut mr = MemReader::new(v);

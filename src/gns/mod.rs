@@ -8,7 +8,6 @@ use identity;
 use ll;
 use service;
 use service::{Service, ProcessMessageResult};
-use service::{ServiceContinue, ServiceReconnect, ServiceShutdown};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Configuration;
@@ -28,12 +27,12 @@ pub struct GNS {
 /// Options for GNS lookups.
 pub enum LocalOptions {
   /// Default behaviour. Look in the local cache, then in the DHT.
-  LODefault     = 0,
+  Default     = 0,
   /// Do not look in the DHT, keep the request to the local cache.
-  LONoDHT       = 1,
+  NoDHT       = 1,
   /// For domains controlled by our master zone only look in the cache. Otherwise look in the
   /// cache, then in the DHT.
-  LOLocalMaster = 2,
+  LocalMaster = 2,
 }
 
 impl GNS {
@@ -55,7 +54,7 @@ impl GNS {
           },
           Err(e)  => match e {
             Empty         => break,
-            Disconnected  => return ServiceShutdown,
+            Disconnected  => return ProcessMessageResult::Shutdown,
           },
         }
       }
@@ -63,18 +62,18 @@ impl GNS {
         ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
           let id = match reader.read_be_u32() {
             Ok(id)  => id,
-            Err(_)  => return ServiceReconnect,
+            Err(_)  => return ProcessMessageResult::Reconnect,
           };
           match handles.get(&id) {
             Some(sender) => {
               let rd_count = match reader.read_be_u32() {
                 Ok(x)   => x,
-                Err(_)  => return ServiceReconnect,
+                Err(_)  => return ProcessMessageResult::Reconnect,
               };
               for _ in range(0, rd_count) {
                 let rec = match Record::deserialize(&mut reader) {
                   Ok(r)   => r,
-                  Err(_)  => return ServiceReconnect,
+                  Err(_)  => return ProcessMessageResult::Reconnect,
                 };
                 sender.send(rec);
               };
@@ -82,11 +81,11 @@ impl GNS {
             _ => (),
           };
         },
-        _ => return ServiceReconnect,
+        _ => return ProcessMessageResult::Reconnect,
       };
       match reader.limit() {
-        0 => ServiceContinue,
-        _ => ServiceReconnect,
+        0 => ProcessMessageResult::Continue,
+        _ => ProcessMessageResult::Reconnect,
       }
     });
     Ok(GNS {
@@ -128,7 +127,7 @@ impl GNS {
 
     let name_len = name.len();
     if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as uint {
-      return Err(LookupError__NameTooLong);
+      return Err(LookupError::NameTooLong);
     };
 
     let id = self.lookup_id;
@@ -143,7 +142,7 @@ impl GNS {
     ttry!(mw.write_be_i32(record_type as i32));
     match shorten {
       Some(z) => ttry!(z.serialize(&mut mw)),
-      None    => ttry!(mw.write([0u8, ..32])),
+      None    => ttry!(mw.write(&[0u8, ..32])),
     };
     ttry!(mw.write(name.as_bytes()));
     ttry!(mw.write_u8(0u8));
@@ -224,8 +223,8 @@ pub fn lookup_in_master(
   let pk = ego.get_public_key();
   let mut it = name.split('.');
   let opt = match (it.next(), it.next(), it.next()) {
-    (Some(_), Some("gnu"), None)  => LONoDHT,
-    _                             => LOLocalMaster,
+    (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
+    _                             => LocalOptions::LocalMaster,
   };
   let ret = ttry!(lookup(cfg, name, &pk, record_type, opt, shorten));
   Ok(ret)
