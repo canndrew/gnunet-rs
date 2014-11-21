@@ -10,7 +10,7 @@ fn main() {
     println!("Usage: example-gns-lookup domain.name.gnu");
     return;
   };
-  match gns::lookup_in_master(None, args[1].as_slice(), gns::A, None) {
+  match gns::lookup_in_master(None, args[1].as_slice(), gns::RecordType::A, None) {
     Ok(r)   => println!("\t{}", r),
     Err(e)  => println!("Error: {}", e),
   };
