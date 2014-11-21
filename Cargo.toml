@@ -3,7 +3,12 @@
 name = "gnunet"
 version = "0.0.1"
 authors = ["Andrew Cann <shum@canndrew.org>"]
+description = "Bindings for GNUnet: GNU's framework for secure peer-to-peer networking"
+documentation = "http://canndrew.org/rust-doc/gnunet"
+license = "GPLv3"
+readme = "README.md"
+keywords = ["gnunet", "gns", "p2p"]
 
-[dependencies.rust-bindgen]
-git = "https://github.com/crabtw/rust-bindgen.git"
+#[dependencies.rust-bindgen]
+#git = "https://github.com/canndrew/rust-bindgen.git"
 
