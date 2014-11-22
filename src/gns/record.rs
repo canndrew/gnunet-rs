@@ -52,7 +52,7 @@ impl RecordType {
   /// # Example
   ///
   /// ```rust
-  /// use gnunet::gns::{RecordType, A};
+  /// use gnunet::gns::RecordType::{mod, A};
   ///
   /// let x = RecordType::from_u32(1);
   /// let y = RecordType::from_u32(1234);

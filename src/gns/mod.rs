@@ -110,8 +110,8 @@ impl GNS {
   /// let mut gns = GNS::connect(None).unwrap();
   /// let mut lh = gns.lookup("www.gnu",
   ///                         &gns_ego.get_public_key(),
-  ///                         gns::A,
-  ///                         gns::LOLocalMaster,
+  ///                         gns::RecordType::A,
+  ///                         gns::LocalOptions::LocalMaster,
   ///                         None).unwrap();
   /// let record = lh.recv();
   /// println!("Got the IPv4 record for www.gnu: {}", record);
@@ -171,8 +171,8 @@ impl GNS {
 /// let record = gns::lookup(None,
 ///                          "www.gnu",
 ///                          &gns_ego.get_public_key(),
-///                          gns::A,
-///                          gns::LOLocalMaster,
+///                          gns::RecordType::A,
+///                          gns::LocalOptions::LocalMaster,
 ///                          None).unwrap();
 /// println!("Got the IPv4 record for www.gnu: {}", record);
 /// ```
@@ -204,7 +204,7 @@ pub fn lookup(
 /// ```rust
 /// use gnunet::gns;
 ///
-/// let record = gns::lookup_in_master(None, "www.gnu", gns::A, None).unwrap();
+/// let record = gns::lookup_in_master(None, "www.gnu", gns::RecordType::A, None).unwrap();
 /// println!("Got the IPv4 record for www.gnu: {}", record);
 /// ```
 ///

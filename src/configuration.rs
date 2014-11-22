@@ -184,7 +184,7 @@ impl Configuration {
   /// use gnunet::Configuration;
   ///
   /// let cfg = Configuration::default().unwrap();
-  /// let s = cfg.get_value_choice("DHT", "CACHE_RESULTS", ["YES", "NO"]);
+  /// let s = cfg.get_value_choice("DHT", "CACHE_RESULTS", &["YES", "NO"]);
   /// assert!(s == Some("YES") || s == Some("NO") || s == None);
   /// ```
   pub fn get_value_choice<'a>(&self, section: &str, option: &str, choices: &[&'a str]) -> Option<&'a str> {
@@ -305,6 +305,6 @@ impl Drop for Configuration {
 #[test]
 fn test() {
   let cfg = Configuration::default();
-  let cfg2 = cfg.clone();
+  let _ = cfg.clone();
 }
 

@@ -10,7 +10,7 @@
 //! ```rust
 //! use gnunet::gns;
 //!
-//! let r = gns::lookup_in_master(None, "www.gnu", gns::A, None).unwrap();
+//! let r = gns::lookup_in_master(None, "www.gnu", gns::RecordType::A, None).unwrap();
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
