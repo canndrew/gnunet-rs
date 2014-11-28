@@ -5,7 +5,7 @@ use std::fmt::{Show, Formatter};
 use std::fmt;
 use std::mem::{uninitialized, size_of, size_of_val};
 use std::str::from_utf8;
-use std::slice::raw::buf_as_slice;
+use std::slice::from_raw_buf;
 use libc::{c_void, size_t, c_char};
 
 use ll;
@@ -25,11 +25,10 @@ impl EcdsaPublicKey {
   /// Compute the hash of this key.
   pub fn hash(&self) -> HashCode {
     unsafe {
-      buf_as_slice(
-          &self.data as *const ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey as *const u8,
-          size_of::<ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey>(),
-          HashCode::hash
-      )
+      HashCode::hash(from_raw_buf(
+          &(&self.data as *const ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey as *const u8),
+          size_of::<ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey>()
+      ))
     }
   }
 }

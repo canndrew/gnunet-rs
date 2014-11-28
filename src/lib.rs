@@ -26,10 +26,8 @@
 
 #![crate_name = "gnunet"]
 #![experimental]
-#![license = "GPLv3"]
 
 extern crate libc;
-extern crate sync;
 
 pub use configuration::Configuration;
 //pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey};

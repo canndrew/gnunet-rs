@@ -100,7 +100,7 @@ pub struct MessageWriter<'a> {
 
 impl<'a> MessageWriter<'a> {
   pub fn send(self) -> IoResult<()> {
-    let v = self.mw.unwrap();
+    let v = self.mw.into_inner();
     assert!(v.len() == v.capacity());
     self.service.connection.write(v[])
   }

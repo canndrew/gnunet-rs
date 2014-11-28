@@ -2,7 +2,7 @@ use std::io::net::pipe::UnixStream;
 use std::io::util::LimitReader;
 use std::collections::HashMap;
 use std::kinds::marker::InvariantLifetime;
-use sync::comm::{Empty, Disconnected};
+use std::comm::{Empty, Disconnected};
 
 use identity;
 use ll;
