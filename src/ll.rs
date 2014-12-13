@@ -28,6 +28,7 @@ pub type __off_t = ::libc::c_long;
 pub type __off64_t = ::libc::c_long;
 pub type __pid_t = ::libc::c_int;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed1 {
     pub __val: [::libc::c_int, ..2u],
 }
@@ -61,6 +62,7 @@ pub type __intptr_t = ::libc::c_long;
 pub type __socklen_t = ::libc::c_uint;
 pub type __sig_atomic_t = ::libc::c_int;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed2 {
     pub __val: [::libc::c_ulong, ..16u],
 }
@@ -68,11 +70,13 @@ pub type __sigset_t = Struct_Unnamed2;
 pub type sigset_t = __sigset_t;
 pub type time_t = __time_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_timespec {
     pub tv_sec: __time_t,
     pub tv_nsec: __syscall_slong_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_timeval {
     pub tv_sec: __time_t,
     pub tv_usec: __suseconds_t,
@@ -80,6 +84,7 @@ pub struct Struct_timeval {
 pub type suseconds_t = __suseconds_t;
 pub type __fd_mask = ::libc::c_long;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed3 {
     pub __fds_bits: [__fd_mask, ..16u],
 }
@@ -154,6 +159,7 @@ pub type fsblkcnt_t = __fsblkcnt_t;
 pub type fsfilcnt_t = __fsfilcnt_t;
 pub type pthread_t = ::libc::c_ulong;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_pthread_attr_t {
     pub data: [u64, ..7u],
 }
@@ -167,12 +173,14 @@ impl Union_pthread_attr_t {
 }
 pub type pthread_attr_t = Union_pthread_attr_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct___pthread_internal_list {
     pub __prev: *mut Struct___pthread_internal_list,
     pub __next: *mut Struct___pthread_internal_list,
 }
 pub type __pthread_list_t = Struct___pthread_internal_list;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed4 {
     pub data: [u64, ..5u],
 }
@@ -188,6 +196,7 @@ impl Union_Unnamed4 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct___pthread_mutex_s {
     pub __lock: ::libc::c_int,
     pub __count: ::libc::c_uint,
@@ -200,6 +209,7 @@ pub struct Struct___pthread_mutex_s {
 }
 pub type pthread_mutex_t = Union_Unnamed4;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed5 {
     pub data: [u32, ..1u],
 }
@@ -213,6 +223,7 @@ impl Union_Unnamed5 {
 }
 pub type pthread_mutexattr_t = Union_Unnamed5;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed6 {
     pub data: [u64, ..6u],
 }
@@ -228,6 +239,7 @@ impl Union_Unnamed6 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed7 {
     pub __lock: ::libc::c_int,
     pub __futex: ::libc::c_uint,
@@ -240,6 +252,7 @@ pub struct Struct_Unnamed7 {
 }
 pub type pthread_cond_t = Union_Unnamed6;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed8 {
     pub data: [u32, ..1u],
 }
@@ -255,6 +268,7 @@ pub type pthread_condattr_t = Union_Unnamed8;
 pub type pthread_key_t = ::libc::c_uint;
 pub type pthread_once_t = ::libc::c_int;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed9 {
     pub data: [u64, ..7u],
 }
@@ -270,6 +284,7 @@ impl Union_Unnamed9 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed10 {
     pub __lock: ::libc::c_int,
     pub __nr_readers: ::libc::c_uint,
@@ -285,6 +300,7 @@ pub struct Struct_Unnamed10 {
 }
 pub type pthread_rwlock_t = Union_Unnamed9;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed11 {
     pub data: [u64, ..1u],
 }
@@ -299,6 +315,7 @@ impl Union_Unnamed11 {
 pub type pthread_rwlockattr_t = Union_Unnamed11;
 pub type pthread_spinlock_t = ::libc::c_int;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed12 {
     pub data: [u64, ..4u],
 }
@@ -312,6 +329,7 @@ impl Union_Unnamed12 {
 }
 pub type pthread_barrier_t = Union_Unnamed12;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed13 {
     pub data: [u32, ..1u],
 }
@@ -325,6 +343,7 @@ impl Union_Unnamed13 {
 }
 pub type pthread_barrierattr_t = Union_Unnamed13;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_iovec {
     pub iov_base: *mut ::libc::c_void,
     pub iov_len: size_t,
@@ -342,11 +361,13 @@ pub const SOCK_CLOEXEC: ::libc::c_uint = 524288;
 pub const SOCK_NONBLOCK: ::libc::c_uint = 2048;
 pub type sa_family_t = ::libc::c_ushort;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sockaddr {
     pub sa_family: sa_family_t,
     pub sa_data: [::libc::c_char, ..14u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sockaddr_storage {
     pub ss_family: sa_family_t,
     pub __ss_align: ::libc::c_ulong,
@@ -373,6 +394,7 @@ pub const MSG_WAITFORONE: ::libc::c_uint = 65536;
 pub const MSG_FASTOPEN: ::libc::c_uint = 536870912;
 pub const MSG_CMSG_CLOEXEC: ::libc::c_uint = 1073741824;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_msghdr {
     pub msg_name: *mut ::libc::c_void,
     pub msg_namelen: socklen_t,
@@ -383,6 +405,7 @@ pub struct Struct_msghdr {
     pub msg_flags: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_cmsghdr {
     pub cmsg_len: size_t,
     pub cmsg_level: ::libc::c_int,
@@ -392,11 +415,13 @@ pub struct Struct_cmsghdr {
 pub type Enum_Unnamed15 = ::libc::c_uint;
 pub const SCM_RIGHTS: ::libc::c_uint = 1;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_linger {
     pub l_onoff: ::libc::c_int,
     pub l_linger: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_osockaddr {
     pub sa_family: ::libc::c_ushort,
     pub sa_data: [::libc::c_uchar, ..14u],
@@ -407,21 +432,25 @@ pub const SHUT_WR: ::libc::c_uint = 1;
 pub const SHUT_RDWR: ::libc::c_uint = 2;
 pub type in_addr_t = uint32_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_in_addr {
     pub s_addr: in_addr_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ip_opts {
     pub ip_dst: Struct_in_addr,
     pub ip_opts: [::libc::c_char, ..40u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ip_mreqn {
     pub imr_multiaddr: Struct_in_addr,
     pub imr_address: Struct_in_addr,
     pub imr_ifindex: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_in_pktinfo {
     pub ipi_ifindex: ::libc::c_int,
     pub ipi_spec_dst: Struct_in_addr,
@@ -490,10 +519,12 @@ pub const IPPORT_ROUTESERVER: ::libc::c_uint = 520;
 pub const IPPORT_RESERVED: ::libc::c_uint = 1024;
 pub const IPPORT_USERRESERVED: ::libc::c_uint = 5000;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_in6_addr {
     pub __in6_u: Union_Unnamed20,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed20 {
     pub data: [u32, ..4u],
 }
@@ -509,6 +540,7 @@ impl Union_Unnamed20 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sockaddr_in {
     pub sin_family: sa_family_t,
     pub sin_port: in_port_t,
@@ -516,6 +548,7 @@ pub struct Struct_sockaddr_in {
     pub sin_zero: [::libc::c_uchar, ..8u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sockaddr_in6 {
     pub sin6_family: sa_family_t,
     pub sin6_port: in_port_t,
@@ -524,33 +557,39 @@ pub struct Struct_sockaddr_in6 {
     pub sin6_scope_id: uint32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ip_mreq {
     pub imr_multiaddr: Struct_in_addr,
     pub imr_interface: Struct_in_addr,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ip_mreq_source {
     pub imr_multiaddr: Struct_in_addr,
     pub imr_interface: Struct_in_addr,
     pub imr_sourceaddr: Struct_in_addr,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ipv6_mreq {
     pub ipv6mr_multiaddr: Struct_in6_addr,
     pub ipv6mr_interface: ::libc::c_uint,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_group_req {
     pub gr_interface: uint32_t,
     pub gr_group: Struct_sockaddr_storage,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_group_source_req {
     pub gsr_interface: uint32_t,
     pub gsr_group: Struct_sockaddr_storage,
     pub gsr_source: Struct_sockaddr_storage,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ip_msfilter {
     pub imsf_multiaddr: Struct_in_addr,
     pub imsf_interface: Struct_in_addr,
@@ -559,6 +598,7 @@ pub struct Struct_ip_msfilter {
     pub imsf_slist: [Struct_in_addr, ..1u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_group_filter {
     pub gf_interface: uint32_t,
     pub gf_group: Struct_sockaddr_storage,
@@ -567,12 +607,14 @@ pub struct Struct_group_filter {
     pub gf_slist: [Struct_sockaddr_storage, ..1u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_rpcent {
     pub r_name: *mut ::libc::c_char,
     pub r_aliases: *mut *mut ::libc::c_char,
     pub r_number: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_netent {
     pub n_name: *mut ::libc::c_char,
     pub n_aliases: *mut *mut ::libc::c_char,
@@ -580,6 +622,7 @@ pub struct Struct_netent {
     pub n_net: uint32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_hostent {
     pub h_name: *mut ::libc::c_char,
     pub h_aliases: *mut *mut ::libc::c_char,
@@ -588,6 +631,7 @@ pub struct Struct_hostent {
     pub h_addr_list: *mut *mut ::libc::c_char,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_servent {
     pub s_name: *mut ::libc::c_char,
     pub s_aliases: *mut *mut ::libc::c_char,
@@ -595,12 +639,14 @@ pub struct Struct_servent {
     pub s_proto: *mut ::libc::c_char,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_protoent {
     pub p_name: *mut ::libc::c_char,
     pub p_aliases: *mut *mut ::libc::c_char,
     pub p_proto: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_addrinfo {
     pub ai_flags: ::libc::c_int,
     pub ai_family: ::libc::c_int,
@@ -612,11 +658,13 @@ pub struct Struct_addrinfo {
     pub ai_next: *mut Struct_addrinfo,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sockaddr_un {
     pub sun_family: sa_family_t,
     pub sun_path: [::libc::c_char, ..108u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct___locale_struct {
     pub __locales: [*mut Struct___locale_data, ..13u],
     pub __ctype_b: *const ::libc::c_ushort,
@@ -629,13 +677,16 @@ pub type __locale_t = *mut Struct___locale_struct;
 pub type locale_t = __locale_t;
 pub type tcp_seq = u_int32_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_tcphdr;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed21 {
     pub data: [u32, ..5u],
 }
 impl Union_Unnamed21 { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed22 {
     pub th_sport: u_int16_t,
     pub th_dport: u_int16_t,
@@ -649,6 +700,7 @@ pub struct Struct_Unnamed22 {
     pub th_urp: u_int16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed23 {
     pub source: u_int16_t,
     pub dest: u_int16_t,
@@ -686,6 +738,7 @@ pub const TCP_CA_CWR: ::libc::c_uint = 2;
 pub const TCP_CA_Recovery: ::libc::c_uint = 3;
 pub const TCP_CA_Loss: ::libc::c_uint = 4;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_tcp_info {
     pub tcpi_state: u_int8_t,
     pub tcpi_ca_state: u_int8_t,
@@ -721,6 +774,7 @@ pub struct Struct_tcp_info {
     pub tcpi_total_retrans: u_int32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_tcp_md5sig {
     pub tcpm_addr: Struct_sockaddr_storage,
     pub __tcpm_pad1: u_int16_t,
@@ -729,6 +783,7 @@ pub struct Struct_tcp_md5sig {
     pub tcpm_key: [u_int8_t, ..80u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_tcp_repair_opt {
     pub opt_code: u_int32_t,
     pub opt_val: u_int32_t,
@@ -739,6 +794,7 @@ pub const TCP_RECV_QUEUE: ::libc::c_uint = 1;
 pub const TCP_SEND_QUEUE: ::libc::c_uint = 2;
 pub const TCP_QUEUES_NR: ::libc::c_uint = 3;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_tcp_cookie_transactions {
     pub tcpct_flags: u_int16_t,
     pub __tcpct_pad1: u_int8_t,
@@ -748,6 +804,7 @@ pub struct Struct_tcp_cookie_transactions {
     pub tcpct_value: [u_int8_t, ..536u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_passwd {
     pub pw_name: *mut ::libc::c_char,
     pub pw_passwd: *mut ::libc::c_char,
@@ -759,6 +816,7 @@ pub struct Struct_passwd {
 }
 pub type FILE = Struct__IO_FILE;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_winsize {
     pub ws_row: ::libc::c_ushort,
     pub ws_col: ::libc::c_ushort,
@@ -766,6 +824,7 @@ pub struct Struct_winsize {
     pub ws_ypixel: ::libc::c_ushort,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_termio {
     pub c_iflag: ::libc::c_ushort,
     pub c_oflag: ::libc::c_ushort,
@@ -776,6 +835,7 @@ pub struct Struct_termio {
 }
 pub type sig_atomic_t = __sig_atomic_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_sigval {
     pub data: [u64, ..1u],
 }
@@ -790,6 +850,7 @@ impl Union_sigval {
 pub type sigval_t = Union_sigval;
 pub type __sigchld_clock_t = __clock_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed26 {
     pub si_signo: ::libc::c_int,
     pub si_errno: ::libc::c_int,
@@ -797,6 +858,7 @@ pub struct Struct_Unnamed26 {
     pub _sifields: Union_Unnamed27,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed27 {
     pub data: [u64, ..14u],
 }
@@ -827,23 +889,27 @@ impl Union_Unnamed27 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed28 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed29 {
     pub si_tid: ::libc::c_int,
     pub si_overrun: ::libc::c_int,
     pub si_sigval: sigval_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed30 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
     pub si_sigval: sigval_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed31 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
@@ -852,16 +918,19 @@ pub struct Struct_Unnamed31 {
     pub si_stime: __sigchld_clock_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed32 {
     pub si_addr: *mut ::libc::c_void,
     pub si_addr_lsb: ::libc::c_short,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed33 {
     pub si_band: ::libc::c_long,
     pub si_fd: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed34 {
     pub _call_addr: *mut ::libc::c_void,
     pub _syscall: ::libc::c_int,
@@ -923,6 +992,7 @@ pub const POLL_ERR: ::libc::c_uint = 4;
 pub const POLL_PRI: ::libc::c_uint = 5;
 pub const POLL_HUP: ::libc::c_uint = 6;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sigevent {
     pub sigev_value: sigval_t,
     pub sigev_signo: ::libc::c_int,
@@ -930,6 +1000,7 @@ pub struct Struct_sigevent {
     pub _sigev_un: Union_Unnamed43,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed43 {
     pub data: [u64, ..6u],
 }
@@ -945,6 +1016,7 @@ impl Union_Unnamed43 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed44 {
     pub _function: ::std::option::Option<extern "C" fn(arg1: sigval_t)>,
     pub _attribute: *mut pthread_attr_t,
@@ -959,6 +1031,7 @@ pub type __sighandler_t =
     ::std::option::Option<extern "C" fn(arg1: ::libc::c_int)>;
 pub type sig_t = __sighandler_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sigaction {
     pub __sigaction_handler: Union_Unnamed46,
     pub sa_mask: __sigset_t,
@@ -966,6 +1039,7 @@ pub struct Struct_sigaction {
     pub sa_restorer: ::std::option::Option<extern "C" fn()>,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed46 {
     pub data: [u64, ..1u],
 }
@@ -973,21 +1047,24 @@ impl Union_Unnamed46 {
     pub fn sa_handler(&mut self) -> *mut __sighandler_t {
         unsafe { ::std::mem::transmute(self) }
     }
-    pub fn sa_sigaction(&mut self) ->
-     *mut ::std::option::Option<extern "C" fn
-                                    (arg1: ::libc::c_int,
-                                     arg2: *mut siginfo_t,
-                                     arg3: *mut ::libc::c_void)> {
+    pub fn sa_sigaction(&mut self)
+     ->
+         *mut ::std::option::Option<extern "C" fn
+                                        (arg1: ::libc::c_int,
+                                         arg2: *mut siginfo_t,
+                                         arg3: *mut ::libc::c_void)> {
         unsafe { ::std::mem::transmute(self) }
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sigvec {
     pub sv_handler: __sighandler_t,
     pub sv_mask: ::libc::c_int,
     pub sv_flags: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__fpx_sw_bytes {
     pub magic1: __uint32_t,
     pub extended_size: __uint32_t,
@@ -996,21 +1073,25 @@ pub struct Struct__fpx_sw_bytes {
     pub padding: [__uint32_t, ..7u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__fpreg {
     pub significand: [::libc::c_ushort, ..4u],
     pub exponent: ::libc::c_ushort,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__fpxreg {
     pub significand: [::libc::c_ushort, ..4u],
     pub exponent: ::libc::c_ushort,
     pub padding: [::libc::c_ushort, ..3u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__xmmreg {
     pub element: [__uint32_t, ..4u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__fpstate {
     pub cwd: __uint16_t,
     pub swd: __uint16_t,
@@ -1025,6 +1106,7 @@ pub struct Struct__fpstate {
     pub padding: [__uint32_t, ..24u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sigcontext {
     pub r8: __uint64_t,
     pub r9: __uint64_t,
@@ -1055,6 +1137,7 @@ pub struct Struct_sigcontext {
     pub __reserved1: [__uint64_t, ..8u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed47 {
     pub data: [u64, ..1u],
 }
@@ -1067,22 +1150,26 @@ impl Union_Unnamed47 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__xsave_hdr {
     pub xstate_bv: __uint64_t,
     pub reserved1: [__uint64_t, ..2u],
     pub reserved2: [__uint64_t, ..5u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__ymmh_state {
     pub ymmh_space: [__uint32_t, ..64u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__xstate {
     pub fpstate: Struct__fpstate,
     pub xstate_hdr: Struct__xsave_hdr,
     pub ymmh: Struct__ymmh_state,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sigstack {
     pub ss_sp: *mut ::libc::c_void,
     pub ss_onstack: ::libc::c_int,
@@ -1091,6 +1178,7 @@ pub type Enum_Unnamed48 = ::libc::c_uint;
 pub const SS_ONSTACK: ::libc::c_uint = 1;
 pub const SS_DISABLE: ::libc::c_uint = 2;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_sigaltstack {
     pub ss_sp: *mut ::libc::c_void,
     pub ss_flags: ::libc::c_int,
@@ -1100,16 +1188,19 @@ pub type stack_t = Struct_sigaltstack;
 pub type greg_t = ::libc::c_longlong;
 pub type gregset_t = [greg_t, ..23u];
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__libc_fpxreg {
     pub significand: [::libc::c_ushort, ..4u],
     pub exponent: ::libc::c_ushort,
     pub padding: [::libc::c_ushort, ..3u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__libc_xmmreg {
     pub element: [__uint32_t, ..4u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__libc_fpstate {
     pub cwd: __uint16_t,
     pub swd: __uint16_t,
@@ -1125,6 +1216,7 @@ pub struct Struct__libc_fpstate {
 }
 pub type fpregset_t = *mut Struct__libc_fpstate;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed49 {
     pub gregs: gregset_t,
     pub fpregs: fpregset_t,
@@ -1132,6 +1224,7 @@ pub struct Struct_Unnamed49 {
 }
 pub type mcontext_t = Struct_Unnamed49;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ucontext {
     pub uc_flags: ::libc::c_ulong,
     pub uc_link: *mut Struct_ucontext,
@@ -1142,6 +1235,7 @@ pub struct Struct_ucontext {
 }
 pub type ucontext_t = Struct_ucontext;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed50 {
     pub data: [u64, ..1u],
 }
@@ -1155,6 +1249,7 @@ impl Union_Unnamed50 {
 }
 pub type __WAIT_STATUS = Union_Unnamed50;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_wait {
     pub data: [u32, ..1u],
 }
@@ -1170,6 +1265,7 @@ impl Union_wait {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed51 {
     pub __w_termsig: ::libc::c_uint,
     pub __w_coredump: ::libc::c_uint,
@@ -1177,6 +1273,7 @@ pub struct Struct_Unnamed51 {
     pub unnamed_field1: ::libc::c_uint,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed52 {
     pub __w_stopval: ::libc::c_uint,
     pub __w_stopsig: ::libc::c_uint,
@@ -1189,6 +1286,7 @@ pub const P_PGID: ::libc::c_uint = 2;
 pub type idtype_t = Enum_Unnamed53;
 pub enum Struct_rusage { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_group {
     pub gr_name: *mut ::libc::c_char,
     pub gr_passwd: *mut ::libc::c_char,
@@ -1197,11 +1295,13 @@ pub struct Struct_group {
 }
 pub type __FILE = Struct__IO_FILE;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed54 {
     pub __count: ::libc::c_int,
     pub __value: Union_Unnamed55,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed55 {
     pub data: [u32, ..1u],
 }
@@ -1215,12 +1315,14 @@ impl Union_Unnamed55 {
 }
 pub type __mbstate_t = Struct_Unnamed54;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed56 {
     pub __pos: __off_t,
     pub __state: __mbstate_t,
 }
 pub type _G_fpos_t = Struct_Unnamed56;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed57 {
     pub __pos: __off64_t,
     pub __state: __mbstate_t,
@@ -1231,6 +1333,7 @@ pub type __gnuc_va_list = __builtin_va_list;
 pub enum Struct__IO_jump_t { }
 pub type _IO_lock_t = ::libc::c_void;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__IO_marker {
     pub _next: *mut Struct__IO_marker,
     pub _sbuf: *mut Struct__IO_FILE,
@@ -1242,6 +1345,7 @@ pub const __codecvt_partial: ::libc::c_uint = 1;
 pub const __codecvt_error: ::libc::c_uint = 2;
 pub const __codecvt_noconv: ::libc::c_uint = 3;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__IO_FILE {
     pub _flags: ::libc::c_int,
     pub _IO_read_ptr: *mut ::libc::c_char,
@@ -1281,24 +1385,28 @@ pub type __io_seek_fn = ::libc::c_void;
 pub type __io_close_fn = ::libc::c_void;
 pub type fpos_t = _G_fpos_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed58 {
     pub quot: ::libc::c_int,
     pub rem: ::libc::c_int,
 }
 pub type div_t = Struct_Unnamed58;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed59 {
     pub quot: ::libc::c_long,
     pub rem: ::libc::c_long,
 }
 pub type ldiv_t = Struct_Unnamed59;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed60 {
     pub quot: ::libc::c_longlong,
     pub rem: ::libc::c_longlong,
 }
 pub type lldiv_t = Struct_Unnamed60;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_random_data {
     pub fptr: *mut int32_t,
     pub rptr: *mut int32_t,
@@ -1309,6 +1417,7 @@ pub struct Struct_random_data {
     pub end_ptr: *mut int32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_drand48_data {
     pub __x: [::libc::c_ushort, ..3u],
     pub __old_x: [::libc::c_ushort, ..3u],
@@ -1625,6 +1734,7 @@ pub const _CS_POSIX_V7_LPBIG_OFFBIG_LINTFLAGS: ::libc::c_uint = 1147;
 pub const _CS_V6_ENV: ::libc::c_uint = 1148;
 pub const _CS_V7_ENV: ::libc::c_uint = 1149;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_stat {
     pub st_dev: __dev_t,
     pub st_ino: __ino_t,
@@ -1643,6 +1753,7 @@ pub struct Struct_stat {
     pub __glibc_reserved: [__syscall_slong_t, ..3u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_dirent {
     pub d_ino: __ino_t,
     pub d_off: __off_t,
@@ -1663,6 +1774,7 @@ pub const DT_WHT: ::libc::c_uint = 14;
 pub enum Struct___dirstream { }
 pub type DIR = Struct___dirstream;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_flock {
     pub l_type: ::libc::c_short,
     pub l_whence: ::libc::c_short,
@@ -1686,6 +1798,7 @@ pub const _POSIX_: ::libc::c_int = 2;
 pub const _ISOC_: ::libc::c_int = 3;
 pub type _LIB_VERSION_TYPE = Enum_Unnamed66;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_exception {
     pub _type: ::libc::c_int,
     pub name: *mut ::libc::c_char,
@@ -1694,6 +1807,7 @@ pub struct Struct_exception {
     pub retval: ::libc::c_double,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_tm {
     pub tm_sec: ::libc::c_int,
     pub tm_min: ::libc::c_int,
@@ -1708,6 +1822,7 @@ pub struct Struct_tm {
     pub tm_zone: *const ::libc::c_char,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_itimerspec {
     pub it_interval: Struct_timespec,
     pub it_value: Struct_timespec,
@@ -1726,6 +1841,7 @@ pub const _IScntrl: ::libc::c_uint = 2;
 pub const _ISpunct: ::libc::c_uint = 4;
 pub const _ISalnum: ::libc::c_uint = 8;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_PLIBC_SEARCH_QELEM {
     pub q_forw: *mut Struct_qelem,
     pub q_back: *mut Struct_qelem,
@@ -1742,18 +1858,21 @@ pub const PLIBC_SEARCH_FIND: ::libc::c_uint = 0;
 pub const PLIBC_SEARCH_ENTER: ::libc::c_uint = 1;
 pub type PLIBC_SEARCH_ACTION = Enum_Unnamed68;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_PLIBC_SEARCH_entry {
     pub key: *mut ::libc::c_char,
     pub data: *mut ::libc::c_void,
 }
 pub type PLIBC_SEARCH_ENTRY = Struct_PLIBC_SEARCH_entry;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__PLIBC_SEARCH_ENTRY {
     pub used: ::libc::c_uint,
     pub entry: PLIBC_SEARCH_ENTRY,
 }
 pub type _PLIBC_SEARCH_ENTRY = Struct__PLIBC_SEARCH_ENTRY;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_PLIBC_SEARCH_hsearch_data {
     pub table: *mut Struct__PLIBC_SEARCH_ENTRY,
     pub size: ::libc::c_uint,
@@ -1773,6 +1892,7 @@ pub type PLIBC_SEARCH__action_fn_t =
 pub type PLIBC_SEARCH__free_fn_t =
     ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_lconv {
     pub decimal_point: *mut ::libc::c_char,
     pub thousands_sep: *mut ::libc::c_char,
@@ -1800,6 +1920,7 @@ pub struct Struct_lconv {
     pub int_n_sign_posn: ::libc::c_char,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_MessageHeader {
     pub size: uint16_t,
     pub _type: uint16_t,
@@ -1856,23 +1977,28 @@ pub const GNUNET_SCHEDULER_PRIORITY_URGENT: ::libc::c_uint = 6;
 pub const GNUNET_SCHEDULER_PRIORITY_SHUTDOWN: ::libc::c_uint = 7;
 pub const GNUNET_SCHEDULER_PRIORITY_COUNT: ::libc::c_uint = 8;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TIME_Absolute {
     pub abs_value_us: uint64_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TIME_Relative {
     pub rel_value_us: uint64_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TIME_RelativeNBO {
     pub rel_value_us__: uint64_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TIME_AbsoluteNBO {
     pub abs_value_us__: uint64_t,
 }
 pub enum Struct_GNUNET_NETWORK_Handle { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_NETWORK_FDSet {
     pub nsds: ::libc::c_int,
     pub sds: fd_set,
@@ -1882,6 +2008,7 @@ pub type Enum_GNUNET_FILE_Type = ::libc::c_uint;
 pub const GNUNET_DISK_HANLDE_TYPE_FILE: ::libc::c_uint = 0;
 pub const GNUNET_DISK_HANLDE_TYPE_PIPE: ::libc::c_uint = 1;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DISK_FileHandle {
     pub fd: ::libc::c_int,
 }
@@ -1925,6 +2052,7 @@ pub type GNUNET_DISK_DirectoryIteratorCallback =
                                arg4: *const ::libc::c_char)>;
 pub enum Struct_GNUNET_DISK_MapHandle { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_SCHEDULER_TaskContext {
     pub reason: Enum_GNUNET_SCHEDULER_Reason,
     pub read_ready: *const Struct_GNUNET_NETWORK_FDSet,
@@ -2373,11 +2501,13 @@ pub const GPG_ERR_CODE_DIM: ::libc::c_uint = 65536;
 pub type gpg_err_code_t = Enum_Unnamed71;
 pub type gpg_error_t = ::libc::c_uint;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed72 {
     pub _vers: ::libc::c_long,
     pub u: Union_Unnamed73,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed73 {
     pub data: [u64, ..5u],
 }
@@ -2395,6 +2525,7 @@ impl Union_Unnamed73 {
 pub type gpgrt_lock_t = Struct_Unnamed72;
 pub enum Struct__gpgrt_stream_internal { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__gpgrt__stream {
     pub flags: Struct_Unnamed74,
     pub buffer: *mut ::libc::c_uchar,
@@ -2408,6 +2539,7 @@ pub struct Struct__gpgrt__stream {
     pub intern: *mut Struct__gpgrt_stream_internal,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed74 {
     pub magic: ::libc::c_uint,
     pub writing: ::libc::c_uint,
@@ -2432,6 +2564,7 @@ pub type gpgrt_cookie_close_function_t =
     ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
                               -> ::libc::c_int>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__gpgrt_cookie_io_functions {
     pub func_read: gpgrt_cookie_read_function_t,
     pub func_write: gpgrt_cookie_write_function_t,
@@ -2446,11 +2579,13 @@ pub const GPGRT_SYSHD_SOCK: ::libc::c_uint = 2;
 pub const GPGRT_SYSHD_RVID: ::libc::c_uint = 3;
 pub const GPGRT_SYSHD_HANDLE: ::libc::c_uint = 4;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct__gpgrt_syshd {
     pub _type: Enum_gpgrt_syshd_types,
     pub u: Union_Unnamed75,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed75 {
     pub data: [u64, ..1u],
 }
@@ -2470,6 +2605,7 @@ impl Union_Unnamed75 {
 }
 pub type gpgrt_syshd_t = Struct__gpgrt_syshd;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_timezone {
     pub tz_minuteswest: ::libc::c_int,
     pub tz_dsttime: ::libc::c_int,
@@ -2480,6 +2616,7 @@ pub const ITIMER_REAL: ::libc::c_uint = 0;
 pub const ITIMER_VIRTUAL: ::libc::c_uint = 1;
 pub const ITIMER_PROF: ::libc::c_uint = 2;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_itimerval {
     pub it_interval: Struct_timeval,
     pub it_value: Struct_timeval,
@@ -2490,6 +2627,7 @@ pub type gcry_error_t = gpg_error_t;
 pub type gcry_err_code_t = gpg_err_code_t;
 pub type gcry_err_source_t = gpg_err_source_t;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_gcry_thread_cbs {
     pub option: ::libc::c_uint,
 }
@@ -2502,6 +2640,7 @@ pub type gcry_mpi_point_t = *mut Struct_gcry_mpi_point;
 pub type GCRY_MPI = *mut Struct_gcry_mpi;
 pub type GcryMPI = *mut Struct_gcry_mpi;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed76 {
     pub size: size_t,
     pub off: size_t,
@@ -2681,6 +2820,7 @@ pub const GCRY_MD_FLAG_SECURE: ::libc::c_uint = 1;
 pub const GCRY_MD_FLAG_HMAC: ::libc::c_uint = 2;
 pub enum Struct_gcry_md_context { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_gcry_md_handle {
     pub ctx: *mut Struct_gcry_md_context,
     pub bufpos: ::libc::c_int,
@@ -2784,6 +2924,7 @@ pub type gcry_handler_log_t =
                               (arg1: *mut ::libc::c_void, arg2: ::libc::c_int,
                                arg3: *const ::libc::c_char, arg4: va_list)>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_HashCode {
     pub bits: [uint32_t, ..16u],
 }
@@ -2792,76 +2933,93 @@ pub const GNUNET_CRYPTO_QUALITY_WEAK: ::libc::c_uint = 0;
 pub const GNUNET_CRYPTO_QUALITY_STRONG: ::libc::c_uint = 1;
 pub const GNUNET_CRYPTO_QUALITY_NONCE: ::libc::c_uint = 2;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_HashAsciiEncoded {
     pub encoding: [::libc::c_uchar, ..104u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EccSignaturePurpose {
     pub size: uint32_t,
     pub purpose: uint32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaSignature {
     pub r: [::libc::c_uchar, ..32u],
     pub s: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaSignature {
     pub r: [::libc::c_uchar, ..32u],
     pub s: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPublicKey {
     pub q_y: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaPublicKey {
     pub q_y: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_PeerIdentity {
     pub public_key: Struct_GNUNET_CRYPTO_EddsaPublicKey,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdhePublicKey {
     pub q_y: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdhePrivateKey {
     pub d: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
     pub d: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPrivateKey {
     pub d: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_SymmetricSessionKey {
     pub aes_key: [::libc::c_uchar, ..32u],
     pub twofish_key: [::libc::c_uchar, ..32u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
     pub aes_iv: [::libc::c_uchar, ..16u],
     pub twofish_iv: [::libc::c_uchar, ..16u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_AuthKey {
     pub key: [::libc::c_uchar, ..64u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierPublicKey {
     pub n: [::libc::c_uchar, ..256u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierPrivateKey {
     pub lambda: [::libc::c_uchar, ..256u],
     pub mu: [::libc::c_uchar, ..256u],
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierCiphertext {
     pub remaining_ops: int32_t,
     pub bits: [::libc::c_uchar, ..512u],
@@ -2872,6 +3030,7 @@ pub type GNUNET_CRYPTO_HashCompletedCallback =
                                arg2: *const Struct_GNUNET_HashCode)>;
 pub enum Struct_GNUNET_CRYPTO_FileHashContext { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_BANDWIDTH_Value32NBO {
     pub value__: uint32_t,
 }
@@ -2880,6 +3039,7 @@ pub type GNUNET_BANDWIDTH_TrackerUpdateCallback =
 pub type GNUNET_BANDWIDTH_ExcessNotificationCallback =
     ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_BANDWIDTH_Tracker {
     pub update_cb_cls: *mut ::libc::c_void,
     pub update_cb: GNUNET_BANDWIDTH_TrackerUpdateCallback,
@@ -3143,6 +3303,7 @@ pub type EXTRACTOR_MetaDataProcessor =
                                arg6: *const ::libc::c_char, arg7: size_t)
                               -> ::libc::c_int>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_EXTRACTOR_ExtractContext {
     pub cls: *mut ::libc::c_void,
     pub config: *const ::libc::c_char,
@@ -3220,6 +3381,7 @@ pub const GNUNET_CONTAINER_SLIST_DISPOSITION_DYNAMIC: ::libc::c_uint = 4;
 pub enum Struct_GNUNET_CONTAINER_SList_Elem { }
 pub enum Struct_GNUNET_CONTAINER_SList { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CONTAINER_SList_Iterator {
     pub list: *mut Struct_GNUNET_CONTAINER_SList,
     pub last: *mut Struct_GNUNET_CONTAINER_SList_Elem,
@@ -3229,6 +3391,7 @@ pub enum Struct_GNUNET_BIO_ReadHandle { }
 pub enum Struct_GNUNET_BIO_WriteHandle { }
 pub enum Struct_GNUNET_CONNECTION_Handle { }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CONNECTION_Credentials {
     pub uid: uid_t,
     pub gid: gid_t,
@@ -3270,6 +3433,7 @@ pub type GNUNET_CLIENT_MANAGER_MessageCallback =
                                    *mut Struct_GNUNET_CLIENT_MANAGER_Connection,
                                arg3: *const Struct_GNUNET_MessageHeader)>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
     pub callback: GNUNET_CLIENT_MANAGER_MessageCallback,
     pub callback_cls: *mut ::libc::c_void,
@@ -3278,6 +3442,7 @@ pub struct Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
     pub is_variable_size: uint8_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_GETOPT_CommandLineProcessorContext {
     pub binaryName: *const ::libc::c_char,
     pub binaryOptions: *const ::libc::c_char,
@@ -3294,6 +3459,7 @@ pub type GNUNET_GETOPT_CommandLineOptionProcessor =
                                arg3: *const ::libc::c_char,
                                arg4: *const ::libc::c_char) -> ::libc::c_int>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_GETOPT_CommandLineOption {
     pub shortName: ::libc::c_char,
     pub name: *const ::libc::c_char,
@@ -3312,6 +3478,7 @@ pub type GNUNET_SERVER_MessageCallback =
                                arg2: *mut Struct_GNUNET_SERVER_Client,
                                arg3: *const Struct_GNUNET_MessageHeader)>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_SERVER_MessageHandler {
     pub callback: GNUNET_SERVER_MessageCallback,
     pub callback_cls: *mut ::libc::c_void,
@@ -3390,6 +3557,7 @@ pub type GNUNET_MQ_ErrorHandler =
                               (arg1: *mut ::libc::c_void,
                                arg2: Enum_GNUNET_MQ_Error)>;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_MQ_MessageHandler {
     pub cb: GNUNET_MQ_MessageCallback,
     pub _type: uint16_t,
@@ -3468,29 +3636,34 @@ pub const GNUNET_STRINGS_CHECK_IS_DIRECTORY: ::libc::c_uint = 2;
 pub const GNUNET_STRINGS_CHECK_IS_LINK: ::libc::c_uint = 4;
 pub const GNUNET_STRINGS_CHECK_IS_ABSOLUTE: ::libc::c_uint = 8;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_STRINGS_PortPolicy {
     pub start_port: uint16_t,
     pub end_port: uint16_t,
     pub negate_portrange: ::libc::c_int,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
     pub network: Struct_in_addr,
     pub netmask: Struct_in_addr,
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
     pub network: Struct_in6_addr,
     pub netmask: Struct_in6_addr,
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_Layer2PacketHeader {
     pub flags: uint16_t,
     pub proto: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_IPv4Header {
     pub header_length: ::libc::c_uint,
     pub version: ::libc::c_uint,
@@ -3506,6 +3679,7 @@ pub struct Struct_GNUNET_TUN_IPv4Header {
     pub destination_address: Struct_in_addr,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_IPv6Header {
     pub traffic_class_h: ::libc::c_uint,
     pub version: ::libc::c_uint,
@@ -3518,6 +3692,7 @@ pub struct Struct_GNUNET_TUN_IPv6Header {
     pub destination_address: Struct_in6_addr,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_TcpHeader {
     pub source_port: uint16_t,
     pub destination_port: uint16_t,
@@ -3531,6 +3706,7 @@ pub struct Struct_GNUNET_TUN_TcpHeader {
     pub urgent_pointer: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_UdpHeader {
     pub source_port: uint16_t,
     pub destination_port: uint16_t,
@@ -3538,6 +3714,7 @@ pub struct Struct_GNUNET_TUN_UdpHeader {
     pub crc: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsFlags {
     pub recursion_desired: ::libc::c_uint,
     pub message_truncated: ::libc::c_uint,
@@ -3551,6 +3728,7 @@ pub struct Struct_GNUNET_TUN_DnsFlags {
     pub recursion_available: ::libc::c_uint,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsHeader {
     pub id: uint16_t,
     pub flags: Struct_GNUNET_TUN_DnsFlags,
@@ -3560,6 +3738,7 @@ pub struct Struct_GNUNET_TUN_DnsHeader {
     pub additional_rcount: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsSoaRecord {
     pub serial: uint32_t,
     pub refresh: uint32_t,
@@ -3568,34 +3747,40 @@ pub struct Struct_GNUNET_TUN_DnsSoaRecord {
     pub minimum: uint32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsSrvRecord {
     pub prio: uint16_t,
     pub weight: uint16_t,
     pub port: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsCertRecord {
     pub cert_type: uint16_t,
     pub cert_tag: uint16_t,
     pub algorithm: uint8_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsTlsaRecord {
     pub usage: uint8_t,
     pub selector: uint8_t,
     pub matching_type: uint8_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_GnsVpnRecord {
     pub peer: Struct_GNUNET_PeerIdentity,
     pub proto: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsQueryLine {
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_DnsRecordLine {
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
@@ -3603,6 +3788,7 @@ pub struct Struct_GNUNET_TUN_DnsRecordLine {
     pub data_len: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_TUN_IcmpHeader {
     pub _type: uint8_t,
     pub code: uint8_t,
@@ -3610,6 +3796,7 @@ pub struct Struct_GNUNET_TUN_IcmpHeader {
     pub quench: Union_Unnamed77,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed77 {
     pub data: [u8, ..4u],
 }
@@ -3628,27 +3815,32 @@ impl Union_Unnamed77 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_Unnamed78 {
     pub identifier: uint16_t,
     pub sequence_number: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_ih_pmtu {
     pub empty: uint16_t,
     pub next_hop_mtu: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_Query {
     pub name: *mut ::libc::c_char,
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_MxRecord {
     pub preference: uint16_t,
     pub mxhost: *mut ::libc::c_char,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_SrvRecord {
     pub target: *mut ::libc::c_char,
     pub priority: uint16_t,
@@ -3681,6 +3873,7 @@ pub const GNUNET_DNSPARSER_CERTALGO_GOST_R34: ::libc::c_uint = 12;
 pub const GNUNET_DNSPARSER_CERTALGO_ECDSA_P256SHA256: ::libc::c_uint = 13;
 pub const GNUNET_DNSPARSER_CERTALGO_ECDSA_P384SHA384: ::libc::c_uint = 14;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_CertRecord {
     pub cert_type: Enum_GNUNET_DNSPARSER_CertType,
     pub cert_tag: uint16_t,
@@ -3689,6 +3882,7 @@ pub struct Struct_GNUNET_DNSPARSER_CertRecord {
     pub certificate_data: *mut ::libc::c_char,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_SoaRecord {
     pub mname: *mut ::libc::c_char,
     pub rname: *mut ::libc::c_char,
@@ -3699,11 +3893,13 @@ pub struct Struct_GNUNET_DNSPARSER_SoaRecord {
     pub minimum_ttl: uint32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_RawRecord {
     pub data: *mut ::libc::c_void,
     pub data_len: size_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_Record {
     pub name: *mut ::libc::c_char,
     pub data: Union_Unnamed79,
@@ -3712,6 +3908,7 @@ pub struct Struct_GNUNET_DNSPARSER_Record {
     pub dns_traffic_class: uint16_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Union_Unnamed79 {
     pub data: [u64, ..2u],
 }
@@ -3736,6 +3933,7 @@ impl Union_Unnamed79 {
     }
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_Packet {
     pub queries: *mut Struct_GNUNET_DNSPARSER_Query,
     pub answers: *mut Struct_GNUNET_DNSPARSER_Record,
@@ -3779,6 +3977,7 @@ pub const GNUNET_GNSRECORD_RF_PRIVATE: ::libc::c_uint = 2;
 pub const GNUNET_GNSRECORD_RF_RELATIVE_EXPIRATION: ::libc::c_uint = 8;
 pub const GNUNET_GNSRECORD_RF_SHADOW_RECORD: ::libc::c_uint = 16;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_Data {
     pub data: *const ::libc::c_void,
     pub expiration_time: uint64_t,
@@ -3787,12 +3986,14 @@ pub struct Struct_GNUNET_GNSRECORD_Data {
     pub flags: Enum_GNUNET_GNSRECORD_Flags,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_PlaceData {
     pub place_key: Struct_GNUNET_CRYPTO_EddsaPublicKey,
     pub origin: Struct_GNUNET_PeerIdentity,
     pub relay_count: uint32_t,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_Block {
     pub signature: Struct_GNUNET_CRYPTO_EcdsaSignature,
     pub derived_key: Struct_GNUNET_CRYPTO_EcdsaPublicKey,
@@ -3800,6 +4001,7 @@ pub struct Struct_GNUNET_GNSRECORD_Block {
     pub expiration_time: Struct_GNUNET_TIME_AbsoluteNBO,
 }
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_BoxRecord {
     pub protocol: uint16_t,
     pub service: uint16_t,
@@ -3858,6 +4060,7 @@ pub type GNUNET_IDENTITY_EgoCallback =
 pub enum Struct_GNUNET_IDENTITY_EgoLookup { }
 pub type __va_list_tag = Struct___va_list_tag;
 #[repr(C)]
+#[deriving(Copy)]
 pub struct Struct___va_list_tag {
     pub gp_offset: ::libc::c_uint,
     pub fp_offset: ::libc::c_uint,
@@ -3892,6 +4095,10 @@ extern "C" {
     pub static mut tzname: [*mut ::libc::c_char, ..2u];
     pub static mut daylight: ::libc::c_int;
     pub static mut timezone: ::libc::c_long;
+}
+#[link(name = "gnunetutil")]
+#[link(name = "gnunetgnsrecord")]
+extern "C" {
     pub fn select(__nfds: ::libc::c_int, __readfds: *mut fd_set,
                   __writefds: *mut fd_set, __exceptfds: *mut fd_set,
                   __timeout: *mut Struct_timeval) -> ::libc::c_int;
@@ -3932,8 +4139,8 @@ extern "C" {
                 __flags: ::libc::c_int) -> ssize_t;
     pub fn sendto(__fd: ::libc::c_int, __buf: *const ::libc::c_void,
                   __n: size_t, __flags: ::libc::c_int,
-                  __addr: *const Struct_sockaddr, __addr_len: socklen_t) ->
-     ssize_t;
+                  __addr: *const Struct_sockaddr, __addr_len: socklen_t)
+     -> ssize_t;
     pub fn recvfrom(__fd: ::libc::c_int, __buf: *mut ::libc::c_void,
                     __n: size_t, __flags: ::libc::c_int,
                     __addr: *mut Struct_sockaddr, __addr_len: *mut socklen_t)
@@ -3947,16 +4154,16 @@ extern "C" {
                       __optlen: *mut socklen_t) -> ::libc::c_int;
     pub fn setsockopt(__fd: ::libc::c_int, __level: ::libc::c_int,
                       __optname: ::libc::c_int,
-                      __optval: *const ::libc::c_void, __optlen: socklen_t) ->
-     ::libc::c_int;
+                      __optval: *const ::libc::c_void, __optlen: socklen_t)
+     -> ::libc::c_int;
     pub fn listen(__fd: ::libc::c_int, __n: ::libc::c_int) -> ::libc::c_int;
     pub fn accept(__fd: ::libc::c_int, __addr: *mut Struct_sockaddr,
                   __addr_len: *mut socklen_t) -> ::libc::c_int;
-    pub fn shutdown(__fd: ::libc::c_int, __how: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn shutdown(__fd: ::libc::c_int, __how: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn sockatmark(__fd: ::libc::c_int) -> ::libc::c_int;
-    pub fn isfdtype(__fd: ::libc::c_int, __fdtype: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn isfdtype(__fd: ::libc::c_int, __fdtype: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn ntohl(__netlong: uint32_t) -> uint32_t;
     pub fn ntohs(__netshort: uint16_t) -> uint16_t;
     pub fn htonl(__hostlong: uint32_t) -> uint32_t;
@@ -3964,8 +4171,8 @@ extern "C" {
     pub fn bindresvport(__sockfd: ::libc::c_int,
                         __sock_in: *mut Struct_sockaddr_in) -> ::libc::c_int;
     pub fn bindresvport6(__sockfd: ::libc::c_int,
-                         __sock_in: *mut Struct_sockaddr_in6) ->
-     ::libc::c_int;
+                         __sock_in: *mut Struct_sockaddr_in6)
+     -> ::libc::c_int;
     pub fn setrpcent(__stayopen: ::libc::c_int);
     pub fn endrpcent();
     pub fn getrpcbyname(__name: *const ::libc::c_char) -> *mut Struct_rpcent;
@@ -3978,8 +4185,8 @@ extern "C" {
     pub fn getrpcbynumber_r(__number: ::libc::c_int,
                             __result_buf: *mut Struct_rpcent,
                             __buffer: *mut ::libc::c_char, __buflen: size_t,
-                            __result: *mut *mut Struct_rpcent) ->
-     ::libc::c_int;
+                            __result: *mut *mut Struct_rpcent)
+     -> ::libc::c_int;
     pub fn getrpcent_r(__result_buf: *mut Struct_rpcent,
                        __buffer: *mut ::libc::c_char, __buflen: size_t,
                        __result: *mut *mut Struct_rpcent) -> ::libc::c_int;
@@ -3991,8 +4198,8 @@ extern "C" {
     pub fn gethostent() -> *mut Struct_hostent;
     pub fn gethostbyaddr(__addr: *const ::libc::c_void, __len: __socklen_t,
                          __type: ::libc::c_int) -> *mut Struct_hostent;
-    pub fn gethostbyname(__name: *const ::libc::c_char) ->
-     *mut Struct_hostent;
+    pub fn gethostbyname(__name: *const ::libc::c_char)
+     -> *mut Struct_hostent;
     pub fn gethostbyname2(__name: *const ::libc::c_char, __af: ::libc::c_int)
      -> *mut Struct_hostent;
     pub fn gethostent_r(__result_buf: *mut Struct_hostent,
@@ -4019,8 +4226,8 @@ extern "C" {
     pub fn setnetent(__stay_open: ::libc::c_int);
     pub fn endnetent();
     pub fn getnetent() -> *mut Struct_netent;
-    pub fn getnetbyaddr(__net: uint32_t, __type: ::libc::c_int) ->
-     *mut Struct_netent;
+    pub fn getnetbyaddr(__net: uint32_t, __type: ::libc::c_int)
+     -> *mut Struct_netent;
     pub fn getnetbyname(__name: *const ::libc::c_char) -> *mut Struct_netent;
     pub fn getnetent_r(__result_buf: *mut Struct_netent,
                        __buf: *mut ::libc::c_char, __buflen: size_t,
@@ -4040,11 +4247,11 @@ extern "C" {
     pub fn endservent();
     pub fn getservent() -> *mut Struct_servent;
     pub fn getservbyname(__name: *const ::libc::c_char,
-                         __proto: *const ::libc::c_char) ->
-     *mut Struct_servent;
+                         __proto: *const ::libc::c_char)
+     -> *mut Struct_servent;
     pub fn getservbyport(__port: ::libc::c_int,
-                         __proto: *const ::libc::c_char) ->
-     *mut Struct_servent;
+                         __proto: *const ::libc::c_char)
+     -> *mut Struct_servent;
     pub fn getservent_r(__result_buf: *mut Struct_servent,
                         __buf: *mut ::libc::c_char, __buflen: size_t,
                         __result: *mut *mut Struct_servent) -> ::libc::c_int;
@@ -4052,34 +4259,34 @@ extern "C" {
                            __proto: *const ::libc::c_char,
                            __result_buf: *mut Struct_servent,
                            __buf: *mut ::libc::c_char, __buflen: size_t,
-                           __result: *mut *mut Struct_servent) ->
-     ::libc::c_int;
+                           __result: *mut *mut Struct_servent)
+     -> ::libc::c_int;
     pub fn getservbyport_r(__port: ::libc::c_int,
                            __proto: *const ::libc::c_char,
                            __result_buf: *mut Struct_servent,
                            __buf: *mut ::libc::c_char, __buflen: size_t,
-                           __result: *mut *mut Struct_servent) ->
-     ::libc::c_int;
+                           __result: *mut *mut Struct_servent)
+     -> ::libc::c_int;
     pub fn setprotoent(__stay_open: ::libc::c_int);
     pub fn endprotoent();
     pub fn getprotoent() -> *mut Struct_protoent;
-    pub fn getprotobyname(__name: *const ::libc::c_char) ->
-     *mut Struct_protoent;
+    pub fn getprotobyname(__name: *const ::libc::c_char)
+     -> *mut Struct_protoent;
     pub fn getprotobynumber(__proto: ::libc::c_int) -> *mut Struct_protoent;
     pub fn getprotoent_r(__result_buf: *mut Struct_protoent,
                          __buf: *mut ::libc::c_char, __buflen: size_t,
-                         __result: *mut *mut Struct_protoent) ->
-     ::libc::c_int;
+                         __result: *mut *mut Struct_protoent)
+     -> ::libc::c_int;
     pub fn getprotobyname_r(__name: *const ::libc::c_char,
                             __result_buf: *mut Struct_protoent,
                             __buf: *mut ::libc::c_char, __buflen: size_t,
-                            __result: *mut *mut Struct_protoent) ->
-     ::libc::c_int;
+                            __result: *mut *mut Struct_protoent)
+     -> ::libc::c_int;
     pub fn getprotobynumber_r(__proto: ::libc::c_int,
                               __result_buf: *mut Struct_protoent,
                               __buf: *mut ::libc::c_char, __buflen: size_t,
-                              __result: *mut *mut Struct_protoent) ->
-     ::libc::c_int;
+                              __result: *mut *mut Struct_protoent)
+     -> ::libc::c_int;
     pub fn setnetgrent(__netgroup: *const ::libc::c_char) -> ::libc::c_int;
     pub fn endnetgrent();
     pub fn getnetgrent(__hostp: *mut *mut ::libc::c_char,
@@ -4092,13 +4299,13 @@ extern "C" {
     pub fn getnetgrent_r(__hostp: *mut *mut ::libc::c_char,
                          __userp: *mut *mut ::libc::c_char,
                          __domainp: *mut *mut ::libc::c_char,
-                         __buffer: *mut ::libc::c_char, __buflen: size_t) ->
-     ::libc::c_int;
+                         __buffer: *mut ::libc::c_char, __buflen: size_t)
+     -> ::libc::c_int;
     pub fn rcmd(__ahost: *mut *mut ::libc::c_char, __rport: ::libc::c_ushort,
                 __locuser: *const ::libc::c_char,
                 __remuser: *const ::libc::c_char,
-                __cmd: *const ::libc::c_char, __fd2p: *mut ::libc::c_int) ->
-     ::libc::c_int;
+                __cmd: *const ::libc::c_char, __fd2p: *mut ::libc::c_int)
+     -> ::libc::c_int;
     pub fn rcmd_af(__ahost: *mut *mut ::libc::c_char,
                    __rport: ::libc::c_ushort,
                    __locuser: *const ::libc::c_char,
@@ -4107,8 +4314,8 @@ extern "C" {
                    __af: sa_family_t) -> ::libc::c_int;
     pub fn rexec(__ahost: *mut *mut ::libc::c_char, __rport: ::libc::c_int,
                  __name: *const ::libc::c_char, __pass: *const ::libc::c_char,
-                 __cmd: *const ::libc::c_char, __fd2p: *mut ::libc::c_int) ->
-     ::libc::c_int;
+                 __cmd: *const ::libc::c_char, __fd2p: *mut ::libc::c_int)
+     -> ::libc::c_int;
     pub fn rexec_af(__ahost: *mut *mut ::libc::c_char, __rport: ::libc::c_int,
                     __name: *const ::libc::c_char,
                     __pass: *const ::libc::c_char,
@@ -4119,18 +4326,18 @@ extern "C" {
                    __locuser: *const ::libc::c_char) -> ::libc::c_int;
     pub fn ruserok_af(__rhost: *const ::libc::c_char, __suser: ::libc::c_int,
                       __remuser: *const ::libc::c_char,
-                      __locuser: *const ::libc::c_char, __af: sa_family_t) ->
-     ::libc::c_int;
+                      __locuser: *const ::libc::c_char, __af: sa_family_t)
+     -> ::libc::c_int;
     pub fn iruserok(__raddr: uint32_t, __suser: ::libc::c_int,
                     __remuser: *const ::libc::c_char,
                     __locuser: *const ::libc::c_char) -> ::libc::c_int;
     pub fn iruserok_af(__raddr: *const ::libc::c_void, __suser: ::libc::c_int,
                        __remuser: *const ::libc::c_char,
-                       __locuser: *const ::libc::c_char, __af: sa_family_t) ->
-     ::libc::c_int;
+                       __locuser: *const ::libc::c_char, __af: sa_family_t)
+     -> ::libc::c_int;
     pub fn rresvport(__alport: *mut ::libc::c_int) -> ::libc::c_int;
-    pub fn rresvport_af(__alport: *mut ::libc::c_int, __af: sa_family_t) ->
-     ::libc::c_int;
+    pub fn rresvport_af(__alport: *mut ::libc::c_int, __af: sa_family_t)
+     -> ::libc::c_int;
     pub fn getaddrinfo(__name: *const ::libc::c_char,
                        __service: *const ::libc::c_char,
                        __req: *const Struct_addrinfo,
@@ -4161,8 +4368,8 @@ extern "C" {
      -> *mut ::libc::c_char;
     pub fn strncat(__dest: *mut ::libc::c_char, __src: *const ::libc::c_char,
                    __n: size_t) -> *mut ::libc::c_char;
-    pub fn strcmp(__s1: *const ::libc::c_char, __s2: *const ::libc::c_char) ->
-     ::libc::c_int;
+    pub fn strcmp(__s1: *const ::libc::c_char, __s2: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn strncmp(__s1: *const ::libc::c_char, __s2: *const ::libc::c_char,
                    __n: size_t) -> ::libc::c_int;
     pub fn strcoll(__s1: *const ::libc::c_char, __s2: *const ::libc::c_char)
@@ -4175,12 +4382,12 @@ extern "C" {
                      __src: *const ::libc::c_char, __n: size_t,
                      __l: __locale_t) -> size_t;
     pub fn strdup(__s: *const ::libc::c_char) -> *mut ::libc::c_char;
-    pub fn strndup(__string: *const ::libc::c_char, __n: size_t) ->
-     *mut ::libc::c_char;
-    pub fn strchr(__s: *const ::libc::c_char, __c: ::libc::c_int) ->
-     *mut ::libc::c_char;
-    pub fn strrchr(__s: *const ::libc::c_char, __c: ::libc::c_int) ->
-     *mut ::libc::c_char;
+    pub fn strndup(__string: *const ::libc::c_char, __n: size_t)
+     -> *mut ::libc::c_char;
+    pub fn strchr(__s: *const ::libc::c_char, __c: ::libc::c_int)
+     -> *mut ::libc::c_char;
+    pub fn strrchr(__s: *const ::libc::c_char, __c: ::libc::c_int)
+     -> *mut ::libc::c_char;
     pub fn strcspn(__s: *const ::libc::c_char,
                    __reject: *const ::libc::c_char) -> size_t;
     pub fn strspn(__s: *const ::libc::c_char, __accept: *const ::libc::c_char)
@@ -4189,39 +4396,39 @@ extern "C" {
                    __accept: *const ::libc::c_char) -> *mut ::libc::c_char;
     pub fn strstr(__haystack: *const ::libc::c_char,
                   __needle: *const ::libc::c_char) -> *mut ::libc::c_char;
-    pub fn strtok(__s: *mut ::libc::c_char, __delim: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+    pub fn strtok(__s: *mut ::libc::c_char, __delim: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn __strtok_r(__s: *mut ::libc::c_char,
                       __delim: *const ::libc::c_char,
-                      __save_ptr: *mut *mut ::libc::c_char) ->
-     *mut ::libc::c_char;
+                      __save_ptr: *mut *mut ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn strtok_r(__s: *mut ::libc::c_char, __delim: *const ::libc::c_char,
-                    __save_ptr: *mut *mut ::libc::c_char) ->
-     *mut ::libc::c_char;
+                    __save_ptr: *mut *mut ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn strlen(__s: *const ::libc::c_char) -> size_t;
-    pub fn strnlen(__string: *const ::libc::c_char, __maxlen: size_t) ->
-     size_t;
+    pub fn strnlen(__string: *const ::libc::c_char, __maxlen: size_t)
+     -> size_t;
     pub fn strerror(__errnum: ::libc::c_int) -> *mut ::libc::c_char;
     pub fn strerror_r(__errnum: ::libc::c_int, __buf: *mut ::libc::c_char,
                       __buflen: size_t) -> ::libc::c_int;
-    pub fn strerror_l(__errnum: ::libc::c_int, __l: __locale_t) ->
-     *mut ::libc::c_char;
+    pub fn strerror_l(__errnum: ::libc::c_int, __l: __locale_t)
+     -> *mut ::libc::c_char;
     pub fn __bzero(__s: *mut ::libc::c_void, __n: size_t);
     pub fn bcopy(__src: *const ::libc::c_void, __dest: *mut ::libc::c_void,
                  __n: size_t);
     pub fn bzero(__s: *mut ::libc::c_void, __n: size_t);
     pub fn bcmp(__s1: *const ::libc::c_void, __s2: *const ::libc::c_void,
                 __n: size_t) -> ::libc::c_int;
-    pub fn index(__s: *const ::libc::c_char, __c: ::libc::c_int) ->
-     *mut ::libc::c_char;
-    pub fn rindex(__s: *const ::libc::c_char, __c: ::libc::c_int) ->
-     *mut ::libc::c_char;
+    pub fn index(__s: *const ::libc::c_char, __c: ::libc::c_int)
+     -> *mut ::libc::c_char;
+    pub fn rindex(__s: *const ::libc::c_char, __c: ::libc::c_int)
+     -> *mut ::libc::c_char;
     pub fn ffs(__i: ::libc::c_int) -> ::libc::c_int;
     pub fn strcasecmp(__s1: *const ::libc::c_char,
                       __s2: *const ::libc::c_char) -> ::libc::c_int;
     pub fn strncasecmp(__s1: *const ::libc::c_char,
-                       __s2: *const ::libc::c_char, __n: size_t) ->
-     ::libc::c_int;
+                       __s2: *const ::libc::c_char, __n: size_t)
+     -> ::libc::c_int;
     pub fn strsep(__stringp: *mut *mut ::libc::c_char,
                   __delim: *const ::libc::c_char) -> *mut ::libc::c_char;
     pub fn strsignal(__sig: ::libc::c_int) -> *mut ::libc::c_char;
@@ -4230,22 +4437,22 @@ extern "C" {
     pub fn stpcpy(__dest: *mut ::libc::c_char, __src: *const ::libc::c_char)
      -> *mut ::libc::c_char;
     pub fn __stpncpy(__dest: *mut ::libc::c_char,
-                     __src: *const ::libc::c_char, __n: size_t) ->
-     *mut ::libc::c_char;
+                     __src: *const ::libc::c_char, __n: size_t)
+     -> *mut ::libc::c_char;
     pub fn stpncpy(__dest: *mut ::libc::c_char, __src: *const ::libc::c_char,
                    __n: size_t) -> *mut ::libc::c_char;
     pub fn inet_addr(__cp: *const ::libc::c_char) -> in_addr_t;
     pub fn inet_lnaof(__in: Struct_in_addr) -> in_addr_t;
-    pub fn inet_makeaddr(__net: in_addr_t, __host: in_addr_t) ->
-     Struct_in_addr;
+    pub fn inet_makeaddr(__net: in_addr_t, __host: in_addr_t)
+     -> Struct_in_addr;
     pub fn inet_netof(__in: Struct_in_addr) -> in_addr_t;
     pub fn inet_network(__cp: *const ::libc::c_char) -> in_addr_t;
     pub fn inet_ntoa(__in: Struct_in_addr) -> *mut ::libc::c_char;
     pub fn inet_pton(__af: ::libc::c_int, __cp: *const ::libc::c_char,
                      __buf: *mut ::libc::c_void) -> ::libc::c_int;
     pub fn inet_ntop(__af: ::libc::c_int, __cp: *const ::libc::c_void,
-                     __buf: *mut ::libc::c_char, __len: socklen_t) ->
-     *const ::libc::c_char;
+                     __buf: *mut ::libc::c_char, __len: socklen_t)
+     -> *const ::libc::c_char;
     pub fn inet_aton(__cp: *const ::libc::c_char, __inp: *mut Struct_in_addr)
      -> ::libc::c_int;
     pub fn inet_neta(__net: in_addr_t, __buf: *mut ::libc::c_char,
@@ -4254,8 +4461,8 @@ extern "C" {
                          __bits: ::libc::c_int, __buf: *mut ::libc::c_char,
                          __len: size_t) -> *mut ::libc::c_char;
     pub fn inet_net_pton(__af: ::libc::c_int, __cp: *const ::libc::c_char,
-                         __buf: *mut ::libc::c_void, __len: size_t) ->
-     ::libc::c_int;
+                         __buf: *mut ::libc::c_void, __len: size_t)
+     -> ::libc::c_int;
     pub fn inet_nsap_addr(__cp: *const ::libc::c_char,
                           __buf: *mut ::libc::c_uchar, __len: ::libc::c_int)
      -> ::libc::c_uint;
@@ -4265,8 +4472,8 @@ extern "C" {
     pub fn endpwent();
     pub fn getpwent() -> *mut Struct_passwd;
     pub fn fgetpwent(__stream: *mut FILE) -> *mut Struct_passwd;
-    pub fn putpwent(__p: *const Struct_passwd, __f: *mut FILE) ->
-     ::libc::c_int;
+    pub fn putpwent(__p: *const Struct_passwd, __f: *mut FILE)
+     -> ::libc::c_int;
     pub fn getpwuid(__uid: __uid_t) -> *mut Struct_passwd;
     pub fn getpwnam(__name: *const ::libc::c_char) -> *mut Struct_passwd;
     pub fn getpwent_r(__resultbuf: *mut Struct_passwd,
@@ -4282,23 +4489,23 @@ extern "C" {
     pub fn fgetpwent_r(__stream: *mut FILE, __resultbuf: *mut Struct_passwd,
                        __buffer: *mut ::libc::c_char, __buflen: size_t,
                        __result: *mut *mut Struct_passwd) -> ::libc::c_int;
-    pub fn ioctl(__fd: ::libc::c_int, __request: ::libc::c_ulong, ...) ->
-     ::libc::c_int;
-    pub fn __sigismember(arg1: *const __sigset_t, arg2: ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn __sigaddset(arg1: *mut __sigset_t, arg2: ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn __sigdelset(arg1: *mut __sigset_t, arg2: ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn __sysv_signal(__sig: ::libc::c_int, __handler: __sighandler_t) ->
-     __sighandler_t;
-    pub fn signal(__sig: ::libc::c_int, __handler: __sighandler_t) ->
-     __sighandler_t;
+    pub fn ioctl(__fd: ::libc::c_int, __request: ::libc::c_ulong, ...)
+     -> ::libc::c_int;
+    pub fn __sigismember(arg1: *const __sigset_t, arg2: ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn __sigaddset(arg1: *mut __sigset_t, arg2: ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn __sigdelset(arg1: *mut __sigset_t, arg2: ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn __sysv_signal(__sig: ::libc::c_int, __handler: __sighandler_t)
+     -> __sighandler_t;
+    pub fn signal(__sig: ::libc::c_int, __handler: __sighandler_t)
+     -> __sighandler_t;
     pub fn kill(__pid: __pid_t, __sig: ::libc::c_int) -> ::libc::c_int;
     pub fn killpg(__pgrp: __pid_t, __sig: ::libc::c_int) -> ::libc::c_int;
     pub fn raise(__sig: ::libc::c_int) -> ::libc::c_int;
-    pub fn ssignal(__sig: ::libc::c_int, __handler: __sighandler_t) ->
-     __sighandler_t;
+    pub fn ssignal(__sig: ::libc::c_int, __handler: __sighandler_t)
+     -> __sighandler_t;
     pub fn gsignal(__sig: ::libc::c_int) -> ::libc::c_int;
     pub fn psignal(__sig: ::libc::c_int, __s: *const ::libc::c_char);
     pub fn psiginfo(__pinfo: *const siginfo_t, __s: *const ::libc::c_char);
@@ -4309,22 +4516,22 @@ extern "C" {
     pub fn siggetmask() -> ::libc::c_int;
     pub fn sigemptyset(__set: *mut sigset_t) -> ::libc::c_int;
     pub fn sigfillset(__set: *mut sigset_t) -> ::libc::c_int;
-    pub fn sigaddset(__set: *mut sigset_t, __signo: ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn sigdelset(__set: *mut sigset_t, __signo: ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn sigismember(__set: *const sigset_t, __signo: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn sigaddset(__set: *mut sigset_t, __signo: ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn sigdelset(__set: *mut sigset_t, __signo: ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn sigismember(__set: *const sigset_t, __signo: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn sigprocmask(__how: ::libc::c_int, __set: *const sigset_t,
                        __oset: *mut sigset_t) -> ::libc::c_int;
     pub fn sigsuspend(__set: *const sigset_t) -> ::libc::c_int;
     pub fn sigaction(__sig: ::libc::c_int, __act: *const Struct_sigaction,
                      __oact: *mut Struct_sigaction) -> ::libc::c_int;
     pub fn sigpending(__set: *mut sigset_t) -> ::libc::c_int;
-    pub fn sigwait(__set: *const sigset_t, __sig: *mut ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn sigwaitinfo(__set: *const sigset_t, __info: *mut siginfo_t) ->
-     ::libc::c_int;
+    pub fn sigwait(__set: *const sigset_t, __sig: *mut ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn sigwaitinfo(__set: *const sigset_t, __info: *mut siginfo_t)
+     -> ::libc::c_int;
     pub fn sigtimedwait(__set: *const sigset_t, __info: *mut siginfo_t,
                         __timeout: *const Struct_timespec) -> ::libc::c_int;
     pub fn sigqueue(__pid: __pid_t, __sig: ::libc::c_int, __val: Union_sigval)
@@ -4332,16 +4539,16 @@ extern "C" {
     pub fn sigvec(__sig: ::libc::c_int, __vec: *const Struct_sigvec,
                   __ovec: *mut Struct_sigvec) -> ::libc::c_int;
     pub fn sigreturn(__scp: *mut Struct_sigcontext) -> ::libc::c_int;
-    pub fn siginterrupt(__sig: ::libc::c_int, __interrupt: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn siginterrupt(__sig: ::libc::c_int, __interrupt: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn sigstack(__ss: *mut Struct_sigstack, __oss: *mut Struct_sigstack)
      -> ::libc::c_int;
     pub fn sigaltstack(__ss: *const Struct_sigaltstack,
                        __oss: *mut Struct_sigaltstack) -> ::libc::c_int;
     pub fn pthread_sigmask(__how: ::libc::c_int, __newmask: *const __sigset_t,
                            __oldmask: *mut __sigset_t) -> ::libc::c_int;
-    pub fn pthread_kill(__threadid: pthread_t, __signo: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn pthread_kill(__threadid: pthread_t, __signo: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn __libc_current_sigrtmin() -> ::libc::c_int;
     pub fn __libc_current_sigrtmax() -> ::libc::c_int;
     pub fn wait(__stat_loc: __WAIT_STATUS) -> __pid_t;
@@ -4352,8 +4559,8 @@ extern "C" {
     pub fn wait3(__stat_loc: __WAIT_STATUS, __options: ::libc::c_int,
                  __usage: *mut Struct_rusage) -> __pid_t;
     pub fn wait4(__pid: __pid_t, __stat_loc: __WAIT_STATUS,
-                 __options: ::libc::c_int, __usage: *mut Struct_rusage) ->
-     __pid_t;
+                 __options: ::libc::c_int, __usage: *mut Struct_rusage)
+     -> __pid_t;
     pub fn setgrent();
     pub fn endgrent();
     pub fn getgrent() -> *mut Struct_group;
@@ -4374,12 +4581,12 @@ extern "C" {
     pub fn getgrouplist(__user: *const ::libc::c_char, __group: __gid_t,
                         __groups: *mut __gid_t, __ngroups: *mut ::libc::c_int)
      -> ::libc::c_int;
-    pub fn initgroups(__user: *const ::libc::c_char, __group: __gid_t) ->
-     ::libc::c_int;
+    pub fn initgroups(__user: *const ::libc::c_char, __group: __gid_t)
+     -> ::libc::c_int;
     pub fn __underflow(arg1: *mut _IO_FILE) -> ::libc::c_int;
     pub fn __uflow(arg1: *mut _IO_FILE) -> ::libc::c_int;
-    pub fn __overflow(arg1: *mut _IO_FILE, arg2: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn __overflow(arg1: *mut _IO_FILE, arg2: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn _IO_getc(__fp: *mut _IO_FILE) -> ::libc::c_int;
     pub fn _IO_putc(__c: ::libc::c_int, __fp: *mut _IO_FILE) -> ::libc::c_int;
     pub fn _IO_feof(__fp: *mut _IO_FILE) -> ::libc::c_int;
@@ -4389,8 +4596,8 @@ extern "C" {
     pub fn _IO_funlockfile(arg1: *mut _IO_FILE);
     pub fn _IO_ftrylockfile(arg1: *mut _IO_FILE) -> ::libc::c_int;
     pub fn _IO_vfscanf(arg1: *mut _IO_FILE, arg2: *const ::libc::c_char,
-                       arg3: __gnuc_va_list, arg4: *mut ::libc::c_int) ->
-     ::libc::c_int;
+                       arg3: __gnuc_va_list, arg4: *mut ::libc::c_int)
+     -> ::libc::c_int;
     pub fn _IO_vfprintf(arg1: *mut _IO_FILE, arg2: *const ::libc::c_char,
                         arg3: __gnuc_va_list) -> ::libc::c_int;
     pub fn _IO_padn(arg1: *mut _IO_FILE, arg2: ::libc::c_int, arg3: __ssize_t)
@@ -4406,8 +4613,8 @@ extern "C" {
     pub fn rename(__old: *const ::libc::c_char, __new: *const ::libc::c_char)
      -> ::libc::c_int;
     pub fn renameat(__oldfd: ::libc::c_int, __old: *const ::libc::c_char,
-                    __newfd: ::libc::c_int, __new: *const ::libc::c_char) ->
-     ::libc::c_int;
+                    __newfd: ::libc::c_int, __new: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn tmpfile() -> *mut FILE;
     pub fn tmpnam(__s: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn tmpnam_r(__s: *mut ::libc::c_char) -> *mut ::libc::c_char;
@@ -4419,10 +4626,10 @@ extern "C" {
     pub fn fopen(__filename: *const ::libc::c_char,
                  __modes: *const ::libc::c_char) -> *mut FILE;
     pub fn freopen(__filename: *const ::libc::c_char,
-                   __modes: *const ::libc::c_char, __stream: *mut FILE) ->
-     *mut FILE;
-    pub fn fdopen(__fd: ::libc::c_int, __modes: *const ::libc::c_char) ->
-     *mut FILE;
+                   __modes: *const ::libc::c_char, __stream: *mut FILE)
+     -> *mut FILE;
+    pub fn fdopen(__fd: ::libc::c_int, __modes: *const ::libc::c_char)
+     -> *mut FILE;
     pub fn fmemopen(__s: *mut ::libc::c_void, __len: size_t,
                     __modes: *const ::libc::c_char) -> *mut FILE;
     pub fn open_memstream(__bufloc: *mut *mut ::libc::c_char,
@@ -4440,8 +4647,8 @@ extern "C" {
                    __format: *const ::libc::c_char, ...) -> ::libc::c_int;
     pub fn vfprintf(__s: *mut FILE, __format: *const ::libc::c_char,
                     __arg: __gnuc_va_list) -> ::libc::c_int;
-    pub fn vprintf(__format: *const ::libc::c_char, __arg: __gnuc_va_list) ->
-     ::libc::c_int;
+    pub fn vprintf(__format: *const ::libc::c_char, __arg: __gnuc_va_list)
+     -> ::libc::c_int;
     pub fn vsprintf(__s: *mut ::libc::c_char, __format: *const ::libc::c_char,
                     __arg: __gnuc_va_list) -> ::libc::c_int;
     pub fn snprintf(__s: *mut ::libc::c_char, __maxlen: size_t,
@@ -4451,8 +4658,8 @@ extern "C" {
      -> ::libc::c_int;
     pub fn vdprintf(__fd: ::libc::c_int, __fmt: *const ::libc::c_char,
                     __arg: __gnuc_va_list) -> ::libc::c_int;
-    pub fn dprintf(__fd: ::libc::c_int, __fmt: *const ::libc::c_char, ...) ->
-     ::libc::c_int;
+    pub fn dprintf(__fd: ::libc::c_int, __fmt: *const ::libc::c_char, ...)
+     -> ::libc::c_int;
     pub fn fscanf(__stream: *mut FILE, __format: *const ::libc::c_char, ...)
      -> ::libc::c_int;
     pub fn scanf(__format: *const ::libc::c_char, ...) -> ::libc::c_int;
@@ -4460,11 +4667,11 @@ extern "C" {
                   __format: *const ::libc::c_char, ...) -> ::libc::c_int;
     pub fn vfscanf(__s: *mut FILE, __format: *const ::libc::c_char,
                    __arg: __gnuc_va_list) -> ::libc::c_int;
-    pub fn vscanf(__format: *const ::libc::c_char, __arg: __gnuc_va_list) ->
-     ::libc::c_int;
+    pub fn vscanf(__format: *const ::libc::c_char, __arg: __gnuc_va_list)
+     -> ::libc::c_int;
     pub fn vsscanf(__s: *const ::libc::c_char,
-                   __format: *const ::libc::c_char, __arg: __gnuc_va_list) ->
-     ::libc::c_int;
+                   __format: *const ::libc::c_char, __arg: __gnuc_va_list)
+     -> ::libc::c_int;
     pub fn fgetc(__stream: *mut FILE) -> ::libc::c_int;
     pub fn getc(__stream: *mut FILE) -> ::libc::c_int;
     pub fn getchar() -> ::libc::c_int;
@@ -4474,10 +4681,10 @@ extern "C" {
     pub fn fputc(__c: ::libc::c_int, __stream: *mut FILE) -> ::libc::c_int;
     pub fn putc(__c: ::libc::c_int, __stream: *mut FILE) -> ::libc::c_int;
     pub fn putchar(__c: ::libc::c_int) -> ::libc::c_int;
-    pub fn fputc_unlocked(__c: ::libc::c_int, __stream: *mut FILE) ->
-     ::libc::c_int;
-    pub fn putc_unlocked(__c: ::libc::c_int, __stream: *mut FILE) ->
-     ::libc::c_int;
+    pub fn fputc_unlocked(__c: ::libc::c_int, __stream: *mut FILE)
+     -> ::libc::c_int;
+    pub fn putc_unlocked(__c: ::libc::c_int, __stream: *mut FILE)
+     -> ::libc::c_int;
     pub fn putchar_unlocked(__c: ::libc::c_int) -> ::libc::c_int;
     pub fn getw(__stream: *mut FILE) -> ::libc::c_int;
     pub fn putw(__w: ::libc::c_int, __stream: *mut FILE) -> ::libc::c_int;
@@ -4485,15 +4692,15 @@ extern "C" {
                  __stream: *mut FILE) -> *mut ::libc::c_char;
     pub fn gets(__s: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn __getdelim(__lineptr: *mut *mut ::libc::c_char, __n: *mut size_t,
-                      __delimiter: ::libc::c_int, __stream: *mut FILE) ->
-     __ssize_t;
+                      __delimiter: ::libc::c_int, __stream: *mut FILE)
+     -> __ssize_t;
     pub fn getdelim(__lineptr: *mut *mut ::libc::c_char, __n: *mut size_t,
-                    __delimiter: ::libc::c_int, __stream: *mut FILE) ->
-     __ssize_t;
+                    __delimiter: ::libc::c_int, __stream: *mut FILE)
+     -> __ssize_t;
     pub fn getline(__lineptr: *mut *mut ::libc::c_char, __n: *mut size_t,
                    __stream: *mut FILE) -> __ssize_t;
-    pub fn fputs(__s: *const ::libc::c_char, __stream: *mut FILE) ->
-     ::libc::c_int;
+    pub fn fputs(__s: *const ::libc::c_char, __stream: *mut FILE)
+     -> ::libc::c_int;
     pub fn puts(__s: *const ::libc::c_char) -> ::libc::c_int;
     pub fn ungetc(__c: ::libc::c_int, __stream: *mut FILE) -> ::libc::c_int;
     pub fn fread(__ptr: *mut ::libc::c_void, __size: size_t, __n: size_t,
@@ -4512,8 +4719,8 @@ extern "C" {
                   __whence: ::libc::c_int) -> ::libc::c_int;
     pub fn ftello(__stream: *mut FILE) -> __off_t;
     pub fn fgetpos(__stream: *mut FILE, __pos: *mut fpos_t) -> ::libc::c_int;
-    pub fn fsetpos(__stream: *mut FILE, __pos: *const fpos_t) ->
-     ::libc::c_int;
+    pub fn fsetpos(__stream: *mut FILE, __pos: *const fpos_t)
+     -> ::libc::c_int;
     pub fn clearerr(__stream: *mut FILE);
     pub fn feof(__stream: *mut FILE) -> ::libc::c_int;
     pub fn ferror(__stream: *mut FILE) -> ::libc::c_int;
@@ -4566,8 +4773,8 @@ extern "C" {
     pub fn initstate(__seed: ::libc::c_uint, __statebuf: *mut ::libc::c_char,
                      __statelen: size_t) -> *mut ::libc::c_char;
     pub fn setstate(__statebuf: *mut ::libc::c_char) -> *mut ::libc::c_char;
-    pub fn random_r(__buf: *mut Struct_random_data, __result: *mut int32_t) ->
-     ::libc::c_int;
+    pub fn random_r(__buf: *mut Struct_random_data, __result: *mut int32_t)
+     -> ::libc::c_int;
     pub fn srandom_r(__seed: ::libc::c_uint, __buf: *mut Struct_random_data)
      -> ::libc::c_int;
     pub fn initstate_r(__seed: ::libc::c_uint,
@@ -4585,8 +4792,8 @@ extern "C" {
     pub fn mrand48() -> ::libc::c_long;
     pub fn jrand48(__xsubi: [::libc::c_ushort, ..3u]) -> ::libc::c_long;
     pub fn srand48(__seedval: ::libc::c_long);
-    pub fn seed48(__seed16v: [::libc::c_ushort, ..3u]) ->
-     *mut ::libc::c_ushort;
+    pub fn seed48(__seed16v: [::libc::c_ushort, ..3u])
+     -> *mut ::libc::c_ushort;
     pub fn lcong48(__param: [::libc::c_ushort, ..7u]);
     pub fn drand48_r(__buffer: *mut Struct_drand48_data,
                      __result: *mut ::libc::c_double) -> ::libc::c_int;
@@ -4611,18 +4818,18 @@ extern "C" {
                      __buffer: *mut Struct_drand48_data) -> ::libc::c_int;
     pub fn malloc(__size: size_t) -> *mut ::libc::c_void;
     pub fn calloc(__nmemb: size_t, __size: size_t) -> *mut ::libc::c_void;
-    pub fn realloc(__ptr: *mut ::libc::c_void, __size: size_t) ->
-     *mut ::libc::c_void;
+    pub fn realloc(__ptr: *mut ::libc::c_void, __size: size_t)
+     -> *mut ::libc::c_void;
     pub fn free(__ptr: *mut ::libc::c_void);
     pub fn cfree(__ptr: *mut ::libc::c_void);
     pub fn alloca(__size: size_t) -> *mut ::libc::c_void;
     pub fn valloc(__size: size_t) -> *mut ::libc::c_void;
     pub fn posix_memalign(__memptr: *mut *mut ::libc::c_void,
-                          __alignment: size_t, __size: size_t) ->
-     ::libc::c_int;
+                          __alignment: size_t, __size: size_t)
+     -> ::libc::c_int;
     pub fn abort();
-    pub fn atexit(__func: ::std::option::Option<extern "C" fn()>) ->
-     ::libc::c_int;
+    pub fn atexit(__func: ::std::option::Option<extern "C" fn()>)
+     -> ::libc::c_int;
     pub fn on_exit(__func:
                        ::std::option::Option<extern "C" fn
                                                  (arg1: ::libc::c_int,
@@ -4633,8 +4840,8 @@ extern "C" {
     pub fn getenv(__name: *const ::libc::c_char) -> *mut ::libc::c_char;
     pub fn putenv(__string: *mut ::libc::c_char) -> ::libc::c_int;
     pub fn setenv(__name: *const ::libc::c_char,
-                  __value: *const ::libc::c_char, __replace: ::libc::c_int) ->
-     ::libc::c_int;
+                  __value: *const ::libc::c_char, __replace: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn unsetenv(__name: *const ::libc::c_char) -> ::libc::c_int;
     pub fn clearenv() -> ::libc::c_int;
     pub fn mktemp(__template: *mut ::libc::c_char) -> *mut ::libc::c_char;
@@ -4647,8 +4854,8 @@ extern "C" {
                     __resolved: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn bsearch(__key: *const ::libc::c_void,
                    __base: *const ::libc::c_void, __nmemb: size_t,
-                   __size: size_t, __compar: __compar_fn_t) ->
-     *mut ::libc::c_void;
+                   __size: size_t, __compar: __compar_fn_t)
+     -> *mut ::libc::c_void;
     pub fn qsort(__base: *mut ::libc::c_void, __nmemb: size_t, __size: size_t,
                  __compar: __compar_fn_t);
     pub fn abs(__x: ::libc::c_int) -> ::libc::c_int;
@@ -4656,22 +4863,22 @@ extern "C" {
     pub fn llabs(__x: ::libc::c_longlong) -> ::libc::c_longlong;
     pub fn div(__numer: ::libc::c_int, __denom: ::libc::c_int) -> div_t;
     pub fn ldiv(__numer: ::libc::c_long, __denom: ::libc::c_long) -> ldiv_t;
-    pub fn lldiv(__numer: ::libc::c_longlong, __denom: ::libc::c_longlong) ->
-     lldiv_t;
+    pub fn lldiv(__numer: ::libc::c_longlong, __denom: ::libc::c_longlong)
+     -> lldiv_t;
     pub fn ecvt(__value: ::libc::c_double, __ndigit: ::libc::c_int,
-                __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int) ->
-     *mut ::libc::c_char;
+                __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int)
+     -> *mut ::libc::c_char;
     pub fn fcvt(__value: ::libc::c_double, __ndigit: ::libc::c_int,
-                __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int) ->
-     *mut ::libc::c_char;
+                __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int)
+     -> *mut ::libc::c_char;
     pub fn gcvt(__value: ::libc::c_double, __ndigit: ::libc::c_int,
                 __buf: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn qecvt(__value: ::libc::c_double, __ndigit: ::libc::c_int,
-                 __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int) ->
-     *mut ::libc::c_char;
+                 __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int)
+     -> *mut ::libc::c_char;
     pub fn qfcvt(__value: ::libc::c_double, __ndigit: ::libc::c_int,
-                 __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int) ->
-     *mut ::libc::c_char;
+                 __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int)
+     -> *mut ::libc::c_char;
     pub fn qgcvt(__value: ::libc::c_double, __ndigit: ::libc::c_int,
                  __buf: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn ecvt_r(__value: ::libc::c_double, __ndigit: ::libc::c_int,
@@ -4682,17 +4889,17 @@ extern "C" {
                   __buf: *mut ::libc::c_char, __len: size_t) -> ::libc::c_int;
     pub fn qecvt_r(__value: ::libc::c_double, __ndigit: ::libc::c_int,
                    __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int,
-                   __buf: *mut ::libc::c_char, __len: size_t) ->
-     ::libc::c_int;
+                   __buf: *mut ::libc::c_char, __len: size_t)
+     -> ::libc::c_int;
     pub fn qfcvt_r(__value: ::libc::c_double, __ndigit: ::libc::c_int,
                    __decpt: *mut ::libc::c_int, __sign: *mut ::libc::c_int,
-                   __buf: *mut ::libc::c_char, __len: size_t) ->
-     ::libc::c_int;
+                   __buf: *mut ::libc::c_char, __len: size_t)
+     -> ::libc::c_int;
     pub fn mblen(__s: *const ::libc::c_char, __n: size_t) -> ::libc::c_int;
     pub fn mbtowc(__pwc: *mut wchar_t, __s: *const ::libc::c_char,
                   __n: size_t) -> ::libc::c_int;
-    pub fn wctomb(__s: *mut ::libc::c_char, __wchar: wchar_t) ->
-     ::libc::c_int;
+    pub fn wctomb(__s: *mut ::libc::c_char, __wchar: wchar_t)
+     -> ::libc::c_int;
     pub fn mbstowcs(__pwcs: *mut wchar_t, __s: *const ::libc::c_char,
                     __n: size_t) -> size_t;
     pub fn wcstombs(__s: *mut ::libc::c_char, __pwcs: *const wchar_t,
@@ -4706,11 +4913,11 @@ extern "C" {
     pub fn __errno_location() -> *mut ::libc::c_int;
     pub fn dirname(__path: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn __xpg_basename(__path: *mut ::libc::c_char) -> *mut ::libc::c_char;
-    pub fn access(__name: *const ::libc::c_char, __type: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn access(__name: *const ::libc::c_char, __type: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn faccessat(__fd: ::libc::c_int, __file: *const ::libc::c_char,
-                     __type: ::libc::c_int, __flag: ::libc::c_int) ->
-     ::libc::c_int;
+                     __type: ::libc::c_int, __flag: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn lseek(__fd: ::libc::c_int, __offset: __off_t,
                  __whence: ::libc::c_int) -> __off_t;
     pub fn close(__fd: ::libc::c_int) -> ::libc::c_int;
@@ -4725,14 +4932,14 @@ extern "C" {
     pub fn pipe(__pipedes: [::libc::c_int, ..2u]) -> ::libc::c_int;
     pub fn alarm(__seconds: ::libc::c_uint) -> ::libc::c_uint;
     pub fn sleep(__seconds: ::libc::c_uint) -> ::libc::c_uint;
-    pub fn ualarm(__value: __useconds_t, __interval: __useconds_t) ->
-     __useconds_t;
+    pub fn ualarm(__value: __useconds_t, __interval: __useconds_t)
+     -> __useconds_t;
     pub fn usleep(__useconds: __useconds_t) -> ::libc::c_int;
     pub fn pause() -> ::libc::c_int;
     pub fn chown(__file: *const ::libc::c_char, __owner: __uid_t,
                  __group: __gid_t) -> ::libc::c_int;
-    pub fn fchown(__fd: ::libc::c_int, __owner: __uid_t, __group: __gid_t) ->
-     ::libc::c_int;
+    pub fn fchown(__fd: ::libc::c_int, __owner: __uid_t, __group: __gid_t)
+     -> ::libc::c_int;
     pub fn lchown(__file: *const ::libc::c_char, __owner: __uid_t,
                   __group: __gid_t) -> ::libc::c_int;
     pub fn fchownat(__fd: ::libc::c_int, __file: *const ::libc::c_char,
@@ -4740,8 +4947,8 @@ extern "C" {
      -> ::libc::c_int;
     pub fn chdir(__path: *const ::libc::c_char) -> ::libc::c_int;
     pub fn fchdir(__fd: ::libc::c_int) -> ::libc::c_int;
-    pub fn getcwd(__buf: *mut ::libc::c_char, __size: size_t) ->
-     *mut ::libc::c_char;
+    pub fn getcwd(__buf: *mut ::libc::c_char, __size: size_t)
+     -> *mut ::libc::c_char;
     pub fn getwd(__buf: *mut ::libc::c_char) -> *mut ::libc::c_char;
     pub fn dup(__fd: ::libc::c_int) -> ::libc::c_int;
     pub fn dup2(__fd: ::libc::c_int, __fd2: ::libc::c_int) -> ::libc::c_int;
@@ -4762,10 +4969,10 @@ extern "C" {
                   __arg: *const ::libc::c_char, ...) -> ::libc::c_int;
     pub fn nice(__inc: ::libc::c_int) -> ::libc::c_int;
     pub fn _exit(__status: ::libc::c_int);
-    pub fn pathconf(__path: *const ::libc::c_char, __name: ::libc::c_int) ->
-     ::libc::c_long;
-    pub fn fpathconf(__fd: ::libc::c_int, __name: ::libc::c_int) ->
-     ::libc::c_long;
+    pub fn pathconf(__path: *const ::libc::c_char, __name: ::libc::c_int)
+     -> ::libc::c_long;
+    pub fn fpathconf(__fd: ::libc::c_int, __name: ::libc::c_int)
+     -> ::libc::c_long;
     pub fn sysconf(__name: ::libc::c_int) -> ::libc::c_long;
     pub fn confstr(__name: ::libc::c_int, __buf: *mut ::libc::c_char,
                    __len: size_t) -> size_t;
@@ -4782,8 +4989,8 @@ extern "C" {
     pub fn geteuid() -> __uid_t;
     pub fn getgid() -> __gid_t;
     pub fn getegid() -> __gid_t;
-    pub fn getgroups(__size: ::libc::c_int, __list: *mut __gid_t) ->
-     ::libc::c_int;
+    pub fn getgroups(__size: ::libc::c_int, __list: *mut __gid_t)
+     -> ::libc::c_int;
     pub fn setuid(__uid: __uid_t) -> ::libc::c_int;
     pub fn setreuid(__ruid: __uid_t, __euid: __uid_t) -> ::libc::c_int;
     pub fn seteuid(__uid: __uid_t) -> ::libc::c_int;
@@ -4797,8 +5004,8 @@ extern "C" {
                      __buflen: size_t) -> ::libc::c_int;
     pub fn isatty(__fd: ::libc::c_int) -> ::libc::c_int;
     pub fn ttyslot() -> ::libc::c_int;
-    pub fn link(__from: *const ::libc::c_char, __to: *const ::libc::c_char) ->
-     ::libc::c_int;
+    pub fn link(__from: *const ::libc::c_char, __to: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn linkat(__fromfd: ::libc::c_int, __from: *const ::libc::c_char,
                   __tofd: ::libc::c_int, __to: *const ::libc::c_char,
                   __flags: ::libc::c_int) -> ::libc::c_int;
@@ -4815,23 +5022,23 @@ extern "C" {
                     __flag: ::libc::c_int) -> ::libc::c_int;
     pub fn rmdir(__path: *const ::libc::c_char) -> ::libc::c_int;
     pub fn tcgetpgrp(__fd: ::libc::c_int) -> __pid_t;
-    pub fn tcsetpgrp(__fd: ::libc::c_int, __pgrp_id: __pid_t) ->
-     ::libc::c_int;
+    pub fn tcsetpgrp(__fd: ::libc::c_int, __pgrp_id: __pid_t)
+     -> ::libc::c_int;
     pub fn getlogin() -> *mut ::libc::c_char;
-    pub fn getlogin_r(__name: *mut ::libc::c_char, __name_len: size_t) ->
-     ::libc::c_int;
+    pub fn getlogin_r(__name: *mut ::libc::c_char, __name_len: size_t)
+     -> ::libc::c_int;
     pub fn setlogin(__name: *const ::libc::c_char) -> ::libc::c_int;
     pub fn getopt(___argc: ::libc::c_int, ___argv: *const *mut ::libc::c_char,
                   __shortopts: *const ::libc::c_char) -> ::libc::c_int;
-    pub fn gethostname(__name: *mut ::libc::c_char, __len: size_t) ->
-     ::libc::c_int;
-    pub fn sethostname(__name: *const ::libc::c_char, __len: size_t) ->
-     ::libc::c_int;
+    pub fn gethostname(__name: *mut ::libc::c_char, __len: size_t)
+     -> ::libc::c_int;
+    pub fn sethostname(__name: *const ::libc::c_char, __len: size_t)
+     -> ::libc::c_int;
     pub fn sethostid(__id: ::libc::c_long) -> ::libc::c_int;
-    pub fn getdomainname(__name: *mut ::libc::c_char, __len: size_t) ->
-     ::libc::c_int;
-    pub fn setdomainname(__name: *const ::libc::c_char, __len: size_t) ->
-     ::libc::c_int;
+    pub fn getdomainname(__name: *mut ::libc::c_char, __len: size_t)
+     -> ::libc::c_int;
+    pub fn setdomainname(__name: *const ::libc::c_char, __len: size_t)
+     -> ::libc::c_int;
     pub fn vhangup() -> ::libc::c_int;
     pub fn revoke(__file: *const ::libc::c_char) -> ::libc::c_int;
     pub fn profil(__sample_buffer: *mut ::libc::c_ushort, __size: size_t,
@@ -4840,8 +5047,8 @@ extern "C" {
     pub fn getusershell() -> *mut ::libc::c_char;
     pub fn endusershell();
     pub fn setusershell();
-    pub fn daemon(__nochdir: ::libc::c_int, __noclose: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn daemon(__nochdir: ::libc::c_int, __noclose: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn chroot(__path: *const ::libc::c_char) -> ::libc::c_int;
     pub fn getpass(__prompt: *const ::libc::c_char) -> *mut ::libc::c_char;
     pub fn fsync(__fd: ::libc::c_int) -> ::libc::c_int;
@@ -4849,49 +5056,49 @@ extern "C" {
     pub fn sync();
     pub fn getpagesize() -> ::libc::c_int;
     pub fn getdtablesize() -> ::libc::c_int;
-    pub fn truncate(__file: *const ::libc::c_char, __length: __off_t) ->
-     ::libc::c_int;
+    pub fn truncate(__file: *const ::libc::c_char, __length: __off_t)
+     -> ::libc::c_int;
     pub fn ftruncate(__fd: ::libc::c_int, __length: __off_t) -> ::libc::c_int;
     pub fn brk(__addr: *mut ::libc::c_void) -> ::libc::c_int;
     pub fn sbrk(__delta: intptr_t) -> *mut ::libc::c_void;
     pub fn syscall(__sysno: ::libc::c_long, ...) -> ::libc::c_long;
-    pub fn lockf(__fd: ::libc::c_int, __cmd: ::libc::c_int, __len: __off_t) ->
-     ::libc::c_int;
+    pub fn lockf(__fd: ::libc::c_int, __cmd: ::libc::c_int, __len: __off_t)
+     -> ::libc::c_int;
     pub fn fdatasync(__fildes: ::libc::c_int) -> ::libc::c_int;
-    pub fn stat(__file: *const ::libc::c_char, __buf: *mut Struct_stat) ->
-     ::libc::c_int;
-    pub fn fstat(__fd: ::libc::c_int, __buf: *mut Struct_stat) ->
-     ::libc::c_int;
+    pub fn stat(__file: *const ::libc::c_char, __buf: *mut Struct_stat)
+     -> ::libc::c_int;
+    pub fn fstat(__fd: ::libc::c_int, __buf: *mut Struct_stat)
+     -> ::libc::c_int;
     pub fn fstatat(__fd: ::libc::c_int, __file: *const ::libc::c_char,
-                   __buf: *mut Struct_stat, __flag: ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn lstat(__file: *const ::libc::c_char, __buf: *mut Struct_stat) ->
-     ::libc::c_int;
-    pub fn chmod(__file: *const ::libc::c_char, __mode: __mode_t) ->
-     ::libc::c_int;
-    pub fn lchmod(__file: *const ::libc::c_char, __mode: __mode_t) ->
-     ::libc::c_int;
+                   __buf: *mut Struct_stat, __flag: ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn lstat(__file: *const ::libc::c_char, __buf: *mut Struct_stat)
+     -> ::libc::c_int;
+    pub fn chmod(__file: *const ::libc::c_char, __mode: __mode_t)
+     -> ::libc::c_int;
+    pub fn lchmod(__file: *const ::libc::c_char, __mode: __mode_t)
+     -> ::libc::c_int;
     pub fn fchmod(__fd: ::libc::c_int, __mode: __mode_t) -> ::libc::c_int;
     pub fn fchmodat(__fd: ::libc::c_int, __file: *const ::libc::c_char,
                     __mode: __mode_t, __flag: ::libc::c_int) -> ::libc::c_int;
     pub fn umask(__mask: __mode_t) -> __mode_t;
-    pub fn mkdir(__path: *const ::libc::c_char, __mode: __mode_t) ->
-     ::libc::c_int;
+    pub fn mkdir(__path: *const ::libc::c_char, __mode: __mode_t)
+     -> ::libc::c_int;
     pub fn mkdirat(__fd: ::libc::c_int, __path: *const ::libc::c_char,
                    __mode: __mode_t) -> ::libc::c_int;
     pub fn mknod(__path: *const ::libc::c_char, __mode: __mode_t,
                  __dev: __dev_t) -> ::libc::c_int;
     pub fn mknodat(__fd: ::libc::c_int, __path: *const ::libc::c_char,
                    __mode: __mode_t, __dev: __dev_t) -> ::libc::c_int;
-    pub fn mkfifo(__path: *const ::libc::c_char, __mode: __mode_t) ->
-     ::libc::c_int;
+    pub fn mkfifo(__path: *const ::libc::c_char, __mode: __mode_t)
+     -> ::libc::c_int;
     pub fn mkfifoat(__fd: ::libc::c_int, __path: *const ::libc::c_char,
                     __mode: __mode_t) -> ::libc::c_int;
     pub fn utimensat(__fd: ::libc::c_int, __path: *const ::libc::c_char,
                      __times: [Struct_timespec, ..2u], __flags: ::libc::c_int)
      -> ::libc::c_int;
-    pub fn futimens(__fd: ::libc::c_int, __times: [Struct_timespec, ..2u]) ->
-     ::libc::c_int;
+    pub fn futimens(__fd: ::libc::c_int, __times: [Struct_timespec, ..2u])
+     -> ::libc::c_int;
     pub fn __fxstat(__ver: ::libc::c_int, __fildes: ::libc::c_int,
                     __stat_buf: *mut Struct_stat) -> ::libc::c_int;
     pub fn __xstat(__ver: ::libc::c_int, __filename: *const ::libc::c_char,
@@ -4900,8 +5107,8 @@ extern "C" {
                     __stat_buf: *mut Struct_stat) -> ::libc::c_int;
     pub fn __fxstatat(__ver: ::libc::c_int, __fildes: ::libc::c_int,
                       __filename: *const ::libc::c_char,
-                      __stat_buf: *mut Struct_stat, __flag: ::libc::c_int) ->
-     ::libc::c_int;
+                      __stat_buf: *mut Struct_stat, __flag: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn __xmknod(__ver: ::libc::c_int, __path: *const ::libc::c_char,
                     __mode: __mode_t, __dev: *mut __dev_t) -> ::libc::c_int;
     pub fn __xmknodat(__ver: ::libc::c_int, __fd: ::libc::c_int,
@@ -4929,21 +5136,21 @@ extern "C" {
                                                       *mut *const Struct_dirent,
                                                   arg2:
                                                       *mut *const Struct_dirent)
-                                                 -> ::libc::c_int>) ->
-     ::libc::c_int;
+                                                 -> ::libc::c_int>)
+     -> ::libc::c_int;
     pub fn alphasort(__e1: *mut *const Struct_dirent,
                      __e2: *mut *const Struct_dirent) -> ::libc::c_int;
     pub fn getdirentries(__fd: ::libc::c_int, __buf: *mut ::libc::c_char,
-                         __nbytes: size_t, __basep: *mut __off_t) ->
-     __ssize_t;
-    pub fn fcntl(__fd: ::libc::c_int, __cmd: ::libc::c_int, ...) ->
-     ::libc::c_int;
-    pub fn open(__file: *const ::libc::c_char, __oflag: ::libc::c_int, ...) ->
-     ::libc::c_int;
+                         __nbytes: size_t, __basep: *mut __off_t)
+     -> __ssize_t;
+    pub fn fcntl(__fd: ::libc::c_int, __cmd: ::libc::c_int, ...)
+     -> ::libc::c_int;
+    pub fn open(__file: *const ::libc::c_char, __oflag: ::libc::c_int, ...)
+     -> ::libc::c_int;
     pub fn openat(__fd: ::libc::c_int, __file: *const ::libc::c_char,
                   __oflag: ::libc::c_int, ...) -> ::libc::c_int;
-    pub fn creat(__file: *const ::libc::c_char, __mode: mode_t) ->
-     ::libc::c_int;
+    pub fn creat(__file: *const ::libc::c_char, __mode: mode_t)
+     -> ::libc::c_int;
     pub fn posix_fadvise(__fd: ::libc::c_int, __offset: off_t, __len: off_t,
                          __advise: ::libc::c_int) -> ::libc::c_int;
     pub fn posix_fallocate(__fd: ::libc::c_int, __offset: off_t, __len: off_t)
@@ -4954,10 +5161,10 @@ extern "C" {
     pub fn __asin(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn atan(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __atan(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn atan2(__y: ::libc::c_double, __x: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __atan2(__y: ::libc::c_double, __x: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn atan2(__y: ::libc::c_double, __x: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __atan2(__y: ::libc::c_double, __x: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn cos(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __cos(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn sin(__x: ::libc::c_double) -> ::libc::c_double;
@@ -4978,22 +5185,22 @@ extern "C" {
     pub fn __atanh(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn exp(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __exp(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn frexp(__x: ::libc::c_double, __exponent: *mut ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn __frexp(__x: ::libc::c_double, __exponent: *mut ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn ldexp(__x: ::libc::c_double, __exponent: ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn __ldexp(__x: ::libc::c_double, __exponent: ::libc::c_int) ->
-     ::libc::c_double;
+    pub fn frexp(__x: ::libc::c_double, __exponent: *mut ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn __frexp(__x: ::libc::c_double, __exponent: *mut ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn ldexp(__x: ::libc::c_double, __exponent: ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn __ldexp(__x: ::libc::c_double, __exponent: ::libc::c_int)
+     -> ::libc::c_double;
     pub fn log(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __log(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn log10(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __log10(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn modf(__x: ::libc::c_double, __iptr: *mut ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __modf(__x: ::libc::c_double, __iptr: *mut ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn modf(__x: ::libc::c_double, __iptr: *mut ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __modf(__x: ::libc::c_double, __iptr: *mut ::libc::c_double)
+     -> ::libc::c_double;
     pub fn expm1(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __expm1(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn log1p(__x: ::libc::c_double) -> ::libc::c_double;
@@ -5004,16 +5211,16 @@ extern "C" {
     pub fn __exp2(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn log2(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __log2(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn pow(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __pow(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn pow(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __pow(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn sqrt(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __sqrt(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn hypot(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __hypot(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn hypot(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __hypot(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn cbrt(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __cbrt(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn ceil(__x: ::libc::c_double) -> ::libc::c_double;
@@ -5022,24 +5229,24 @@ extern "C" {
     pub fn __fabs(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn floor(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __floor(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn fmod(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fmod(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn fmod(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fmod(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn __isinf(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn __finite(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn isinf(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn finite(__value: ::libc::c_double) -> ::libc::c_int;
-    pub fn drem(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __drem(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn drem(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __drem(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn significand(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __significand(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn copysign(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __copysign(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn copysign(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __copysign(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn nan(__tagb: *const ::libc::c_char) -> ::libc::c_double;
     pub fn __nan(__tagb: *const ::libc::c_char) -> ::libc::c_double;
     pub fn __isnan(__value: ::libc::c_double) -> ::libc::c_int;
@@ -5048,18 +5255,18 @@ extern "C" {
     pub fn __j0(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn j1(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __j1(arg1: ::libc::c_double) -> ::libc::c_double;
-    pub fn jn(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __jn(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn jn(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __jn(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn y0(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __y0(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn y1(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __y1(arg1: ::libc::c_double) -> ::libc::c_double;
-    pub fn yn(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __yn(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn yn(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __yn(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn erf(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __erf(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn erfc(arg1: ::libc::c_double) -> ::libc::c_double;
@@ -5070,34 +5277,34 @@ extern "C" {
     pub fn __tgamma(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn gamma(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __gamma(arg1: ::libc::c_double) -> ::libc::c_double;
-    pub fn lgamma_r(arg1: ::libc::c_double, __signgamp: *mut ::libc::c_int) ->
-     ::libc::c_double;
+    pub fn lgamma_r(arg1: ::libc::c_double, __signgamp: *mut ::libc::c_int)
+     -> ::libc::c_double;
     pub fn __lgamma_r(arg1: ::libc::c_double, __signgamp: *mut ::libc::c_int)
      -> ::libc::c_double;
     pub fn rint(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __rint(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn nextafter(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __nextafter(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn nexttoward(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __nexttoward(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn remainder(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __remainder(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn scalbn(__x: ::libc::c_double, __n: ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn __scalbn(__x: ::libc::c_double, __n: ::libc::c_int) ->
-     ::libc::c_double;
+    pub fn nextafter(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __nextafter(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn nexttoward(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __nexttoward(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn remainder(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __remainder(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn scalbn(__x: ::libc::c_double, __n: ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn __scalbn(__x: ::libc::c_double, __n: ::libc::c_int)
+     -> ::libc::c_double;
     pub fn ilogb(__x: ::libc::c_double) -> ::libc::c_int;
     pub fn __ilogb(__x: ::libc::c_double) -> ::libc::c_int;
-    pub fn scalbln(__x: ::libc::c_double, __n: ::libc::c_long) ->
-     ::libc::c_double;
-    pub fn __scalbln(__x: ::libc::c_double, __n: ::libc::c_long) ->
-     ::libc::c_double;
+    pub fn scalbln(__x: ::libc::c_double, __n: ::libc::c_long)
+     -> ::libc::c_double;
+    pub fn __scalbln(__x: ::libc::c_double, __n: ::libc::c_long)
+     -> ::libc::c_double;
     pub fn nearbyint(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __nearbyint(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn round(__x: ::libc::c_double) -> ::libc::c_double;
@@ -5116,38 +5323,38 @@ extern "C" {
     pub fn __lround(__x: ::libc::c_double) -> ::libc::c_long;
     pub fn llround(__x: ::libc::c_double) -> ::libc::c_longlong;
     pub fn __llround(__x: ::libc::c_double) -> ::libc::c_longlong;
-    pub fn fdim(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fdim(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn fmax(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fmax(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn fmin(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fmin(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn fdim(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fdim(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn fmax(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fmax(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn fmin(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fmin(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn __fpclassify(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn __signbit(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn fma(__x: ::libc::c_double, __y: ::libc::c_double,
                __z: ::libc::c_double) -> ::libc::c_double;
     pub fn __fma(__x: ::libc::c_double, __y: ::libc::c_double,
                  __z: ::libc::c_double) -> ::libc::c_double;
-    pub fn scalb(__x: ::libc::c_double, __n: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __scalb(__x: ::libc::c_double, __n: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn scalb(__x: ::libc::c_double, __n: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __scalb(__x: ::libc::c_double, __n: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn acosf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __acosf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn asinf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __asinf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn atanf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __atanf(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn atan2f(__y: ::libc::c_float, __x: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __atan2f(__y: ::libc::c_float, __x: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn atan2f(__y: ::libc::c_float, __x: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __atan2f(__y: ::libc::c_float, __x: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn cosf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __cosf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn sinf(__x: ::libc::c_float) -> ::libc::c_float;
@@ -5168,22 +5375,22 @@ extern "C" {
     pub fn __atanhf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn expf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __expf(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn frexpf(__x: ::libc::c_float, __exponent: *mut ::libc::c_int) ->
-     ::libc::c_float;
-    pub fn __frexpf(__x: ::libc::c_float, __exponent: *mut ::libc::c_int) ->
-     ::libc::c_float;
-    pub fn ldexpf(__x: ::libc::c_float, __exponent: ::libc::c_int) ->
-     ::libc::c_float;
-    pub fn __ldexpf(__x: ::libc::c_float, __exponent: ::libc::c_int) ->
-     ::libc::c_float;
+    pub fn frexpf(__x: ::libc::c_float, __exponent: *mut ::libc::c_int)
+     -> ::libc::c_float;
+    pub fn __frexpf(__x: ::libc::c_float, __exponent: *mut ::libc::c_int)
+     -> ::libc::c_float;
+    pub fn ldexpf(__x: ::libc::c_float, __exponent: ::libc::c_int)
+     -> ::libc::c_float;
+    pub fn __ldexpf(__x: ::libc::c_float, __exponent: ::libc::c_int)
+     -> ::libc::c_float;
     pub fn logf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __logf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn log10f(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __log10f(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn modff(__x: ::libc::c_float, __iptr: *mut ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __modff(__x: ::libc::c_float, __iptr: *mut ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn modff(__x: ::libc::c_float, __iptr: *mut ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __modff(__x: ::libc::c_float, __iptr: *mut ::libc::c_float)
+     -> ::libc::c_float;
     pub fn expm1f(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __expm1f(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn log1pf(__x: ::libc::c_float) -> ::libc::c_float;
@@ -5194,16 +5401,16 @@ extern "C" {
     pub fn __exp2f(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn log2f(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __log2f(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn powf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __powf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn powf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __powf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn sqrtf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __sqrtf(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn hypotf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __hypotf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn hypotf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __hypotf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn cbrtf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __cbrtf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn ceilf(__x: ::libc::c_float) -> ::libc::c_float;
@@ -5212,24 +5419,24 @@ extern "C" {
     pub fn __fabsf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn floorf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __floorf(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn fmodf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __fmodf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn fmodf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __fmodf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn __isinff(__value: ::libc::c_float) -> ::libc::c_int;
     pub fn __finitef(__value: ::libc::c_float) -> ::libc::c_int;
     pub fn isinff(__value: ::libc::c_float) -> ::libc::c_int;
     pub fn finitef(__value: ::libc::c_float) -> ::libc::c_int;
-    pub fn dremf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __dremf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn dremf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __dremf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn significandf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __significandf(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn copysignf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __copysignf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn copysignf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __copysignf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn nanf(__tagb: *const ::libc::c_char) -> ::libc::c_float;
     pub fn __nanf(__tagb: *const ::libc::c_char) -> ::libc::c_float;
     pub fn __isnanf(__value: ::libc::c_float) -> ::libc::c_int;
@@ -5239,15 +5446,15 @@ extern "C" {
     pub fn j1f(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn __j1f(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn jnf(arg1: ::libc::c_int, arg2: ::libc::c_float) -> ::libc::c_float;
-    pub fn __jnf(arg1: ::libc::c_int, arg2: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn __jnf(arg1: ::libc::c_int, arg2: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn y0f(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn __y0f(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn y1f(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn __y1f(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn ynf(arg1: ::libc::c_int, arg2: ::libc::c_float) -> ::libc::c_float;
-    pub fn __ynf(arg1: ::libc::c_int, arg2: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn __ynf(arg1: ::libc::c_int, arg2: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn erff(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn __erff(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn erfcf(arg1: ::libc::c_float) -> ::libc::c_float;
@@ -5258,34 +5465,34 @@ extern "C" {
     pub fn __tgammaf(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn gammaf(arg1: ::libc::c_float) -> ::libc::c_float;
     pub fn __gammaf(arg1: ::libc::c_float) -> ::libc::c_float;
-    pub fn lgammaf_r(arg1: ::libc::c_float, __signgamp: *mut ::libc::c_int) ->
-     ::libc::c_float;
+    pub fn lgammaf_r(arg1: ::libc::c_float, __signgamp: *mut ::libc::c_int)
+     -> ::libc::c_float;
     pub fn __lgammaf_r(arg1: ::libc::c_float, __signgamp: *mut ::libc::c_int)
      -> ::libc::c_float;
     pub fn rintf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __rintf(__x: ::libc::c_float) -> ::libc::c_float;
-    pub fn nextafterf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __nextafterf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn nexttowardf(__x: ::libc::c_float, __y: ::libc::c_double) ->
-     ::libc::c_float;
-    pub fn __nexttowardf(__x: ::libc::c_float, __y: ::libc::c_double) ->
-     ::libc::c_float;
-    pub fn remainderf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __remainderf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn scalbnf(__x: ::libc::c_float, __n: ::libc::c_int) ->
-     ::libc::c_float;
-    pub fn __scalbnf(__x: ::libc::c_float, __n: ::libc::c_int) ->
-     ::libc::c_float;
+    pub fn nextafterf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __nextafterf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn nexttowardf(__x: ::libc::c_float, __y: ::libc::c_double)
+     -> ::libc::c_float;
+    pub fn __nexttowardf(__x: ::libc::c_float, __y: ::libc::c_double)
+     -> ::libc::c_float;
+    pub fn remainderf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __remainderf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn scalbnf(__x: ::libc::c_float, __n: ::libc::c_int)
+     -> ::libc::c_float;
+    pub fn __scalbnf(__x: ::libc::c_float, __n: ::libc::c_int)
+     -> ::libc::c_float;
     pub fn ilogbf(__x: ::libc::c_float) -> ::libc::c_int;
     pub fn __ilogbf(__x: ::libc::c_float) -> ::libc::c_int;
-    pub fn scalblnf(__x: ::libc::c_float, __n: ::libc::c_long) ->
-     ::libc::c_float;
-    pub fn __scalblnf(__x: ::libc::c_float, __n: ::libc::c_long) ->
-     ::libc::c_float;
+    pub fn scalblnf(__x: ::libc::c_float, __n: ::libc::c_long)
+     -> ::libc::c_float;
+    pub fn __scalblnf(__x: ::libc::c_float, __n: ::libc::c_long)
+     -> ::libc::c_float;
     pub fn nearbyintf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn __nearbyintf(__x: ::libc::c_float) -> ::libc::c_float;
     pub fn roundf(__x: ::libc::c_float) -> ::libc::c_float;
@@ -5304,38 +5511,38 @@ extern "C" {
     pub fn __lroundf(__x: ::libc::c_float) -> ::libc::c_long;
     pub fn llroundf(__x: ::libc::c_float) -> ::libc::c_longlong;
     pub fn __llroundf(__x: ::libc::c_float) -> ::libc::c_longlong;
-    pub fn fdimf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __fdimf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn fmaxf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __fmaxf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn fminf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __fminf(__x: ::libc::c_float, __y: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn fdimf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __fdimf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn fmaxf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __fmaxf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn fminf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __fminf(__x: ::libc::c_float, __y: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn __fpclassifyf(__value: ::libc::c_float) -> ::libc::c_int;
     pub fn __signbitf(__value: ::libc::c_float) -> ::libc::c_int;
     pub fn fmaf(__x: ::libc::c_float, __y: ::libc::c_float,
                 __z: ::libc::c_float) -> ::libc::c_float;
     pub fn __fmaf(__x: ::libc::c_float, __y: ::libc::c_float,
                   __z: ::libc::c_float) -> ::libc::c_float;
-    pub fn scalbf(__x: ::libc::c_float, __n: ::libc::c_float) ->
-     ::libc::c_float;
-    pub fn __scalbf(__x: ::libc::c_float, __n: ::libc::c_float) ->
-     ::libc::c_float;
+    pub fn scalbf(__x: ::libc::c_float, __n: ::libc::c_float)
+     -> ::libc::c_float;
+    pub fn __scalbf(__x: ::libc::c_float, __n: ::libc::c_float)
+     -> ::libc::c_float;
     pub fn acosl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __acosl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn asinl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __asinl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn atanl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __atanl(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn atan2l(__y: ::libc::c_double, __x: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __atan2l(__y: ::libc::c_double, __x: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn atan2l(__y: ::libc::c_double, __x: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __atan2l(__y: ::libc::c_double, __x: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn cosl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __cosl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn sinl(__x: ::libc::c_double) -> ::libc::c_double;
@@ -5356,22 +5563,22 @@ extern "C" {
     pub fn __atanhl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn expl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __expl(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn frexpl(__x: ::libc::c_double, __exponent: *mut ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn __frexpl(__x: ::libc::c_double, __exponent: *mut ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn ldexpl(__x: ::libc::c_double, __exponent: ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn __ldexpl(__x: ::libc::c_double, __exponent: ::libc::c_int) ->
-     ::libc::c_double;
+    pub fn frexpl(__x: ::libc::c_double, __exponent: *mut ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn __frexpl(__x: ::libc::c_double, __exponent: *mut ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn ldexpl(__x: ::libc::c_double, __exponent: ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn __ldexpl(__x: ::libc::c_double, __exponent: ::libc::c_int)
+     -> ::libc::c_double;
     pub fn logl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __logl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn log10l(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __log10l(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn modfl(__x: ::libc::c_double, __iptr: *mut ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __modfl(__x: ::libc::c_double, __iptr: *mut ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn modfl(__x: ::libc::c_double, __iptr: *mut ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __modfl(__x: ::libc::c_double, __iptr: *mut ::libc::c_double)
+     -> ::libc::c_double;
     pub fn expm1l(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __expm1l(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn log1pl(__x: ::libc::c_double) -> ::libc::c_double;
@@ -5382,16 +5589,16 @@ extern "C" {
     pub fn __exp2l(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn log2l(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __log2l(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn powl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __powl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn powl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __powl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn sqrtl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __sqrtl(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn hypotl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __hypotl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn hypotl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __hypotl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn cbrtl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __cbrtl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn ceill(__x: ::libc::c_double) -> ::libc::c_double;
@@ -5400,24 +5607,24 @@ extern "C" {
     pub fn __fabsl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn floorl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __floorl(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn fmodl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fmodl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn fmodl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fmodl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn __isinfl(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn __finitel(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn isinfl(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn finitel(__value: ::libc::c_double) -> ::libc::c_int;
-    pub fn dreml(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __dreml(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn dreml(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __dreml(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn significandl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __significandl(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn copysignl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __copysignl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn copysignl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __copysignl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn nanl(__tagb: *const ::libc::c_char) -> ::libc::c_double;
     pub fn __nanl(__tagb: *const ::libc::c_char) -> ::libc::c_double;
     pub fn __isnanl(__value: ::libc::c_double) -> ::libc::c_int;
@@ -5426,18 +5633,18 @@ extern "C" {
     pub fn __j0l(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn j1l(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __j1l(arg1: ::libc::c_double) -> ::libc::c_double;
-    pub fn jnl(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __jnl(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn jnl(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __jnl(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn y0l(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __y0l(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn y1l(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __y1l(arg1: ::libc::c_double) -> ::libc::c_double;
-    pub fn ynl(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __ynl(arg1: ::libc::c_int, arg2: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn ynl(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __ynl(arg1: ::libc::c_int, arg2: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn erfl(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn __erfl(arg1: ::libc::c_double) -> ::libc::c_double;
     pub fn erfcl(arg1: ::libc::c_double) -> ::libc::c_double;
@@ -5454,28 +5661,28 @@ extern "C" {
      -> ::libc::c_double;
     pub fn rintl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __rintl(__x: ::libc::c_double) -> ::libc::c_double;
-    pub fn nextafterl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __nextafterl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn nexttowardl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __nexttowardl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn remainderl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __remainderl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn scalbnl(__x: ::libc::c_double, __n: ::libc::c_int) ->
-     ::libc::c_double;
-    pub fn __scalbnl(__x: ::libc::c_double, __n: ::libc::c_int) ->
-     ::libc::c_double;
+    pub fn nextafterl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __nextafterl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn nexttowardl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __nexttowardl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn remainderl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __remainderl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn scalbnl(__x: ::libc::c_double, __n: ::libc::c_int)
+     -> ::libc::c_double;
+    pub fn __scalbnl(__x: ::libc::c_double, __n: ::libc::c_int)
+     -> ::libc::c_double;
     pub fn ilogbl(__x: ::libc::c_double) -> ::libc::c_int;
     pub fn __ilogbl(__x: ::libc::c_double) -> ::libc::c_int;
-    pub fn scalblnl(__x: ::libc::c_double, __n: ::libc::c_long) ->
-     ::libc::c_double;
-    pub fn __scalblnl(__x: ::libc::c_double, __n: ::libc::c_long) ->
-     ::libc::c_double;
+    pub fn scalblnl(__x: ::libc::c_double, __n: ::libc::c_long)
+     -> ::libc::c_double;
+    pub fn __scalblnl(__x: ::libc::c_double, __n: ::libc::c_long)
+     -> ::libc::c_double;
     pub fn nearbyintl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn __nearbyintl(__x: ::libc::c_double) -> ::libc::c_double;
     pub fn roundl(__x: ::libc::c_double) -> ::libc::c_double;
@@ -5494,28 +5701,28 @@ extern "C" {
     pub fn __lroundl(__x: ::libc::c_double) -> ::libc::c_long;
     pub fn llroundl(__x: ::libc::c_double) -> ::libc::c_longlong;
     pub fn __llroundl(__x: ::libc::c_double) -> ::libc::c_longlong;
-    pub fn fdiml(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fdiml(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn fmaxl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fmaxl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn fminl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __fminl(__x: ::libc::c_double, __y: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn fdiml(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fdiml(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn fmaxl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fmaxl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn fminl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __fminl(__x: ::libc::c_double, __y: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn __fpclassifyl(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn __signbitl(__value: ::libc::c_double) -> ::libc::c_int;
     pub fn fmal(__x: ::libc::c_double, __y: ::libc::c_double,
                 __z: ::libc::c_double) -> ::libc::c_double;
     pub fn __fmal(__x: ::libc::c_double, __y: ::libc::c_double,
                   __z: ::libc::c_double) -> ::libc::c_double;
-    pub fn scalbl(__x: ::libc::c_double, __n: ::libc::c_double) ->
-     ::libc::c_double;
-    pub fn __scalbl(__x: ::libc::c_double, __n: ::libc::c_double) ->
-     ::libc::c_double;
+    pub fn scalbl(__x: ::libc::c_double, __n: ::libc::c_double)
+     -> ::libc::c_double;
+    pub fn __scalbl(__x: ::libc::c_double, __n: ::libc::c_double)
+     -> ::libc::c_double;
     pub fn matherr(__exc: *mut Struct_exception) -> ::libc::c_int;
     pub fn clock() -> clock_t;
     pub fn time(__timer: *mut time_t) -> time_t;
@@ -5529,16 +5736,16 @@ extern "C" {
                       __loc: __locale_t) -> size_t;
     pub fn gmtime(__timer: *const time_t) -> *mut Struct_tm;
     pub fn localtime(__timer: *const time_t) -> *mut Struct_tm;
-    pub fn gmtime_r(__timer: *const time_t, __tp: *mut Struct_tm) ->
-     *mut Struct_tm;
-    pub fn localtime_r(__timer: *const time_t, __tp: *mut Struct_tm) ->
-     *mut Struct_tm;
+    pub fn gmtime_r(__timer: *const time_t, __tp: *mut Struct_tm)
+     -> *mut Struct_tm;
+    pub fn localtime_r(__timer: *const time_t, __tp: *mut Struct_tm)
+     -> *mut Struct_tm;
     pub fn asctime(__tp: *const Struct_tm) -> *mut ::libc::c_char;
     pub fn ctime(__timer: *const time_t) -> *mut ::libc::c_char;
-    pub fn asctime_r(__tp: *const Struct_tm, __buf: *mut ::libc::c_char) ->
-     *mut ::libc::c_char;
-    pub fn ctime_r(__timer: *const time_t, __buf: *mut ::libc::c_char) ->
-     *mut ::libc::c_char;
+    pub fn asctime_r(__tp: *const Struct_tm, __buf: *mut ::libc::c_char)
+     -> *mut ::libc::c_char;
+    pub fn ctime_r(__timer: *const time_t, __buf: *mut ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn tzset();
     pub fn stime(__when: *const time_t) -> ::libc::c_int;
     pub fn timegm(__tp: *mut Struct_tm) -> time_t;
@@ -5546,17 +5753,17 @@ extern "C" {
     pub fn dysize(__year: ::libc::c_int) -> ::libc::c_int;
     pub fn nanosleep(__requested_time: *const Struct_timespec,
                      __remaining: *mut Struct_timespec) -> ::libc::c_int;
-    pub fn clock_getres(__clock_id: clockid_t, __res: *mut Struct_timespec) ->
-     ::libc::c_int;
-    pub fn clock_gettime(__clock_id: clockid_t, __tp: *mut Struct_timespec) ->
-     ::libc::c_int;
+    pub fn clock_getres(__clock_id: clockid_t, __res: *mut Struct_timespec)
+     -> ::libc::c_int;
+    pub fn clock_gettime(__clock_id: clockid_t, __tp: *mut Struct_timespec)
+     -> ::libc::c_int;
     pub fn clock_settime(__clock_id: clockid_t, __tp: *const Struct_timespec)
      -> ::libc::c_int;
     pub fn clock_nanosleep(__clock_id: clockid_t, __flags: ::libc::c_int,
                            __req: *const Struct_timespec,
                            __rem: *mut Struct_timespec) -> ::libc::c_int;
-    pub fn clock_getcpuclockid(__pid: pid_t, __clock_id: *mut clockid_t) ->
-     ::libc::c_int;
+    pub fn clock_getcpuclockid(__pid: pid_t, __clock_id: *mut clockid_t)
+     -> ::libc::c_int;
     pub fn timer_create(__clock_id: clockid_t, __evp: *mut Struct_sigevent,
                         __timerid: *mut timer_t) -> ::libc::c_int;
     pub fn timer_delete(__timerid: timer_t) -> ::libc::c_int;
@@ -5607,39 +5814,39 @@ extern "C" {
                        __prev: *mut ::libc::c_void);
     pub fn _win_remque(__elem: *mut ::libc::c_void);
     pub fn _win_hsearch(__item: PLIBC_SEARCH_ENTRY,
-                        __action: PLIBC_SEARCH_ACTION) ->
-     *mut PLIBC_SEARCH_ENTRY;
+                        __action: PLIBC_SEARCH_ACTION)
+     -> *mut PLIBC_SEARCH_ENTRY;
     pub fn _win_hcreate(__nel: size_t) -> ::libc::c_int;
     pub fn _win_hdestroy();
     pub fn _win_hsearch_r(__item: PLIBC_SEARCH_ENTRY,
                           __action: PLIBC_SEARCH_ACTION,
                           __retval: *mut *mut PLIBC_SEARCH_ENTRY,
-                          __htab: *mut Struct_PLIBC_SEARCH_hsearch_data) ->
-     ::libc::c_int;
+                          __htab: *mut Struct_PLIBC_SEARCH_hsearch_data)
+     -> ::libc::c_int;
     pub fn _win_hcreate_r(__nel: size_t,
-                          __htab: *mut Struct_PLIBC_SEARCH_hsearch_data) ->
-     ::libc::c_int;
+                          __htab: *mut Struct_PLIBC_SEARCH_hsearch_data)
+     -> ::libc::c_int;
     pub fn _win_hdestroy_r(__htab: *mut Struct_PLIBC_SEARCH_hsearch_data);
     pub fn _win_tsearch(__key: *const ::libc::c_void,
                         __rootp: *mut *mut ::libc::c_void,
-                        __compar: PLIBC_SEARCH__compar_fn_t) ->
-     *mut ::libc::c_void;
+                        __compar: PLIBC_SEARCH__compar_fn_t)
+     -> *mut ::libc::c_void;
     pub fn _win_tfind(__key: *const ::libc::c_void,
                       __rootp: *const *mut ::libc::c_void,
-                      __compar: PLIBC_SEARCH__compar_fn_t) ->
-     *mut ::libc::c_void;
+                      __compar: PLIBC_SEARCH__compar_fn_t)
+     -> *mut ::libc::c_void;
     pub fn _win_tdelete(__key: *const ::libc::c_void,
                         __rootp: *mut *mut ::libc::c_void,
-                        __compar: PLIBC_SEARCH__compar_fn_t) ->
-     *mut ::libc::c_void;
+                        __compar: PLIBC_SEARCH__compar_fn_t)
+     -> *mut ::libc::c_void;
     pub fn _win_twalk(__root: *const ::libc::c_void,
                       __action: PLIBC_SEARCH__action_fn_t);
     pub fn _win_tdestroy(__root: *mut ::libc::c_void,
                          __freefct: PLIBC_SEARCH__free_fn_t);
     pub fn _win_lfind(__key: *const ::libc::c_void,
                       __base: *const ::libc::c_void, __nmemb: *mut size_t,
-                      __size: size_t, __compar: PLIBC_SEARCH__compar_fn_t) ->
-     *mut ::libc::c_void;
+                      __size: size_t, __compar: PLIBC_SEARCH__compar_fn_t)
+     -> *mut ::libc::c_void;
     pub fn _win_lsearch(__key: *const ::libc::c_void,
                         __base: *mut ::libc::c_void, __nmemb: *mut size_t,
                         __size: size_t, __compar: PLIBC_SEARCH__compar_fn_t)
@@ -5648,17 +5855,17 @@ extern "C" {
                      __locale: *const ::libc::c_char) -> *mut ::libc::c_char;
     pub fn localeconv() -> *mut Struct_lconv;
     pub fn newlocale(__category_mask: ::libc::c_int,
-                     __locale: *const ::libc::c_char, __base: __locale_t) ->
-     __locale_t;
+                     __locale: *const ::libc::c_char, __base: __locale_t)
+     -> __locale_t;
     pub fn duplocale(__dataset: __locale_t) -> __locale_t;
     pub fn freelocale(__dataset: __locale_t);
     pub fn uselocale(__dataset: __locale_t) -> __locale_t;
     pub fn mmap(__addr: *mut ::libc::c_void, __len: size_t,
                 __prot: ::libc::c_int, __flags: ::libc::c_int,
-                __fd: ::libc::c_int, __offset: __off_t) ->
-     *mut ::libc::c_void;
-    pub fn munmap(__addr: *mut ::libc::c_void, __len: size_t) ->
-     ::libc::c_int;
+                __fd: ::libc::c_int, __offset: __off_t)
+     -> *mut ::libc::c_void;
+    pub fn munmap(__addr: *mut ::libc::c_void, __len: size_t)
+     -> ::libc::c_int;
     pub fn mprotect(__addr: *mut ::libc::c_void, __len: size_t,
                     __prot: ::libc::c_int) -> ::libc::c_int;
     pub fn msync(__addr: *mut ::libc::c_void, __len: size_t,
@@ -5667,10 +5874,10 @@ extern "C" {
                    __advice: ::libc::c_int) -> ::libc::c_int;
     pub fn posix_madvise(__addr: *mut ::libc::c_void, __len: size_t,
                          __advice: ::libc::c_int) -> ::libc::c_int;
-    pub fn mlock(__addr: *const ::libc::c_void, __len: size_t) ->
-     ::libc::c_int;
-    pub fn munlock(__addr: *const ::libc::c_void, __len: size_t) ->
-     ::libc::c_int;
+    pub fn mlock(__addr: *const ::libc::c_void, __len: size_t)
+     -> ::libc::c_int;
+    pub fn munlock(__addr: *const ::libc::c_void, __len: size_t)
+     -> ::libc::c_int;
     pub fn mlockall(__flags: ::libc::c_int) -> ::libc::c_int;
     pub fn munlockall() -> ::libc::c_int;
     pub fn mincore(__start: *mut ::libc::c_void, __len: size_t,
@@ -5705,28 +5912,28 @@ extern "C" {
                              logger_cls: *mut ::libc::c_void);
     pub fn GNUNET_logger_remove(logger: GNUNET_Logger,
                                 logger_cls: *mut ::libc::c_void);
-    pub fn GNUNET_h2s(hc: *const Struct_GNUNET_HashCode) ->
-     *const ::libc::c_char;
-    pub fn GNUNET_h2s_full(hc: *const Struct_GNUNET_HashCode) ->
-     *const ::libc::c_char;
-    pub fn GNUNET_i2s(pid: *const Struct_GNUNET_PeerIdentity) ->
-     *const ::libc::c_char;
-    pub fn GNUNET_i2s_full(pid: *const Struct_GNUNET_PeerIdentity) ->
-     *const ::libc::c_char;
-    pub fn GNUNET_a2s(addr: *const Struct_sockaddr, addrlen: socklen_t) ->
-     *const ::libc::c_char;
-    pub fn GNUNET_error_type_to_string(kind: Enum_GNUNET_ErrorType) ->
-     *const ::libc::c_char;
+    pub fn GNUNET_h2s(hc: *const Struct_GNUNET_HashCode)
+     -> *const ::libc::c_char;
+    pub fn GNUNET_h2s_full(hc: *const Struct_GNUNET_HashCode)
+     -> *const ::libc::c_char;
+    pub fn GNUNET_i2s(pid: *const Struct_GNUNET_PeerIdentity)
+     -> *const ::libc::c_char;
+    pub fn GNUNET_i2s_full(pid: *const Struct_GNUNET_PeerIdentity)
+     -> *const ::libc::c_char;
+    pub fn GNUNET_a2s(addr: *const Struct_sockaddr, addrlen: socklen_t)
+     -> *const ::libc::c_char;
+    pub fn GNUNET_error_type_to_string(kind: Enum_GNUNET_ErrorType)
+     -> *const ::libc::c_char;
     pub fn GNUNET_ntohll(n: uint64_t) -> uint64_t;
     pub fn GNUNET_htonll(n: uint64_t) -> uint64_t;
     pub fn GNUNET_hton_double(d: ::libc::c_double) -> ::libc::c_double;
     pub fn GNUNET_ntoh_double(d: ::libc::c_double) -> ::libc::c_double;
     pub fn GNUNET_snprintf(buf: *mut ::libc::c_char, size: size_t,
-                           format: *const ::libc::c_char, ...) ->
-     ::libc::c_int;
+                           format: *const ::libc::c_char, ...)
+     -> ::libc::c_int;
     pub fn GNUNET_asprintf(buf: *mut *mut ::libc::c_char,
-                           format: *const ::libc::c_char, ...) ->
-     ::libc::c_int;
+                           format: *const ::libc::c_char, ...)
+     -> ::libc::c_int;
     pub fn GNUNET_xmalloc_(size: size_t, filename: *const ::libc::c_char,
                            linenumber: ::libc::c_int) -> *mut ::libc::c_void;
     pub fn GNUNET_xmemdup_(buf: *const ::libc::c_void, size: size_t,
@@ -5734,8 +5941,8 @@ extern "C" {
                            linenumber: ::libc::c_int) -> *mut ::libc::c_void;
     pub fn GNUNET_xmalloc_unchecked_(size: size_t,
                                      filename: *const ::libc::c_char,
-                                     linenumber: ::libc::c_int) ->
-     *mut ::libc::c_void;
+                                     linenumber: ::libc::c_int)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_xrealloc_(ptr: *mut ::libc::c_void, n: size_t,
                             filename: *const ::libc::c_char,
                             linenumber: ::libc::c_int) -> *mut ::libc::c_void;
@@ -5753,10 +5960,10 @@ extern "C" {
                          newCount: ::libc::c_uint,
                          filename: *const ::libc::c_char,
                          linenumber: ::libc::c_int);
-    pub fn GNUNET_copy_message(msg: *const Struct_GNUNET_MessageHeader) ->
-     *mut Struct_GNUNET_MessageHeader;
-    pub fn GNUNET_CONFIGURATION_create() ->
-     *mut Struct_GNUNET_CONFIGURATION_Handle;
+    pub fn GNUNET_copy_message(msg: *const Struct_GNUNET_MessageHeader)
+     -> *mut Struct_GNUNET_MessageHeader;
+    pub fn GNUNET_CONFIGURATION_create()
+     -> *mut Struct_GNUNET_CONFIGURATION_Handle;
     pub fn GNUNET_CONFIGURATION_dup(cfg:
                                         *const Struct_GNUNET_CONFIGURATION_Handle)
      -> *mut Struct_GNUNET_CONFIGURATION_Handle;
@@ -5764,30 +5971,30 @@ extern "C" {
                                             *mut Struct_GNUNET_CONFIGURATION_Handle);
     pub fn GNUNET_CONFIGURATION_load(cfg:
                                          *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                     filename: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                     filename: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_CONFIGURATION_load_from(cfg:
                                               *mut Struct_GNUNET_CONFIGURATION_Handle,
                                           defaults_d: *const ::libc::c_char)
      -> ::libc::c_int;
     pub fn GNUNET_CONFIGURATION_parse(cfg:
                                           *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                      filename: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                      filename: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_CONFIGURATION_serialize(cfg:
                                               *const Struct_GNUNET_CONFIGURATION_Handle,
-                                          size: *mut size_t) ->
-     *mut ::libc::c_char;
+                                          size: *mut size_t)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_CONFIGURATION_deserialize(cfg:
                                                 *mut Struct_GNUNET_CONFIGURATION_Handle,
                                             mem: *const ::libc::c_char,
                                             size: size_t,
-                                            allow_inline: ::libc::c_int) ->
-     ::libc::c_int;
+                                            allow_inline: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_CONFIGURATION_write(cfg:
                                           *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                      filename: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                      filename: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_CONFIGURATION_write_diffs(cfg_default:
                                                 *const Struct_GNUNET_CONFIGURATION_Handle,
                                             cfg_new:
@@ -5848,8 +6055,8 @@ extern "C" {
     pub fn GNUNET_CONFIGURATION_have_value(cfg:
                                                *const Struct_GNUNET_CONFIGURATION_Handle,
                                            section: *const ::libc::c_char,
-                                           option: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                           option: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_CONFIGURATION_get_value_string(cfg:
                                                      *const Struct_GNUNET_CONFIGURATION_Handle,
                                                  section:
@@ -5906,8 +6113,8 @@ extern "C" {
      -> ::libc::c_int;
     pub fn GNUNET_CONFIGURATION_expand_dollar(cfg:
                                                   *const Struct_GNUNET_CONFIGURATION_Handle,
-                                              orig: *mut ::libc::c_char) ->
-     *mut ::libc::c_char;
+                                              orig: *mut ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_CONFIGURATION_set_value_number(cfg:
                                                      *mut Struct_GNUNET_CONFIGURATION_Handle,
                                                  section:
@@ -5944,8 +6151,8 @@ extern "C" {
     pub fn GNUNET_TIME_relative_get_zero_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_absolute_get_zero_() -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_relative_get_unit_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_get_millisecond_() ->
-     Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_get_millisecond_()
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_get_second_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_get_minute_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_get_hour_() -> Struct_GNUNET_TIME_Relative;
@@ -5955,23 +6162,23 @@ extern "C" {
     pub fn GNUNET_TIME_relative_to_absolute(rel: Struct_GNUNET_TIME_Relative)
      -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_relative_min(t1: Struct_GNUNET_TIME_Relative,
-                                    t2: Struct_GNUNET_TIME_Relative) ->
-     Struct_GNUNET_TIME_Relative;
+                                    t2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_max(t1: Struct_GNUNET_TIME_Relative,
-                                    t2: Struct_GNUNET_TIME_Relative) ->
-     Struct_GNUNET_TIME_Relative;
+                                    t2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_absolute_min(t1: Struct_GNUNET_TIME_Absolute,
-                                    t2: Struct_GNUNET_TIME_Absolute) ->
-     Struct_GNUNET_TIME_Absolute;
+                                    t2: Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_absolute_max(t1: Struct_GNUNET_TIME_Absolute,
-                                    t2: Struct_GNUNET_TIME_Absolute) ->
-     Struct_GNUNET_TIME_Absolute;
+                                    t2: Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_absolute_get_remaining(future:
                                                   Struct_GNUNET_TIME_Absolute)
      -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_calculate_eta(start: Struct_GNUNET_TIME_Absolute,
-                                     finished: uint64_t, total: uint64_t) ->
-     Struct_GNUNET_TIME_Relative;
+                                     finished: uint64_t, total: uint64_t)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_absolute_get_difference(start:
                                                    Struct_GNUNET_TIME_Absolute,
                                                end:
@@ -5981,39 +6188,39 @@ extern "C" {
                                                  Struct_GNUNET_TIME_Absolute)
      -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_absolute_add(start: Struct_GNUNET_TIME_Absolute,
-                                    duration: Struct_GNUNET_TIME_Relative) ->
-     Struct_GNUNET_TIME_Absolute;
+                                    duration: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_absolute_subtract(start: Struct_GNUNET_TIME_Absolute,
                                          duration:
-                                             Struct_GNUNET_TIME_Relative) ->
-     Struct_GNUNET_TIME_Absolute;
+                                             Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_relative_multiply(rel: Struct_GNUNET_TIME_Relative,
-                                         factor: ::libc::c_uint) ->
-     Struct_GNUNET_TIME_Relative;
+                                         factor: ::libc::c_uint)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_divide(rel: Struct_GNUNET_TIME_Relative,
-                                       factor: ::libc::c_uint) ->
-     Struct_GNUNET_TIME_Relative;
+                                       factor: ::libc::c_uint)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_add(a1: Struct_GNUNET_TIME_Relative,
-                                    a2: Struct_GNUNET_TIME_Relative) ->
-     Struct_GNUNET_TIME_Relative;
+                                    a2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_subtract(a1: Struct_GNUNET_TIME_Relative,
-                                         a2: Struct_GNUNET_TIME_Relative) ->
-     Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_hton(a: Struct_GNUNET_TIME_Relative) ->
-     Struct_GNUNET_TIME_RelativeNBO;
-    pub fn GNUNET_TIME_relative_ntoh(a: Struct_GNUNET_TIME_RelativeNBO) ->
-     Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_hton(a: Struct_GNUNET_TIME_Absolute) ->
-     Struct_GNUNET_TIME_AbsoluteNBO;
-    pub fn GNUNET_TIME_absolute_ntoh(a: Struct_GNUNET_TIME_AbsoluteNBO) ->
-     Struct_GNUNET_TIME_Absolute;
+                                         a2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_hton(a: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_RelativeNBO;
+    pub fn GNUNET_TIME_relative_ntoh(a: Struct_GNUNET_TIME_RelativeNBO)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_hton(a: Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_AbsoluteNBO;
+    pub fn GNUNET_TIME_absolute_ntoh(a: Struct_GNUNET_TIME_AbsoluteNBO)
+     -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_set_offset(offset: ::libc::c_longlong);
     pub fn GNUNET_TIME_get_offset() -> ::libc::c_longlong;
     pub fn GNUNET_TIME_get_current_year() -> ::libc::c_uint;
-    pub fn GNUNET_TIME_year_to_time(year: ::libc::c_uint) ->
-     Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_time_to_year(at: Struct_GNUNET_TIME_Absolute) ->
-     ::libc::c_uint;
+    pub fn GNUNET_TIME_year_to_time(year: ::libc::c_uint)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_time_to_year(at: Struct_GNUNET_TIME_Absolute)
+     -> ::libc::c_uint;
     pub fn GNUNET_DISK_handle_invalid(h: *const Struct_GNUNET_DISK_FileHandle)
      -> ::libc::c_int;
     pub fn GNUNET_DISK_file_test(fil: *const ::libc::c_char) -> ::libc::c_int;
@@ -6024,83 +6231,83 @@ extern "C" {
     pub fn GNUNET_DISK_file_size(filename: *const ::libc::c_char,
                                  size: *mut uint64_t,
                                  include_symbolic_links: ::libc::c_int,
-                                 single_file_mode: ::libc::c_int) ->
-     ::libc::c_int;
+                                 single_file_mode: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_file_get_identifiers(filename: *const ::libc::c_char,
                                             dev: *mut uint64_t,
-                                            ino: *mut uint64_t) ->
-     ::libc::c_int;
-    pub fn GNUNET_DISK_mktemp(t: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
-    pub fn GNUNET_DISK_mkdtemp(t: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+                                            ino: *mut uint64_t)
+     -> ::libc::c_int;
+    pub fn GNUNET_DISK_mktemp(t: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
+    pub fn GNUNET_DISK_mkdtemp(t: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_DISK_file_open(_fn: *const ::libc::c_char,
                                  flags: Enum_GNUNET_DISK_OpenFlags,
-                                 perm: Enum_GNUNET_DISK_AccessPermissions) ->
-     *mut Struct_GNUNET_DISK_FileHandle;
+                                 perm: Enum_GNUNET_DISK_AccessPermissions)
+     -> *mut Struct_GNUNET_DISK_FileHandle;
     pub fn GNUNET_DISK_file_handle_size(fh:
                                             *mut Struct_GNUNET_DISK_FileHandle,
                                         size: *mut off_t) -> ::libc::c_int;
     pub fn GNUNET_DISK_pipe(blocking_read: ::libc::c_int,
                             blocking_write: ::libc::c_int,
                             inherit_read: ::libc::c_int,
-                            inherit_write: ::libc::c_int) ->
-     *mut Struct_GNUNET_DISK_PipeHandle;
+                            inherit_write: ::libc::c_int)
+     -> *mut Struct_GNUNET_DISK_PipeHandle;
     pub fn GNUNET_DISK_pipe_from_fd(blocking_read: ::libc::c_int,
                                     blocking_write: ::libc::c_int,
-                                    fd: [::libc::c_int, ..2u]) ->
-     *mut Struct_GNUNET_DISK_PipeHandle;
-    pub fn GNUNET_DISK_pipe_close(p: *mut Struct_GNUNET_DISK_PipeHandle) ->
-     ::libc::c_int;
+                                    fd: [::libc::c_int, ..2u])
+     -> *mut Struct_GNUNET_DISK_PipeHandle;
+    pub fn GNUNET_DISK_pipe_close(p: *mut Struct_GNUNET_DISK_PipeHandle)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_pipe_close_end(p: *mut Struct_GNUNET_DISK_PipeHandle,
-                                      end: Enum_GNUNET_DISK_PipeEnd) ->
-     ::libc::c_int;
+                                      end: Enum_GNUNET_DISK_PipeEnd)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_pipe_detach_end(p: *mut Struct_GNUNET_DISK_PipeHandle,
-                                       end: Enum_GNUNET_DISK_PipeEnd) ->
-     *mut Struct_GNUNET_DISK_FileHandle;
-    pub fn GNUNET_DISK_file_close(h: *mut Struct_GNUNET_DISK_FileHandle) ->
-     ::libc::c_int;
+                                       end: Enum_GNUNET_DISK_PipeEnd)
+     -> *mut Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_file_close(h: *mut Struct_GNUNET_DISK_FileHandle)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_pipe_handle(p: *const Struct_GNUNET_DISK_PipeHandle,
-                                   n: Enum_GNUNET_DISK_PipeEnd) ->
-     *const Struct_GNUNET_DISK_FileHandle;
+                                   n: Enum_GNUNET_DISK_PipeEnd)
+     -> *const Struct_GNUNET_DISK_FileHandle;
     pub fn GNUNET_DISK_fix_permissions(_fn: *const ::libc::c_char,
                                        require_uid_match: ::libc::c_int,
                                        require_gid_match: ::libc::c_int);
-    pub fn GNUNET_DISK_get_handle_from_int_fd(fno: ::libc::c_int) ->
-     *mut Struct_GNUNET_DISK_FileHandle;
-    pub fn GNUNET_DISK_get_handle_from_native(fd: *mut FILE) ->
-     *mut Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_get_handle_from_int_fd(fno: ::libc::c_int)
+     -> *mut Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_get_handle_from_native(fd: *mut FILE)
+     -> *mut Struct_GNUNET_DISK_FileHandle;
     pub fn GNUNET_DISK_file_read(h: *const Struct_GNUNET_DISK_FileHandle,
-                                 result: *mut ::libc::c_void, len: size_t) ->
-     ssize_t;
+                                 result: *mut ::libc::c_void, len: size_t)
+     -> ssize_t;
     pub fn GNUNET_DISK_file_read_non_blocking(h:
                                                   *const Struct_GNUNET_DISK_FileHandle,
                                               result: *mut ::libc::c_void,
                                               len: size_t) -> ssize_t;
     pub fn GNUNET_DISK_fn_read(_fn: *const ::libc::c_char,
-                               result: *mut ::libc::c_void, len: size_t) ->
-     ssize_t;
+                               result: *mut ::libc::c_void, len: size_t)
+     -> ssize_t;
     pub fn GNUNET_DISK_file_write(h: *const Struct_GNUNET_DISK_FileHandle,
-                                  buffer: *const ::libc::c_void, n: size_t) ->
-     ssize_t;
+                                  buffer: *const ::libc::c_void, n: size_t)
+     -> ssize_t;
     pub fn GNUNET_DISK_file_write_blocking(h:
                                                *const Struct_GNUNET_DISK_FileHandle,
                                            buffer: *const ::libc::c_void,
                                            n: size_t) -> ssize_t;
     pub fn GNUNET_DISK_fn_write(_fn: *const ::libc::c_char,
                                 buffer: *const ::libc::c_void, n: size_t,
-                                mode: Enum_GNUNET_DISK_AccessPermissions) ->
-     ssize_t;
+                                mode: Enum_GNUNET_DISK_AccessPermissions)
+     -> ssize_t;
     pub fn GNUNET_DISK_file_copy(src: *const ::libc::c_char,
                                  dst: *const ::libc::c_char) -> ::libc::c_int;
     pub fn GNUNET_DISK_directory_scan(dir_name: *const ::libc::c_char,
                                       callback: GNUNET_FileNameCallback,
-                                      callback_cls: *mut ::libc::c_void) ->
-     ::libc::c_int;
+                                      callback_cls: *mut ::libc::c_void)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_directory_iterator_next(iter:
                                                    *mut Struct_GNUNET_DISK_DirectoryIterator,
-                                               can: ::libc::c_int) ->
-     ::libc::c_int;
+                                               can: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_directory_iterator_start(prio:
                                                     Enum_GNUNET_SCHEDULER_Priority,
                                                 dir_name:
@@ -6108,54 +6315,54 @@ extern "C" {
                                                 callback:
                                                     GNUNET_DISK_DirectoryIteratorCallback,
                                                 callback_cls:
-                                                    *mut ::libc::c_void) ->
-     ::libc::c_int;
+                                                    *mut ::libc::c_void)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_directory_create_for_file(filename:
-                                                     *const ::libc::c_char) ->
-     ::libc::c_int;
+                                                     *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_directory_test(fil: *const ::libc::c_char,
-                                      is_readable: ::libc::c_int) ->
-     ::libc::c_int;
-    pub fn GNUNET_DISK_directory_remove(filename: *const ::libc::c_char) ->
-     ::libc::c_int;
-    pub fn GNUNET_DISK_directory_create(dir: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                      is_readable: ::libc::c_int)
+     -> ::libc::c_int;
+    pub fn GNUNET_DISK_directory_remove(filename: *const ::libc::c_char)
+     -> ::libc::c_int;
+    pub fn GNUNET_DISK_directory_create(dir: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_file_lock(fh: *mut Struct_GNUNET_DISK_FileHandle,
                                  lock_start: off_t, lock_end: off_t,
                                  excl: ::libc::c_int) -> ::libc::c_int;
     pub fn GNUNET_DISK_file_unlock(fh: *mut Struct_GNUNET_DISK_FileHandle,
-                                   unlock_start: off_t, unlock_end: off_t) ->
-     ::libc::c_int;
+                                   unlock_start: off_t, unlock_end: off_t)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_filename_canonicalize(_fn: *mut ::libc::c_char);
     pub fn GNUNET_DISK_file_change_owner(filename: *const ::libc::c_char,
-                                         user: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                         user: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_DISK_file_map(h: *const Struct_GNUNET_DISK_FileHandle,
                                 m: *mut *mut Struct_GNUNET_DISK_MapHandle,
                                 access: Enum_GNUNET_DISK_MapType, len: size_t)
      -> *mut ::libc::c_void;
-    pub fn GNUNET_DISK_file_unmap(h: *mut Struct_GNUNET_DISK_MapHandle) ->
-     ::libc::c_int;
-    pub fn GNUNET_DISK_file_sync(h: *const Struct_GNUNET_DISK_FileHandle) ->
-     ::libc::c_int;
+    pub fn GNUNET_DISK_file_unmap(h: *mut Struct_GNUNET_DISK_MapHandle)
+     -> ::libc::c_int;
+    pub fn GNUNET_DISK_file_sync(h: *const Struct_GNUNET_DISK_FileHandle)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_test_pf(pf: ::libc::c_int) -> ::libc::c_int;
-    pub fn GNUNET_NETWORK_shorten_unixpath(unixpath: *mut ::libc::c_char) ->
-     *mut ::libc::c_char;
+    pub fn GNUNET_NETWORK_shorten_unixpath(unixpath: *mut ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_NETWORK_socket_accept(desc:
                                             *const Struct_GNUNET_NETWORK_Handle,
                                         address: *mut Struct_sockaddr,
-                                        address_len: *mut socklen_t) ->
-     *mut Struct_GNUNET_NETWORK_Handle;
-    pub fn GNUNET_NETWORK_socket_box_native(fd: ::libc::c_int) ->
-     *mut Struct_GNUNET_NETWORK_Handle;
+                                        address_len: *mut socklen_t)
+     -> *mut Struct_GNUNET_NETWORK_Handle;
+    pub fn GNUNET_NETWORK_socket_box_native(fd: ::libc::c_int)
+     -> *mut Struct_GNUNET_NETWORK_Handle;
     pub fn GNUNET_NETWORK_socket_set_blocking(fd:
                                                   *mut Struct_GNUNET_NETWORK_Handle,
-                                              doBlock: ::libc::c_int) ->
-     ::libc::c_int;
+                                              doBlock: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_bind(desc: *mut Struct_GNUNET_NETWORK_Handle,
                                       address: *const Struct_sockaddr,
-                                      address_len: socklen_t) ->
-     ::libc::c_int;
+                                      address_len: socklen_t)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_close(desc:
                                            *mut Struct_GNUNET_NETWORK_Handle)
      -> ::libc::c_int;
@@ -6164,19 +6371,19 @@ extern "C" {
     pub fn GNUNET_NETWORK_socket_connect(desc:
                                              *const Struct_GNUNET_NETWORK_Handle,
                                          address: *const Struct_sockaddr,
-                                         address_len: socklen_t) ->
-     ::libc::c_int;
+                                         address_len: socklen_t)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_getsockopt(desc:
                                                 *const Struct_GNUNET_NETWORK_Handle,
                                             level: ::libc::c_int,
                                             optname: ::libc::c_int,
                                             optval: *mut ::libc::c_void,
-                                            optlen: *mut socklen_t) ->
-     ::libc::c_int;
+                                            optlen: *mut socklen_t)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_listen(desc:
                                             *const Struct_GNUNET_NETWORK_Handle,
-                                        backlog: ::libc::c_int) ->
-     ::libc::c_int;
+                                        backlog: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_recvfrom_amount(desc:
                                                      *const Struct_GNUNET_NETWORK_Handle)
      -> ssize_t;
@@ -6214,19 +6421,19 @@ extern "C" {
                                             option_name: ::libc::c_int,
                                             option_value:
                                                 *const ::libc::c_void,
-                                            option_len: socklen_t) ->
-     ::libc::c_int;
+                                            option_len: socklen_t)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_shutdown(desc:
                                               *mut Struct_GNUNET_NETWORK_Handle,
-                                          how: ::libc::c_int) ->
-     ::libc::c_int;
+                                          how: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_disable_corking(desc:
                                                      *mut Struct_GNUNET_NETWORK_Handle)
      -> ::libc::c_int;
     pub fn GNUNET_NETWORK_socket_create(domain: ::libc::c_int,
                                         _type: ::libc::c_int,
-                                        protocol: ::libc::c_int) ->
-     *mut Struct_GNUNET_NETWORK_Handle;
+                                        protocol: ::libc::c_int)
+     -> *mut Struct_GNUNET_NETWORK_Handle;
     pub fn GNUNET_NETWORK_fdset_zero(fds: *mut Struct_GNUNET_NETWORK_FDSet);
     pub fn GNUNET_NETWORK_fdset_set(fds: *mut Struct_GNUNET_NETWORK_FDSet,
                                     desc:
@@ -6240,10 +6447,10 @@ extern "C" {
     pub fn GNUNET_NETWORK_fdset_copy(to: *mut Struct_GNUNET_NETWORK_FDSet,
                                      from:
                                          *const Struct_GNUNET_NETWORK_FDSet);
-    pub fn GNUNET_NETWORK_get_fd(desc: *mut Struct_GNUNET_NETWORK_Handle) ->
-     ::libc::c_int;
-    pub fn GNUNET_NETWORK_get_addr(desc: *mut Struct_GNUNET_NETWORK_Handle) ->
-     *mut Struct_sockaddr;
+    pub fn GNUNET_NETWORK_get_fd(desc: *mut Struct_GNUNET_NETWORK_Handle)
+     -> ::libc::c_int;
+    pub fn GNUNET_NETWORK_get_addr(desc: *mut Struct_GNUNET_NETWORK_Handle)
+     -> *mut Struct_sockaddr;
     pub fn GNUNET_NETWORK_get_addrlen(desc: *mut Struct_GNUNET_NETWORK_Handle)
      -> socklen_t;
     pub fn GNUNET_NETWORK_fdset_copy_native(to:
@@ -6255,8 +6462,8 @@ extern "C" {
                                            nfd: ::libc::c_int);
     pub fn GNUNET_NETWORK_fdset_test_native(to:
                                                 *const Struct_GNUNET_NETWORK_FDSet,
-                                            nfd: ::libc::c_int) ->
-     ::libc::c_int;
+                                            nfd: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_NETWORK_fdset_handle_set(fds:
                                                *mut Struct_GNUNET_NETWORK_FDSet,
                                            h:
@@ -6277,11 +6484,11 @@ extern "C" {
     pub fn GNUNET_SCHEDULER_run(task: GNUNET_SCHEDULER_Task,
                                 task_cls: *mut ::libc::c_void);
     pub fn GNUNET_SCHEDULER_shutdown();
-    pub fn GNUNET_SCHEDULER_get_load(p: Enum_GNUNET_SCHEDULER_Priority) ->
-     ::libc::c_uint;
+    pub fn GNUNET_SCHEDULER_get_load(p: Enum_GNUNET_SCHEDULER_Priority)
+     -> ::libc::c_uint;
     pub fn GNUNET_SCHEDULER_get_reason() -> Enum_GNUNET_SCHEDULER_Reason;
-    pub fn GNUNET_SCHEDULER_cancel(task: GNUNET_SCHEDULER_TaskIdentifier) ->
-     *mut ::libc::c_void;
+    pub fn GNUNET_SCHEDULER_cancel(task: GNUNET_SCHEDULER_TaskIdentifier)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_SCHEDULER_add_continuation(task: GNUNET_SCHEDULER_Task,
                                              task_cls: *mut ::libc::c_void,
                                              reason:
@@ -6300,17 +6507,17 @@ extern "C" {
                                               task_cls: *mut ::libc::c_void)
      -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_now(task: GNUNET_SCHEDULER_Task,
-                                    task_cls: *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                    task_cls: *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_now_with_lifeness(lifeness: ::libc::c_int,
                                                   task: GNUNET_SCHEDULER_Task,
                                                   task_cls:
-                                                      *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                                      *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_delayed(delay: Struct_GNUNET_TIME_Relative,
                                         task: GNUNET_SCHEDULER_Task,
-                                        task_cls: *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                        task_cls: *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_delayed_with_priority(delay:
                                                           Struct_GNUNET_TIME_Relative,
                                                       priority:
@@ -6324,8 +6531,8 @@ extern "C" {
                                          rfd:
                                              *mut Struct_GNUNET_NETWORK_Handle,
                                          task: GNUNET_SCHEDULER_Task,
-                                         task_cls: *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                         task_cls: *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_read_net_with_priority(delay:
                                                            Struct_GNUNET_TIME_Relative,
                                                        priority:
@@ -6341,8 +6548,8 @@ extern "C" {
                                           wfd:
                                               *mut Struct_GNUNET_NETWORK_Handle,
                                           task: GNUNET_SCHEDULER_Task,
-                                          task_cls: *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                          task_cls: *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_net_with_priority(delay:
                                                       Struct_GNUNET_TIME_Relative,
                                                   priority:
@@ -6353,20 +6560,20 @@ extern "C" {
                                                   on_write: ::libc::c_int,
                                                   task: GNUNET_SCHEDULER_Task,
                                                   task_cls:
-                                                      *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                                      *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_read_file(delay: Struct_GNUNET_TIME_Relative,
                                           rfd:
                                               *const Struct_GNUNET_DISK_FileHandle,
                                           task: GNUNET_SCHEDULER_Task,
-                                          task_cls: *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                          task_cls: *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_write_file(delay: Struct_GNUNET_TIME_Relative,
                                            wfd:
                                                *const Struct_GNUNET_DISK_FileHandle,
                                            task: GNUNET_SCHEDULER_Task,
-                                           task_cls: *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                           task_cls: *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_file_with_priority(delay:
                                                        Struct_GNUNET_TIME_Relative,
                                                    priority:
@@ -6378,15 +6585,15 @@ extern "C" {
                                                    task:
                                                        GNUNET_SCHEDULER_Task,
                                                    task_cls:
-                                                       *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                                       *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_add_select(prio: Enum_GNUNET_SCHEDULER_Priority,
                                        delay: Struct_GNUNET_TIME_Relative,
                                        rs: *const Struct_GNUNET_NETWORK_FDSet,
                                        ws: *const Struct_GNUNET_NETWORK_FDSet,
                                        task: GNUNET_SCHEDULER_Task,
-                                       task_cls: *mut ::libc::c_void) ->
-     GNUNET_SCHEDULER_TaskIdentifier;
+                                       task_cls: *mut ::libc::c_void)
+     -> GNUNET_SCHEDULER_TaskIdentifier;
     pub fn GNUNET_SCHEDULER_set_select(new_select: GNUNET_SCHEDULER_select,
                                        new_select_cls: *mut ::libc::c_void);
     pub fn gpg_err_init() -> gpg_error_t;
@@ -6411,10 +6618,10 @@ extern "C" {
     pub fn gpg_err_code_to_errno(code: gpg_err_code_t) -> ::libc::c_int;
     pub fn gpg_err_code_from_syserror() -> gpg_err_code_t;
     pub fn gpg_err_set_errno(err: ::libc::c_int);
-    pub fn gpgrt_check_version(req_version: *const ::libc::c_char) ->
-     *const ::libc::c_char;
-    pub fn gpg_error_check_version(req_version: *const ::libc::c_char) ->
-     *const ::libc::c_char;
+    pub fn gpgrt_check_version(req_version: *const ::libc::c_char)
+     -> *const ::libc::c_char;
+    pub fn gpg_error_check_version(req_version: *const ::libc::c_char)
+     -> *const ::libc::c_char;
     pub fn gpgrt_lock_init(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
     pub fn gpgrt_lock_lock(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
     pub fn gpgrt_lock_trylock(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
@@ -6436,8 +6643,8 @@ extern "C" {
                                                      (arg1:
                                                           *mut ::libc::c_void)>,
                        mode: *const ::libc::c_char) -> gpgrt_stream_t;
-    pub fn gpgrt_fopenmem(memlimit: size_t, mode: *const ::libc::c_char) ->
-     gpgrt_stream_t;
+    pub fn gpgrt_fopenmem(memlimit: size_t, mode: *const ::libc::c_char)
+     -> gpgrt_stream_t;
     pub fn gpgrt_fopenmem_init(memlimit: size_t, mode: *const ::libc::c_char,
                                data: *const ::libc::c_void, datalen: size_t)
      -> gpgrt_stream_t;
@@ -6449,17 +6656,17 @@ extern "C" {
                          mode: *const ::libc::c_char) -> gpgrt_stream_t;
     pub fn gpgrt_sysopen_nc(syshd: *mut gpgrt_syshd_t,
                             mode: *const ::libc::c_char) -> gpgrt_stream_t;
-    pub fn gpgrt_fpopen(fp: *mut FILE, mode: *const ::libc::c_char) ->
-     gpgrt_stream_t;
-    pub fn gpgrt_fpopen_nc(fp: *mut FILE, mode: *const ::libc::c_char) ->
-     gpgrt_stream_t;
+    pub fn gpgrt_fpopen(fp: *mut FILE, mode: *const ::libc::c_char)
+     -> gpgrt_stream_t;
+    pub fn gpgrt_fpopen_nc(fp: *mut FILE, mode: *const ::libc::c_char)
+     -> gpgrt_stream_t;
     pub fn gpgrt_freopen(path: *const ::libc::c_char,
                          mode: *const ::libc::c_char, stream: gpgrt_stream_t)
      -> gpgrt_stream_t;
     pub fn gpgrt_fopencookie(cookie: *mut ::libc::c_void,
                              mode: *const ::libc::c_char,
-                             functions: gpgrt_cookie_io_functions_t) ->
-     gpgrt_stream_t;
+                             functions: gpgrt_cookie_io_functions_t)
+     -> gpgrt_stream_t;
     pub fn gpgrt_fclose(stream: gpgrt_stream_t) -> ::libc::c_int;
     pub fn gpgrt_fclose_snatch(stream: gpgrt_stream_t,
                                r_buffer: *mut *mut ::libc::c_void,
@@ -6473,8 +6680,8 @@ extern "C" {
                          fnc_value: *mut ::libc::c_void) -> ::libc::c_int;
     pub fn gpgrt_fileno(stream: gpgrt_stream_t) -> ::libc::c_int;
     pub fn gpgrt_fileno_unlocked(stream: gpgrt_stream_t) -> ::libc::c_int;
-    pub fn gpgrt_syshd(stream: gpgrt_stream_t, syshd: *mut gpgrt_syshd_t) ->
-     ::libc::c_int;
+    pub fn gpgrt_syshd(stream: gpgrt_stream_t, syshd: *mut gpgrt_syshd_t)
+     -> ::libc::c_int;
     pub fn gpgrt_syshd_unlocked(stream: gpgrt_stream_t,
                                 syshd: *mut gpgrt_syshd_t) -> ::libc::c_int;
     pub fn _gpgrt_set_std_fd(no: ::libc::c_int, fd: ::libc::c_int);
@@ -6497,19 +6704,19 @@ extern "C" {
     pub fn gpgrt_ftello(stream: gpgrt_stream_t) -> off_t;
     pub fn gpgrt_rewind(stream: gpgrt_stream_t);
     pub fn gpgrt_fgetc(stream: gpgrt_stream_t) -> ::libc::c_int;
-    pub fn gpgrt_fputc(c: ::libc::c_int, stream: gpgrt_stream_t) ->
-     ::libc::c_int;
+    pub fn gpgrt_fputc(c: ::libc::c_int, stream: gpgrt_stream_t)
+     -> ::libc::c_int;
     pub fn _gpgrt_getc_underflow(stream: gpgrt_stream_t) -> ::libc::c_int;
-    pub fn _gpgrt_putc_overflow(c: ::libc::c_int, stream: gpgrt_stream_t) ->
-     ::libc::c_int;
-    pub fn gpgrt_ungetc(c: ::libc::c_int, stream: gpgrt_stream_t) ->
-     ::libc::c_int;
+    pub fn _gpgrt_putc_overflow(c: ::libc::c_int, stream: gpgrt_stream_t)
+     -> ::libc::c_int;
+    pub fn gpgrt_ungetc(c: ::libc::c_int, stream: gpgrt_stream_t)
+     -> ::libc::c_int;
     pub fn gpgrt_read(stream: gpgrt_stream_t, buffer: *mut ::libc::c_void,
-                      bytes_to_read: size_t, bytes_read: *mut size_t) ->
-     ::libc::c_int;
+                      bytes_to_read: size_t, bytes_read: *mut size_t)
+     -> ::libc::c_int;
     pub fn gpgrt_write(stream: gpgrt_stream_t, buffer: *const ::libc::c_void,
-                       bytes_to_write: size_t, bytes_written: *mut size_t) ->
-     ::libc::c_int;
+                       bytes_to_write: size_t, bytes_written: *mut size_t)
+     -> ::libc::c_int;
     pub fn gpgrt_write_sanitized(stream: gpgrt_stream_t,
                                  buffer: *const ::libc::c_void,
                                  length: size_t,
@@ -6525,8 +6732,8 @@ extern "C" {
                         memb: size_t, stream: gpgrt_stream_t) -> size_t;
     pub fn gpgrt_fgets(s: *mut ::libc::c_char, n: ::libc::c_int,
                        stream: gpgrt_stream_t) -> *mut ::libc::c_char;
-    pub fn gpgrt_fputs(s: *const ::libc::c_char, stream: gpgrt_stream_t) ->
-     ::libc::c_int;
+    pub fn gpgrt_fputs(s: *const ::libc::c_char, stream: gpgrt_stream_t)
+     -> ::libc::c_int;
     pub fn gpgrt_fputs_unlocked(s: *const ::libc::c_char,
                                 stream: gpgrt_stream_t) -> ::libc::c_int;
     pub fn gpgrt_getline(lineptr: *mut *mut ::libc::c_char, n: *mut size_t,
@@ -6539,14 +6746,14 @@ extern "C" {
     pub fn gpgrt_fprintf(stream: gpgrt_stream_t,
                          format: *const ::libc::c_char, ...) -> ::libc::c_int;
     pub fn gpgrt_fprintf_unlocked(stream: gpgrt_stream_t,
-                                  format: *const ::libc::c_char, ...) ->
-     ::libc::c_int;
+                                  format: *const ::libc::c_char, ...)
+     -> ::libc::c_int;
     pub fn gpgrt_printf(format: *const ::libc::c_char, ...) -> ::libc::c_int;
-    pub fn gpgrt_printf_unlocked(format: *const ::libc::c_char, ...) ->
-     ::libc::c_int;
+    pub fn gpgrt_printf_unlocked(format: *const ::libc::c_char, ...)
+     -> ::libc::c_int;
     pub fn gpgrt_vfprintf(stream: gpgrt_stream_t,
-                          format: *const ::libc::c_char, ap: va_list) ->
-     ::libc::c_int;
+                          format: *const ::libc::c_char, ap: va_list)
+     -> ::libc::c_int;
     pub fn gpgrt_vfprintf_unlocked(stream: gpgrt_stream_t,
                                    format: *const ::libc::c_char, ap: va_list)
      -> ::libc::c_int;
@@ -6562,23 +6769,23 @@ extern "C" {
                            fname: *const ::libc::c_char);
     pub fn gpgrt_fname_get(stream: gpgrt_stream_t) -> *const ::libc::c_char;
     pub fn gpgrt_asprintf(r_buf: *mut *mut ::libc::c_char,
-                          format: *const ::libc::c_char, ...) ->
-     ::libc::c_int;
+                          format: *const ::libc::c_char, ...)
+     -> ::libc::c_int;
     pub fn gpgrt_vasprintf(r_buf: *mut *mut ::libc::c_char,
-                           format: *const ::libc::c_char, ap: va_list) ->
-     ::libc::c_int;
-    pub fn gpgrt_bsprintf(format: *const ::libc::c_char, ...) ->
-     *mut ::libc::c_char;
-    pub fn gpgrt_vbsprintf(format: *const ::libc::c_char, ap: va_list) ->
-     *mut ::libc::c_char;
+                           format: *const ::libc::c_char, ap: va_list)
+     -> ::libc::c_int;
+    pub fn gpgrt_bsprintf(format: *const ::libc::c_char, ...)
+     -> *mut ::libc::c_char;
+    pub fn gpgrt_vbsprintf(format: *const ::libc::c_char, ap: va_list)
+     -> *mut ::libc::c_char;
     pub fn gpgrt_snprintf(buf: *mut ::libc::c_char, bufsize: size_t,
-                          format: *const ::libc::c_char, ...) ->
-     ::libc::c_int;
+                          format: *const ::libc::c_char, ...)
+     -> ::libc::c_int;
     pub fn gpgrt_vsnprintf(buf: *mut ::libc::c_char, bufsize: size_t,
-                           format: *const ::libc::c_char, arg_ptr: va_list) ->
-     ::libc::c_int;
-    pub fn gettimeofday(__tv: *mut Struct_timeval, __tz: __timezone_ptr_t) ->
-     ::libc::c_int;
+                           format: *const ::libc::c_char, arg_ptr: va_list)
+     -> ::libc::c_int;
+    pub fn gettimeofday(__tv: *mut Struct_timeval, __tz: __timezone_ptr_t)
+     -> ::libc::c_int;
     pub fn settimeofday(__tv: *const Struct_timeval,
                         __tz: *const Struct_timezone) -> ::libc::c_int;
     pub fn adjtime(__delta: *const Struct_timeval,
@@ -6592,8 +6799,8 @@ extern "C" {
                   __tvp: [Struct_timeval, ..2u]) -> ::libc::c_int;
     pub fn lutimes(__file: *const ::libc::c_char,
                    __tvp: [Struct_timeval, ..2u]) -> ::libc::c_int;
-    pub fn futimes(__fd: ::libc::c_int, __tvp: [Struct_timeval, ..2u]) ->
-     ::libc::c_int;
+    pub fn futimes(__fd: ::libc::c_int, __tvp: [Struct_timeval, ..2u])
+     -> ::libc::c_int;
     pub fn gcry_strerror(err: gcry_error_t) -> *const ::libc::c_char;
     pub fn gcry_strsource(err: gcry_error_t) -> *const ::libc::c_char;
     pub fn gcry_err_code_from_errno(err: ::libc::c_int) -> gcry_err_code_t;
@@ -6601,8 +6808,8 @@ extern "C" {
     pub fn gcry_err_make_from_errno(source: gcry_err_source_t,
                                     err: ::libc::c_int) -> gcry_error_t;
     pub fn gcry_error_from_errno(err: ::libc::c_int) -> gcry_err_code_t;
-    pub fn gcry_check_version(req_version: *const ::libc::c_char) ->
-     *const ::libc::c_char;
+    pub fn gcry_check_version(req_version: *const ::libc::c_char)
+     -> *const ::libc::c_char;
     pub fn gcry_control(CMD: Enum_gcry_ctl_cmds, ...) -> gcry_error_t;
     pub fn gcry_sexp_new(retsexp: *mut gcry_sexp_t,
                          buffer: *const ::libc::c_void, length: size_t,
@@ -6616,23 +6823,23 @@ extern "C" {
                                                                *mut ::libc::c_void)>)
      -> gcry_error_t;
     pub fn gcry_sexp_sscan(retsexp: *mut gcry_sexp_t, erroff: *mut size_t,
-                           buffer: *const ::libc::c_char, length: size_t) ->
-     gcry_error_t;
+                           buffer: *const ::libc::c_char, length: size_t)
+     -> gcry_error_t;
     pub fn gcry_sexp_build(retsexp: *mut gcry_sexp_t, erroff: *mut size_t,
-                           format: *const ::libc::c_char, ...) ->
-     gcry_error_t;
+                           format: *const ::libc::c_char, ...)
+     -> gcry_error_t;
     pub fn gcry_sexp_build_array(retsexp: *mut gcry_sexp_t,
                                  erroff: *mut size_t,
                                  format: *const ::libc::c_char,
-                                 arg_list: *mut *mut ::libc::c_void) ->
-     gcry_error_t;
+                                 arg_list: *mut *mut ::libc::c_void)
+     -> gcry_error_t;
     pub fn gcry_sexp_release(sexp: gcry_sexp_t);
     pub fn gcry_sexp_canon_len(buffer: *const ::libc::c_uchar, length: size_t,
                                erroff: *mut size_t,
                                errcode: *mut gcry_error_t) -> size_t;
     pub fn gcry_sexp_sprint(sexp: gcry_sexp_t, mode: ::libc::c_int,
-                            buffer: *mut ::libc::c_void, maxlength: size_t) ->
-     size_t;
+                            buffer: *mut ::libc::c_void, maxlength: size_t)
+     -> size_t;
     pub fn gcry_sexp_dump(a: gcry_sexp_t);
     pub fn gcry_sexp_cons(a: gcry_sexp_t, b: gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_alist(array: *const gcry_sexp_t) -> gcry_sexp_t;
@@ -6642,8 +6849,8 @@ extern "C" {
     pub fn gcry_sexp_find_token(list: gcry_sexp_t, tok: *const ::libc::c_char,
                                 toklen: size_t) -> gcry_sexp_t;
     pub fn gcry_sexp_length(list: gcry_sexp_t) -> ::libc::c_int;
-    pub fn gcry_sexp_nth(list: gcry_sexp_t, number: ::libc::c_int) ->
-     gcry_sexp_t;
+    pub fn gcry_sexp_nth(list: gcry_sexp_t, number: ::libc::c_int)
+     -> gcry_sexp_t;
     pub fn gcry_sexp_car(list: gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_cdr(list: gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_cadr(list: gcry_sexp_t) -> gcry_sexp_t;
@@ -6651,14 +6858,14 @@ extern "C" {
                               datalen: *mut size_t) -> *const ::libc::c_char;
     pub fn gcry_sexp_nth_buffer(list: gcry_sexp_t, number: ::libc::c_int,
                                 rlength: *mut size_t) -> *mut ::libc::c_void;
-    pub fn gcry_sexp_nth_string(list: gcry_sexp_t, number: ::libc::c_int) ->
-     *mut ::libc::c_char;
+    pub fn gcry_sexp_nth_string(list: gcry_sexp_t, number: ::libc::c_int)
+     -> *mut ::libc::c_char;
     pub fn gcry_sexp_nth_mpi(list: gcry_sexp_t, number: ::libc::c_int,
                              mpifmt: ::libc::c_int) -> gcry_mpi_t;
     pub fn gcry_sexp_extract_param(sexp: gcry_sexp_t,
                                    path: *const ::libc::c_char,
-                                   list: *const ::libc::c_char, ...) ->
-     gpg_error_t;
+                                   list: *const ::libc::c_char, ...)
+     -> gpg_error_t;
     pub fn gcry_mpi_new(nbits: ::libc::c_uint) -> gcry_mpi_t;
     pub fn gcry_mpi_snew(nbits: ::libc::c_uint) -> gcry_mpi_t;
     pub fn gcry_mpi_release(a: gcry_mpi_t);
@@ -6671,20 +6878,20 @@ extern "C" {
     pub fn gcry_mpi_neg(w: gcry_mpi_t, u: gcry_mpi_t);
     pub fn gcry_mpi_abs(w: gcry_mpi_t);
     pub fn gcry_mpi_cmp(u: gcry_mpi_t, v: gcry_mpi_t) -> ::libc::c_int;
-    pub fn gcry_mpi_cmp_ui(u: gcry_mpi_t, v: ::libc::c_ulong) ->
-     ::libc::c_int;
+    pub fn gcry_mpi_cmp_ui(u: gcry_mpi_t, v: ::libc::c_ulong)
+     -> ::libc::c_int;
     pub fn gcry_mpi_scan(ret_mpi: *mut gcry_mpi_t,
                          format: Enum_gcry_mpi_format,
                          buffer: *const ::libc::c_void, buflen: size_t,
                          nscanned: *mut size_t) -> gcry_error_t;
     pub fn gcry_mpi_print(format: Enum_gcry_mpi_format,
                           buffer: *mut ::libc::c_uchar, buflen: size_t,
-                          nwritten: *mut size_t, a: gcry_mpi_t) ->
-     gcry_error_t;
+                          nwritten: *mut size_t, a: gcry_mpi_t)
+     -> gcry_error_t;
     pub fn gcry_mpi_aprint(format: Enum_gcry_mpi_format,
                            buffer: *mut *mut ::libc::c_uchar,
-                           nwritten: *mut size_t, a: gcry_mpi_t) ->
-     gcry_error_t;
+                           nwritten: *mut size_t, a: gcry_mpi_t)
+     -> gcry_error_t;
     pub fn gcry_mpi_dump(a: gcry_mpi_t);
     pub fn gcry_mpi_add(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t);
     pub fn gcry_mpi_add_ui(w: gcry_mpi_t, u: gcry_mpi_t, v: ::libc::c_ulong);
@@ -6706,10 +6913,10 @@ extern "C" {
                         divisor: gcry_mpi_t);
     pub fn gcry_mpi_powm(w: gcry_mpi_t, b: gcry_mpi_t, e: gcry_mpi_t,
                          m: gcry_mpi_t);
-    pub fn gcry_mpi_gcd(g: gcry_mpi_t, a: gcry_mpi_t, b: gcry_mpi_t) ->
-     ::libc::c_int;
-    pub fn gcry_mpi_invm(x: gcry_mpi_t, a: gcry_mpi_t, m: gcry_mpi_t) ->
-     ::libc::c_int;
+    pub fn gcry_mpi_gcd(g: gcry_mpi_t, a: gcry_mpi_t, b: gcry_mpi_t)
+     -> ::libc::c_int;
+    pub fn gcry_mpi_invm(x: gcry_mpi_t, a: gcry_mpi_t, m: gcry_mpi_t)
+     -> ::libc::c_int;
     pub fn gcry_mpi_point_new(nbits: ::libc::c_uint) -> gcry_mpi_point_t;
     pub fn gcry_mpi_point_release(point: gcry_mpi_point_t);
     pub fn gcry_mpi_point_get(x: gcry_mpi_t, y: gcry_mpi_t, z: gcry_mpi_t,
@@ -6717,11 +6924,11 @@ extern "C" {
     pub fn gcry_mpi_point_snatch_get(x: gcry_mpi_t, y: gcry_mpi_t,
                                      z: gcry_mpi_t, point: gcry_mpi_point_t);
     pub fn gcry_mpi_point_set(point: gcry_mpi_point_t, x: gcry_mpi_t,
-                              y: gcry_mpi_t, z: gcry_mpi_t) ->
-     gcry_mpi_point_t;
+                              y: gcry_mpi_t, z: gcry_mpi_t)
+     -> gcry_mpi_point_t;
     pub fn gcry_mpi_point_snatch_set(point: gcry_mpi_point_t, x: gcry_mpi_t,
-                                     y: gcry_mpi_t, z: gcry_mpi_t) ->
-     gcry_mpi_point_t;
+                                     y: gcry_mpi_t, z: gcry_mpi_t)
+     -> gcry_mpi_point_t;
     pub fn gcry_mpi_ec_new(r_ctx: *mut gcry_ctx_t, keyparam: gcry_sexp_t,
                            curvename: *const ::libc::c_char) -> gpg_error_t;
     pub fn gcry_mpi_ec_get_mpi(name: *const ::libc::c_char, ctx: gcry_ctx_t,
@@ -6729,25 +6936,25 @@ extern "C" {
     pub fn gcry_mpi_ec_get_point(name: *const ::libc::c_char, ctx: gcry_ctx_t,
                                  copy: ::libc::c_int) -> gcry_mpi_point_t;
     pub fn gcry_mpi_ec_set_mpi(name: *const ::libc::c_char,
-                               newvalue: gcry_mpi_t, ctx: gcry_ctx_t) ->
-     gpg_error_t;
+                               newvalue: gcry_mpi_t, ctx: gcry_ctx_t)
+     -> gpg_error_t;
     pub fn gcry_mpi_ec_set_point(name: *const ::libc::c_char,
                                  newvalue: gcry_mpi_point_t, ctx: gcry_ctx_t)
      -> gpg_error_t;
     pub fn gcry_mpi_ec_get_affine(x: gcry_mpi_t, y: gcry_mpi_t,
-                                  point: gcry_mpi_point_t, ctx: gcry_ctx_t) ->
-     ::libc::c_int;
+                                  point: gcry_mpi_point_t, ctx: gcry_ctx_t)
+     -> ::libc::c_int;
     pub fn gcry_mpi_ec_dup(w: gcry_mpi_point_t, u: gcry_mpi_point_t,
                            ctx: gcry_ctx_t);
     pub fn gcry_mpi_ec_add(w: gcry_mpi_point_t, u: gcry_mpi_point_t,
                            v: gcry_mpi_point_t, ctx: gcry_ctx_t);
     pub fn gcry_mpi_ec_mul(w: gcry_mpi_point_t, n: gcry_mpi_t,
                            u: gcry_mpi_point_t, ctx: gcry_ctx_t);
-    pub fn gcry_mpi_ec_curve_point(w: gcry_mpi_point_t, ctx: gcry_ctx_t) ->
-     ::libc::c_int;
+    pub fn gcry_mpi_ec_curve_point(w: gcry_mpi_point_t, ctx: gcry_ctx_t)
+     -> ::libc::c_int;
     pub fn gcry_mpi_get_nbits(a: gcry_mpi_t) -> ::libc::c_uint;
-    pub fn gcry_mpi_test_bit(a: gcry_mpi_t, n: ::libc::c_uint) ->
-     ::libc::c_int;
+    pub fn gcry_mpi_test_bit(a: gcry_mpi_t, n: ::libc::c_uint)
+     -> ::libc::c_int;
     pub fn gcry_mpi_set_bit(a: gcry_mpi_t, n: ::libc::c_uint);
     pub fn gcry_mpi_clear_bit(a: gcry_mpi_t, n: ::libc::c_uint);
     pub fn gcry_mpi_set_highbit(a: gcry_mpi_t, n: ::libc::c_uint);
@@ -6758,31 +6965,31 @@ extern "C" {
                                nbits: ::libc::c_uint) -> gcry_mpi_t;
     pub fn gcry_mpi_set_opaque_copy(a: gcry_mpi_t, p: *const ::libc::c_void,
                                     nbits: ::libc::c_uint) -> gcry_mpi_t;
-    pub fn gcry_mpi_get_opaque(a: gcry_mpi_t, nbits: *mut ::libc::c_uint) ->
-     *mut ::libc::c_void;
+    pub fn gcry_mpi_get_opaque(a: gcry_mpi_t, nbits: *mut ::libc::c_uint)
+     -> *mut ::libc::c_void;
     pub fn gcry_mpi_set_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag);
     pub fn gcry_mpi_clear_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag);
-    pub fn gcry_mpi_get_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag) ->
-     ::libc::c_int;
+    pub fn gcry_mpi_get_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag)
+     -> ::libc::c_int;
     pub fn _gcry_mpi_get_const(no: ::libc::c_int) -> gcry_mpi_t;
     pub fn gcry_cipher_open(handle: *mut gcry_cipher_hd_t,
                             algo: ::libc::c_int, mode: ::libc::c_int,
                             flags: ::libc::c_uint) -> gcry_error_t;
     pub fn gcry_cipher_close(h: gcry_cipher_hd_t);
     pub fn gcry_cipher_ctl(h: gcry_cipher_hd_t, cmd: ::libc::c_int,
-                           buffer: *mut ::libc::c_void, buflen: size_t) ->
-     gcry_error_t;
+                           buffer: *mut ::libc::c_void, buflen: size_t)
+     -> gcry_error_t;
     pub fn gcry_cipher_info(h: gcry_cipher_hd_t, what: ::libc::c_int,
                             buffer: *mut ::libc::c_void, nbytes: *mut size_t)
      -> gcry_error_t;
     pub fn gcry_cipher_algo_info(algo: ::libc::c_int, what: ::libc::c_int,
                                  buffer: *mut ::libc::c_void,
                                  nbytes: *mut size_t) -> gcry_error_t;
-    pub fn gcry_cipher_algo_name(algorithm: ::libc::c_int) ->
-     *const ::libc::c_char;
+    pub fn gcry_cipher_algo_name(algorithm: ::libc::c_int)
+     -> *const ::libc::c_char;
     pub fn gcry_cipher_map_name(name: *const ::libc::c_char) -> ::libc::c_int;
-    pub fn gcry_cipher_mode_from_oid(string: *const ::libc::c_char) ->
-     ::libc::c_int;
+    pub fn gcry_cipher_mode_from_oid(string: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn gcry_cipher_encrypt(h: gcry_cipher_hd_t, out: *mut ::libc::c_void,
                                outsize: size_t, _in: *const ::libc::c_void,
                                inlen: size_t) -> gcry_error_t;
@@ -6790,22 +6997,22 @@ extern "C" {
                                outsize: size_t, _in: *const ::libc::c_void,
                                inlen: size_t) -> gcry_error_t;
     pub fn gcry_cipher_setkey(hd: gcry_cipher_hd_t,
-                              key: *const ::libc::c_void, keylen: size_t) ->
-     gcry_error_t;
+                              key: *const ::libc::c_void, keylen: size_t)
+     -> gcry_error_t;
     pub fn gcry_cipher_setiv(hd: gcry_cipher_hd_t, iv: *const ::libc::c_void,
                              ivlen: size_t) -> gcry_error_t;
     pub fn gcry_cipher_authenticate(hd: gcry_cipher_hd_t,
                                     abuf: *const ::libc::c_void,
                                     abuflen: size_t) -> gcry_error_t;
     pub fn gcry_cipher_gettag(hd: gcry_cipher_hd_t,
-                              outtag: *mut ::libc::c_void, taglen: size_t) ->
-     gcry_error_t;
+                              outtag: *mut ::libc::c_void, taglen: size_t)
+     -> gcry_error_t;
     pub fn gcry_cipher_checktag(hd: gcry_cipher_hd_t,
                                 intag: *const ::libc::c_void, taglen: size_t)
      -> gcry_error_t;
     pub fn gcry_cipher_setctr(hd: gcry_cipher_hd_t,
-                              ctr: *const ::libc::c_void, ctrlen: size_t) ->
-     gpg_error_t;
+                              ctr: *const ::libc::c_void, ctrlen: size_t)
+     -> gpg_error_t;
     pub fn gcry_cipher_get_algo_keylen(algo: ::libc::c_int) -> size_t;
     pub fn gcry_cipher_get_algo_blklen(algo: ::libc::c_int) -> size_t;
     pub fn gcry_pk_encrypt(result: *mut gcry_sexp_t, data: gcry_sexp_t,
@@ -6817,22 +7024,22 @@ extern "C" {
     pub fn gcry_pk_verify(sigval: gcry_sexp_t, data: gcry_sexp_t,
                           pkey: gcry_sexp_t) -> gcry_error_t;
     pub fn gcry_pk_testkey(key: gcry_sexp_t) -> gcry_error_t;
-    pub fn gcry_pk_genkey(r_key: *mut gcry_sexp_t, s_parms: gcry_sexp_t) ->
-     gcry_error_t;
+    pub fn gcry_pk_genkey(r_key: *mut gcry_sexp_t, s_parms: gcry_sexp_t)
+     -> gcry_error_t;
     pub fn gcry_pk_ctl(cmd: ::libc::c_int, buffer: *mut ::libc::c_void,
                        buflen: size_t) -> gcry_error_t;
     pub fn gcry_pk_algo_info(algo: ::libc::c_int, what: ::libc::c_int,
                              buffer: *mut ::libc::c_void, nbytes: *mut size_t)
      -> gcry_error_t;
-    pub fn gcry_pk_algo_name(algorithm: ::libc::c_int) ->
-     *const ::libc::c_char;
+    pub fn gcry_pk_algo_name(algorithm: ::libc::c_int)
+     -> *const ::libc::c_char;
     pub fn gcry_pk_map_name(name: *const ::libc::c_char) -> ::libc::c_int;
     pub fn gcry_pk_get_nbits(key: gcry_sexp_t) -> ::libc::c_uint;
     pub fn gcry_pk_get_keygrip(key: gcry_sexp_t, array: *mut ::libc::c_uchar)
      -> *mut ::libc::c_uchar;
     pub fn gcry_pk_get_curve(key: gcry_sexp_t, iterator: ::libc::c_int,
-                             r_nbits: *mut ::libc::c_uint) ->
-     *const ::libc::c_char;
+                             r_nbits: *mut ::libc::c_uint)
+     -> *const ::libc::c_char;
     pub fn gcry_pk_get_param(algo: ::libc::c_int, name: *const ::libc::c_char)
      -> gcry_sexp_t;
     pub fn gcry_pubkey_get_sexp(r_sexp: *mut gcry_sexp_t, mode: ::libc::c_int,
@@ -6840,18 +7047,18 @@ extern "C" {
     pub fn gcry_md_open(h: *mut gcry_md_hd_t, algo: ::libc::c_int,
                         flags: ::libc::c_uint) -> gcry_error_t;
     pub fn gcry_md_close(hd: gcry_md_hd_t);
-    pub fn gcry_md_enable(hd: gcry_md_hd_t, algo: ::libc::c_int) ->
-     gcry_error_t;
-    pub fn gcry_md_copy(bhd: *mut gcry_md_hd_t, ahd: gcry_md_hd_t) ->
-     gcry_error_t;
+    pub fn gcry_md_enable(hd: gcry_md_hd_t, algo: ::libc::c_int)
+     -> gcry_error_t;
+    pub fn gcry_md_copy(bhd: *mut gcry_md_hd_t, ahd: gcry_md_hd_t)
+     -> gcry_error_t;
     pub fn gcry_md_reset(hd: gcry_md_hd_t);
     pub fn gcry_md_ctl(hd: gcry_md_hd_t, cmd: ::libc::c_int,
-                       buffer: *mut ::libc::c_void, buflen: size_t) ->
-     gcry_error_t;
+                       buffer: *mut ::libc::c_void, buflen: size_t)
+     -> gcry_error_t;
     pub fn gcry_md_write(hd: gcry_md_hd_t, buffer: *const ::libc::c_void,
                          length: size_t);
-    pub fn gcry_md_read(hd: gcry_md_hd_t, algo: ::libc::c_int) ->
-     *mut ::libc::c_uchar;
+    pub fn gcry_md_read(hd: gcry_md_hd_t, algo: ::libc::c_int)
+     -> *mut ::libc::c_uchar;
     pub fn gcry_md_hash_buffer(algo: ::libc::c_int,
                                digest: *mut ::libc::c_void,
                                buffer: *const ::libc::c_void, length: size_t);
@@ -6861,12 +7068,12 @@ extern "C" {
                                 iovcnt: ::libc::c_int) -> gpg_error_t;
     pub fn gcry_md_get_algo(hd: gcry_md_hd_t) -> ::libc::c_int;
     pub fn gcry_md_get_algo_dlen(algo: ::libc::c_int) -> ::libc::c_uint;
-    pub fn gcry_md_is_enabled(a: gcry_md_hd_t, algo: ::libc::c_int) ->
-     ::libc::c_int;
+    pub fn gcry_md_is_enabled(a: gcry_md_hd_t, algo: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn gcry_md_is_secure(a: gcry_md_hd_t) -> ::libc::c_int;
     pub fn gcry_md_info(h: gcry_md_hd_t, what: ::libc::c_int,
-                        buffer: *mut ::libc::c_void, nbytes: *mut size_t) ->
-     gcry_error_t;
+                        buffer: *mut ::libc::c_void, nbytes: *mut size_t)
+     -> gcry_error_t;
     pub fn gcry_md_algo_info(algo: ::libc::c_int, what: ::libc::c_int,
                              buffer: *mut ::libc::c_void, nbytes: *mut size_t)
      -> gcry_error_t;
@@ -6876,12 +7083,12 @@ extern "C" {
                           keylen: size_t) -> gcry_error_t;
     pub fn gcry_md_debug(hd: gcry_md_hd_t, suffix: *const ::libc::c_char);
     pub fn gcry_mac_open(handle: *mut gcry_mac_hd_t, algo: ::libc::c_int,
-                         flags: ::libc::c_uint, ctx: gcry_ctx_t) ->
-     gcry_error_t;
+                         flags: ::libc::c_uint, ctx: gcry_ctx_t)
+     -> gcry_error_t;
     pub fn gcry_mac_close(h: gcry_mac_hd_t);
     pub fn gcry_mac_ctl(h: gcry_mac_hd_t, cmd: ::libc::c_int,
-                        buffer: *mut ::libc::c_void, buflen: size_t) ->
-     gcry_error_t;
+                        buffer: *mut ::libc::c_void, buflen: size_t)
+     -> gcry_error_t;
     pub fn gcry_mac_algo_info(algo: ::libc::c_int, what: ::libc::c_int,
                               buffer: *mut ::libc::c_void,
                               nbytes: *mut size_t) -> gcry_error_t;
@@ -6897,8 +7104,8 @@ extern "C" {
                            buflen: size_t) -> gcry_error_t;
     pub fn gcry_mac_get_algo_maclen(algo: ::libc::c_int) -> ::libc::c_uint;
     pub fn gcry_mac_get_algo_keylen(algo: ::libc::c_int) -> ::libc::c_uint;
-    pub fn gcry_mac_algo_name(algorithm: ::libc::c_int) ->
-     *const ::libc::c_char;
+    pub fn gcry_mac_algo_name(algorithm: ::libc::c_int)
+     -> *const ::libc::c_char;
     pub fn gcry_mac_map_name(name: *const ::libc::c_char) -> ::libc::c_int;
     pub fn gcry_kdf_derive(passphrase: *const ::libc::c_void,
                            passphraselen: size_t, algo: ::libc::c_int,
@@ -6909,13 +7116,13 @@ extern "C" {
     pub fn gcry_randomize(buffer: *mut ::libc::c_void, length: size_t,
                           level: Enum_gcry_random_level);
     pub fn gcry_random_add_bytes(buffer: *const ::libc::c_void,
-                                 length: size_t, quality: ::libc::c_int) ->
-     gcry_error_t;
-    pub fn gcry_random_bytes(nbytes: size_t, level: Enum_gcry_random_level) ->
-     *mut ::libc::c_void;
+                                 length: size_t, quality: ::libc::c_int)
+     -> gcry_error_t;
+    pub fn gcry_random_bytes(nbytes: size_t, level: Enum_gcry_random_level)
+     -> *mut ::libc::c_void;
     pub fn gcry_random_bytes_secure(nbytes: size_t,
-                                    level: Enum_gcry_random_level) ->
-     *mut ::libc::c_void;
+                                    level: Enum_gcry_random_level)
+     -> *mut ::libc::c_void;
     pub fn gcry_mpi_randomize(w: gcry_mpi_t, nbits: ::libc::c_uint,
                               level: Enum_gcry_random_level);
     pub fn gcry_create_nonce(buffer: *mut ::libc::c_void, length: size_t);
@@ -6931,8 +7138,8 @@ extern "C" {
                                       factors: *mut gcry_mpi_t,
                                       start_g: gcry_mpi_t) -> gcry_error_t;
     pub fn gcry_prime_release_factors(factors: *mut gcry_mpi_t);
-    pub fn gcry_prime_check(x: gcry_mpi_t, flags: ::libc::c_uint) ->
-     gcry_error_t;
+    pub fn gcry_prime_check(x: gcry_mpi_t, flags: ::libc::c_uint)
+     -> gcry_error_t;
     pub fn gcry_ctx_release(ctx: gcry_ctx_t);
     pub fn gcry_log_debug(fmt: *const ::libc::c_char, ...);
     pub fn gcry_log_debughex(text: *const ::libc::c_char,
@@ -6966,15 +7173,15 @@ extern "C" {
     pub fn gcry_calloc(n: size_t, m: size_t) -> *mut ::libc::c_void;
     pub fn gcry_malloc_secure(n: size_t) -> *mut ::libc::c_void;
     pub fn gcry_calloc_secure(n: size_t, m: size_t) -> *mut ::libc::c_void;
-    pub fn gcry_realloc(a: *mut ::libc::c_void, n: size_t) ->
-     *mut ::libc::c_void;
+    pub fn gcry_realloc(a: *mut ::libc::c_void, n: size_t)
+     -> *mut ::libc::c_void;
     pub fn gcry_strdup(string: *const ::libc::c_char) -> *mut ::libc::c_char;
     pub fn gcry_xmalloc(n: size_t) -> *mut ::libc::c_void;
     pub fn gcry_xcalloc(n: size_t, m: size_t) -> *mut ::libc::c_void;
     pub fn gcry_xmalloc_secure(n: size_t) -> *mut ::libc::c_void;
     pub fn gcry_xcalloc_secure(n: size_t, m: size_t) -> *mut ::libc::c_void;
-    pub fn gcry_xrealloc(a: *mut ::libc::c_void, n: size_t) ->
-     *mut ::libc::c_void;
+    pub fn gcry_xrealloc(a: *mut ::libc::c_void, n: size_t)
+     -> *mut ::libc::c_void;
     pub fn gcry_xstrdup(a: *const ::libc::c_char) -> *mut ::libc::c_char;
     pub fn gcry_free(a: *mut ::libc::c_void);
     pub fn gcry_is_secure(a: *const ::libc::c_void) -> ::libc::c_int;
@@ -6982,10 +7189,10 @@ extern "C" {
     pub fn GNUNET_CRYPTO_crc16_step(sum: uint32_t, buf: *const ::libc::c_void,
                                     len: size_t) -> uint32_t;
     pub fn GNUNET_CRYPTO_crc16_finish(sum: uint32_t) -> uint16_t;
-    pub fn GNUNET_CRYPTO_crc16_n(buf: *const ::libc::c_void, len: size_t) ->
-     uint16_t;
-    pub fn GNUNET_CRYPTO_crc32_n(buf: *const ::libc::c_void, len: size_t) ->
-     int32_t;
+    pub fn GNUNET_CRYPTO_crc16_n(buf: *const ::libc::c_void, len: size_t)
+     -> uint16_t;
+    pub fn GNUNET_CRYPTO_crc32_n(buf: *const ::libc::c_void, len: size_t)
+     -> int32_t;
     pub fn GNUNET_CRYPTO_random_block(mode: Enum_GNUNET_CRYPTO_Quality,
                                       buffer: *mut ::libc::c_void,
                                       length: size_t);
@@ -6994,8 +7201,8 @@ extern "C" {
     pub fn GNUNET_CRYPTO_random_u64(mode: Enum_GNUNET_CRYPTO_Quality,
                                     max: uint64_t) -> uint64_t;
     pub fn GNUNET_CRYPTO_random_permute(mode: Enum_GNUNET_CRYPTO_Quality,
-                                        n: ::libc::c_uint) ->
-     *mut ::libc::c_uint;
+                                        n: ::libc::c_uint)
+     -> *mut ::libc::c_uint;
     pub fn GNUNET_CRYPTO_symmetric_create_session_key(key:
                                                           *mut Struct_GNUNET_CRYPTO_SymmetricSessionKey);
     pub fn GNUNET_CRYPTO_symmetric_encrypt(block: *const ::libc::c_void,
@@ -7004,16 +7211,16 @@ extern "C" {
                                                *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
                                            iv:
                                                *const Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
-                                           result: *mut ::libc::c_void) ->
-     ssize_t;
+                                           result: *mut ::libc::c_void)
+     -> ssize_t;
     pub fn GNUNET_CRYPTO_symmetric_decrypt(block: *const ::libc::c_void,
                                            size: size_t,
                                            sessionkey:
                                                *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
                                            iv:
                                                *const Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
-                                           result: *mut ::libc::c_void) ->
-     ssize_t;
+                                           result: *mut ::libc::c_void)
+     -> ssize_t;
     pub fn GNUNET_CRYPTO_symmetric_derive_iv(iv:
                                                  *mut Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
                                              skey:
@@ -7033,8 +7240,8 @@ extern "C" {
     pub fn GNUNET_CRYPTO_hash_from_string2(enc: *const ::libc::c_char,
                                            enclen: size_t,
                                            result:
-                                               *mut Struct_GNUNET_HashCode) ->
-     ::libc::c_int;
+                                               *mut Struct_GNUNET_HashCode)
+     -> ::libc::c_int;
     pub fn GNUNET_CRYPTO_hash_distance_u32(a: *const Struct_GNUNET_HashCode,
                                            b: *const Struct_GNUNET_HashCode)
      -> uint32_t;
@@ -7049,8 +7256,8 @@ extern "C" {
                                    blocksize: size_t,
                                    callback:
                                        GNUNET_CRYPTO_HashCompletedCallback,
-                                   callback_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_CRYPTO_FileHashContext;
+                                   callback_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_CRYPTO_FileHashContext;
     pub fn GNUNET_CRYPTO_hash_file_cancel(fhc:
                                               *mut Struct_GNUNET_CRYPTO_FileHashContext);
     pub fn GNUNET_CRYPTO_hash_create_random(mode: Enum_GNUNET_CRYPTO_Quality,
@@ -7078,12 +7285,12 @@ extern "C" {
                                                 *const Struct_GNUNET_HashCode)
      -> ::libc::c_uint;
     pub fn GNUNET_CRYPTO_hash_cmp(h1: *const Struct_GNUNET_HashCode,
-                                  h2: *const Struct_GNUNET_HashCode) ->
-     ::libc::c_int;
+                                  h2: *const Struct_GNUNET_HashCode)
+     -> ::libc::c_int;
     pub fn GNUNET_CRYPTO_hash_xorcmp(h1: *const Struct_GNUNET_HashCode,
                                      h2: *const Struct_GNUNET_HashCode,
-                                     target: *const Struct_GNUNET_HashCode) ->
-     ::libc::c_int;
+                                     target: *const Struct_GNUNET_HashCode)
+     -> ::libc::c_int;
     pub fn GNUNET_CRYPTO_hmac_derive_key_v(key:
                                                *mut Struct_GNUNET_CRYPTO_AuthKey,
                                            rkey:
@@ -7155,20 +7362,20 @@ extern "C" {
     pub fn GNUNET_CRYPTO_eddsa_key_create_from_configuration(cfg:
                                                                  *const Struct_GNUNET_CONFIGURATION_Handle)
      -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
-    pub fn GNUNET_CRYPTO_ecdsa_key_create() ->
-     *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
-    pub fn GNUNET_CRYPTO_eddsa_key_create() ->
-     *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
-    pub fn GNUNET_CRYPTO_ecdhe_key_create() ->
-     *mut Struct_GNUNET_CRYPTO_EcdhePrivateKey;
+    pub fn GNUNET_CRYPTO_ecdsa_key_create()
+     -> *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_CRYPTO_eddsa_key_create()
+     -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
+    pub fn GNUNET_CRYPTO_ecdhe_key_create()
+     -> *mut Struct_GNUNET_CRYPTO_EcdhePrivateKey;
     pub fn GNUNET_CRYPTO_eddsa_key_clear(pk:
                                              *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey);
     pub fn GNUNET_CRYPTO_ecdsa_key_clear(pk:
                                              *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey);
     pub fn GNUNET_CRYPTO_ecdhe_key_clear(pk:
                                              *mut Struct_GNUNET_CRYPTO_EcdhePrivateKey);
-    pub fn GNUNET_CRYPTO_ecdsa_key_get_anonymous() ->
-     *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_CRYPTO_ecdsa_key_get_anonymous()
+     -> *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
     pub fn GNUNET_CRYPTO_eddsa_setup_hostkey(cfg_name: *const ::libc::c_char);
     pub fn GNUNET_CRYPTO_get_peer_identity(cfg:
                                                *const Struct_GNUNET_CONFIGURATION_Handle,
@@ -7265,8 +7472,8 @@ extern "C" {
     pub fn GNUNET_CRYPTO_paillier_hom_get_remaining(c:
                                                         *const Struct_GNUNET_CRYPTO_PaillierCiphertext)
      -> ::libc::c_int;
-    pub fn GNUNET_BANDWIDTH_value_init(bytes_per_second: uint32_t) ->
-     Struct_GNUNET_BANDWIDTH_Value32NBO;
+    pub fn GNUNET_BANDWIDTH_value_init(bytes_per_second: uint32_t)
+     -> Struct_GNUNET_BANDWIDTH_Value32NBO;
     pub fn GNUNET_BANDWIDTH_value_get_available_until(bps:
                                                           Struct_GNUNET_BANDWIDTH_Value32NBO,
                                                       deadline:
@@ -7274,8 +7481,8 @@ extern "C" {
      -> uint64_t;
     pub fn GNUNET_BANDWIDTH_value_get_delay_for(bps:
                                                     Struct_GNUNET_BANDWIDTH_Value32NBO,
-                                                size: uint64_t) ->
-     Struct_GNUNET_TIME_Relative;
+                                                size: uint64_t)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_BANDWIDTH_value_min(b1: Struct_GNUNET_BANDWIDTH_Value32NBO,
                                       b2: Struct_GNUNET_BANDWIDTH_Value32NBO)
      -> Struct_GNUNET_BANDWIDTH_Value32NBO;
@@ -7305,8 +7512,8 @@ extern "C" {
                                             size: ssize_t) -> ::libc::c_int;
     pub fn GNUNET_BANDWIDTH_tracker_get_delay(av:
                                                   *mut Struct_GNUNET_BANDWIDTH_Tracker,
-                                              size: size_t) ->
-     Struct_GNUNET_TIME_Relative;
+                                              size: size_t)
+     -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_BANDWIDTH_tracker_get_available(av:
                                                       *mut Struct_GNUNET_BANDWIDTH_Tracker)
      -> int64_t;
@@ -7314,25 +7521,25 @@ extern "C" {
                                                      *mut Struct_GNUNET_BANDWIDTH_Tracker,
                                                  bytes_per_second_limit:
                                                      Struct_GNUNET_BANDWIDTH_Value32NBO);
-    pub fn EXTRACTOR_metatype_to_string(_type: Enum_EXTRACTOR_MetaType) ->
-     *const ::libc::c_char;
+    pub fn EXTRACTOR_metatype_to_string(_type: Enum_EXTRACTOR_MetaType)
+     -> *const ::libc::c_char;
     pub fn EXTRACTOR_metatype_to_description(_type: Enum_EXTRACTOR_MetaType)
      -> *const ::libc::c_char;
     pub fn EXTRACTOR_metatype_get_max() -> Enum_EXTRACTOR_MetaType;
-    pub fn EXTRACTOR_plugin_add_defaults(flags: Enum_EXTRACTOR_Options) ->
-     *mut Struct_EXTRACTOR_PluginList;
+    pub fn EXTRACTOR_plugin_add_defaults(flags: Enum_EXTRACTOR_Options)
+     -> *mut Struct_EXTRACTOR_PluginList;
     pub fn EXTRACTOR_plugin_add(prev: *mut Struct_EXTRACTOR_PluginList,
                                 library: *const ::libc::c_char,
                                 options: *const ::libc::c_char,
-                                flags: Enum_EXTRACTOR_Options) ->
-     *mut Struct_EXTRACTOR_PluginList;
+                                flags: Enum_EXTRACTOR_Options)
+     -> *mut Struct_EXTRACTOR_PluginList;
     pub fn EXTRACTOR_plugin_add_config(prev: *mut Struct_EXTRACTOR_PluginList,
                                        config: *const ::libc::c_char,
-                                       flags: Enum_EXTRACTOR_Options) ->
-     *mut Struct_EXTRACTOR_PluginList;
+                                       flags: Enum_EXTRACTOR_Options)
+     -> *mut Struct_EXTRACTOR_PluginList;
     pub fn EXTRACTOR_plugin_remove(prev: *mut Struct_EXTRACTOR_PluginList,
-                                   library: *const ::libc::c_char) ->
-     *mut Struct_EXTRACTOR_PluginList;
+                                   library: *const ::libc::c_char)
+     -> *mut Struct_EXTRACTOR_PluginList;
     pub fn EXTRACTOR_plugin_remove_all(plugins:
                                            *mut Struct_EXTRACTOR_PluginList);
     pub fn EXTRACTOR_extract(plugins: *mut Struct_EXTRACTOR_PluginList,
@@ -7357,8 +7564,8 @@ extern "C" {
                                                          *const Struct_GNUNET_CONTAINER_BloomFilter,
                                                      data:
                                                          *mut ::libc::c_char,
-                                                     size: size_t) ->
-     ::libc::c_int;
+                                                     size: size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_bloomfilter_test(bf:
                                                  *const Struct_GNUNET_CONTAINER_BloomFilter,
                                              e: *const Struct_GNUNET_HashCode)
@@ -7400,8 +7607,8 @@ extern "C" {
                                                    *mut ::libc::c_void,
                                                size: size_t,
                                                k: ::libc::c_uint);
-    pub fn GNUNET_CONTAINER_meta_data_create() ->
-     *mut Struct_GNUNET_CONTAINER_MetaData;
+    pub fn GNUNET_CONTAINER_meta_data_create()
+     -> *mut Struct_GNUNET_CONTAINER_MetaData;
     pub fn GNUNET_CONTAINER_meta_data_duplicate(md:
                                                     *const Struct_GNUNET_CONTAINER_MetaData)
      -> *mut Struct_GNUNET_CONTAINER_MetaData;
@@ -7422,8 +7629,8 @@ extern "C" {
                                              data_mime_type:
                                                  *const ::libc::c_char,
                                              data: *const ::libc::c_char,
-                                             data_size: size_t) ->
-     ::libc::c_int;
+                                             data_size: size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_meta_data_merge(md:
                                                 *mut Struct_GNUNET_CONTAINER_MetaData,
                                             _in:
@@ -7432,8 +7639,8 @@ extern "C" {
                                                  *mut Struct_GNUNET_CONTAINER_MetaData,
                                              _type: Enum_EXTRACTOR_MetaType,
                                              data: *const ::libc::c_char,
-                                             data_size: size_t) ->
-     ::libc::c_int;
+                                             data_size: size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_meta_data_clear(md:
                                                 *mut Struct_GNUNET_CONTAINER_MetaData);
     pub fn GNUNET_CONTAINER_meta_data_add_publication_date(md:
@@ -7470,12 +7677,12 @@ extern "C" {
      -> ssize_t;
     pub fn GNUNET_CONTAINER_meta_data_deserialize(input:
                                                       *const ::libc::c_char,
-                                                  size: size_t) ->
-     *mut Struct_GNUNET_CONTAINER_MetaData;
+                                                  size: size_t)
+     -> *mut Struct_GNUNET_CONTAINER_MetaData;
     pub fn GNUNET_CONTAINER_multihashmap_create(len: ::libc::c_uint,
                                                 do_not_copy_keys:
-                                                    ::libc::c_int) ->
-     *mut Struct_GNUNET_CONTAINER_MultiHashMap;
+                                                    ::libc::c_int)
+     -> *mut Struct_GNUNET_CONTAINER_MultiHashMap;
     pub fn GNUNET_CONTAINER_multihashmap_destroy(map:
                                                      *mut Struct_GNUNET_CONTAINER_MultiHashMap);
     pub fn GNUNET_CONTAINER_multihashmap_get(map:
@@ -7546,8 +7753,8 @@ extern "C" {
      -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_multipeermap_create(len: ::libc::c_uint,
                                                 do_not_copy_keys:
-                                                    ::libc::c_int) ->
-     *mut Struct_GNUNET_CONTAINER_MultiPeerMap;
+                                                    ::libc::c_int)
+     -> *mut Struct_GNUNET_CONTAINER_MultiPeerMap;
     pub fn GNUNET_CONTAINER_multipeermap_destroy(map:
                                                      *mut Struct_GNUNET_CONTAINER_MultiPeerMap);
     pub fn GNUNET_CONTAINER_multipeermap_get(map:
@@ -7616,8 +7823,8 @@ extern "C" {
                                                       it_cls:
                                                           *mut ::libc::c_void)
      -> ::libc::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_create(len: ::libc::c_uint) ->
-     *mut Struct_GNUNET_CONTAINER_MultiHashMap32;
+    pub fn GNUNET_CONTAINER_multihashmap32_create(len: ::libc::c_uint)
+     -> *mut Struct_GNUNET_CONTAINER_MultiHashMap32;
     pub fn GNUNET_CONTAINER_multihashmap32_destroy(map:
                                                        *mut Struct_GNUNET_CONTAINER_MultiHashMap32);
     pub fn GNUNET_CONTAINER_multihashmap32_size(map:
@@ -7625,15 +7832,15 @@ extern "C" {
      -> ::libc::c_uint;
     pub fn GNUNET_CONTAINER_multihashmap32_get(map:
                                                    *const Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                               key: uint32_t) ->
-     *mut ::libc::c_void;
+                                               key: uint32_t)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_CONTAINER_multihashmap32_iterate(map:
                                                        *const Struct_GNUNET_CONTAINER_MultiHashMap32,
                                                    it:
                                                        GNUNET_CONTAINER_HashMapIterator32,
                                                    it_cls:
-                                                       *mut ::libc::c_void) ->
-     ::libc::c_int;
+                                                       *mut ::libc::c_void)
+     -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_multihashmap32_remove(map:
                                                       *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
                                                   key: uint32_t,
@@ -7642,12 +7849,12 @@ extern "C" {
      -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_multihashmap32_remove_all(map:
                                                           *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                      key: uint32_t) ->
-     ::libc::c_int;
+                                                      key: uint32_t)
+     -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_multihashmap32_contains(map:
                                                         *const Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                    key: uint32_t) ->
-     ::libc::c_int;
+                                                    key: uint32_t)
+     -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_multihashmap32_contains_value(map:
                                                               *const Struct_GNUNET_CONTAINER_MultiHashMap32,
                                                           key: uint32_t,
@@ -7740,8 +7947,8 @@ extern "C" {
                                              *mut Struct_GNUNET_CONTAINER_SList,
                                          src:
                                              *mut Struct_GNUNET_CONTAINER_SList);
-    pub fn GNUNET_CONTAINER_slist_create() ->
-     *mut Struct_GNUNET_CONTAINER_SList;
+    pub fn GNUNET_CONTAINER_slist_create()
+     -> *mut Struct_GNUNET_CONTAINER_SList;
     pub fn GNUNET_CONTAINER_slist_destroy(l:
                                               *mut Struct_GNUNET_CONTAINER_SList);
     pub fn GNUNET_CONTAINER_slist_begin(l: *mut Struct_GNUNET_CONTAINER_SList)
@@ -7788,24 +7995,24 @@ extern "C" {
      -> ::libc::c_int;
     pub fn GNUNET_CONTAINER_slist_get(i:
                                           *const Struct_GNUNET_CONTAINER_SList_Iterator,
-                                      len: *mut size_t) ->
-     *mut ::libc::c_void;
+                                      len: *mut size_t)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_CONTAINER_slist_iter_destroy(i:
                                                    *mut Struct_GNUNET_CONTAINER_SList_Iterator);
-    pub fn GNUNET_BIO_read_open(_fn: *const ::libc::c_char) ->
-     *mut Struct_GNUNET_BIO_ReadHandle;
+    pub fn GNUNET_BIO_read_open(_fn: *const ::libc::c_char)
+     -> *mut Struct_GNUNET_BIO_ReadHandle;
     pub fn GNUNET_BIO_read_close(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                                 emsg: *mut *mut ::libc::c_char) ->
-     ::libc::c_int;
+                                 emsg: *mut *mut ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_BIO_read(h: *mut Struct_GNUNET_BIO_ReadHandle,
                            what: *const ::libc::c_char,
-                           result: *mut ::libc::c_void, len: size_t) ->
-     ::libc::c_int;
+                           result: *mut ::libc::c_void, len: size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_BIO_read_fn(h: *mut Struct_GNUNET_BIO_ReadHandle,
                               file: *const ::libc::c_char,
                               line: ::libc::c_int,
-                              result: *mut ::libc::c_void, len: size_t) ->
-     ::libc::c_int;
+                              result: *mut ::libc::c_void, len: size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_BIO_read_string(h: *mut Struct_GNUNET_BIO_ReadHandle,
                                   what: *const ::libc::c_char,
                                   result: *mut *mut ::libc::c_char,
@@ -7817,21 +8024,21 @@ extern "C" {
      -> ::libc::c_int;
     pub fn GNUNET_BIO_read_int32__(h: *mut Struct_GNUNET_BIO_ReadHandle,
                                    file: *const ::libc::c_char,
-                                   line: ::libc::c_int, i: *mut int32_t) ->
-     ::libc::c_int;
+                                   line: ::libc::c_int, i: *mut int32_t)
+     -> ::libc::c_int;
     pub fn GNUNET_BIO_read_int64__(h: *mut Struct_GNUNET_BIO_ReadHandle,
                                    file: *const ::libc::c_char,
-                                   line: ::libc::c_int, i: *mut int64_t) ->
-     ::libc::c_int;
-    pub fn GNUNET_BIO_write_open(_fn: *const ::libc::c_char) ->
-     *mut Struct_GNUNET_BIO_WriteHandle;
-    pub fn GNUNET_BIO_write_close(h: *mut Struct_GNUNET_BIO_WriteHandle) ->
-     ::libc::c_int;
+                                   line: ::libc::c_int, i: *mut int64_t)
+     -> ::libc::c_int;
+    pub fn GNUNET_BIO_write_open(_fn: *const ::libc::c_char)
+     -> *mut Struct_GNUNET_BIO_WriteHandle;
+    pub fn GNUNET_BIO_write_close(h: *mut Struct_GNUNET_BIO_WriteHandle)
+     -> ::libc::c_int;
     pub fn GNUNET_BIO_write(h: *mut Struct_GNUNET_BIO_WriteHandle,
-                            buffer: *const ::libc::c_void, n: size_t) ->
-     ::libc::c_int;
-    pub fn GNUNET_BIO_flush(h: *mut Struct_GNUNET_BIO_WriteHandle) ->
-     ::libc::c_int;
+                            buffer: *const ::libc::c_void, n: size_t)
+     -> ::libc::c_int;
+    pub fn GNUNET_BIO_flush(h: *mut Struct_GNUNET_BIO_WriteHandle)
+     -> ::libc::c_int;
     pub fn GNUNET_BIO_write_string(h: *mut Struct_GNUNET_BIO_WriteHandle,
                                    s: *const ::libc::c_char) -> ::libc::c_int;
     pub fn GNUNET_BIO_write_meta_data(h: *mut Struct_GNUNET_BIO_WriteHandle,
@@ -7847,6 +8054,11 @@ extern "C" {
     pub fn GNUNET_CONNECTION_disable_corking(connection:
                                                  *mut Struct_GNUNET_CONNECTION_Handle)
      -> ::libc::c_int;
+    pub fn GNUNET_CONNECTION_connect_socket(s:
+                                                *mut Struct_GNUNET_NETWORK_Handle,
+                                            serv_addr: *const Struct_sockaddr,
+                                            addrlen: socklen_t)
+     -> *mut Struct_GNUNET_CONNECTION_Handle;
     pub fn GNUNET_CONNECTION_create_from_existing(osSocket:
                                                       *mut Struct_GNUNET_NETWORK_Handle)
      -> *mut Struct_GNUNET_CONNECTION_Handle;
@@ -7861,8 +8073,8 @@ extern "C" {
                                                      *const Struct_GNUNET_CONFIGURATION_Handle,
                                                  hostname:
                                                      *const ::libc::c_char,
-                                                 port: uint16_t) ->
-     *mut Struct_GNUNET_CONNECTION_Handle;
+                                                 port: uint16_t)
+     -> *mut Struct_GNUNET_CONNECTION_Handle;
     pub fn GNUNET_CONNECTION_create_from_connect_to_unixpath(cfg:
                                                                  *const Struct_GNUNET_CONFIGURATION_Handle,
                                                              unixpath:
@@ -7871,16 +8083,16 @@ extern "C" {
     pub fn GNUNET_CONNECTION_create_from_sockaddr(af_family: ::libc::c_int,
                                                   serv_addr:
                                                       *const Struct_sockaddr,
-                                                  addrlen: socklen_t) ->
-     *mut Struct_GNUNET_CONNECTION_Handle;
+                                                  addrlen: socklen_t)
+     -> *mut Struct_GNUNET_CONNECTION_Handle;
     pub fn GNUNET_CONNECTION_check(connection:
                                        *mut Struct_GNUNET_CONNECTION_Handle)
      -> ::libc::c_int;
     pub fn GNUNET_CONNECTION_get_address(connection:
                                              *mut Struct_GNUNET_CONNECTION_Handle,
                                          addr: *mut *mut ::libc::c_void,
-                                         addrlen: *mut size_t) ->
-     ::libc::c_int;
+                                         addrlen: *mut size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_CONNECTION_destroy(connection:
                                          *mut Struct_GNUNET_CONNECTION_Handle);
     pub fn GNUNET_CONNECTION_receive(connection:
@@ -7900,8 +8112,8 @@ extern "C" {
                                                    notify:
                                                        GNUNET_CONNECTION_TransmitReadyNotify,
                                                    notify_cls:
-                                                       *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_CONNECTION_TransmitHandle;
+                                                       *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_CONNECTION_TransmitHandle;
     pub fn GNUNET_CONNECTION_notify_transmit_ready_cancel(th:
                                                               *mut Struct_GNUNET_CONNECTION_TransmitHandle);
     pub fn GNUNET_CLIENT_connect(service_name: *const ::libc::c_char,
@@ -7923,8 +8135,8 @@ extern "C" {
                                                notify:
                                                    GNUNET_CONNECTION_TransmitReadyNotify,
                                                notify_cls:
-                                                   *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_CLIENT_TransmitHandle;
+                                                   *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_CLIENT_TransmitHandle;
     pub fn GNUNET_CLIENT_notify_transmit_ready_cancel(th:
                                                           *mut Struct_GNUNET_CLIENT_TransmitHandle);
     pub fn GNUNET_CLIENT_transmit_and_get_response(client:
@@ -7937,15 +8149,15 @@ extern "C" {
                                                    rn:
                                                        GNUNET_CLIENT_MessageHandler,
                                                    rn_cls:
-                                                       *mut ::libc::c_void) ->
-     ::libc::c_int;
+                                                       *mut ::libc::c_void)
+     -> ::libc::c_int;
     pub fn GNUNET_CLIENT_service_test(service: *const ::libc::c_char,
                                       cfg:
                                           *const Struct_GNUNET_CONFIGURATION_Handle,
                                       timeout: Struct_GNUNET_TIME_Relative,
                                       cb: GNUNET_CLIENT_TestResultCallback,
-                                      cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_CLIENT_TestHandle;
+                                      cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_CLIENT_TestHandle;
     pub fn GNUNET_CLIENT_service_test_cancel(th:
                                                  *mut Struct_GNUNET_CLIENT_TestHandle);
     pub fn GNUNET_CLIENT_MANAGER_connect(cfg:
@@ -7977,8 +8189,8 @@ extern "C" {
      -> *mut Struct_GNUNET_CLIENT_Connection;
     pub fn GNUNET_CLIENT_MANAGER_get_user_context_(mgr:
                                                        *mut Struct_GNUNET_CLIENT_MANAGER_Connection,
-                                                   size: size_t) ->
-     *mut ::libc::c_void;
+                                                   size: size_t)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_CLIENT_MANAGER_set_user_context_(mgr:
                                                        *mut Struct_GNUNET_CLIENT_MANAGER_Connection,
                                                    ctx: *mut ::libc::c_void,
@@ -7987,62 +8199,62 @@ extern "C" {
                              allOptions:
                                  *const Struct_GNUNET_GETOPT_CommandLineOption,
                              argc: ::libc::c_uint,
-                             argv: *const *mut ::libc::c_char) ->
-     ::libc::c_int;
+                             argv: *const *mut ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_set_ulong(ctx:
                                        *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                    scls: *mut ::libc::c_void,
                                    option: *const ::libc::c_char,
-                                   value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                   value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_set_relative_time(ctx:
                                                *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                            scls: *mut ::libc::c_void,
                                            option: *const ::libc::c_char,
-                                           value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                           value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_set_uint(ctx:
                                       *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                   scls: *mut ::libc::c_void,
                                   option: *const ::libc::c_char,
-                                  value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                  value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_set_one(ctx:
                                      *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                  scls: *mut ::libc::c_void,
                                  option: *const ::libc::c_char,
-                                 value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                 value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_set_string(ctx:
                                         *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                     scls: *mut ::libc::c_void,
                                     option: *const ::libc::c_char,
-                                    value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                    value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_set_filename(ctx:
                                           *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                       scls: *mut ::libc::c_void,
                                       option: *const ::libc::c_char,
-                                      value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                      value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_increment_value(ctx:
                                              *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                          scls: *mut ::libc::c_void,
                                          option: *const ::libc::c_char,
-                                         value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                         value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_format_help_(ctx:
                                           *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                       scls: *mut ::libc::c_void,
                                       option: *const ::libc::c_char,
-                                      value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                      value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_GETOPT_print_version_(ctx:
                                             *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
                                         scls: *mut ::libc::c_void,
                                         option: *const ::libc::c_char,
-                                        value: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                        value: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_SERVER_create_with_sockets(access:
                                                  GNUNET_CONNECTION_AccessCheck,
                                              access_cls: *mut ::libc::c_void,
@@ -8050,15 +8262,15 @@ extern "C" {
                                                  *mut *mut Struct_GNUNET_NETWORK_Handle,
                                              idle_timeout:
                                                  Struct_GNUNET_TIME_Relative,
-                                             require_found: ::libc::c_int) ->
-     *mut Struct_GNUNET_SERVER_Handle;
+                                             require_found: ::libc::c_int)
+     -> *mut Struct_GNUNET_SERVER_Handle;
     pub fn GNUNET_SERVER_create(access: GNUNET_CONNECTION_AccessCheck,
                                 access_cls: *mut ::libc::c_void,
                                 server_addr: *const *mut Struct_sockaddr,
                                 socklen: *const socklen_t,
                                 idle_timeout: Struct_GNUNET_TIME_Relative,
-                                require_found: ::libc::c_int) ->
-     *mut Struct_GNUNET_SERVER_Handle;
+                                require_found: ::libc::c_int)
+     -> *mut Struct_GNUNET_SERVER_Handle;
     pub fn GNUNET_SERVER_suspend(server: *mut Struct_GNUNET_SERVER_Handle);
     pub fn GNUNET_SERVER_resume(server: *mut Struct_GNUNET_SERVER_Handle);
     pub fn GNUNET_SERVER_stop_listening(server:
@@ -8076,8 +8288,8 @@ extern "C" {
                                                callback:
                                                    GNUNET_CONNECTION_TransmitReadyNotify,
                                                callback_cls:
-                                                   *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_SERVER_TransmitHandle;
+                                                   *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_SERVER_TransmitHandle;
     pub fn GNUNET_SERVER_notify_transmit_ready_cancel(th:
                                                           *mut Struct_GNUNET_SERVER_TransmitHandle);
     pub fn GNUNET_SERVER_client_mark_monitor(client:
@@ -8093,8 +8305,8 @@ extern "C" {
                                                 Struct_GNUNET_TIME_Relative);
     pub fn GNUNET_SERVER_client_get_user_context_(client:
                                                       *mut Struct_GNUNET_SERVER_Client,
-                                                  size: size_t) ->
-     *mut ::libc::c_void;
+                                                  size: size_t)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_SERVER_client_set_user_context_(client:
                                                       *mut Struct_GNUNET_SERVER_Client,
                                                   ptr: *mut ::libc::c_void,
@@ -8117,8 +8329,8 @@ extern "C" {
     pub fn GNUNET_SERVER_client_get_address(client:
                                                 *mut Struct_GNUNET_SERVER_Client,
                                             addr: *mut *mut ::libc::c_void,
-                                            addrlen: *mut size_t) ->
-     ::libc::c_int;
+                                            addrlen: *mut size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_SERVER_disconnect_notify(server:
                                                *mut Struct_GNUNET_SERVER_Handle,
                                            callback:
@@ -8169,8 +8381,8 @@ extern "C" {
     pub fn GNUNET_SERVER_notification_context_create(server:
                                                          *mut Struct_GNUNET_SERVER_Handle,
                                                      queue_length:
-                                                         ::libc::c_uint) ->
-     *mut Struct_GNUNET_SERVER_NotificationContext;
+                                                         ::libc::c_uint)
+     -> *mut Struct_GNUNET_SERVER_NotificationContext;
     pub fn GNUNET_SERVER_notification_context_destroy(nc:
                                                           *mut Struct_GNUNET_SERVER_NotificationContext);
     pub fn GNUNET_SERVER_notification_context_add(nc:
@@ -8191,17 +8403,20 @@ extern "C" {
                                                             *const Struct_GNUNET_MessageHeader,
                                                         can_drop:
                                                             ::libc::c_int);
+    pub fn GNUNET_SERVER_notification_context_get_size(nc:
+                                                           *mut Struct_GNUNET_SERVER_NotificationContext)
+     -> ::libc::c_uint;
     pub fn GNUNET_SERVER_mst_create(cb:
                                         GNUNET_SERVER_MessageTokenizerCallback,
-                                    cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_SERVER_MessageStreamTokenizer;
+                                    cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_SERVER_MessageStreamTokenizer;
     pub fn GNUNET_SERVER_mst_receive(mst:
                                          *mut Struct_GNUNET_SERVER_MessageStreamTokenizer,
                                      client_identity: *mut ::libc::c_void,
                                      buf: *const ::libc::c_char, size: size_t,
                                      purge: ::libc::c_int,
-                                     one_shot: ::libc::c_int) ->
-     ::libc::c_int;
+                                     one_shot: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_SERVER_mst_destroy(mst:
                                          *mut Struct_GNUNET_SERVER_MessageStreamTokenizer);
     pub fn GNUNET_SERVER_set_callbacks(server:
@@ -8218,12 +8433,12 @@ extern "C" {
                                binary_argv: *const *mut ::libc::c_char,
                                cb: GNUNET_SERVER_MessageTokenizerCallback,
                                exp_cb: GNUNET_HELPER_ExceptionCallback,
-                               cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_HELPER_Handle;
+                               cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_HELPER_Handle;
     pub fn GNUNET_HELPER_kill(h: *mut Struct_GNUNET_HELPER_Handle,
                               soft_kill: ::libc::c_int) -> ::libc::c_int;
-    pub fn GNUNET_HELPER_wait(h: *mut Struct_GNUNET_HELPER_Handle) ->
-     ::libc::c_int;
+    pub fn GNUNET_HELPER_wait(h: *mut Struct_GNUNET_HELPER_Handle)
+     -> ::libc::c_int;
     pub fn GNUNET_HELPER_destroy(h: *mut Struct_GNUNET_HELPER_Handle);
     pub fn GNUNET_HELPER_stop(h: *mut Struct_GNUNET_HELPER_Handle,
                               soft_kill: ::libc::c_int);
@@ -8231,23 +8446,23 @@ extern "C" {
                               msg: *const Struct_GNUNET_MessageHeader,
                               can_drop: ::libc::c_int,
                               cont: GNUNET_HELPER_Continuation,
-                              cont_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_HELPER_SendHandle;
+                              cont_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_HELPER_SendHandle;
     pub fn GNUNET_HELPER_send_cancel(sh:
                                          *mut Struct_GNUNET_HELPER_SendHandle);
     pub fn GNUNET_MQ_extract_nested_mh_(mh:
                                             *const Struct_GNUNET_MessageHeader,
-                                        base_size: uint16_t) ->
-     *mut Struct_GNUNET_MessageHeader;
+                                        base_size: uint16_t)
+     -> *mut Struct_GNUNET_MessageHeader;
     pub fn GNUNET_MQ_msg_nested_mh_(mhp:
                                         *mut *mut Struct_GNUNET_MessageHeader,
                                     base_size: uint16_t, _type: uint16_t,
                                     nested_mh:
-                                        *const Struct_GNUNET_MessageHeader) ->
-     *mut Struct_GNUNET_MQ_Envelope;
+                                        *const Struct_GNUNET_MessageHeader)
+     -> *mut Struct_GNUNET_MQ_Envelope;
     pub fn GNUNET_MQ_msg_(mhp: *mut *mut Struct_GNUNET_MessageHeader,
-                          size: uint16_t, _type: uint16_t) ->
-     *mut Struct_GNUNET_MQ_Envelope;
+                          size: uint16_t, _type: uint16_t)
+     -> *mut Struct_GNUNET_MQ_Envelope;
     pub fn GNUNET_MQ_discard(mqm: *mut Struct_GNUNET_MQ_Envelope);
     pub fn GNUNET_MQ_send(mq: *mut Struct_GNUNET_MQ_Handle,
                           ev: *mut Struct_GNUNET_MQ_Envelope);
@@ -8257,16 +8472,16 @@ extern "C" {
     pub fn GNUNET_MQ_assoc_get(mq: *mut Struct_GNUNET_MQ_Handle,
                                request_id: uint32_t) -> *mut ::libc::c_void;
     pub fn GNUNET_MQ_assoc_remove(mq: *mut Struct_GNUNET_MQ_Handle,
-                                  request_id: uint32_t) ->
-     *mut ::libc::c_void;
+                                  request_id: uint32_t)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_MQ_queue_for_connection_client(connection:
                                                      *mut Struct_GNUNET_CLIENT_Connection,
                                                  handlers:
                                                      *const Struct_GNUNET_MQ_MessageHandler,
                                                  error_handler:
                                                      GNUNET_MQ_ErrorHandler,
-                                                 cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_MQ_Handle;
+                                                 cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_MQ_Handle;
     pub fn GNUNET_MQ_queue_for_server_client(client:
                                                  *mut Struct_GNUNET_SERVER_Client)
      -> *mut Struct_GNUNET_MQ_Handle;
@@ -8278,8 +8493,8 @@ extern "C" {
                                              *const Struct_GNUNET_MQ_MessageHandler,
                                          error_handler:
                                              GNUNET_MQ_ErrorHandler,
-                                         cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_MQ_Handle;
+                                         cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_MQ_Handle;
     pub fn GNUNET_MQ_replace_handlers(mq: *mut Struct_GNUNET_MQ_Handle,
                                       new_handlers:
                                           *const Struct_GNUNET_MQ_MessageHandler,
@@ -8293,10 +8508,10 @@ extern "C" {
     pub fn GNUNET_MQ_inject_error(mq: *mut Struct_GNUNET_MQ_Handle,
                                   error: Enum_GNUNET_MQ_Error);
     pub fn GNUNET_MQ_impl_send_continue(mq: *mut Struct_GNUNET_MQ_Handle);
-    pub fn GNUNET_MQ_impl_current(mq: *mut Struct_GNUNET_MQ_Handle) ->
-     *const Struct_GNUNET_MessageHeader;
-    pub fn GNUNET_MQ_impl_state(mq: *mut Struct_GNUNET_MQ_Handle) ->
-     *mut ::libc::c_void;
+    pub fn GNUNET_MQ_impl_current(mq: *mut Struct_GNUNET_MQ_Handle)
+     -> *const Struct_GNUNET_MessageHeader;
+    pub fn GNUNET_MQ_impl_state(mq: *mut Struct_GNUNET_MQ_Handle)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_OS_installation_get_path(dirkind:
                                                Enum_GNUNET_OS_InstallationPathKind)
      -> *mut ::libc::c_char;
@@ -8309,8 +8524,8 @@ extern "C" {
     pub fn GNUNET_OS_process_kill(_proc: *mut Struct_GNUNET_OS_Process,
                                   sig: ::libc::c_int) -> ::libc::c_int;
     pub fn GNUNET_OS_process_destroy(_proc: *mut Struct_GNUNET_OS_Process);
-    pub fn GNUNET_OS_process_get_pid(_proc: *mut Struct_GNUNET_OS_Process) ->
-     pid_t;
+    pub fn GNUNET_OS_process_get_pid(_proc: *mut Struct_GNUNET_OS_Process)
+     -> pid_t;
     pub fn GNUNET_OS_start_process_vap(pipe_control: ::libc::c_int,
                                        std_inheritance:
                                            Enum_GNUNET_OS_InheritStdioFlags,
@@ -8321,8 +8536,8 @@ extern "C" {
                                        pipe_stderr:
                                            *mut Struct_GNUNET_DISK_PipeHandle,
                                        filename: *const ::libc::c_char,
-                                       argv: *const *mut ::libc::c_char) ->
-     *mut Struct_GNUNET_OS_Process;
+                                       argv: *const *mut ::libc::c_char)
+     -> *mut Struct_GNUNET_OS_Process;
     pub fn GNUNET_OS_start_process(pipe_control: ::libc::c_int,
                                    std_inheritance:
                                        Enum_GNUNET_OS_InheritStdioFlags,
@@ -8332,8 +8547,8 @@ extern "C" {
                                        *mut Struct_GNUNET_DISK_PipeHandle,
                                    pipe_stderr:
                                        *mut Struct_GNUNET_DISK_PipeHandle,
-                                   filename: *const ::libc::c_char, ...) ->
-     *mut Struct_GNUNET_OS_Process;
+                                   filename: *const ::libc::c_char, ...)
+     -> *mut Struct_GNUNET_OS_Process;
     pub fn GNUNET_OS_start_process_va(pipe_control: ::libc::c_int,
                                       std_inheritance:
                                           Enum_GNUNET_OS_InheritStdioFlags,
@@ -8344,63 +8559,63 @@ extern "C" {
                                       pipe_stderr:
                                           *mut Struct_GNUNET_DISK_PipeHandle,
                                       filename: *const ::libc::c_char,
-                                      va: va_list) ->
-     *mut Struct_GNUNET_OS_Process;
+                                      va: va_list)
+     -> *mut Struct_GNUNET_OS_Process;
     pub fn GNUNET_OS_start_process_v(pipe_control: ::libc::c_int,
                                      std_inheritance:
                                          Enum_GNUNET_OS_InheritStdioFlags,
                                      lsocks: *const ::libc::c_int,
                                      filename: *const ::libc::c_char,
-                                     argv: *const *mut ::libc::c_char) ->
-     *mut Struct_GNUNET_OS_Process;
+                                     argv: *const *mut ::libc::c_char)
+     -> *mut Struct_GNUNET_OS_Process;
     pub fn GNUNET_OS_start_process_s(pipe_control: ::libc::c_int,
                                      std_inheritance: ::libc::c_uint,
                                      lsocks: *const ::libc::c_int,
-                                     filename: *const ::libc::c_char, ...) ->
-     *mut Struct_GNUNET_OS_Process;
+                                     filename: *const ::libc::c_char, ...)
+     -> *mut Struct_GNUNET_OS_Process;
     pub fn GNUNET_OS_command_stop(cmd: *mut Struct_GNUNET_OS_CommandHandle);
     pub fn GNUNET_OS_command_run(_proc: GNUNET_OS_LineProcessor,
                                  proc_cls: *mut ::libc::c_void,
                                  timeout: Struct_GNUNET_TIME_Relative,
-                                 binary: *const ::libc::c_char, ...) ->
-     *mut Struct_GNUNET_OS_CommandHandle;
+                                 binary: *const ::libc::c_char, ...)
+     -> *mut Struct_GNUNET_OS_CommandHandle;
     pub fn GNUNET_OS_process_status(_proc: *mut Struct_GNUNET_OS_Process,
                                     _type:
                                         *mut Enum_GNUNET_OS_ProcessStatusType,
-                                    code: *mut ::libc::c_ulong) ->
-     ::libc::c_int;
-    pub fn GNUNET_OS_process_wait(_proc: *mut Struct_GNUNET_OS_Process) ->
-     ::libc::c_int;
+                                    code: *mut ::libc::c_ulong)
+     -> ::libc::c_int;
+    pub fn GNUNET_OS_process_wait(_proc: *mut Struct_GNUNET_OS_Process)
+     -> ::libc::c_int;
     pub fn GNUNET_OS_install_parent_control_handler(cls: *mut ::libc::c_void,
                                                     tc:
                                                         *const Struct_GNUNET_SCHEDULER_TaskContext);
     pub fn GNUNET_OS_check_helper_binary(binary: *const ::libc::c_char,
                                          check_suid: ::libc::c_int,
-                                         params: *const ::libc::c_char) ->
-     ::libc::c_int;
-    pub fn GNUNET_PEER_search(pid: *const Struct_GNUNET_PeerIdentity) ->
-     GNUNET_PEER_Id;
-    pub fn GNUNET_PEER_intern(pid: *const Struct_GNUNET_PeerIdentity) ->
-     GNUNET_PEER_Id;
+                                         params: *const ::libc::c_char)
+     -> ::libc::c_int;
+    pub fn GNUNET_PEER_search(pid: *const Struct_GNUNET_PeerIdentity)
+     -> GNUNET_PEER_Id;
+    pub fn GNUNET_PEER_intern(pid: *const Struct_GNUNET_PeerIdentity)
+     -> GNUNET_PEER_Id;
     pub fn GNUNET_PEER_change_rc(id: GNUNET_PEER_Id, delta: ::libc::c_int);
     pub fn GNUNET_PEER_decrement_rcs(ids: *const GNUNET_PEER_Id,
                                      count: ::libc::c_uint);
     pub fn GNUNET_PEER_resolve(id: GNUNET_PEER_Id,
                                pid: *mut Struct_GNUNET_PeerIdentity);
-    pub fn GNUNET_PEER_resolve2(id: GNUNET_PEER_Id) ->
-     *const Struct_GNUNET_PeerIdentity;
-    pub fn GNUNET_PLUGIN_test(library_name: *const ::libc::c_char) ->
-     ::libc::c_int;
+    pub fn GNUNET_PEER_resolve2(id: GNUNET_PEER_Id)
+     -> *const Struct_GNUNET_PeerIdentity;
+    pub fn GNUNET_PLUGIN_test(library_name: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_PLUGIN_load(library_name: *const ::libc::c_char,
-                              arg: *mut ::libc::c_void) ->
-     *mut ::libc::c_void;
+                              arg: *mut ::libc::c_void)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_PLUGIN_load_all(__xpg_basename: *const ::libc::c_char,
                                   arg: *mut ::libc::c_void,
                                   cb: GNUNET_PLUGIN_LoaderCallback,
                                   cb_cls: *mut ::libc::c_void);
     pub fn GNUNET_PLUGIN_unload(library_name: *const ::libc::c_char,
-                                arg: *mut ::libc::c_void) ->
-     *mut ::libc::c_void;
+                                arg: *mut ::libc::c_void)
+     -> *mut ::libc::c_void;
     pub fn GNUNET_PROGRAM_run2(argc: ::libc::c_int,
                                argv: *const *mut ::libc::c_char,
                                binaryName: *const ::libc::c_char,
@@ -8409,8 +8624,8 @@ extern "C" {
                                    *const Struct_GNUNET_GETOPT_CommandLineOption,
                                task: GNUNET_PROGRAM_Main,
                                task_cls: *mut ::libc::c_void,
-                               run_without_scheduler: ::libc::c_int) ->
-     ::libc::c_int;
+                               run_without_scheduler: ::libc::c_int)
+     -> ::libc::c_int;
     pub fn GNUNET_PROGRAM_run(argc: ::libc::c_int,
                               argv: *const *mut ::libc::c_char,
                               binaryName: *const ::libc::c_char,
@@ -8436,14 +8651,17 @@ extern "C" {
     pub fn GNUNET_SERVICE_start(service_name: *const ::libc::c_char,
                                 cfg:
                                     *const Struct_GNUNET_CONFIGURATION_Handle,
-                                options: Enum_GNUNET_SERVICE_Options) ->
-     *mut Struct_GNUNET_SERVICE_Context;
+                                options: Enum_GNUNET_SERVICE_Options)
+     -> *mut Struct_GNUNET_SERVICE_Context;
     pub fn GNUNET_SERVICE_get_server(ctx: *mut Struct_GNUNET_SERVICE_Context)
      -> *mut Struct_GNUNET_SERVER_Handle;
+    pub fn GNUNET_SERVICE_get_listen_sockets(ctx:
+                                                 *mut Struct_GNUNET_SERVICE_Context)
+     -> *const *mut Struct_GNUNET_NETWORK_Handle;
     pub fn GNUNET_SERVICE_stop(sctx: *mut Struct_GNUNET_SERVICE_Context);
     pub fn GNUNET_SIGNAL_handler_install(signal: ::libc::c_int,
-                                         handler: GNUNET_SIGNAL_Handler) ->
-     *mut Struct_GNUNET_SIGNAL_Context;
+                                         handler: GNUNET_SIGNAL_Handler)
+     -> *mut Struct_GNUNET_SIGNAL_Context;
     pub fn GNUNET_SIGNAL_handler_uninstall(ctx:
                                                *mut Struct_GNUNET_SIGNAL_Context);
     pub fn GNUNET_SIGNAL_raise(sig: ::libc::c_int);
@@ -8461,79 +8679,79 @@ extern "C" {
                                                  atime:
                                                      *mut Struct_GNUNET_TIME_Absolute)
      -> ::libc::c_int;
-    pub fn GNUNET_STRINGS_byte_size_fancy(size: ::libc::c_ulonglong) ->
-     *mut ::libc::c_char;
+    pub fn GNUNET_STRINGS_byte_size_fancy(size: ::libc::c_ulonglong)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_STRINGS_conv(input: *const ::libc::c_char, len: size_t,
                                input_charset: *const ::libc::c_char,
-                               output_charset: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+                               output_charset: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_STRINGS_to_utf8(input: *const ::libc::c_char, len: size_t,
-                                  charset: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+                                  charset: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_STRINGS_from_utf8(input: *const ::libc::c_char, len: size_t,
-                                    charset: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+                                    charset: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_STRINGS_utf8_tolower(input: *const ::libc::c_char,
                                        output: *mut ::libc::c_char);
     pub fn GNUNET_STRINGS_utf8_toupper(input: *const ::libc::c_char,
                                        output: *mut ::libc::c_char);
-    pub fn GNUNET_STRINGS_filename_expand(fil: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+    pub fn GNUNET_STRINGS_filename_expand(fil: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_STRINGS_buffer_fill(buffer: *mut ::libc::c_char,
                                       size: size_t,
                                       count: ::libc::c_uint, ...) -> size_t;
     pub fn GNUNET_STRINGS_buffer_tokenize(buffer: *const ::libc::c_char,
                                           size: size_t,
-                                          count: ::libc::c_uint, ...) ->
-     ::libc::c_uint;
+                                          count: ::libc::c_uint, ...)
+     -> ::libc::c_uint;
     pub fn GNUNET_STRINGS_absolute_time_to_string(t:
                                                       Struct_GNUNET_TIME_Absolute)
      -> *const ::libc::c_char;
     pub fn GNUNET_STRINGS_relative_time_to_string(delta:
                                                       Struct_GNUNET_TIME_Relative,
-                                                  do_round: ::libc::c_int) ->
-     *const ::libc::c_char;
-    pub fn GNUNET_STRINGS_get_short_name(filename: *const ::libc::c_char) ->
-     *const ::libc::c_char;
+                                                  do_round: ::libc::c_int)
+     -> *const ::libc::c_char;
+    pub fn GNUNET_STRINGS_get_short_name(filename: *const ::libc::c_char)
+     -> *const ::libc::c_char;
     pub fn GNUNET_STRINGS_data_to_string(data: *const ::libc::c_void,
                                          size: size_t,
                                          out: *mut ::libc::c_char,
-                                         out_size: size_t) ->
-     *mut ::libc::c_char;
+                                         out_size: size_t)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_STRINGS_string_to_data(enc: *const ::libc::c_char,
                                          enclen: size_t,
                                          out: *mut ::libc::c_void,
                                          out_size: size_t) -> ::libc::c_int;
     pub fn GNUNET_STRINGS_base64_encode(data: *const ::libc::c_char,
                                         len: size_t,
-                                        output: *mut *mut ::libc::c_char) ->
-     size_t;
+                                        output: *mut *mut ::libc::c_char)
+     -> size_t;
     pub fn GNUNET_STRINGS_base64_decode(data: *const ::libc::c_char,
                                         len: size_t,
-                                        output: *mut *mut ::libc::c_char) ->
-     size_t;
+                                        output: *mut *mut ::libc::c_char)
+     -> size_t;
     pub fn GNUNET_STRINGS_parse_uri(path: *const ::libc::c_char,
                                     scheme_part: *mut *mut ::libc::c_char,
-                                    path_part: *mut *const ::libc::c_char) ->
-     ::libc::c_int;
+                                    path_part: *mut *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_STRINGS_path_is_absolute(filename: *const ::libc::c_char,
                                            can_be_uri: ::libc::c_int,
                                            r_is_uri: *mut ::libc::c_int,
                                            r_uri_scheme:
-                                               *mut *mut ::libc::c_char) ->
-     ::libc::c_int;
+                                               *mut *mut ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_STRINGS_check_filename(filename: *const ::libc::c_char,
                                          checks:
                                              Enum_GNUNET_STRINGS_FilenameCheck)
      -> ::libc::c_int;
     pub fn GNUNET_STRINGS_to_address_ipv6(zt_addr: *const ::libc::c_char,
                                           addrlen: uint16_t,
-                                          r_buf: *mut Struct_sockaddr_in6) ->
-     ::libc::c_int;
+                                          r_buf: *mut Struct_sockaddr_in6)
+     -> ::libc::c_int;
     pub fn GNUNET_STRINGS_to_address_ipv4(zt_addr: *const ::libc::c_char,
                                           addrlen: uint16_t,
-                                          r_buf: *mut Struct_sockaddr_in) ->
-     ::libc::c_int;
+                                          r_buf: *mut Struct_sockaddr_in)
+     -> ::libc::c_int;
     pub fn GNUNET_STRINGS_to_address_ip(addr: *const ::libc::c_char,
                                         addrlen: uint16_t,
                                         r_buf: *mut Struct_sockaddr_storage)
@@ -8594,20 +8812,20 @@ extern "C" {
     pub fn GNUNET_TUN_ipv6toregexsearch(ipv6: *const Struct_in6_addr,
                                         port: uint16_t,
                                         rxstr: *mut ::libc::c_char);
-    pub fn GNUNET_TUN_ipv6policy2regex(policy: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
-    pub fn GNUNET_TUN_ipv4policy2regex(policy: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+    pub fn GNUNET_TUN_ipv6policy2regex(policy: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
+    pub fn GNUNET_TUN_ipv4policy2regex(policy: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_TUN_service_name_to_hash(service_name:
                                                *const ::libc::c_char,
                                            hc: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_DNSPARSER_check_label(label: *const ::libc::c_char) ->
-     ::libc::c_int;
-    pub fn GNUNET_DNSPARSER_check_name(name: *const ::libc::c_char) ->
-     ::libc::c_int;
+    pub fn GNUNET_DNSPARSER_check_label(label: *const ::libc::c_char)
+     -> ::libc::c_int;
+    pub fn GNUNET_DNSPARSER_check_name(name: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_DNSPARSER_parse(udp_payload: *const ::libc::c_char,
-                                  udp_payload_length: size_t) ->
-     *mut Struct_GNUNET_DNSPARSER_Packet;
+                                  udp_payload_length: size_t)
+     -> *mut Struct_GNUNET_DNSPARSER_Packet;
     pub fn GNUNET_DNSPARSER_free_packet(p:
                                             *mut Struct_GNUNET_DNSPARSER_Packet);
     pub fn GNUNET_DNSPARSER_pack(p: *const Struct_GNUNET_DNSPARSER_Packet,
@@ -8616,8 +8834,8 @@ extern "C" {
     pub fn GNUNET_DNSPARSER_builder_add_name(dst: *mut ::libc::c_char,
                                              dst_len: size_t,
                                              off: *mut size_t,
-                                             name: *const ::libc::c_char) ->
-     ::libc::c_int;
+                                             name: *const ::libc::c_char)
+     -> ::libc::c_int;
     pub fn GNUNET_DNSPARSER_builder_add_query(dst: *mut ::libc::c_char,
                                               dst_len: size_t,
                                               off: *mut size_t,
@@ -8653,8 +8871,8 @@ extern "C" {
      -> ::libc::c_int;
     pub fn GNUNET_DNSPARSER_parse_name(udp_payload: *const ::libc::c_char,
                                        udp_payload_length: size_t,
-                                       off: *mut size_t) ->
-     *mut ::libc::c_char;
+                                       off: *mut size_t)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_DNSPARSER_parse_query(udp_payload: *const ::libc::c_char,
                                         udp_payload_length: size_t,
                                         off: *mut size_t,
@@ -8662,20 +8880,20 @@ extern "C" {
      -> ::libc::c_int;
     pub fn GNUNET_DNSPARSER_parse_soa(udp_payload: *const ::libc::c_char,
                                       udp_payload_length: size_t,
-                                      off: *mut size_t) ->
-     *mut Struct_GNUNET_DNSPARSER_SoaRecord;
+                                      off: *mut size_t)
+     -> *mut Struct_GNUNET_DNSPARSER_SoaRecord;
     pub fn GNUNET_DNSPARSER_parse_cert(udp_payload: *const ::libc::c_char,
                                        udp_payload_length: size_t,
-                                       off: *mut size_t) ->
-     *mut Struct_GNUNET_DNSPARSER_CertRecord;
+                                       off: *mut size_t)
+     -> *mut Struct_GNUNET_DNSPARSER_CertRecord;
     pub fn GNUNET_DNSPARSER_parse_mx(udp_payload: *const ::libc::c_char,
                                      udp_payload_length: size_t,
-                                     off: *mut size_t) ->
-     *mut Struct_GNUNET_DNSPARSER_MxRecord;
+                                     off: *mut size_t)
+     -> *mut Struct_GNUNET_DNSPARSER_MxRecord;
     pub fn GNUNET_DNSPARSER_parse_srv(udp_payload: *const ::libc::c_char,
                                       udp_payload_length: size_t,
-                                      off: *mut size_t) ->
-     *mut Struct_GNUNET_DNSPARSER_SrvRecord;
+                                      off: *mut size_t)
+     -> *mut Struct_GNUNET_DNSPARSER_SrvRecord;
     pub fn GNUNET_DNSPARSER_free_record(r:
                                             *mut Struct_GNUNET_DNSPARSER_Record);
     pub fn GNUNET_DNSPARSER_free_mx(mx:
@@ -8687,8 +8905,8 @@ extern "C" {
     pub fn GNUNET_DNSPARSER_free_cert(cert:
                                           *mut Struct_GNUNET_DNSPARSER_CertRecord);
     pub fn GNUNET_DNSPARSER_bin_to_hex(data: *const ::libc::c_void,
-                                       data_size: size_t) ->
-     *mut ::libc::c_char;
+                                       data_size: size_t)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_DNSPARSER_hex_to_bin(hex: *const ::libc::c_char,
                                        data: *mut ::libc::c_void) -> size_t;
     pub fn GNUNET_BLOCK_mingle_hash(_in: *const Struct_GNUNET_HashCode,
@@ -8708,34 +8926,34 @@ extern "C" {
                                  xquery: *const ::libc::c_void,
                                  xquery_size: size_t,
                                  reply_block: *const ::libc::c_void,
-                                 reply_block_size: size_t) ->
-     Enum_GNUNET_BLOCK_EvaluationResult;
+                                 reply_block_size: size_t)
+     -> Enum_GNUNET_BLOCK_EvaluationResult;
     pub fn GNUNET_BLOCK_get_key(ctx: *mut Struct_GNUNET_BLOCK_Context,
                                 _type: Enum_GNUNET_BLOCK_Type,
                                 block: *const ::libc::c_void,
                                 block_size: size_t,
-                                key: *mut Struct_GNUNET_HashCode) ->
-     ::libc::c_int;
+                                key: *mut Struct_GNUNET_HashCode)
+     -> ::libc::c_int;
     pub fn GNUNET_BLOCK_construct_bloomfilter(bf_mutator: int32_t,
                                               seen_results:
                                                   *const Struct_GNUNET_HashCode,
                                               seen_results_count:
-                                                  ::libc::c_uint) ->
-     *mut Struct_GNUNET_CONTAINER_BloomFilter;
+                                                  ::libc::c_uint)
+     -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
     pub fn GNUNET_GNSRECORD_value_to_string(_type: uint32_t,
                                             data: *const ::libc::c_void,
-                                            data_size: size_t) ->
-     *mut ::libc::c_char;
+                                            data_size: size_t)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_GNSRECORD_string_to_value(_type: uint32_t,
                                             s: *const ::libc::c_char,
                                             data: *mut *mut ::libc::c_void,
-                                            data_size: *mut size_t) ->
-     ::libc::c_int;
+                                            data_size: *mut size_t)
+     -> ::libc::c_int;
     pub fn GNUNET_GNSRECORD_typename_to_number(dns_typename:
-                                                   *const ::libc::c_char) ->
-     uint32_t;
-    pub fn GNUNET_GNSRECORD_number_to_typename(_type: uint32_t) ->
-     *const ::libc::c_char;
+                                                   *const ::libc::c_char)
+     -> uint32_t;
+    pub fn GNUNET_GNSRECORD_number_to_typename(_type: uint32_t)
+     -> *const ::libc::c_char;
     pub fn GNUNET_GNSRECORD_records_get_size(rd_count: ::libc::c_uint,
                                              rd:
                                                  *const Struct_GNUNET_GNSRECORD_Data)
@@ -8744,8 +8962,8 @@ extern "C" {
                                               rd:
                                                   *const Struct_GNUNET_GNSRECORD_Data,
                                               dest_size: size_t,
-                                              dest: *mut ::libc::c_char) ->
-     ssize_t;
+                                              dest: *mut ::libc::c_char)
+     -> ssize_t;
     pub fn GNUNET_GNSRECORD_records_deserialize(len: size_t,
                                                 src: *const ::libc::c_char,
                                                 rd_count: ::libc::c_uint,
@@ -8755,8 +8973,8 @@ extern "C" {
     pub fn GNUNET_GNSRECORD_is_expired(rd:
                                            *const Struct_GNUNET_GNSRECORD_Data)
      -> ::libc::c_int;
-    pub fn GNUNET_GNSRECORD_string_to_lowercase(src: *const ::libc::c_char) ->
-     *mut ::libc::c_char;
+    pub fn GNUNET_GNSRECORD_string_to_lowercase(src: *const ::libc::c_char)
+     -> *mut ::libc::c_char;
     pub fn GNUNET_GNSRECORD_z2s(z: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey)
      -> *const ::libc::c_char;
     pub fn GNUNET_GNSRECORD_pkey_to_zkey(pkey:
@@ -8784,8 +9002,8 @@ extern "C" {
                                          label: *const ::libc::c_char,
                                          rd:
                                              *const Struct_GNUNET_GNSRECORD_Data,
-                                         rd_count: ::libc::c_uint) ->
-     *mut Struct_GNUNET_GNSRECORD_Block;
+                                         rd_count: ::libc::c_uint)
+     -> *mut Struct_GNUNET_GNSRECORD_Block;
     pub fn GNUNET_GNSRECORD_block_verify(block:
                                              *const Struct_GNUNET_GNSRECORD_Block)
      -> ::libc::c_int;
@@ -8796,8 +9014,8 @@ extern "C" {
                                           label: *const ::libc::c_char,
                                           _proc:
                                               GNUNET_GNSRECORD_RecordCallback,
-                                          proc_cls: *mut ::libc::c_void) ->
-     ::libc::c_int;
+                                          proc_cls: *mut ::libc::c_void)
+     -> ::libc::c_int;
     pub fn GNUNET_GNSRECORD_records_cmp(a:
                                             *const Struct_GNUNET_GNSRECORD_Data,
                                         b:
@@ -8823,24 +9041,24 @@ extern "C" {
                                               *const Struct_GNUNET_GNSRECORD_Data,
                                           cont:
                                               GNUNET_NAMESTORE_ContinuationWithStatus,
-                                          cont_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+                                          cont_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
     pub fn GNUNET_NAMESTORE_set_nick(h: *mut Struct_GNUNET_NAMESTORE_Handle,
                                      pkey:
                                          *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
                                      nick: *const ::libc::c_char,
                                      cont:
                                          GNUNET_NAMESTORE_ContinuationWithStatus,
-                                     cont_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+                                     cont_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
     pub fn GNUNET_NAMESTORE_records_lookup(h:
                                                *mut Struct_GNUNET_NAMESTORE_Handle,
                                            pkey:
                                                *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
                                            label: *const ::libc::c_char,
                                            rm: GNUNET_NAMESTORE_RecordMonitor,
-                                           rm_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+                                           rm_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
     pub fn GNUNET_NAMESTORE_zone_to_name(h:
                                              *mut Struct_GNUNET_NAMESTORE_Handle,
                                          zone:
@@ -8849,8 +9067,8 @@ extern "C" {
                                              *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
                                          _proc:
                                              GNUNET_NAMESTORE_RecordMonitor,
-                                         proc_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+                                         proc_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
     pub fn GNUNET_NAMESTORE_cancel(qe:
                                        *mut Struct_GNUNET_NAMESTORE_QueueEntry);
     pub fn GNUNET_NAMESTORE_zone_iteration_start(h:
@@ -8860,8 +9078,8 @@ extern "C" {
                                                  _proc:
                                                      GNUNET_NAMESTORE_RecordMonitor,
                                                  proc_cls:
-                                                     *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_NAMESTORE_ZoneIterator;
+                                                     *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_NAMESTORE_ZoneIterator;
     pub fn GNUNET_NAMESTORE_zone_iterator_next(it:
                                                    *mut Struct_GNUNET_NAMESTORE_ZoneIterator);
     pub fn GNUNET_NAMESTORE_zone_iteration_stop(it:
@@ -8875,8 +9093,8 @@ extern "C" {
                                                    GNUNET_NAMESTORE_RecordMonitor,
                                                sync_cb:
                                                    GNUNET_NAMESTORE_RecordsSynchronizedCallback,
-                                               cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_NAMESTORE_ZoneMonitor;
+                                               cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_NAMESTORE_ZoneMonitor;
     pub fn GNUNET_NAMESTORE_zone_monitor_stop(zm:
                                                   *mut Struct_GNUNET_NAMESTORE_ZoneMonitor);
     pub fn GNUNET_GNS_connect(cfg: *const Struct_GNUNET_CONFIGURATION_Handle)
@@ -8890,14 +9108,14 @@ extern "C" {
                              shorten_zone_key:
                                  *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
                              _proc: GNUNET_GNS_LookupResultProcessor,
-                             proc_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_GNS_LookupRequest;
+                             proc_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_GNS_LookupRequest;
     pub fn GNUNET_GNS_lookup_cancel(lr: *mut Struct_GNUNET_GNS_LookupRequest);
     pub fn GNUNET_IDENTITY_ego_get_private_key(ego:
                                                    *const Struct_GNUNET_IDENTITY_Ego)
      -> *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
-    pub fn GNUNET_IDENTITY_ego_get_anonymous() ->
-     *const Struct_GNUNET_IDENTITY_Ego;
+    pub fn GNUNET_IDENTITY_ego_get_anonymous()
+     -> *const Struct_GNUNET_IDENTITY_Ego;
     pub fn GNUNET_IDENTITY_ego_get_public_key(ego:
                                                   *const Struct_GNUNET_IDENTITY_Ego,
                                               pk:
@@ -8905,49 +9123,49 @@ extern "C" {
     pub fn GNUNET_IDENTITY_connect(cfg:
                                        *const Struct_GNUNET_CONFIGURATION_Handle,
                                    cb: GNUNET_IDENTITY_Callback,
-                                   cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_IDENTITY_Handle;
+                                   cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_IDENTITY_Handle;
     pub fn GNUNET_IDENTITY_get(id: *mut Struct_GNUNET_IDENTITY_Handle,
                                service_name: *const ::libc::c_char,
                                cb: GNUNET_IDENTITY_Callback,
-                               cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_IDENTITY_Operation;
+                               cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_IDENTITY_Operation;
     pub fn GNUNET_IDENTITY_set(id: *mut Struct_GNUNET_IDENTITY_Handle,
                                service_name: *const ::libc::c_char,
                                ego: *mut Struct_GNUNET_IDENTITY_Ego,
                                cont: GNUNET_IDENTITY_Continuation,
-                               cont_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_IDENTITY_Operation;
+                               cont_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_IDENTITY_Operation;
     pub fn GNUNET_IDENTITY_disconnect(h: *mut Struct_GNUNET_IDENTITY_Handle);
     pub fn GNUNET_IDENTITY_create(id: *mut Struct_GNUNET_IDENTITY_Handle,
                                   name: *const ::libc::c_char,
                                   cont: GNUNET_IDENTITY_Continuation,
-                                  cont_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_IDENTITY_Operation;
+                                  cont_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_IDENTITY_Operation;
     pub fn GNUNET_IDENTITY_rename(id: *mut Struct_GNUNET_IDENTITY_Handle,
                                   old_name: *const ::libc::c_char,
                                   new_name: *const ::libc::c_char,
                                   cb: GNUNET_IDENTITY_Continuation,
-                                  cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_IDENTITY_Operation;
+                                  cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_IDENTITY_Operation;
     pub fn GNUNET_IDENTITY_delete(id: *mut Struct_GNUNET_IDENTITY_Handle,
                                   name: *const ::libc::c_char,
                                   cb: GNUNET_IDENTITY_Continuation,
-                                  cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_IDENTITY_Operation;
+                                  cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_IDENTITY_Operation;
     pub fn GNUNET_IDENTITY_cancel(op: *mut Struct_GNUNET_IDENTITY_Operation);
     pub fn GNUNET_IDENTITY_ego_lookup(cfg:
                                           *const Struct_GNUNET_CONFIGURATION_Handle,
                                       name: *const ::libc::c_char,
                                       cb: GNUNET_IDENTITY_EgoCallback,
-                                      cb_cls: *mut ::libc::c_void) ->
-     *mut Struct_GNUNET_IDENTITY_EgoLookup;
+                                      cb_cls: *mut ::libc::c_void)
+     -> *mut Struct_GNUNET_IDENTITY_EgoLookup;
     pub fn GNUNET_IDENTITY_ego_lookup_cancel(el:
                                                  *mut Struct_GNUNET_IDENTITY_EgoLookup);
 }
 
-pub const GNUNET_OK: ::libc::c_int = 1;
 pub const GNUNET_NO: ::libc::c_int = 0;
+pub const GNUNET_OK: ::libc::c_int = 1;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP: u16 = 500;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT: u16 = 501;
 pub const GNUNET_MESSAGE_TYPE_IDENTITY_START: u16 = 624;

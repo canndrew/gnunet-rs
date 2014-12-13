@@ -14,11 +14,8 @@
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
-#![feature(while_let)]
 #![feature(macro_rules)]
-#![feature(if_let)]
 #![feature(unboxed_closures)]
-#![feature(tuple_indexing)]
 #![feature(slicing_syntax)]
 #![feature(unsafe_destructor)]
 #![feature(default_type_params)]
@@ -59,7 +56,7 @@ macro_rules! error_chain (
   )
 )
 
-#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
+#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals, raw_pointer_deriving)]
 mod ll;
 mod util;
 

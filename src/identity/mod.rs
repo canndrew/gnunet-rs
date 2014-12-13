@@ -27,10 +27,11 @@ impl Ego {
   /// Get a copy of the global, anonymous ego.
   pub fn anonymous() -> Ego {
     let pk = EcdsaPrivateKey::anonymous();
+    let id = pk.get_public().hash();
     Ego {
       pk: pk,
       name: None,
-      id: pk.get_public().hash(),
+      id: id,
     }
   }
 
@@ -41,7 +42,7 @@ impl Ego {
 
   /// Get the private key of an ego.
   pub fn get_private_key(&self) -> EcdsaPrivateKey {
-    self.pk
+    self.pk.clone()
   }
 
   /// Get the name of an ego.
@@ -50,8 +51,8 @@ impl Ego {
   }
 
   /// Get the unique id of an ego. This is a hash of the ego's public key.
-  pub fn get_id(&self) -> HashCode {
-    self.id
+  pub fn get_id(&self) -> &HashCode {
+    &self.id
   }
 }
 
@@ -105,7 +106,7 @@ impl IdentityService {
             Err(v)  => return Err(ConnectError::InvalidName(v)),
           };
           let id = pk.get_public().hash();
-          egos.insert(id, Ego {
+          egos.insert(id.clone(), Ego {
             pk: pk,
             name: Some(name),
             id: id,

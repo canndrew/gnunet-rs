@@ -15,6 +15,7 @@ pub struct Service {
   pub cfg: Configuration,
 }
 
+#[deriving(Copy)]
 pub enum ProcessMessageResult {
   Continue,
   Reconnect,

@@ -12,6 +12,7 @@ use ll;
 use HashCode;
 
 /// A 256bit ECDSA public key.
+#[deriving(Copy)]
 pub struct EcdsaPublicKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey,
 }
@@ -68,6 +69,7 @@ impl Show for EcdsaPublicKey {
 }
 
 /// A 256bit ECDSA private key.
+#[deriving(Copy)]
 pub struct EcdsaPrivateKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
 }

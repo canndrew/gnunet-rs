@@ -10,6 +10,7 @@ use libc::{c_char, c_uint, c_void, size_t};
 use ll;
 
 /// A 512bit hash code used in various places throughout GNUnet.
+#[deriving(Copy)]
 pub struct HashCode {
   data: ll::Struct_GNUNET_HashCode,
 }

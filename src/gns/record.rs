@@ -12,7 +12,7 @@ use self::RecordType::*;
 ///
 /// Some of these records exist in the legacy DNS (but are still used in GNS). Others are specific
 /// to GNS. These are marked **Legacy** and **GNS** respectively.
-#[deriving(PartialEq)]
+#[deriving(Copy, Clone, Show, PartialEq, Eq)]
 pub enum RecordType {
   /// **Legacy.** Address record. Stores a 32bit IPv4 address.
   A       = 1,
@@ -105,6 +105,7 @@ impl FromStr for RecordType {
   }
 }
 
+/*
 impl Show for RecordType {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     match self {
@@ -126,6 +127,7 @@ impl Show for RecordType {
     }.fmt(f)
   }
 }
+*/
 
 /// A record in the GNU Name System.
 #[allow(dead_code)]
