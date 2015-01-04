@@ -5,8 +5,14 @@ use std::c_str::CString;
 use std::mem::uninitialized;
 use std::time::Duration;
 use std::str::FromStr;
+use std::c_str::ToCStr;
+use std::num::ToPrimitive;
 
 use ll;
+
+/*
+ * TODO: Make this all nicer once Index is reformed
+ */
 
 /*
 #[deriving(Clone)]
@@ -28,6 +34,15 @@ pub enum ConfigValue {
 pub struct Configuration {
   data: *mut ll::Struct_GNUNET_CONFIGURATION_Handle,
 }
+unsafe impl Send for Configuration {}
+unsafe impl Sync for Configuration {}
+
+/*
+pub struct ConfigSection<'s> {
+  conf: &mut ll::Struct_GNUNET_CONFIGURATION_Handle,
+  name: &'s str,
+}
+*/
 
 impl Configuration {
   /// Generate an empty configuration
@@ -257,6 +272,17 @@ impl Configuration {
   }
 }
 
+/*
+impl<'s> Index<&'s str, ConfigSection> for Configuration {
+  fn index(&'a self, index: &&'s str) -> &'a ConfigSection {
+    ConfigSection {
+      conf: self.data,
+      name: *index,
+    }
+  }
+}
+*/
+
 impl FromStr for Configuration {
   fn from_str(s: &str) -> Option<Configuration> {
     unsafe {
@@ -301,6 +327,14 @@ impl Drop for Configuration {
     }
   }
 }
+
+/*
+impl<'s> Index<&'s str, ConfigValue> for ConfigSection {
+  fn index(&'a self, index: &&'s str) -> &'a ConfigValue {
+
+  }
+}
+*/
 
 #[test]
 fn test() {

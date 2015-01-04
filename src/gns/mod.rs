@@ -2,12 +2,13 @@ use std::io::net::pipe::UnixStream;
 use std::io::util::LimitReader;
 use std::collections::HashMap;
 use std::kinds::marker::InvariantLifetime;
-use std::comm::{Empty, Disconnected};
+use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
+use std::sync::Arc;
+use std::num::ToPrimitive;
 
 use identity;
 use ll;
-use service;
-use service::{Service, ProcessMessageResult};
+use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Configuration;
@@ -19,13 +20,14 @@ mod record;
 
 /// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
-  service: Service,
+  service_writer: ServiceWriter,
+  _callback_loop: ServiceReadLoop,
   lookup_id: u32,
   lookup_tx: Sender<(u32, Sender<Record>)>,
 }
 
 /// Options for GNS lookups.
-#[deriving(Copy, Clone, Show, PartialEq, Eq)]
+#[derive(Copy, Clone, Show, PartialEq, Eq)]
 pub enum LocalOptions {
   /// Default behaviour. Look in the local cache, then in the DHT.
   Default     = 0,
@@ -42,23 +44,25 @@ impl GNS {
   /// Returns either a handle to the GNS service or a `service::ConnectError`. `cfg` contains the
   /// configuration to use to connect to the service. Can be `None` to use the system default
   /// configuration - this should work on most properly-configured systems.
-  pub fn connect(cfg: Option<&Configuration>) -> Result<GNS, service::ConnectError> {
+  pub fn connect(cfg: Arc<Configuration>) -> Result<GNS, service::ConnectError> {
     let (lookup_tx, lookup_rx) = channel::<(u32, Sender<Record>)>();
     let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
 
-    let mut service = ttry!(Service::connect(cfg, "gns"));
-    service.init_callback_loop(move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
+    let (service_reader, service_writer) = try!(service::connect(cfg, "gns"));
+    let callback_loop = service_reader.spawn_callback_loop(move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
       loop {
         match lookup_rx.try_recv() {
           Ok((id, sender)) => {
             handles.insert(id, sender);
           },
           Err(e)  => match e {
-            Empty         => break,
-            Disconnected  => return ProcessMessageResult::Shutdown,
+            TryRecvError::Empty         => break,
+            TryRecvError::Disconnected  => return ProcessMessageResult::Shutdown,
           },
         }
       }
+      // TODO: drop expired senders, this currently leaks memory as `handles` only gets bigger
+      //       need a way to detect when the remote Receiver has hung up
       match tpe {
         ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
           let id = match reader.read_be_u32() {
@@ -76,7 +80,7 @@ impl GNS {
                   Ok(r)   => r,
                   Err(_)  => return ProcessMessageResult::Reconnect,
                 };
-                sender.send(rec);
+                let _ = sender.send(rec);
               };
             },
             _ => (),
@@ -90,7 +94,8 @@ impl GNS {
       }
     });
     Ok(GNS {
-      service: service,
+      service_writer: service_writer,
+      _callback_loop: callback_loop,
       lookup_id: 0,
       lookup_tx: lookup_tx,
     })
@@ -104,11 +109,13 @@ impl GNS {
   /// # Example
   ///
   /// ```rust
-  /// use gnunet::{IdentityService, GNS, gns};
+  /// use std::sync::Arc;
+  /// use gnunet::{Configuration, IdentityService, GNS, gns};
   ///
-  /// let mut ids = IdentityService::connect(None).unwrap();
+  /// let config = Arc::new(Configuration::default().unwrap());
+  /// let mut ids = IdentityService::connect(config.clone()).unwrap();
   /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
-  /// let mut gns = GNS::connect(None).unwrap();
+  /// let mut gns = GNS::connect(config).unwrap();
   /// let mut lh = gns.lookup("www.gnu",
   ///                         &gns_ego.get_public_key(),
   ///                         gns::RecordType::A,
@@ -135,22 +142,22 @@ impl GNS {
     self.lookup_id += 1;
 
     let msg_length = (80 + name_len + 1).to_u16().unwrap();
-    let mut mw = self.service.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP);
-    ttry!(mw.write_be_u32(id));
-    ttry!(zone.serialize(&mut mw));
-    ttry!(mw.write_be_i16(options as i16));
-    ttry!(mw.write_be_i16(shorten.is_some() as i16));
-    ttry!(mw.write_be_i32(record_type as i32));
+    let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP);
+    try!(mw.write_be_u32(id));
+    try!(zone.serialize(&mut mw));
+    try!(mw.write_be_i16(options as i16));
+    try!(mw.write_be_i16(shorten.is_some() as i16));
+    try!(mw.write_be_i32(record_type as i32));
     match shorten {
-      Some(z) => ttry!(z.serialize(&mut mw)),
-      None    => ttry!(mw.write(&[0u8, ..32])),
+      Some(z) => try!(z.serialize(&mut mw)),
+      None    => try!(mw.write(&[0u8; 32])),
     };
-    ttry!(mw.write(name.as_bytes()));
-    ttry!(mw.write_u8(0u8));
+    try!(mw.write(name.as_bytes()));
+    try!(mw.write_u8(0u8));
 
     let (tx, rx) = channel::<Record>();
-    self.lookup_tx.send((id, tx));
-    ttry!(mw.send());
+    self.lookup_tx.send((id, tx)).unwrap(); // panics if the callback loop has panicked
+    try!(mw.send());
     Ok(LookupHandle {
       marker: InvariantLifetime,
       receiver: rx,
@@ -166,10 +173,12 @@ impl GNS {
 /// # Example
 ///
 /// ```rust
-/// use gnunet::{identity, gns};
+/// use std::sync::Arc;
+/// use gnunet::{Configuration, identity, gns};
 ///
-/// let gns_ego = identity::get_default_ego(None, "gns-master").unwrap();
-/// let record = gns::lookup(None,
+/// let config = Arc::new(Configuration::default().unwrap());
+/// let gns_ego = identity::get_default_ego(config.clone(), "gns-master").unwrap();
+/// let record = gns::lookup(config,
 ///                          "www.gnu",
 ///                          &gns_ego.get_public_key(),
 ///                          gns::RecordType::A,
@@ -184,14 +193,14 @@ impl GNS {
 /// one result, then disconects. If you are performing multiple lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup(
-    cfg: Option<&Configuration>,
+    cfg: Arc<Configuration>,
     name: &str,
     zone: &EcdsaPublicKey,
     record_type: RecordType,
     options: LocalOptions,
     shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupError> {
-  let mut gns = ttry!(GNS::connect(cfg));
-  let mut h = ttry!(gns.lookup(name, zone, record_type, options, shorten));
+  let mut gns = try!(GNS::connect(cfg));
+  let mut h = try!(gns.lookup(name, zone, record_type, options, shorten));
   Ok(h.recv())
 }
 
@@ -203,9 +212,11 @@ pub fn lookup(
 /// # Example
 ///
 /// ```rust
-/// use gnunet::gns;
+/// use std::sync::Arc;
+/// use gnunet::{Configuration, gns};
 ///
-/// let record = gns::lookup_in_master(None, "www.gnu", gns::RecordType::A, None).unwrap();
+/// let config = Arc::new(Configuration::default().unwrap());
+/// let record = gns::lookup_in_master(config, "www.gnu", gns::RecordType::A, None).unwrap();
 /// println!("Got the IPv4 record for www.gnu: {}", record);
 /// ```
 ///
@@ -216,18 +227,18 @@ pub fn lookup(
 /// then disconnects from everything. If you are performing lots of lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup_in_master(
-    cfg: Option<&Configuration>,
+    cfg: Arc<Configuration>,
     name: &str,
     record_type: RecordType,
     shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupInMasterError> {
-  let ego = ttry!(identity::get_default_ego(cfg, "gns-master"));
+  let ego = try!(identity::get_default_ego(cfg.clone(), "gns-master"));
   let pk = ego.get_public_key();
   let mut it = name.split('.');
   let opt = match (it.next(), it.next(), it.next()) {
     (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
     _                             => LocalOptions::LocalMaster,
   };
-  let ret = ttry!(lookup(cfg, name, &pk, record_type, opt, shorten));
+  let ret = try!(lookup(cfg, name, &pk, record_type, opt, shorten));
   Ok(ret)
 }
 
@@ -245,7 +256,8 @@ impl<'a> LookupHandle<'a> {
   /// Blocks until a result is available. This function can be called multiple times on a handle to
   /// receive multiple results.
   pub fn recv(&mut self) -> Record {
-    self.receiver.recv()
+    // unwrap is safe because the LookupHandle cannot outlive the remote sender.
+    self.receiver.recv().unwrap()
   }
 }
 

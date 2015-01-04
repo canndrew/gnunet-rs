@@ -1,14 +1,16 @@
 use std::io::{Reader, BytesReader};
 use std::str::from_utf8;
 use std::collections::HashMap;
+use std::sync::Arc;
+use std::num::ToPrimitive;
 
 use ll;
-use util::CStringReader;
 use EcdsaPrivateKey;
 use EcdsaPublicKey;
 use HashCode;
-use service::Service;
+use service::{self, ServiceReader, ServiceWriter};
 use Configuration;
+use util::CStringReader;
 pub use self::error::*;
 
 mod error;
@@ -16,7 +18,7 @@ mod error;
 /// A GNUnet identity.
 ///
 /// An ego consists of a public/private key pair and a name.
-#[deriving(Clone)]
+#[derive(Clone)]
 pub struct Ego {
   pk: EcdsaPrivateKey,
   name: Option<String>,
@@ -58,7 +60,8 @@ impl Ego {
 
 /// A handle to the identity service.
 pub struct IdentityService {
-  service: Service,
+  service_reader: ServiceReader,
+  service_writer: ServiceWriter,
   egos: HashMap<HashCode, Ego>,
 }
 
@@ -68,34 +71,34 @@ impl IdentityService {
   /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
   /// the configuration to use to connect to the service. Can be `None` to use the system default
   /// configuration - this should work on most properly-configured systems.
-  pub fn connect(cfg: Option<&Configuration>) -> Result<IdentityService, ConnectError> {
+  pub fn connect(cfg: Arc<Configuration>) -> Result<IdentityService, ConnectError> {
     /*
     let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
-    let service = ttry!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
+    let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
       loop {
         
       }
     }));
     */
-    let mut service = ttry!(Service::connect(cfg, "identity"));
+    let (mut service_reader, mut service_writer) = try!(service::connect(cfg, "identity"));
     let mut egos: HashMap<HashCode, Ego> = HashMap::new();
     {
-      let mw = service.write_message(4, ll::GNUNET_MESSAGE_TYPE_IDENTITY_START);
-      ttry!(mw.send());
+      let mw = service_writer.write_message(4, ll::GNUNET_MESSAGE_TYPE_IDENTITY_START);
+      try!(mw.send());
     };
     loop {
-      let (tpe, mut mr) = ttry!(service.read_message());
+      let (tpe, mut mr) = try!(service_reader.read_message());
       match tpe {
         ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
-          let name_len = ttry!(mr.read_be_u16());
-          let eol = ttry!(mr.read_be_u16());
+          let name_len = try!(mr.read_be_u16());
+          let eol = try!(mr.read_be_u16());
           if eol != 0 {
             break;
           };
-          let pk = ttry!(EcdsaPrivateKey::deserialize(&mut mr));
+          let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
           let mut v: Vec<u8> = Vec::with_capacity(name_len as uint);
           for r in mr.bytes() {
-            let b = ttry!(r);
+            let b = try!(r);
             if b == 0u8 {
               break;
             }
@@ -116,7 +119,8 @@ impl IdentityService {
       };
     };
     Ok(IdentityService {
-      service: service,
+      service_reader: service_reader,
+      service_writer: service_writer,
       egos: egos,
     })
   }
@@ -141,28 +145,28 @@ impl IdentityService {
       None    => return Err(GetDefaultEgoError::NameTooLong),
     };
     {
-      let mut mw = self.service.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
-      ttry!(mw.write_be_u16((name_len + 1) as u16));
-      ttry!(mw.write_be_u16(0));
-      ttry!(mw.write(name.as_bytes()));
-      ttry!(mw.write_u8(0u8));
-      ttry!(mw.send());
+      let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
+      try!(mw.write_be_u16((name_len + 1) as u16));
+      try!(mw.write_be_u16(0));
+      try!(mw.write(name.as_bytes()));
+      try!(mw.write_u8(0u8));
+      try!(mw.send());
     };
 
-    let (tpe, mut mr) = ttry!(self.service.read_message());
+    let (tpe, mut mr) = try!(self.service_reader.read_message());
     match tpe {
       ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
-        ttry!(mr.read_be_u32());
-        let s = ttry!(mr.read_cstring(None));
+        try!(mr.read_be_u32());
+        let s = try!(mr.read_cstring());
         Err(GetDefaultEgoError::ServiceResponse(s))
       },
       ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => {
-        let reply_name_len = ttry!(mr.read_be_u16());
-        let zero = ttry!(mr.read_be_u16());
+        let reply_name_len = try!(mr.read_be_u16());
+        let zero = try!(mr.read_be_u16());
         match zero {
           0 => {
-            let pk = ttry!(EcdsaPrivateKey::deserialize(&mut mr));
-            let s = ttry!(mr.read_cstring(Some(reply_name_len as uint)));
+            let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
+            let s = try!(mr.read_cstring_with_len(reply_name_len as uint));
             match s[] == name {
               true  =>  {
                 let id = pk.get_public().hash();
@@ -197,10 +201,10 @@ impl IdentityService {
 /// disconnects. If you want to do multiple queries you should connect to the service with
 /// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
-    cfg: Option<&Configuration>,
+    cfg: Arc<Configuration>,
     name: &str) -> Result<Ego, ConnectGetDefaultEgoError> {
-  let mut is = ttry!(IdentityService::connect(cfg));
-  let ret = ttry!(is.get_default_ego(name));
+  let mut is = try!(IdentityService::connect(cfg));
+  let ret = try!(is.get_default_ego(name));
   Ok(ret)
 }
 

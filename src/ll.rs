@@ -2,7 +2,7 @@
 
 pub type __int128_t = ::libc::c_void;
 pub type __uint128_t = ::libc::c_void;
-pub type __builtin_va_list = [__va_list_tag, ..1u];
+pub type __builtin_va_list = [__va_list_tag; 1u];
 pub type __u_char = ::libc::c_uchar;
 pub type __u_short = ::libc::c_ushort;
 pub type __u_int = ::libc::c_uint;
@@ -28,9 +28,12 @@ pub type __off_t = ::libc::c_long;
 pub type __off64_t = ::libc::c_long;
 pub type __pid_t = ::libc::c_int;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_Unnamed1 {
-    pub __val: [::libc::c_int, ..2u],
+    pub __val: [::libc::c_int; 2u],
+}
+impl ::std::default::Default for Struct_Unnamed1 {
+    fn default() -> Struct_Unnamed1 { unsafe { ::std::mem::zeroed() } }
 }
 pub type __fsid_t = Struct_Unnamed1;
 pub type __clock_t = ::libc::c_long;
@@ -62,31 +65,43 @@ pub type __intptr_t = ::libc::c_long;
 pub type __socklen_t = ::libc::c_uint;
 pub type __sig_atomic_t = ::libc::c_int;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_Unnamed2 {
-    pub __val: [::libc::c_ulong, ..16u],
+    pub __val: [::libc::c_ulong; 16u],
+}
+impl ::std::default::Default for Struct_Unnamed2 {
+    fn default() -> Struct_Unnamed2 { unsafe { ::std::mem::zeroed() } }
 }
 pub type __sigset_t = Struct_Unnamed2;
 pub type sigset_t = __sigset_t;
 pub type time_t = __time_t;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_timespec {
     pub tv_sec: __time_t,
     pub tv_nsec: __syscall_slong_t,
 }
+impl ::std::default::Default for Struct_timespec {
+    fn default() -> Struct_timespec { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_timeval {
     pub tv_sec: __time_t,
     pub tv_usec: __suseconds_t,
 }
+impl ::std::default::Default for Struct_timeval {
+    fn default() -> Struct_timeval { unsafe { ::std::mem::zeroed() } }
+}
 pub type suseconds_t = __suseconds_t;
 pub type __fd_mask = ::libc::c_long;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_Unnamed3 {
-    pub __fds_bits: [__fd_mask, ..16u],
+    pub __fds_bits: [__fd_mask; 16u],
+}
+impl ::std::default::Default for Struct_Unnamed3 {
+    fn default() -> Struct_Unnamed3 { unsafe { ::std::mem::zeroed() } }
 }
 pub type fd_set = Struct_Unnamed3;
 pub type fd_mask = __fd_mask;
@@ -159,44 +174,55 @@ pub type fsblkcnt_t = __fsblkcnt_t;
 pub type fsfilcnt_t = __fsfilcnt_t;
 pub type pthread_t = ::libc::c_ulong;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_pthread_attr_t {
-    pub data: [u64, ..7u],
+    pub _bindgen_data_: [u64; 7u],
 }
 impl Union_pthread_attr_t {
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..56u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 56u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_long {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_pthread_attr_t {
+    fn default() -> Union_pthread_attr_t { unsafe { ::std::mem::zeroed() } }
 }
 pub type pthread_attr_t = Union_pthread_attr_t;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct___pthread_internal_list {
     pub __prev: *mut Struct___pthread_internal_list,
     pub __next: *mut Struct___pthread_internal_list,
 }
+impl ::std::default::Default for Struct___pthread_internal_list {
+    fn default() -> Struct___pthread_internal_list {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type __pthread_list_t = Struct___pthread_internal_list;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed4 {
-    pub data: [u64, ..5u],
+    pub _bindgen_data_: [u64; 5u],
 }
 impl Union_Unnamed4 {
-    pub fn __data(&mut self) -> *mut Struct___pthread_mutex_s {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __data(&mut self) -> *mut Struct___pthread_mutex_s {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..40u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 40u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_long {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
+impl ::std::default::Default for Union_Unnamed4 {
+    fn default() -> Union_Unnamed4 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct___pthread_mutex_s {
     pub __lock: ::libc::c_int,
     pub __count: ::libc::c_uint,
@@ -207,39 +233,50 @@ pub struct Struct___pthread_mutex_s {
     pub __elision: ::libc::c_short,
     pub __list: __pthread_list_t,
 }
+impl ::std::default::Default for Struct___pthread_mutex_s {
+    fn default() -> Struct___pthread_mutex_s {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type pthread_mutex_t = Union_Unnamed4;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed5 {
-    pub data: [u32, ..1u],
+    pub _bindgen_data_: [u32; 1u],
 }
 impl Union_Unnamed5 {
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..4u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed5 {
+    fn default() -> Union_Unnamed5 { unsafe { ::std::mem::zeroed() } }
 }
 pub type pthread_mutexattr_t = Union_Unnamed5;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed6 {
-    pub data: [u64, ..6u],
+    pub _bindgen_data_: [u64; 6u],
 }
 impl Union_Unnamed6 {
-    pub fn __data(&mut self) -> *mut Struct_Unnamed7 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __data(&mut self) -> *mut Struct_Unnamed7 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..48u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 48u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_longlong {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_longlong {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
+impl ::std::default::Default for Union_Unnamed6 {
+    fn default() -> Union_Unnamed6 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_Unnamed7 {
     pub __lock: ::libc::c_int,
     pub __futex: ::libc::c_uint,
@@ -250,41 +287,50 @@ pub struct Struct_Unnamed7 {
     pub __nwaiters: ::libc::c_uint,
     pub __broadcast_seq: ::libc::c_uint,
 }
+impl ::std::default::Default for Struct_Unnamed7 {
+    fn default() -> Struct_Unnamed7 { unsafe { ::std::mem::zeroed() } }
+}
 pub type pthread_cond_t = Union_Unnamed6;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed8 {
-    pub data: [u32, ..1u],
+    pub _bindgen_data_: [u32; 1u],
 }
 impl Union_Unnamed8 {
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..4u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed8 {
+    fn default() -> Union_Unnamed8 { unsafe { ::std::mem::zeroed() } }
 }
 pub type pthread_condattr_t = Union_Unnamed8;
 pub type pthread_key_t = ::libc::c_uint;
 pub type pthread_once_t = ::libc::c_int;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed9 {
-    pub data: [u64, ..7u],
+    pub _bindgen_data_: [u64; 7u],
 }
 impl Union_Unnamed9 {
-    pub fn __data(&mut self) -> *mut Struct_Unnamed10 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __data(&mut self) -> *mut Struct_Unnamed10 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..56u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 56u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_long {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
+impl ::std::default::Default for Union_Unnamed9 {
+    fn default() -> Union_Unnamed9 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_Unnamed10 {
     pub __lock: ::libc::c_int,
     pub __nr_readers: ::libc::c_uint,
@@ -298,55 +344,70 @@ pub struct Struct_Unnamed10 {
     pub __pad2: ::libc::c_ulong,
     pub __flags: ::libc::c_uint,
 }
+impl ::std::default::Default for Struct_Unnamed10 {
+    fn default() -> Struct_Unnamed10 { unsafe { ::std::mem::zeroed() } }
+}
 pub type pthread_rwlock_t = Union_Unnamed9;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed11 {
-    pub data: [u64, ..1u],
+    pub _bindgen_data_: [u64; 1u],
 }
 impl Union_Unnamed11 {
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..8u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 8u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_long {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed11 {
+    fn default() -> Union_Unnamed11 { unsafe { ::std::mem::zeroed() } }
 }
 pub type pthread_rwlockattr_t = Union_Unnamed11;
 pub type pthread_spinlock_t = ::libc::c_int;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed12 {
-    pub data: [u64, ..4u],
+    pub _bindgen_data_: [u64; 4u],
 }
 impl Union_Unnamed12 {
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..32u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 32u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_long {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed12 {
+    fn default() -> Union_Unnamed12 { unsafe { ::std::mem::zeroed() } }
 }
 pub type pthread_barrier_t = Union_Unnamed12;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed13 {
-    pub data: [u32, ..1u],
+    pub _bindgen_data_: [u32; 1u],
 }
 impl Union_Unnamed13 {
-    pub fn __size(&mut self) -> *mut [::libc::c_char, ..4u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __align(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __align(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed13 {
+    fn default() -> Union_Unnamed13 { unsafe { ::std::mem::zeroed() } }
 }
 pub type pthread_barrierattr_t = Union_Unnamed13;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_iovec {
     pub iov_base: *mut ::libc::c_void,
     pub iov_len: size_t,
+}
+impl ::std::default::Default for Struct_iovec {
+    fn default() -> Struct_iovec { unsafe { ::std::mem::zeroed() } }
 }
 pub type socklen_t = __socklen_t;
 pub type Enum___socket_type = ::libc::c_uint;
@@ -361,17 +422,25 @@ pub const SOCK_CLOEXEC: ::libc::c_uint = 524288;
 pub const SOCK_NONBLOCK: ::libc::c_uint = 2048;
 pub type sa_family_t = ::libc::c_ushort;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sockaddr {
     pub sa_family: sa_family_t,
-    pub sa_data: [::libc::c_char, ..14u],
+    pub sa_data: [::libc::c_char; 14u],
+}
+impl ::std::default::Default for Struct_sockaddr {
+    fn default() -> Struct_sockaddr { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sockaddr_storage {
     pub ss_family: sa_family_t,
     pub __ss_align: ::libc::c_ulong,
-    pub __ss_padding: [::libc::c_char, ..112u],
+    pub __ss_padding: [::libc::c_char; 112u],
+}
+impl ::std::default::Default for Struct_sockaddr_storage {
+    fn default() -> Struct_sockaddr_storage {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type Enum_Unnamed14 = ::libc::c_uint;
 pub const MSG_OOB: ::libc::c_uint = 1;
@@ -394,7 +463,7 @@ pub const MSG_WAITFORONE: ::libc::c_uint = 65536;
 pub const MSG_FASTOPEN: ::libc::c_uint = 536870912;
 pub const MSG_CMSG_CLOEXEC: ::libc::c_uint = 1073741824;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_msghdr {
     pub msg_name: *mut ::libc::c_void,
     pub msg_namelen: socklen_t,
@@ -404,27 +473,39 @@ pub struct Struct_msghdr {
     pub msg_controllen: size_t,
     pub msg_flags: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_msghdr {
+    fn default() -> Struct_msghdr { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_cmsghdr {
     pub cmsg_len: size_t,
     pub cmsg_level: ::libc::c_int,
     pub cmsg_type: ::libc::c_int,
     pub __cmsg_data: *mut ::libc::c_uchar,
 }
+impl ::std::default::Default for Struct_cmsghdr {
+    fn default() -> Struct_cmsghdr { unsafe { ::std::mem::zeroed() } }
+}
 pub type Enum_Unnamed15 = ::libc::c_uint;
 pub const SCM_RIGHTS: ::libc::c_uint = 1;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_linger {
     pub l_onoff: ::libc::c_int,
     pub l_linger: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_linger {
+    fn default() -> Struct_linger { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_osockaddr {
     pub sa_family: ::libc::c_ushort,
-    pub sa_data: [::libc::c_uchar, ..14u],
+    pub sa_data: [::libc::c_uchar; 14u],
+}
+impl ::std::default::Default for Struct_osockaddr {
+    fn default() -> Struct_osockaddr { unsafe { ::std::mem::zeroed() } }
 }
 pub type Enum_Unnamed16 = ::libc::c_uint;
 pub const SHUT_RD: ::libc::c_uint = 0;
@@ -432,29 +513,41 @@ pub const SHUT_WR: ::libc::c_uint = 1;
 pub const SHUT_RDWR: ::libc::c_uint = 2;
 pub type in_addr_t = uint32_t;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_in_addr {
     pub s_addr: in_addr_t,
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_ip_opts {
-    pub ip_dst: Struct_in_addr,
-    pub ip_opts: [::libc::c_char, ..40u],
+impl ::std::default::Default for Struct_in_addr {
+    fn default() -> Struct_in_addr { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
+pub struct Struct_ip_opts {
+    pub ip_dst: Struct_in_addr,
+    pub ip_opts: [::libc::c_char; 40u],
+}
+impl ::std::default::Default for Struct_ip_opts {
+    fn default() -> Struct_ip_opts { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
 pub struct Struct_ip_mreqn {
     pub imr_multiaddr: Struct_in_addr,
     pub imr_address: Struct_in_addr,
     pub imr_ifindex: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_ip_mreqn {
+    fn default() -> Struct_ip_mreqn { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_in_pktinfo {
     pub ipi_ifindex: ::libc::c_int,
     pub ipi_spec_dst: Struct_in_addr,
     pub ipi_addr: Struct_in_addr,
+}
+impl ::std::default::Default for Struct_in_pktinfo {
+    fn default() -> Struct_in_pktinfo { unsafe { ::std::mem::zeroed() } }
 }
 pub type Enum_Unnamed17 = ::libc::c_uint;
 pub const IPPROTO_IP: ::libc::c_uint = 0;
@@ -519,36 +612,45 @@ pub const IPPORT_ROUTESERVER: ::libc::c_uint = 520;
 pub const IPPORT_RESERVED: ::libc::c_uint = 1024;
 pub const IPPORT_USERRESERVED: ::libc::c_uint = 5000;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_in6_addr {
     pub __in6_u: Union_Unnamed20,
 }
+impl ::std::default::Default for Struct_in6_addr {
+    fn default() -> Struct_in6_addr { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_Unnamed20 {
-    pub data: [u32, ..4u],
+    pub _bindgen_data_: [u32; 4u],
 }
 impl Union_Unnamed20 {
-    pub fn __u6_addr8(&mut self) -> *mut [uint8_t, ..16u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __u6_addr8(&mut self) -> *mut [uint8_t; 16u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __u6_addr16(&mut self) -> *mut [uint16_t, ..8u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __u6_addr16(&mut self) -> *mut [uint16_t; 8u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __u6_addr32(&mut self) -> *mut [uint32_t, ..4u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __u6_addr32(&mut self) -> *mut [uint32_t; 4u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
+impl ::std::default::Default for Union_Unnamed20 {
+    fn default() -> Union_Unnamed20 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sockaddr_in {
     pub sin_family: sa_family_t,
     pub sin_port: in_port_t,
     pub sin_addr: Struct_in_addr,
-    pub sin_zero: [::libc::c_uchar, ..8u],
+    pub sin_zero: [::libc::c_uchar; 8u],
+}
+impl ::std::default::Default for Struct_sockaddr_in {
+    fn default() -> Struct_sockaddr_in { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sockaddr_in6 {
     pub sin6_family: sa_family_t,
     pub sin6_port: in_port_t,
@@ -556,73 +658,105 @@ pub struct Struct_sockaddr_in6 {
     pub sin6_addr: Struct_in6_addr,
     pub sin6_scope_id: uint32_t,
 }
+impl ::std::default::Default for Struct_sockaddr_in6 {
+    fn default() -> Struct_sockaddr_in6 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_ip_mreq {
     pub imr_multiaddr: Struct_in_addr,
     pub imr_interface: Struct_in_addr,
 }
+impl ::std::default::Default for Struct_ip_mreq {
+    fn default() -> Struct_ip_mreq { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_ip_mreq_source {
     pub imr_multiaddr: Struct_in_addr,
     pub imr_interface: Struct_in_addr,
     pub imr_sourceaddr: Struct_in_addr,
 }
+impl ::std::default::Default for Struct_ip_mreq_source {
+    fn default() -> Struct_ip_mreq_source { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_ipv6_mreq {
     pub ipv6mr_multiaddr: Struct_in6_addr,
     pub ipv6mr_interface: ::libc::c_uint,
 }
+impl ::std::default::Default for Struct_ipv6_mreq {
+    fn default() -> Struct_ipv6_mreq { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_group_req {
     pub gr_interface: uint32_t,
     pub gr_group: Struct_sockaddr_storage,
 }
+impl ::std::default::Default for Struct_group_req {
+    fn default() -> Struct_group_req { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_group_source_req {
     pub gsr_interface: uint32_t,
     pub gsr_group: Struct_sockaddr_storage,
     pub gsr_source: Struct_sockaddr_storage,
 }
+impl ::std::default::Default for Struct_group_source_req {
+    fn default() -> Struct_group_source_req {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_ip_msfilter {
     pub imsf_multiaddr: Struct_in_addr,
     pub imsf_interface: Struct_in_addr,
     pub imsf_fmode: uint32_t,
     pub imsf_numsrc: uint32_t,
-    pub imsf_slist: [Struct_in_addr, ..1u],
+    pub imsf_slist: [Struct_in_addr; 1u],
+}
+impl ::std::default::Default for Struct_ip_msfilter {
+    fn default() -> Struct_ip_msfilter { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_group_filter {
     pub gf_interface: uint32_t,
     pub gf_group: Struct_sockaddr_storage,
     pub gf_fmode: uint32_t,
     pub gf_numsrc: uint32_t,
-    pub gf_slist: [Struct_sockaddr_storage, ..1u],
+    pub gf_slist: [Struct_sockaddr_storage; 1u],
+}
+impl ::std::default::Default for Struct_group_filter {
+    fn default() -> Struct_group_filter { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_rpcent {
     pub r_name: *mut ::libc::c_char,
     pub r_aliases: *mut *mut ::libc::c_char,
     pub r_number: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_rpcent {
+    fn default() -> Struct_rpcent { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_netent {
     pub n_name: *mut ::libc::c_char,
     pub n_aliases: *mut *mut ::libc::c_char,
     pub n_addrtype: ::libc::c_int,
     pub n_net: uint32_t,
 }
+impl ::std::default::Default for Struct_netent {
+    fn default() -> Struct_netent { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_hostent {
     pub h_name: *mut ::libc::c_char,
     pub h_aliases: *mut *mut ::libc::c_char,
@@ -630,23 +764,32 @@ pub struct Struct_hostent {
     pub h_length: ::libc::c_int,
     pub h_addr_list: *mut *mut ::libc::c_char,
 }
+impl ::std::default::Default for Struct_hostent {
+    fn default() -> Struct_hostent { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_servent {
     pub s_name: *mut ::libc::c_char,
     pub s_aliases: *mut *mut ::libc::c_char,
     pub s_port: ::libc::c_int,
     pub s_proto: *mut ::libc::c_char,
 }
+impl ::std::default::Default for Struct_servent {
+    fn default() -> Struct_servent { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_protoent {
     pub p_name: *mut ::libc::c_char,
     pub p_aliases: *mut *mut ::libc::c_char,
     pub p_proto: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_protoent {
+    fn default() -> Struct_protoent { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_addrinfo {
     pub ai_flags: ::libc::c_int,
     pub ai_family: ::libc::c_int,
@@ -657,69 +800,103 @@ pub struct Struct_addrinfo {
     pub ai_canonname: *mut ::libc::c_char,
     pub ai_next: *mut Struct_addrinfo,
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_sockaddr_un {
-    pub sun_family: sa_family_t,
-    pub sun_path: [::libc::c_char, ..108u],
+impl ::std::default::Default for Struct_addrinfo {
+    fn default() -> Struct_addrinfo { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
+pub struct Struct_sockaddr_un {
+    pub sun_family: sa_family_t,
+    pub sun_path: [::libc::c_char; 108u],
+}
+impl ::std::default::Default for Struct_sockaddr_un {
+    fn default() -> Struct_sockaddr_un { unsafe { ::std::mem::zeroed() } }
+}
+pub enum Struct___locale_data { }
+#[repr(C)]
+#[derive(Copy)]
 pub struct Struct___locale_struct {
-    pub __locales: [*mut Struct___locale_data, ..13u],
+    pub __locales: [*mut Struct___locale_data; 13u],
     pub __ctype_b: *const ::libc::c_ushort,
     pub __ctype_tolower: *const ::libc::c_int,
     pub __ctype_toupper: *const ::libc::c_int,
-    pub __names: [*const ::libc::c_char, ..13u],
+    pub __names: [*const ::libc::c_char; 13u],
 }
-pub enum Struct___locale_data { }
+impl ::std::default::Default for Struct___locale_struct {
+    fn default() -> Struct___locale_struct { unsafe { ::std::mem::zeroed() } }
+}
 pub type __locale_t = *mut Struct___locale_struct;
 pub type locale_t = __locale_t;
 pub type tcp_seq = u_int32_t;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_tcphdr;
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed21 {
-    pub data: [u32, ..5u],
+#[derive(Copy)]
+pub struct Struct_tcphdr {
+    pub _bindgen_data_1_: [u32; 5u],
 }
-impl Union_Unnamed21 { }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed22 {
-    pub th_sport: u_int16_t,
-    pub th_dport: u_int16_t,
-    pub th_seq: tcp_seq,
-    pub th_ack: tcp_seq,
-    pub th_x2: u_int8_t,
-    pub th_off: u_int8_t,
-    pub th_flags: u_int8_t,
-    pub th_win: u_int16_t,
-    pub th_sum: u_int16_t,
-    pub th_urp: u_int16_t,
+impl Struct_tcphdr {
+    pub unsafe fn th_sport(&mut self) -> *mut u_int16_t {
+        ::std::mem::transmute(&self._bindgen_data_1_)
+    }
+    pub unsafe fn th_dport(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(2i))
+    }
+    pub unsafe fn th_seq(&mut self) -> *mut tcp_seq {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(4i))
+    }
+    pub unsafe fn th_ack(&mut self) -> *mut tcp_seq {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(8i))
+    }
+    pub unsafe fn th_flags(&mut self) -> *mut u_int8_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(14i))
+    }
+    pub unsafe fn th_win(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(15i))
+    }
+    pub unsafe fn th_sum(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(17i))
+    }
+    pub unsafe fn th_urp(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(19i))
+    }
+    pub unsafe fn source(&mut self) -> *mut u_int16_t {
+        ::std::mem::transmute(&self._bindgen_data_1_)
+    }
+    pub unsafe fn dest(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(2i))
+    }
+    pub unsafe fn seq(&mut self) -> *mut u_int32_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(4i))
+    }
+    pub unsafe fn ack_seq(&mut self) -> *mut u_int32_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(8i))
+    }
+    pub unsafe fn window(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(30i))
+    }
+    pub unsafe fn check(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(32i))
+    }
+    pub unsafe fn urg_ptr(&mut self) -> *mut u_int16_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(34i))
+    }
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed23 {
-    pub source: u_int16_t,
-    pub dest: u_int16_t,
-    pub seq: u_int32_t,
-    pub ack_seq: u_int32_t,
-    pub res1: u_int16_t,
-    pub doff: u_int16_t,
-    pub fin: u_int16_t,
-    pub syn: u_int16_t,
-    pub rst: u_int16_t,
-    pub psh: u_int16_t,
-    pub ack: u_int16_t,
-    pub urg: u_int16_t,
-    pub res2: u_int16_t,
-    pub window: u_int16_t,
-    pub check: u_int16_t,
-    pub urg_ptr: u_int16_t,
+impl ::std::default::Default for Struct_tcphdr {
+    fn default() -> Struct_tcphdr { unsafe { ::std::mem::zeroed() } }
 }
-pub type Enum_Unnamed24 = ::libc::c_uint;
+pub type Enum_Unnamed21 = ::libc::c_uint;
 pub const TCP_ESTABLISHED: ::libc::c_uint = 1;
 pub const TCP_SYN_SENT: ::libc::c_uint = 2;
 pub const TCP_SYN_RECV: ::libc::c_uint = 3;
@@ -738,7 +915,7 @@ pub const TCP_CA_CWR: ::libc::c_uint = 2;
 pub const TCP_CA_Recovery: ::libc::c_uint = 3;
 pub const TCP_CA_Loss: ::libc::c_uint = 4;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_tcp_info {
     pub tcpi_state: u_int8_t,
     pub tcpi_ca_state: u_int8_t,
@@ -746,8 +923,8 @@ pub struct Struct_tcp_info {
     pub tcpi_probes: u_int8_t,
     pub tcpi_backoff: u_int8_t,
     pub tcpi_options: u_int8_t,
-    pub tcpi_snd_wscale: u_int8_t,
-    pub tcpi_rcv_wscale: u_int8_t,
+    pub _bindgen_bitfield_1_: u_int8_t,
+    pub _bindgen_bitfield_2_: u_int8_t,
     pub tcpi_rto: u_int32_t,
     pub tcpi_ato: u_int32_t,
     pub tcpi_snd_mss: u_int32_t,
@@ -773,38 +950,52 @@ pub struct Struct_tcp_info {
     pub tcpi_rcv_space: u_int32_t,
     pub tcpi_total_retrans: u_int32_t,
 }
+impl ::std::default::Default for Struct_tcp_info {
+    fn default() -> Struct_tcp_info { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_tcp_md5sig {
     pub tcpm_addr: Struct_sockaddr_storage,
     pub __tcpm_pad1: u_int16_t,
     pub tcpm_keylen: u_int16_t,
     pub __tcpm_pad2: u_int32_t,
-    pub tcpm_key: [u_int8_t, ..80u],
+    pub tcpm_key: [u_int8_t; 80u],
+}
+impl ::std::default::Default for Struct_tcp_md5sig {
+    fn default() -> Struct_tcp_md5sig { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_tcp_repair_opt {
     pub opt_code: u_int32_t,
     pub opt_val: u_int32_t,
 }
-pub type Enum_Unnamed25 = ::libc::c_uint;
+impl ::std::default::Default for Struct_tcp_repair_opt {
+    fn default() -> Struct_tcp_repair_opt { unsafe { ::std::mem::zeroed() } }
+}
+pub type Enum_Unnamed22 = ::libc::c_uint;
 pub const TCP_NO_QUEUE: ::libc::c_uint = 0;
 pub const TCP_RECV_QUEUE: ::libc::c_uint = 1;
 pub const TCP_SEND_QUEUE: ::libc::c_uint = 2;
 pub const TCP_QUEUES_NR: ::libc::c_uint = 3;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_tcp_cookie_transactions {
     pub tcpct_flags: u_int16_t,
     pub __tcpct_pad1: u_int8_t,
     pub tcpct_cookie_desired: u_int8_t,
     pub tcpct_s_data_desired: u_int16_t,
     pub tcpct_used: u_int16_t,
-    pub tcpct_value: [u_int8_t, ..536u],
+    pub tcpct_value: [u_int8_t; 536u],
+}
+impl ::std::default::Default for Struct_tcp_cookie_transactions {
+    fn default() -> Struct_tcp_cookie_transactions {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_passwd {
     pub pw_name: *mut ::libc::c_char,
     pub pw_passwd: *mut ::libc::c_char,
@@ -814,130 +1005,169 @@ pub struct Struct_passwd {
     pub pw_dir: *mut ::libc::c_char,
     pub pw_shell: *mut ::libc::c_char,
 }
+impl ::std::default::Default for Struct_passwd {
+    fn default() -> Struct_passwd { unsafe { ::std::mem::zeroed() } }
+}
 pub type FILE = Struct__IO_FILE;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_winsize {
     pub ws_row: ::libc::c_ushort,
     pub ws_col: ::libc::c_ushort,
     pub ws_xpixel: ::libc::c_ushort,
     pub ws_ypixel: ::libc::c_ushort,
 }
+impl ::std::default::Default for Struct_winsize {
+    fn default() -> Struct_winsize { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_termio {
     pub c_iflag: ::libc::c_ushort,
     pub c_oflag: ::libc::c_ushort,
     pub c_cflag: ::libc::c_ushort,
     pub c_lflag: ::libc::c_ushort,
     pub c_line: ::libc::c_uchar,
-    pub c_cc: [::libc::c_uchar, ..8u],
+    pub c_cc: [::libc::c_uchar; 8u],
+}
+impl ::std::default::Default for Struct_termio {
+    fn default() -> Struct_termio { unsafe { ::std::mem::zeroed() } }
 }
 pub type sig_atomic_t = __sig_atomic_t;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_sigval {
-    pub data: [u64, ..1u],
+    pub _bindgen_data_: [u64; 1u],
 }
 impl Union_sigval {
-    pub fn sival_int(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn sival_int(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn sival_ptr(&mut self) -> *mut *mut ::libc::c_void {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn sival_ptr(&mut self) -> *mut *mut ::libc::c_void {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_sigval {
+    fn default() -> Union_sigval { unsafe { ::std::mem::zeroed() } }
 }
 pub type sigval_t = Union_sigval;
 pub type __sigchld_clock_t = __clock_t;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed26 {
+#[derive(Copy)]
+pub struct Struct_Unnamed23 {
     pub si_signo: ::libc::c_int,
     pub si_errno: ::libc::c_int,
     pub si_code: ::libc::c_int,
-    pub _sifields: Union_Unnamed27,
+    pub _sifields: Union_Unnamed24,
+}
+impl ::std::default::Default for Struct_Unnamed23 {
+    fn default() -> Struct_Unnamed23 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed27 {
-    pub data: [u64, ..14u],
+#[derive(Copy)]
+pub struct Union_Unnamed24 {
+    pub _bindgen_data_: [u64; 14u],
 }
-impl Union_Unnamed27 {
-    pub fn _pad(&mut self) -> *mut [::libc::c_int, ..28u] {
-        unsafe { ::std::mem::transmute(self) }
+impl Union_Unnamed24 {
+    pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 28u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _kill(&mut self) -> *mut Struct_Unnamed28 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _kill(&mut self) -> *mut Struct_Unnamed25 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _timer(&mut self) -> *mut Struct_Unnamed29 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _timer(&mut self) -> *mut Struct_Unnamed26 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _rt(&mut self) -> *mut Struct_Unnamed30 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _rt(&mut self) -> *mut Struct_Unnamed27 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _sigchld(&mut self) -> *mut Struct_Unnamed31 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _sigchld(&mut self) -> *mut Struct_Unnamed28 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _sigfault(&mut self) -> *mut Struct_Unnamed32 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _sigfault(&mut self) -> *mut Struct_Unnamed29 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _sigpoll(&mut self) -> *mut Struct_Unnamed33 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _sigpoll(&mut self) -> *mut Struct_Unnamed30 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _sigsys(&mut self) -> *mut Struct_Unnamed34 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _sigsys(&mut self) -> *mut Struct_Unnamed31 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed24 {
+    fn default() -> Union_Unnamed24 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed28 {
+#[derive(Copy)]
+pub struct Struct_Unnamed25 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
 }
+impl ::std::default::Default for Struct_Unnamed25 {
+    fn default() -> Struct_Unnamed25 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed29 {
+#[derive(Copy)]
+pub struct Struct_Unnamed26 {
     pub si_tid: ::libc::c_int,
     pub si_overrun: ::libc::c_int,
     pub si_sigval: sigval_t,
 }
+impl ::std::default::Default for Struct_Unnamed26 {
+    fn default() -> Struct_Unnamed26 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed30 {
+#[derive(Copy)]
+pub struct Struct_Unnamed27 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
     pub si_sigval: sigval_t,
 }
+impl ::std::default::Default for Struct_Unnamed27 {
+    fn default() -> Struct_Unnamed27 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed31 {
+#[derive(Copy)]
+pub struct Struct_Unnamed28 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
     pub si_status: ::libc::c_int,
     pub si_utime: __sigchld_clock_t,
     pub si_stime: __sigchld_clock_t,
 }
+impl ::std::default::Default for Struct_Unnamed28 {
+    fn default() -> Struct_Unnamed28 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed32 {
+#[derive(Copy)]
+pub struct Struct_Unnamed29 {
     pub si_addr: *mut ::libc::c_void,
     pub si_addr_lsb: ::libc::c_short,
 }
+impl ::std::default::Default for Struct_Unnamed29 {
+    fn default() -> Struct_Unnamed29 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed33 {
+#[derive(Copy)]
+pub struct Struct_Unnamed30 {
     pub si_band: ::libc::c_long,
     pub si_fd: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_Unnamed30 {
+    fn default() -> Struct_Unnamed30 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed34 {
+#[derive(Copy)]
+pub struct Struct_Unnamed31 {
     pub _call_addr: *mut ::libc::c_void,
     pub _syscall: ::libc::c_int,
     pub _arch: ::libc::c_uint,
 }
-pub type siginfo_t = Struct_Unnamed26;
-pub type Enum_Unnamed35 = ::libc::c_int;
+impl ::std::default::Default for Struct_Unnamed31 {
+    fn default() -> Struct_Unnamed31 { unsafe { ::std::mem::zeroed() } }
+}
+pub type siginfo_t = Struct_Unnamed23;
+pub type Enum_Unnamed32 = ::libc::c_int;
 pub const SI_ASYNCNL: ::libc::c_int = -60;
 pub const SI_TKILL: ::libc::c_int = -6;
 pub const SI_SIGIO: ::libc::c_int = -5;
@@ -947,7 +1177,7 @@ pub const SI_TIMER: ::libc::c_int = -2;
 pub const SI_QUEUE: ::libc::c_int = -1;
 pub const SI_USER: ::libc::c_int = 0;
 pub const SI_KERNEL: ::libc::c_int = 128;
-pub type Enum_Unnamed36 = ::libc::c_uint;
+pub type Enum_Unnamed33 = ::libc::c_uint;
 pub const ILL_ILLOPC: ::libc::c_uint = 1;
 pub const ILL_ILLOPN: ::libc::c_uint = 2;
 pub const ILL_ILLADR: ::libc::c_uint = 3;
@@ -956,7 +1186,7 @@ pub const ILL_PRVOPC: ::libc::c_uint = 5;
 pub const ILL_PRVREG: ::libc::c_uint = 6;
 pub const ILL_COPROC: ::libc::c_uint = 7;
 pub const ILL_BADSTK: ::libc::c_uint = 8;
-pub type Enum_Unnamed37 = ::libc::c_uint;
+pub type Enum_Unnamed34 = ::libc::c_uint;
 pub const FPE_INTDIV: ::libc::c_uint = 1;
 pub const FPE_INTOVF: ::libc::c_uint = 2;
 pub const FPE_FLTDIV: ::libc::c_uint = 3;
@@ -965,26 +1195,26 @@ pub const FPE_FLTUND: ::libc::c_uint = 5;
 pub const FPE_FLTRES: ::libc::c_uint = 6;
 pub const FPE_FLTINV: ::libc::c_uint = 7;
 pub const FPE_FLTSUB: ::libc::c_uint = 8;
-pub type Enum_Unnamed38 = ::libc::c_uint;
+pub type Enum_Unnamed35 = ::libc::c_uint;
 pub const SEGV_MAPERR: ::libc::c_uint = 1;
 pub const SEGV_ACCERR: ::libc::c_uint = 2;
-pub type Enum_Unnamed39 = ::libc::c_uint;
+pub type Enum_Unnamed36 = ::libc::c_uint;
 pub const BUS_ADRALN: ::libc::c_uint = 1;
 pub const BUS_ADRERR: ::libc::c_uint = 2;
 pub const BUS_OBJERR: ::libc::c_uint = 3;
 pub const BUS_MCEERR_AR: ::libc::c_uint = 4;
 pub const BUS_MCEERR_AO: ::libc::c_uint = 5;
-pub type Enum_Unnamed40 = ::libc::c_uint;
+pub type Enum_Unnamed37 = ::libc::c_uint;
 pub const TRAP_BRKPT: ::libc::c_uint = 1;
 pub const TRAP_TRACE: ::libc::c_uint = 2;
-pub type Enum_Unnamed41 = ::libc::c_uint;
+pub type Enum_Unnamed38 = ::libc::c_uint;
 pub const CLD_EXITED: ::libc::c_uint = 1;
 pub const CLD_KILLED: ::libc::c_uint = 2;
 pub const CLD_DUMPED: ::libc::c_uint = 3;
 pub const CLD_TRAPPED: ::libc::c_uint = 4;
 pub const CLD_STOPPED: ::libc::c_uint = 5;
 pub const CLD_CONTINUED: ::libc::c_uint = 6;
-pub type Enum_Unnamed42 = ::libc::c_uint;
+pub type Enum_Unnamed39 = ::libc::c_uint;
 pub const POLL_IN: ::libc::c_uint = 1;
 pub const POLL_OUT: ::libc::c_uint = 2;
 pub const POLL_MSG: ::libc::c_uint = 3;
@@ -992,37 +1222,46 @@ pub const POLL_ERR: ::libc::c_uint = 4;
 pub const POLL_PRI: ::libc::c_uint = 5;
 pub const POLL_HUP: ::libc::c_uint = 6;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sigevent {
     pub sigev_value: sigval_t,
     pub sigev_signo: ::libc::c_int,
     pub sigev_notify: ::libc::c_int,
-    pub _sigev_un: Union_Unnamed43,
+    pub _sigev_un: Union_Unnamed40,
+}
+impl ::std::default::Default for Struct_sigevent {
+    fn default() -> Struct_sigevent { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed43 {
-    pub data: [u64, ..6u],
+#[derive(Copy)]
+pub struct Union_Unnamed40 {
+    pub _bindgen_data_: [u64; 6u],
 }
-impl Union_Unnamed43 {
-    pub fn _pad(&mut self) -> *mut [::libc::c_int, ..12u] {
-        unsafe { ::std::mem::transmute(self) }
+impl Union_Unnamed40 {
+    pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 12u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _tid(&mut self) -> *mut __pid_t {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _tid(&mut self) -> *mut __pid_t {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _sigev_thread(&mut self) -> *mut Struct_Unnamed44 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _sigev_thread(&mut self) -> *mut Struct_Unnamed41 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed40 {
+    fn default() -> Union_Unnamed40 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed44 {
+#[derive(Copy)]
+pub struct Struct_Unnamed41 {
     pub _function: ::std::option::Option<extern "C" fn(arg1: sigval_t)>,
     pub _attribute: *mut pthread_attr_t,
 }
+impl ::std::default::Default for Struct_Unnamed41 {
+    fn default() -> Struct_Unnamed41 { unsafe { ::std::mem::zeroed() } }
+}
 pub type sigevent_t = Struct_sigevent;
-pub type Enum_Unnamed45 = ::libc::c_uint;
+pub type Enum_Unnamed42 = ::libc::c_uint;
 pub const SIGEV_SIGNAL: ::libc::c_uint = 0;
 pub const SIGEV_NONE: ::libc::c_uint = 1;
 pub const SIGEV_THREAD: ::libc::c_uint = 2;
@@ -1031,67 +1270,88 @@ pub type __sighandler_t =
     ::std::option::Option<extern "C" fn(arg1: ::libc::c_int)>;
 pub type sig_t = __sighandler_t;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sigaction {
-    pub __sigaction_handler: Union_Unnamed46,
+    pub __sigaction_handler: Union_Unnamed43,
     pub sa_mask: __sigset_t,
     pub sa_flags: ::libc::c_int,
     pub sa_restorer: ::std::option::Option<extern "C" fn()>,
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed46 {
-    pub data: [u64, ..1u],
+impl ::std::default::Default for Struct_sigaction {
+    fn default() -> Struct_sigaction { unsafe { ::std::mem::zeroed() } }
 }
-impl Union_Unnamed46 {
-    pub fn sa_handler(&mut self) -> *mut __sighandler_t {
-        unsafe { ::std::mem::transmute(self) }
+#[repr(C)]
+#[derive(Copy)]
+pub struct Union_Unnamed43 {
+    pub _bindgen_data_: [u64; 1u],
+}
+impl Union_Unnamed43 {
+    pub unsafe fn sa_handler(&mut self) -> *mut __sighandler_t {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn sa_sigaction(&mut self)
+    pub unsafe fn sa_sigaction(&mut self)
      ->
          *mut ::std::option::Option<extern "C" fn
                                         (arg1: ::libc::c_int,
                                          arg2: *mut siginfo_t,
                                          arg3: *mut ::libc::c_void)> {
-        unsafe { ::std::mem::transmute(self) }
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
+impl ::std::default::Default for Union_Unnamed43 {
+    fn default() -> Union_Unnamed43 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sigvec {
     pub sv_handler: __sighandler_t,
     pub sv_mask: ::libc::c_int,
     pub sv_flags: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_sigvec {
+    fn default() -> Struct_sigvec { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__fpx_sw_bytes {
     pub magic1: __uint32_t,
     pub extended_size: __uint32_t,
     pub xstate_bv: __uint64_t,
     pub xstate_size: __uint32_t,
-    pub padding: [__uint32_t, ..7u],
+    pub padding: [__uint32_t; 7u],
+}
+impl ::std::default::Default for Struct__fpx_sw_bytes {
+    fn default() -> Struct__fpx_sw_bytes { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__fpreg {
-    pub significand: [::libc::c_ushort, ..4u],
+    pub significand: [::libc::c_ushort; 4u],
     pub exponent: ::libc::c_ushort,
 }
+impl ::std::default::Default for Struct__fpreg {
+    fn default() -> Struct__fpreg { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__fpxreg {
-    pub significand: [::libc::c_ushort, ..4u],
+    pub significand: [::libc::c_ushort; 4u],
     pub exponent: ::libc::c_ushort,
-    pub padding: [::libc::c_ushort, ..3u],
+    pub padding: [::libc::c_ushort; 3u],
+}
+impl ::std::default::Default for Struct__fpxreg {
+    fn default() -> Struct__fpxreg { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__xmmreg {
-    pub element: [__uint32_t, ..4u],
+    pub element: [__uint32_t; 4u],
+}
+impl ::std::default::Default for Struct__xmmreg {
+    fn default() -> Struct__xmmreg { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__fpstate {
     pub cwd: __uint16_t,
     pub swd: __uint16_t,
@@ -1101,12 +1361,15 @@ pub struct Struct__fpstate {
     pub rdp: __uint64_t,
     pub mxcsr: __uint32_t,
     pub mxcr_mask: __uint32_t,
-    pub _st: [Struct__fpxreg, ..8u],
-    pub _xmm: [Struct__xmmreg, ..16u],
-    pub padding: [__uint32_t, ..24u],
+    pub _st: [Struct__fpxreg; 8u],
+    pub _xmm: [Struct__xmmreg; 16u],
+    pub padding: [__uint32_t; 24u],
+}
+impl ::std::default::Default for Struct__fpstate {
+    fn default() -> Struct__fpstate { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sigcontext {
     pub r8: __uint64_t,
     pub r9: __uint64_t,
@@ -1134,73 +1397,93 @@ pub struct Struct_sigcontext {
     pub trapno: __uint64_t,
     pub oldmask: __uint64_t,
     pub cr2: __uint64_t,
-    pub __reserved1: [__uint64_t, ..8u],
+    pub _bindgen_data_1_: [u64; 1u],
+    pub __reserved1: [__uint64_t; 8u],
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed47 {
-    pub data: [u64, ..1u],
-}
-impl Union_Unnamed47 {
-    pub fn fpstate(&mut self) -> *mut *mut Struct__fpstate {
-        unsafe { ::std::mem::transmute(self) }
+impl Struct_sigcontext {
+    pub unsafe fn fpstate(&mut self) -> *mut *mut Struct__fpstate {
+        ::std::mem::transmute(&self._bindgen_data_1_)
     }
-    pub fn __fpstate_word(&mut self) -> *mut __uint64_t {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __fpstate_word(&mut self) -> *mut __uint64_t {
+        ::std::mem::transmute(&self._bindgen_data_1_)
     }
 }
+impl ::std::default::Default for Struct_sigcontext {
+    fn default() -> Struct_sigcontext { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__xsave_hdr {
     pub xstate_bv: __uint64_t,
-    pub reserved1: [__uint64_t, ..2u],
-    pub reserved2: [__uint64_t, ..5u],
+    pub reserved1: [__uint64_t; 2u],
+    pub reserved2: [__uint64_t; 5u],
+}
+impl ::std::default::Default for Struct__xsave_hdr {
+    fn default() -> Struct__xsave_hdr { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__ymmh_state {
-    pub ymmh_space: [__uint32_t, ..64u],
+    pub ymmh_space: [__uint32_t; 64u],
+}
+impl ::std::default::Default for Struct__ymmh_state {
+    fn default() -> Struct__ymmh_state { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__xstate {
     pub fpstate: Struct__fpstate,
     pub xstate_hdr: Struct__xsave_hdr,
     pub ymmh: Struct__ymmh_state,
 }
+impl ::std::default::Default for Struct__xstate {
+    fn default() -> Struct__xstate { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sigstack {
     pub ss_sp: *mut ::libc::c_void,
     pub ss_onstack: ::libc::c_int,
 }
-pub type Enum_Unnamed48 = ::libc::c_uint;
+impl ::std::default::Default for Struct_sigstack {
+    fn default() -> Struct_sigstack { unsafe { ::std::mem::zeroed() } }
+}
+pub type Enum_Unnamed44 = ::libc::c_uint;
 pub const SS_ONSTACK: ::libc::c_uint = 1;
 pub const SS_DISABLE: ::libc::c_uint = 2;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_sigaltstack {
     pub ss_sp: *mut ::libc::c_void,
     pub ss_flags: ::libc::c_int,
     pub ss_size: size_t,
 }
+impl ::std::default::Default for Struct_sigaltstack {
+    fn default() -> Struct_sigaltstack { unsafe { ::std::mem::zeroed() } }
+}
 pub type stack_t = Struct_sigaltstack;
 pub type greg_t = ::libc::c_longlong;
-pub type gregset_t = [greg_t, ..23u];
+pub type gregset_t = [greg_t; 23u];
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__libc_fpxreg {
-    pub significand: [::libc::c_ushort, ..4u],
+    pub significand: [::libc::c_ushort; 4u],
     pub exponent: ::libc::c_ushort,
-    pub padding: [::libc::c_ushort, ..3u],
+    pub padding: [::libc::c_ushort; 3u],
+}
+impl ::std::default::Default for Struct__libc_fpxreg {
+    fn default() -> Struct__libc_fpxreg { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__libc_xmmreg {
-    pub element: [__uint32_t, ..4u],
+    pub element: [__uint32_t; 4u],
+}
+impl ::std::default::Default for Struct__libc_xmmreg {
+    fn default() -> Struct__libc_xmmreg { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__libc_fpstate {
     pub cwd: __uint16_t,
     pub swd: __uint16_t,
@@ -1210,21 +1493,27 @@ pub struct Struct__libc_fpstate {
     pub rdp: __uint64_t,
     pub mxcsr: __uint32_t,
     pub mxcr_mask: __uint32_t,
-    pub _st: [Struct__libc_fpxreg, ..8u],
-    pub _xmm: [Struct__libc_xmmreg, ..16u],
-    pub padding: [__uint32_t, ..24u],
+    pub _st: [Struct__libc_fpxreg; 8u],
+    pub _xmm: [Struct__libc_xmmreg; 16u],
+    pub padding: [__uint32_t; 24u],
+}
+impl ::std::default::Default for Struct__libc_fpstate {
+    fn default() -> Struct__libc_fpstate { unsafe { ::std::mem::zeroed() } }
 }
 pub type fpregset_t = *mut Struct__libc_fpstate;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed49 {
+#[derive(Copy)]
+pub struct Struct_Unnamed45 {
     pub gregs: gregset_t,
     pub fpregs: fpregset_t,
-    pub __reserved1: [::libc::c_ulonglong, ..8u],
+    pub __reserved1: [::libc::c_ulonglong; 8u],
 }
-pub type mcontext_t = Struct_Unnamed49;
+impl ::std::default::Default for Struct_Unnamed45 {
+    fn default() -> Struct_Unnamed45 { unsafe { ::std::mem::zeroed() } }
+}
+pub type mcontext_t = Struct_Unnamed45;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_ucontext {
     pub uc_flags: ::libc::c_ulong,
     pub uc_link: *mut Struct_ucontext,
@@ -1233,111 +1522,139 @@ pub struct Struct_ucontext {
     pub uc_sigmask: __sigset_t,
     pub __fpregs_mem: Struct__libc_fpstate,
 }
+impl ::std::default::Default for Struct_ucontext {
+    fn default() -> Struct_ucontext { unsafe { ::std::mem::zeroed() } }
+}
 pub type ucontext_t = Struct_ucontext;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed50 {
-    pub data: [u64, ..1u],
+#[derive(Copy)]
+pub struct Union_Unnamed46 {
+    pub _bindgen_data_: [u64; 1u],
 }
-impl Union_Unnamed50 {
-    pub fn __uptr(&mut self) -> *mut *mut Union_wait {
-        unsafe { ::std::mem::transmute(self) }
+impl Union_Unnamed46 {
+    pub unsafe fn __uptr(&mut self) -> *mut *mut Union_wait {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __iptr(&mut self) -> *mut *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __iptr(&mut self) -> *mut *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
-pub type __WAIT_STATUS = Union_Unnamed50;
+impl ::std::default::Default for Union_Unnamed46 {
+    fn default() -> Union_Unnamed46 { unsafe { ::std::mem::zeroed() } }
+}
+pub type __WAIT_STATUS = Union_Unnamed46;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Union_wait {
-    pub data: [u32, ..1u],
+    pub _bindgen_data_: [u32; 1u],
 }
 impl Union_wait {
-    pub fn w_status(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn w_status(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __wait_terminated(&mut self) -> *mut Struct_Unnamed51 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __wait_terminated(&mut self) -> *mut Struct_Unnamed47 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __wait_stopped(&mut self) -> *mut Struct_Unnamed52 {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __wait_stopped(&mut self) -> *mut Struct_Unnamed48 {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_wait {
+    fn default() -> Union_wait { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed51 {
-    pub __w_termsig: ::libc::c_uint,
-    pub __w_coredump: ::libc::c_uint,
-    pub __w_retcode: ::libc::c_uint,
-    pub unnamed_field1: ::libc::c_uint,
+#[derive(Copy)]
+pub struct Struct_Unnamed47 {
+    pub _bindgen_bitfield_1_: ::libc::c_uint,
+}
+impl ::std::default::Default for Struct_Unnamed47 {
+    fn default() -> Struct_Unnamed47 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed52 {
-    pub __w_stopval: ::libc::c_uint,
-    pub __w_stopsig: ::libc::c_uint,
-    pub unnamed_field1: ::libc::c_uint,
+#[derive(Copy)]
+pub struct Struct_Unnamed48 {
+    pub _bindgen_bitfield_1_: ::libc::c_uint,
 }
-pub type Enum_Unnamed53 = ::libc::c_uint;
+impl ::std::default::Default for Struct_Unnamed48 {
+    fn default() -> Struct_Unnamed48 { unsafe { ::std::mem::zeroed() } }
+}
+pub type Enum_Unnamed49 = ::libc::c_uint;
 pub const P_ALL: ::libc::c_uint = 0;
 pub const P_PID: ::libc::c_uint = 1;
 pub const P_PGID: ::libc::c_uint = 2;
-pub type idtype_t = Enum_Unnamed53;
+pub type idtype_t = Enum_Unnamed49;
 pub enum Struct_rusage { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_group {
     pub gr_name: *mut ::libc::c_char,
     pub gr_passwd: *mut ::libc::c_char,
     pub gr_gid: __gid_t,
     pub gr_mem: *mut *mut ::libc::c_char,
 }
+impl ::std::default::Default for Struct_group {
+    fn default() -> Struct_group { unsafe { ::std::mem::zeroed() } }
+}
 pub type __FILE = Struct__IO_FILE;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed54 {
+#[derive(Copy)]
+pub struct Struct_Unnamed50 {
     pub __count: ::libc::c_int,
-    pub __value: Union_Unnamed55,
+    pub __value: Union_Unnamed51,
+}
+impl ::std::default::Default for Struct_Unnamed50 {
+    fn default() -> Struct_Unnamed50 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed55 {
-    pub data: [u32, ..1u],
+#[derive(Copy)]
+pub struct Union_Unnamed51 {
+    pub _bindgen_data_: [u32; 1u],
 }
-impl Union_Unnamed55 {
-    pub fn __wch(&mut self) -> *mut ::libc::c_uint {
-        unsafe { ::std::mem::transmute(self) }
+impl Union_Unnamed51 {
+    pub unsafe fn __wch(&mut self) -> *mut ::libc::c_uint {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn __wchb(&mut self) -> *mut [::libc::c_char, ..4u] {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn __wchb(&mut self) -> *mut [::libc::c_char; 4u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
-pub type __mbstate_t = Struct_Unnamed54;
+impl ::std::default::Default for Union_Unnamed51 {
+    fn default() -> Union_Unnamed51 { unsafe { ::std::mem::zeroed() } }
+}
+pub type __mbstate_t = Struct_Unnamed50;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed56 {
+#[derive(Copy)]
+pub struct Struct_Unnamed52 {
     pub __pos: __off_t,
     pub __state: __mbstate_t,
 }
-pub type _G_fpos_t = Struct_Unnamed56;
+impl ::std::default::Default for Struct_Unnamed52 {
+    fn default() -> Struct_Unnamed52 { unsafe { ::std::mem::zeroed() } }
+}
+pub type _G_fpos_t = Struct_Unnamed52;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed57 {
+#[derive(Copy)]
+pub struct Struct_Unnamed53 {
     pub __pos: __off64_t,
     pub __state: __mbstate_t,
 }
-pub type _G_fpos64_t = Struct_Unnamed57;
-pub type va_list = __builtin_va_list;
+impl ::std::default::Default for Struct_Unnamed53 {
+    fn default() -> Struct_Unnamed53 { unsafe { ::std::mem::zeroed() } }
+}
+pub type _G_fpos64_t = Struct_Unnamed53;
+pub type va_list = __gnuc_va_list;
 pub type __gnuc_va_list = __builtin_va_list;
 pub enum Struct__IO_jump_t { }
 pub type _IO_lock_t = ::libc::c_void;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__IO_marker {
     pub _next: *mut Struct__IO_marker,
     pub _sbuf: *mut Struct__IO_FILE,
     pub _pos: ::libc::c_int,
+}
+impl ::std::default::Default for Struct__IO_marker {
+    fn default() -> Struct__IO_marker { unsafe { ::std::mem::zeroed() } }
 }
 pub type Enum___codecvt_result = ::libc::c_uint;
 pub const __codecvt_ok: ::libc::c_uint = 0;
@@ -1345,7 +1662,7 @@ pub const __codecvt_partial: ::libc::c_uint = 1;
 pub const __codecvt_error: ::libc::c_uint = 2;
 pub const __codecvt_noconv: ::libc::c_uint = 3;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__IO_FILE {
     pub _flags: ::libc::c_int,
     pub _IO_read_ptr: *mut ::libc::c_char,
@@ -1366,7 +1683,7 @@ pub struct Struct__IO_FILE {
     pub _old_offset: __off_t,
     pub _cur_column: ::libc::c_ushort,
     pub _vtable_offset: ::libc::c_char,
-    pub _shortbuf: [::libc::c_char, ..1u],
+    pub _shortbuf: [::libc::c_char; 1u],
     pub _lock: *mut _IO_lock_t,
     pub _offset: __off64_t,
     pub __pad1: *mut ::libc::c_void,
@@ -1375,38 +1692,60 @@ pub struct Struct__IO_FILE {
     pub __pad4: *mut ::libc::c_void,
     pub __pad5: size_t,
     pub _mode: ::libc::c_int,
-    pub _unused2: [::libc::c_char, ..20u],
+    pub _unused2: [::libc::c_char; 20u],
+}
+impl ::std::default::Default for Struct__IO_FILE {
+    fn default() -> Struct__IO_FILE { unsafe { ::std::mem::zeroed() } }
 }
 pub type _IO_FILE = Struct__IO_FILE;
 pub enum Struct__IO_FILE_plus { }
-pub type __io_read_fn = ::libc::c_void;
-pub type __io_write_fn = ::libc::c_void;
-pub type __io_seek_fn = ::libc::c_void;
-pub type __io_close_fn = ::libc::c_void;
+pub type __io_read_fn =
+    extern "C" fn
+        (__cookie: *mut ::libc::c_void, __buf: *mut ::libc::c_char,
+         __nbytes: size_t) -> __ssize_t;
+pub type __io_write_fn =
+    extern "C" fn
+        (__cookie: *mut ::libc::c_void, __buf: *const ::libc::c_char,
+         __n: size_t) -> __ssize_t;
+pub type __io_seek_fn =
+    extern "C" fn
+        (__cookie: *mut ::libc::c_void, __pos: *mut __off64_t,
+         __w: ::libc::c_int) -> ::libc::c_int;
+pub type __io_close_fn =
+    extern "C" fn(__cookie: *mut ::libc::c_void) -> ::libc::c_int;
 pub type fpos_t = _G_fpos_t;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed58 {
+#[derive(Copy)]
+pub struct Struct_Unnamed54 {
     pub quot: ::libc::c_int,
     pub rem: ::libc::c_int,
 }
-pub type div_t = Struct_Unnamed58;
+impl ::std::default::Default for Struct_Unnamed54 {
+    fn default() -> Struct_Unnamed54 { unsafe { ::std::mem::zeroed() } }
+}
+pub type div_t = Struct_Unnamed54;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed59 {
+#[derive(Copy)]
+pub struct Struct_Unnamed55 {
     pub quot: ::libc::c_long,
     pub rem: ::libc::c_long,
 }
-pub type ldiv_t = Struct_Unnamed59;
+impl ::std::default::Default for Struct_Unnamed55 {
+    fn default() -> Struct_Unnamed55 { unsafe { ::std::mem::zeroed() } }
+}
+pub type ldiv_t = Struct_Unnamed55;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed60 {
+#[derive(Copy)]
+pub struct Struct_Unnamed56 {
     pub quot: ::libc::c_longlong,
     pub rem: ::libc::c_longlong,
 }
-pub type lldiv_t = Struct_Unnamed60;
+impl ::std::default::Default for Struct_Unnamed56 {
+    fn default() -> Struct_Unnamed56 { unsafe { ::std::mem::zeroed() } }
+}
+pub type lldiv_t = Struct_Unnamed56;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_random_data {
     pub fptr: *mut int32_t,
     pub rptr: *mut int32_t,
@@ -1416,21 +1755,27 @@ pub struct Struct_random_data {
     pub rand_sep: ::libc::c_int,
     pub end_ptr: *mut int32_t,
 }
+impl ::std::default::Default for Struct_random_data {
+    fn default() -> Struct_random_data { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_drand48_data {
-    pub __x: [::libc::c_ushort, ..3u],
-    pub __old_x: [::libc::c_ushort, ..3u],
+    pub __x: [::libc::c_ushort; 3u],
+    pub __old_x: [::libc::c_ushort; 3u],
     pub __c: ::libc::c_ushort,
     pub __init: ::libc::c_ushort,
     pub __a: ::libc::c_ulonglong,
+}
+impl ::std::default::Default for Struct_drand48_data {
+    fn default() -> Struct_drand48_data { unsafe { ::std::mem::zeroed() } }
 }
 pub type __compar_fn_t =
     ::std::option::Option<extern "C" fn
                               (arg1: *const ::libc::c_void,
                                arg2: *const ::libc::c_void) -> ::libc::c_int>;
 pub type useconds_t = __useconds_t;
-pub type Enum_Unnamed61 = ::libc::c_uint;
+pub type Enum_Unnamed57 = ::libc::c_uint;
 pub const _PC_LINK_MAX: ::libc::c_uint = 0;
 pub const _PC_MAX_CANON: ::libc::c_uint = 1;
 pub const _PC_MAX_INPUT: ::libc::c_uint = 2;
@@ -1452,7 +1797,7 @@ pub const _PC_REC_XFER_ALIGN: ::libc::c_uint = 17;
 pub const _PC_ALLOC_SIZE_MIN: ::libc::c_uint = 18;
 pub const _PC_SYMLINK_MAX: ::libc::c_uint = 19;
 pub const _PC_2_SYMLINKS: ::libc::c_uint = 20;
-pub type Enum_Unnamed62 = ::libc::c_uint;
+pub type Enum_Unnamed58 = ::libc::c_uint;
 pub const _SC_ARG_MAX: ::libc::c_uint = 0;
 pub const _SC_CHILD_MAX: ::libc::c_uint = 1;
 pub const _SC_CLK_TCK: ::libc::c_uint = 2;
@@ -1668,7 +2013,7 @@ pub const _SC_TRACE_USER_EVENT_MAX: ::libc::c_uint = 245;
 pub const _SC_XOPEN_STREAMS: ::libc::c_uint = 246;
 pub const _SC_THREAD_ROBUST_PRIO_INHERIT: ::libc::c_uint = 247;
 pub const _SC_THREAD_ROBUST_PRIO_PROTECT: ::libc::c_uint = 248;
-pub type Enum_Unnamed63 = ::libc::c_uint;
+pub type Enum_Unnamed59 = ::libc::c_uint;
 pub const _CS_PATH: ::libc::c_uint = 0;
 pub const _CS_V6_WIDTH_RESTRICTED_ENVS: ::libc::c_uint = 1;
 pub const _CS_GNU_LIBC_VERSION: ::libc::c_uint = 2;
@@ -1734,7 +2079,7 @@ pub const _CS_POSIX_V7_LPBIG_OFFBIG_LINTFLAGS: ::libc::c_uint = 1147;
 pub const _CS_V6_ENV: ::libc::c_uint = 1148;
 pub const _CS_V7_ENV: ::libc::c_uint = 1149;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_stat {
     pub st_dev: __dev_t,
     pub st_ino: __ino_t,
@@ -1750,18 +2095,24 @@ pub struct Struct_stat {
     pub st_atim: Struct_timespec,
     pub st_mtim: Struct_timespec,
     pub st_ctim: Struct_timespec,
-    pub __glibc_reserved: [__syscall_slong_t, ..3u],
+    pub __glibc_reserved: [__syscall_slong_t; 3u],
+}
+impl ::std::default::Default for Struct_stat {
+    fn default() -> Struct_stat { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_dirent {
     pub d_ino: __ino_t,
     pub d_off: __off_t,
     pub d_reclen: ::libc::c_ushort,
     pub d_type: ::libc::c_uchar,
-    pub d_name: [::libc::c_char, ..256u],
+    pub d_name: [::libc::c_char; 256u],
 }
-pub type Enum_Unnamed64 = ::libc::c_uint;
+impl ::std::default::Default for Struct_dirent {
+    fn default() -> Struct_dirent { unsafe { ::std::mem::zeroed() } }
+}
+pub type Enum_Unnamed60 = ::libc::c_uint;
 pub const DT_UNKNOWN: ::libc::c_uint = 0;
 pub const DT_FIFO: ::libc::c_uint = 1;
 pub const DT_CHR: ::libc::c_uint = 2;
@@ -1774,7 +2125,7 @@ pub const DT_WHT: ::libc::c_uint = 14;
 pub enum Struct___dirstream { }
 pub type DIR = Struct___dirstream;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_flock {
     pub l_type: ::libc::c_short,
     pub l_whence: ::libc::c_short,
@@ -1782,23 +2133,26 @@ pub struct Struct_flock {
     pub l_len: __off_t,
     pub l_pid: __pid_t,
 }
+impl ::std::default::Default for Struct_flock {
+    fn default() -> Struct_flock { unsafe { ::std::mem::zeroed() } }
+}
 pub type float_t = ::libc::c_float;
 pub type double_t = ::libc::c_double;
-pub type Enum_Unnamed65 = ::libc::c_uint;
+pub type Enum_Unnamed61 = ::libc::c_uint;
 pub const FP_NAN: ::libc::c_uint = 0;
 pub const FP_INFINITE: ::libc::c_uint = 1;
 pub const FP_ZERO: ::libc::c_uint = 2;
 pub const FP_SUBNORMAL: ::libc::c_uint = 3;
 pub const FP_NORMAL: ::libc::c_uint = 4;
-pub type Enum_Unnamed66 = ::libc::c_int;
+pub type Enum_Unnamed62 = ::libc::c_int;
 pub const _IEEE_: ::libc::c_int = -1;
 pub const _SVID_: ::libc::c_int = 0;
 pub const _XOPEN_: ::libc::c_int = 1;
 pub const _POSIX_: ::libc::c_int = 2;
 pub const _ISOC_: ::libc::c_int = 3;
-pub type _LIB_VERSION_TYPE = Enum_Unnamed66;
+pub type _LIB_VERSION_TYPE = Enum_Unnamed62;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_exception {
     pub _type: ::libc::c_int,
     pub name: *mut ::libc::c_char,
@@ -1806,8 +2160,11 @@ pub struct Struct_exception {
     pub arg2: ::libc::c_double,
     pub retval: ::libc::c_double,
 }
+impl ::std::default::Default for Struct_exception {
+    fn default() -> Struct_exception { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_tm {
     pub tm_sec: ::libc::c_int,
     pub tm_min: ::libc::c_int,
@@ -1821,13 +2178,19 @@ pub struct Struct_tm {
     pub tm_gmtoff: ::libc::c_long,
     pub tm_zone: *const ::libc::c_char,
 }
+impl ::std::default::Default for Struct_tm {
+    fn default() -> Struct_tm { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_itimerspec {
     pub it_interval: Struct_timespec,
     pub it_value: Struct_timespec,
 }
-pub type Enum_Unnamed67 = ::libc::c_uint;
+impl ::std::default::Default for Struct_itimerspec {
+    fn default() -> Struct_itimerspec { unsafe { ::std::mem::zeroed() } }
+}
+pub type Enum_Unnamed63 = ::libc::c_uint;
 pub const _ISupper: ::libc::c_uint = 256;
 pub const _ISlower: ::libc::c_uint = 512;
 pub const _ISalpha: ::libc::c_uint = 1024;
@@ -1840,59 +2203,79 @@ pub const _ISblank: ::libc::c_uint = 1;
 pub const _IScntrl: ::libc::c_uint = 2;
 pub const _ISpunct: ::libc::c_uint = 4;
 pub const _ISalnum: ::libc::c_uint = 8;
+pub enum Struct_qelem { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_PLIBC_SEARCH_QELEM {
     pub q_forw: *mut Struct_qelem,
     pub q_back: *mut Struct_qelem,
-    pub q_data: [::libc::c_char, ..1u],
+    pub q_data: [::libc::c_char; 1u],
 }
-pub enum Struct_qelem { }
+impl ::std::default::Default for Struct_PLIBC_SEARCH_QELEM {
+    fn default() -> Struct_PLIBC_SEARCH_QELEM {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type PLIBC_SEARCH__compar_fn_t =
     ::std::option::Option<extern "C" fn
                               (arg1: *const ::libc::c_void,
                                arg2: *const ::libc::c_void) -> ::libc::c_int>;
 pub type _win_comparison_fn_t = PLIBC_SEARCH__compar_fn_t;
-pub type Enum_Unnamed68 = ::libc::c_uint;
+pub type Enum_Unnamed64 = ::libc::c_uint;
 pub const PLIBC_SEARCH_FIND: ::libc::c_uint = 0;
 pub const PLIBC_SEARCH_ENTER: ::libc::c_uint = 1;
-pub type PLIBC_SEARCH_ACTION = Enum_Unnamed68;
+pub type PLIBC_SEARCH_ACTION = Enum_Unnamed64;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_PLIBC_SEARCH_entry {
     pub key: *mut ::libc::c_char,
     pub data: *mut ::libc::c_void,
 }
+impl ::std::default::Default for Struct_PLIBC_SEARCH_entry {
+    fn default() -> Struct_PLIBC_SEARCH_entry {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type PLIBC_SEARCH_ENTRY = Struct_PLIBC_SEARCH_entry;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__PLIBC_SEARCH_ENTRY {
     pub used: ::libc::c_uint,
     pub entry: PLIBC_SEARCH_ENTRY,
 }
+impl ::std::default::Default for Struct__PLIBC_SEARCH_ENTRY {
+    fn default() -> Struct__PLIBC_SEARCH_ENTRY {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type _PLIBC_SEARCH_ENTRY = Struct__PLIBC_SEARCH_ENTRY;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_PLIBC_SEARCH_hsearch_data {
     pub table: *mut Struct__PLIBC_SEARCH_ENTRY,
     pub size: ::libc::c_uint,
     pub filled: ::libc::c_uint,
 }
-pub type Enum_Unnamed69 = ::libc::c_uint;
+impl ::std::default::Default for Struct_PLIBC_SEARCH_hsearch_data {
+    fn default() -> Struct_PLIBC_SEARCH_hsearch_data {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+pub type Enum_Unnamed65 = ::libc::c_uint;
 pub const PLIBC_SEARCH_preorder: ::libc::c_uint = 0;
 pub const PLIBC_SEARCH_postorder: ::libc::c_uint = 1;
 pub const PLIBC_SEARCH_endorder: ::libc::c_uint = 2;
 pub const PLIBC_SEARCH_leaf: ::libc::c_uint = 3;
-pub type PLIBC_SEARCH_VISIT = Enum_Unnamed69;
+pub type PLIBC_SEARCH_VISIT = Enum_Unnamed65;
 pub type PLIBC_SEARCH__action_fn_t =
     ::std::option::Option<extern "C" fn
-                              (arg1: *const ::libc::c_void,
-                               arg2: PLIBC_SEARCH_VISIT,
-                               arg3: ::libc::c_int)>;
+                              (__nodep: *const ::libc::c_void,
+                               __value: PLIBC_SEARCH_VISIT,
+                               __level: ::libc::c_int)>;
 pub type PLIBC_SEARCH__free_fn_t =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
+    ::std::option::Option<extern "C" fn(__nodep: *mut ::libc::c_void)>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_lconv {
     pub decimal_point: *mut ::libc::c_char,
     pub thousands_sep: *mut ::libc::c_char,
@@ -1919,18 +2302,27 @@ pub struct Struct_lconv {
     pub int_p_sign_posn: ::libc::c_char,
     pub int_n_sign_posn: ::libc::c_char,
 }
+impl ::std::default::Default for Struct_lconv {
+    fn default() -> Struct_lconv { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_MessageHeader {
     pub size: uint16_t,
     pub _type: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_MessageHeader {
+    fn default() -> Struct_GNUNET_MessageHeader {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type GNUNET_FileNameCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char) -> ::libc::c_int>;
+                              (cls: *mut ::libc::c_void,
+                               filename: *const ::libc::c_char)
+                              -> ::libc::c_int>;
 pub type GNUNET_ContinuationCallback =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
+    ::std::option::Option<extern "C" fn(cls: *mut ::libc::c_void)>;
 pub type Enum_GNUNET_ErrorType = ::libc::c_int;
 pub const GNUNET_ERROR_TYPE_UNSPECIFIED: ::libc::c_int = -1;
 pub const GNUNET_ERROR_TYPE_NONE: ::libc::c_int = 0;
@@ -1942,22 +2334,11 @@ pub const GNUNET_ERROR_TYPE_INVALID: ::libc::c_int = 16;
 pub const GNUNET_ERROR_TYPE_BULK: ::libc::c_int = 32;
 pub type GNUNET_Logger =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: Enum_GNUNET_ErrorType,
-                               arg3: *const ::libc::c_char,
-                               arg4: *const ::libc::c_char,
-                               arg5: *const ::libc::c_char)>;
-pub enum Struct_GNUNET_CONFIGURATION_Handle { }
-pub type GNUNET_CONFIGURATION_Iterator =
-    ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char,
-                               arg3: *const ::libc::c_char,
-                               arg4: *const ::libc::c_char)>;
-pub type GNUNET_CONFIGURATION_Section_Iterator =
-    ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char)>;
+                              (cls: *mut ::libc::c_void,
+                               kind: Enum_GNUNET_ErrorType,
+                               component: *const ::libc::c_char,
+                               date: *const ::libc::c_char,
+                               message: *const ::libc::c_char)>;
 pub type GNUNET_SCHEDULER_TaskIdentifier = ::libc::c_ulonglong;
 pub type Enum_GNUNET_SCHEDULER_Reason = ::libc::c_uint;
 pub const GNUNET_SCHEDULER_REASON_STARTUP: ::libc::c_uint = 0;
@@ -1977,41 +2358,82 @@ pub const GNUNET_SCHEDULER_PRIORITY_URGENT: ::libc::c_uint = 6;
 pub const GNUNET_SCHEDULER_PRIORITY_SHUTDOWN: ::libc::c_uint = 7;
 pub const GNUNET_SCHEDULER_PRIORITY_COUNT: ::libc::c_uint = 8;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TIME_Absolute {
     pub abs_value_us: uint64_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TIME_Absolute {
+    fn default() -> Struct_GNUNET_TIME_Absolute {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TIME_Relative {
     pub rel_value_us: uint64_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TIME_Relative {
+    fn default() -> Struct_GNUNET_TIME_Relative {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TIME_RelativeNBO {
     pub rel_value_us__: uint64_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TIME_RelativeNBO {
+    fn default() -> Struct_GNUNET_TIME_RelativeNBO {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TIME_AbsoluteNBO {
     pub abs_value_us__: uint64_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TIME_AbsoluteNBO {
+    fn default() -> Struct_GNUNET_TIME_AbsoluteNBO {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub enum Struct_GNUNET_NETWORK_Handle { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_NETWORK_FDSet {
     pub nsds: ::libc::c_int,
     pub sds: fd_set,
+}
+impl ::std::default::Default for Struct_GNUNET_NETWORK_FDSet {
+    fn default() -> Struct_GNUNET_NETWORK_FDSet {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub enum Struct_GNUNET_DISK_PipeHandle { }
 pub type Enum_GNUNET_FILE_Type = ::libc::c_uint;
 pub const GNUNET_DISK_HANLDE_TYPE_FILE: ::libc::c_uint = 0;
 pub const GNUNET_DISK_HANLDE_TYPE_PIPE: ::libc::c_uint = 1;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DISK_FileHandle {
     pub fd: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_GNUNET_DISK_FileHandle {
+    fn default() -> Struct_GNUNET_DISK_FileHandle {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+pub enum Struct_GNUNET_CONFIGURATION_Handle { }
+pub type GNUNET_CONFIGURATION_Iterator =
+    ::std::option::Option<extern "C" fn
+                              (cls: *mut ::libc::c_void,
+                               section: *const ::libc::c_char,
+                               option: *const ::libc::c_char,
+                               value: *const ::libc::c_char)>;
+pub type GNUNET_CONFIGURATION_Section_Iterator =
+    ::std::option::Option<extern "C" fn
+                              (cls: *mut ::libc::c_void,
+                               section: *const ::libc::c_char)>;
 pub type Enum_GNUNET_DISK_OpenFlags = ::libc::c_uint;
 pub const GNUNET_DISK_OPEN_READ: ::libc::c_uint = 1;
 pub const GNUNET_DISK_OPEN_WRITE: ::libc::c_uint = 2;
@@ -2045,33 +2467,37 @@ pub const GNUNET_DISK_PIPE_END_WRITE: ::libc::c_uint = 1;
 pub enum Struct_GNUNET_DISK_DirectoryIterator { }
 pub type GNUNET_DISK_DirectoryIteratorCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2:
-                                   *mut Struct_GNUNET_DISK_DirectoryIterator,
-                               arg3: *const ::libc::c_char,
-                               arg4: *const ::libc::c_char)>;
+                              (cls: *mut ::libc::c_void,
+                               di: *mut Struct_GNUNET_DISK_DirectoryIterator,
+                               filename: *const ::libc::c_char,
+                               dirname: *const ::libc::c_char)>;
 pub enum Struct_GNUNET_DISK_MapHandle { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_SCHEDULER_TaskContext {
     pub reason: Enum_GNUNET_SCHEDULER_Reason,
     pub read_ready: *const Struct_GNUNET_NETWORK_FDSet,
     pub write_ready: *const Struct_GNUNET_NETWORK_FDSet,
 }
+impl ::std::default::Default for Struct_GNUNET_SCHEDULER_TaskContext {
+    fn default() -> Struct_GNUNET_SCHEDULER_TaskContext {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type GNUNET_SCHEDULER_Task =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2:
+                              (cls: *mut ::libc::c_void,
+                               tc:
                                    *const Struct_GNUNET_SCHEDULER_TaskContext)>;
 pub type GNUNET_SCHEDULER_select =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_NETWORK_FDSet,
-                               arg3: *mut Struct_GNUNET_NETWORK_FDSet,
-                               arg4: *mut Struct_GNUNET_NETWORK_FDSet,
-                               arg5: Struct_GNUNET_TIME_Relative)
+                              (cls: *mut ::libc::c_void,
+                               rfds: *mut Struct_GNUNET_NETWORK_FDSet,
+                               wfds: *mut Struct_GNUNET_NETWORK_FDSet,
+                               efds: *mut Struct_GNUNET_NETWORK_FDSet,
+                               timeout: Struct_GNUNET_TIME_Relative)
                               -> ::libc::c_int>;
-pub type Enum_Unnamed70 = ::libc::c_uint;
+pub type Enum_Unnamed66 = ::libc::c_uint;
 pub const GPG_ERR_SOURCE_UNKNOWN: ::libc::c_uint = 0;
 pub const GPG_ERR_SOURCE_GCRYPT: ::libc::c_uint = 1;
 pub const GPG_ERR_SOURCE_GPG: ::libc::c_uint = 2;
@@ -2094,8 +2520,8 @@ pub const GPG_ERR_SOURCE_USER_2: ::libc::c_uint = 33;
 pub const GPG_ERR_SOURCE_USER_3: ::libc::c_uint = 34;
 pub const GPG_ERR_SOURCE_USER_4: ::libc::c_uint = 35;
 pub const GPG_ERR_SOURCE_DIM: ::libc::c_uint = 128;
-pub type gpg_err_source_t = Enum_Unnamed70;
-pub type Enum_Unnamed71 = ::libc::c_uint;
+pub type gpg_err_source_t = Enum_Unnamed66;
+pub type Enum_Unnamed67 = ::libc::c_uint;
 pub const GPG_ERR_NO_ERROR: ::libc::c_uint = 0;
 pub const GPG_ERR_GENERAL: ::libc::c_uint = 1;
 pub const GPG_ERR_UNKNOWN_PACKET: ::libc::c_uint = 2;
@@ -2498,36 +2924,42 @@ pub const GPG_ERR_EWOULDBLOCK: ::libc::c_uint = 32906;
 pub const GPG_ERR_EXDEV: ::libc::c_uint = 32907;
 pub const GPG_ERR_EXFULL: ::libc::c_uint = 32908;
 pub const GPG_ERR_CODE_DIM: ::libc::c_uint = 65536;
-pub type gpg_err_code_t = Enum_Unnamed71;
+pub type gpg_err_code_t = Enum_Unnamed67;
 pub type gpg_error_t = ::libc::c_uint;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed72 {
+#[derive(Copy)]
+pub struct Struct_Unnamed68 {
     pub _vers: ::libc::c_long,
-    pub u: Union_Unnamed73,
+    pub u: Union_Unnamed69,
+}
+impl ::std::default::Default for Struct_Unnamed68 {
+    fn default() -> Struct_Unnamed68 { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed73 {
-    pub data: [u64, ..5u],
+#[derive(Copy)]
+pub struct Union_Unnamed69 {
+    pub _bindgen_data_: [u64; 5u],
 }
-impl Union_Unnamed73 {
-    pub fn _priv(&mut self) -> *mut [::libc::c_char, ..40u] {
-        unsafe { ::std::mem::transmute(self) }
+impl Union_Unnamed69 {
+    pub unsafe fn _priv(&mut self) -> *mut [::libc::c_char; 40u] {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _x_align(&mut self) -> *mut ::libc::c_long {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _x_align(&mut self) -> *mut ::libc::c_long {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn _xp_align(&mut self) -> *mut *mut ::libc::c_long {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn _xp_align(&mut self) -> *mut *mut ::libc::c_long {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
 }
-pub type gpgrt_lock_t = Struct_Unnamed72;
+impl ::std::default::Default for Union_Unnamed69 {
+    fn default() -> Union_Unnamed69 { unsafe { ::std::mem::zeroed() } }
+}
+pub type gpgrt_lock_t = Struct_Unnamed68;
 pub enum Struct__gpgrt_stream_internal { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__gpgrt__stream {
-    pub flags: Struct_Unnamed74,
+    pub flags: Struct_Unnamed70,
     pub buffer: *mut ::libc::c_uchar,
     pub buffer_size: size_t,
     pub data_len: size_t,
@@ -2538,38 +2970,47 @@ pub struct Struct__gpgrt__stream {
     pub unread_data_len: size_t,
     pub intern: *mut Struct__gpgrt_stream_internal,
 }
+impl ::std::default::Default for Struct__gpgrt__stream {
+    fn default() -> Struct__gpgrt__stream { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed74 {
-    pub magic: ::libc::c_uint,
-    pub writing: ::libc::c_uint,
-    pub reserved: ::libc::c_uint,
+#[derive(Copy)]
+pub struct Struct_Unnamed70 {
+    pub _bindgen_bitfield_1_: ::libc::c_uint,
+}
+impl ::std::default::Default for Struct_Unnamed70 {
+    fn default() -> Struct_Unnamed70 { unsafe { ::std::mem::zeroed() } }
 }
 pub type gpgrt_stream_t = *mut Struct__gpgrt__stream;
 pub type gpgrt_cookie_read_function_t =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut ::libc::c_void, arg3: size_t)
+                              (cookie: *mut ::libc::c_void,
+                               buffer: *mut ::libc::c_void, size: size_t)
                               -> ssize_t>;
 pub type gpgrt_cookie_write_function_t =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_void, arg3: size_t)
+                              (cookie: *mut ::libc::c_void,
+                               buffer: *const ::libc::c_void, size: size_t)
                               -> ssize_t>;
 pub type gpgrt_cookie_seek_function_t =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void, arg2: *mut off_t,
-                               arg3: ::libc::c_int) -> ::libc::c_int>;
+                              (cookie: *mut ::libc::c_void, pos: *mut off_t,
+                               whence: ::libc::c_int) -> ::libc::c_int>;
 pub type gpgrt_cookie_close_function_t =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
+    ::std::option::Option<extern "C" fn(cookie: *mut ::libc::c_void)
                               -> ::libc::c_int>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__gpgrt_cookie_io_functions {
     pub func_read: gpgrt_cookie_read_function_t,
     pub func_write: gpgrt_cookie_write_function_t,
     pub func_seek: gpgrt_cookie_seek_function_t,
     pub func_close: gpgrt_cookie_close_function_t,
+}
+impl ::std::default::Default for Struct__gpgrt_cookie_io_functions {
+    fn default() -> Struct__gpgrt_cookie_io_functions {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gpgrt_cookie_io_functions_t = Struct__gpgrt_cookie_io_functions;
 pub type Enum_gpgrt_syshd_types = ::libc::c_uint;
@@ -2579,36 +3020,45 @@ pub const GPGRT_SYSHD_SOCK: ::libc::c_uint = 2;
 pub const GPGRT_SYSHD_RVID: ::libc::c_uint = 3;
 pub const GPGRT_SYSHD_HANDLE: ::libc::c_uint = 4;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct__gpgrt_syshd {
     pub _type: Enum_gpgrt_syshd_types,
-    pub u: Union_Unnamed75,
+    pub u: Union_Unnamed71,
+}
+impl ::std::default::Default for Struct__gpgrt_syshd {
+    fn default() -> Struct__gpgrt_syshd { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed75 {
-    pub data: [u64, ..1u],
+#[derive(Copy)]
+pub struct Union_Unnamed71 {
+    pub _bindgen_data_: [u64; 1u],
 }
-impl Union_Unnamed75 {
-    pub fn fd(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+impl Union_Unnamed71 {
+    pub unsafe fn fd(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn sock(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn sock(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn rvid(&mut self) -> *mut ::libc::c_int {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn rvid(&mut self) -> *mut ::libc::c_int {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub fn handle(&mut self) -> *mut *mut ::libc::c_void {
-        unsafe { ::std::mem::transmute(self) }
+    pub unsafe fn handle(&mut self) -> *mut *mut ::libc::c_void {
+        ::std::mem::transmute(&self._bindgen_data_)
     }
+}
+impl ::std::default::Default for Union_Unnamed71 {
+    fn default() -> Union_Unnamed71 { unsafe { ::std::mem::zeroed() } }
 }
 pub type gpgrt_syshd_t = Struct__gpgrt_syshd;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_timezone {
     pub tz_minuteswest: ::libc::c_int,
     pub tz_dsttime: ::libc::c_int,
+}
+impl ::std::default::Default for Struct_timezone {
+    fn default() -> Struct_timezone { unsafe { ::std::mem::zeroed() } }
 }
 pub type __timezone_ptr_t = *mut Struct_timezone;
 pub type Enum___itimer_which = ::libc::c_uint;
@@ -2616,10 +3066,13 @@ pub const ITIMER_REAL: ::libc::c_uint = 0;
 pub const ITIMER_VIRTUAL: ::libc::c_uint = 1;
 pub const ITIMER_PROF: ::libc::c_uint = 2;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_itimerval {
     pub it_interval: Struct_timeval,
     pub it_value: Struct_timeval,
+}
+impl ::std::default::Default for Struct_itimerval {
+    fn default() -> Struct_itimerval { unsafe { ::std::mem::zeroed() } }
 }
 pub type __itimer_which_t = ::libc::c_int;
 pub type gcry_socklen_t = socklen_t;
@@ -2627,9 +3080,12 @@ pub type gcry_error_t = gpg_error_t;
 pub type gcry_err_code_t = gpg_err_code_t;
 pub type gcry_err_source_t = gpg_err_source_t;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_gcry_thread_cbs {
     pub option: ::libc::c_uint,
+}
+impl ::std::default::Default for Struct_gcry_thread_cbs {
+    fn default() -> Struct_gcry_thread_cbs { unsafe { ::std::mem::zeroed() } }
 }
 pub enum Struct_gcry_context { }
 pub type gcry_ctx_t = *mut Struct_gcry_context;
@@ -2640,14 +3096,17 @@ pub type gcry_mpi_point_t = *mut Struct_gcry_mpi_point;
 pub type GCRY_MPI = *mut Struct_gcry_mpi;
 pub type GcryMPI = *mut Struct_gcry_mpi;
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed76 {
+#[derive(Copy)]
+pub struct Struct_Unnamed72 {
     pub size: size_t,
     pub off: size_t,
     pub len: size_t,
     pub data: *mut ::libc::c_void,
 }
-pub type gcry_buffer_t = Struct_Unnamed76;
+impl ::std::default::Default for Struct_Unnamed72 {
+    fn default() -> Struct_Unnamed72 { unsafe { ::std::mem::zeroed() } }
+}
+pub type gcry_buffer_t = Struct_Unnamed72;
 pub type Enum_gcry_ctl_cmds = ::libc::c_uint;
 pub const GCRYCTL_CFB_SYNC: ::libc::c_uint = 3;
 pub const GCRYCTL_RESET: ::libc::c_uint = 4;
@@ -2820,12 +3279,15 @@ pub const GCRY_MD_FLAG_SECURE: ::libc::c_uint = 1;
 pub const GCRY_MD_FLAG_HMAC: ::libc::c_uint = 2;
 pub enum Struct_gcry_md_context { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_gcry_md_handle {
     pub ctx: *mut Struct_gcry_md_context,
     pub bufpos: ::libc::c_int,
     pub bufsize: ::libc::c_int,
-    pub buf: [::libc::c_uchar, ..1u],
+    pub buf: [::libc::c_uchar; 1u],
+}
+impl ::std::default::Default for Struct_gcry_md_handle {
+    fn default() -> Struct_gcry_md_handle { unsafe { ::std::mem::zeroed() } }
 }
 pub type gcry_md_hd_t = *mut Struct_gcry_md_handle;
 pub type GCRY_MD_HD = *mut Struct_gcry_md_handle;
@@ -2884,8 +3346,8 @@ pub const GCRY_VERY_STRONG_RANDOM: ::libc::c_uint = 2;
 pub type gcry_random_level_t = Enum_gcry_random_level;
 pub type gcry_prime_check_func_t =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void, arg2: ::libc::c_int,
-                               arg3: gcry_mpi_t) -> ::libc::c_int>;
+                              (arg: *mut ::libc::c_void, mode: ::libc::c_int,
+                               candidate: gcry_mpi_t) -> ::libc::c_int>;
 pub type Enum_gcry_log_levels = ::libc::c_uint;
 pub const GCRY_LOG_CONT: ::libc::c_uint = 0;
 pub const GCRY_LOG_INFO: ::libc::c_uint = 10;
@@ -2901,13 +3363,12 @@ pub type gcry_handler_progress_t =
                                arg3: ::libc::c_int, arg4: ::libc::c_int,
                                arg5: ::libc::c_int)>;
 pub type gcry_handler_alloc_t =
-    ::std::option::Option<extern "C" fn(arg1: size_t) -> *mut ::libc::c_void>;
+    ::std::option::Option<extern "C" fn(n: size_t) -> *mut ::libc::c_void>;
 pub type gcry_handler_secure_check_t =
     ::std::option::Option<extern "C" fn(arg1: *const ::libc::c_void)
                               -> ::libc::c_int>;
 pub type gcry_handler_realloc_t =
-    ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void, arg2: size_t)
+    ::std::option::Option<extern "C" fn(p: *mut ::libc::c_void, n: size_t)
                               -> *mut ::libc::c_void>;
 pub type gcry_handler_free_t =
     ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
@@ -2924,122 +3385,216 @@ pub type gcry_handler_log_t =
                               (arg1: *mut ::libc::c_void, arg2: ::libc::c_int,
                                arg3: *const ::libc::c_char, arg4: va_list)>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_HashCode {
-    pub bits: [uint32_t, ..16u],
+    pub bits: [uint32_t; 16u],
+}
+impl ::std::default::Default for Struct_GNUNET_HashCode {
+    fn default() -> Struct_GNUNET_HashCode { unsafe { ::std::mem::zeroed() } }
 }
 pub type Enum_GNUNET_CRYPTO_Quality = ::libc::c_uint;
 pub const GNUNET_CRYPTO_QUALITY_WEAK: ::libc::c_uint = 0;
 pub const GNUNET_CRYPTO_QUALITY_STRONG: ::libc::c_uint = 1;
 pub const GNUNET_CRYPTO_QUALITY_NONCE: ::libc::c_uint = 2;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_HashAsciiEncoded {
-    pub encoding: [::libc::c_uchar, ..104u],
+    pub encoding: [::libc::c_uchar; 104u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_HashAsciiEncoded {
+    fn default() -> Struct_GNUNET_CRYPTO_HashAsciiEncoded {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EccSignaturePurpose {
     pub size: uint32_t,
     pub purpose: uint32_t,
 }
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EccSignaturePurpose {
+    fn default() -> Struct_GNUNET_CRYPTO_EccSignaturePurpose {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaSignature {
-    pub r: [::libc::c_uchar, ..32u],
-    pub s: [::libc::c_uchar, ..32u],
+    pub r: [::libc::c_uchar; 32u],
+    pub s: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaSignature {
+    fn default() -> Struct_GNUNET_CRYPTO_EddsaSignature {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaSignature {
-    pub r: [::libc::c_uchar, ..32u],
-    pub s: [::libc::c_uchar, ..32u],
+    pub r: [::libc::c_uchar; 32u],
+    pub s: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaSignature {
+    fn default() -> Struct_GNUNET_CRYPTO_EcdsaSignature {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPublicKey {
-    pub q_y: [::libc::c_uchar, ..32u],
+    pub q_y: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPublicKey {
+    fn default() -> Struct_GNUNET_CRYPTO_EddsaPublicKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaPublicKey {
-    pub q_y: [::libc::c_uchar, ..32u],
+    pub q_y: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPublicKey {
+    fn default() -> Struct_GNUNET_CRYPTO_EcdsaPublicKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_PeerIdentity {
     pub public_key: Struct_GNUNET_CRYPTO_EddsaPublicKey,
 }
+impl ::std::default::Default for Struct_GNUNET_PeerIdentity {
+    fn default() -> Struct_GNUNET_PeerIdentity {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdhePublicKey {
-    pub q_y: [::libc::c_uchar, ..32u],
+    pub q_y: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePublicKey {
+    fn default() -> Struct_GNUNET_CRYPTO_EcdhePublicKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdhePrivateKey {
-    pub d: [::libc::c_uchar, ..32u],
+    pub d: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePrivateKey {
+    fn default() -> Struct_GNUNET_CRYPTO_EcdhePrivateKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
-    pub d: [::libc::c_uchar, ..32u],
+    pub d: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
+    fn default() -> Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPrivateKey {
-    pub d: [::libc::c_uchar, ..32u],
+    pub d: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPrivateKey {
+    fn default() -> Struct_GNUNET_CRYPTO_EddsaPrivateKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_SymmetricSessionKey {
-    pub aes_key: [::libc::c_uchar, ..32u],
-    pub twofish_key: [::libc::c_uchar, ..32u],
+    pub aes_key: [::libc::c_uchar; 32u],
+    pub twofish_key: [::libc::c_uchar; 32u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_SymmetricSessionKey {
+    fn default() -> Struct_GNUNET_CRYPTO_SymmetricSessionKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
-    pub aes_iv: [::libc::c_uchar, ..16u],
-    pub twofish_iv: [::libc::c_uchar, ..16u],
+    pub aes_iv: [::libc::c_uchar; 16u],
+    pub twofish_iv: [::libc::c_uchar; 16u],
+}
+impl ::std::default::Default for
+ Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
+    fn default() -> Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_AuthKey {
-    pub key: [::libc::c_uchar, ..64u],
+    pub key: [::libc::c_uchar; 64u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_AuthKey {
+    fn default() -> Struct_GNUNET_CRYPTO_AuthKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierPublicKey {
-    pub n: [::libc::c_uchar, ..256u],
+    pub n: [::libc::c_uchar; 256u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPublicKey {
+    fn default() -> Struct_GNUNET_CRYPTO_PaillierPublicKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierPrivateKey {
-    pub lambda: [::libc::c_uchar, ..256u],
-    pub mu: [::libc::c_uchar, ..256u],
+    pub lambda: [::libc::c_uchar; 256u],
+    pub mu: [::libc::c_uchar; 256u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
+    fn default() -> Struct_GNUNET_CRYPTO_PaillierPrivateKey {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierCiphertext {
     pub remaining_ops: int32_t,
-    pub bits: [::libc::c_uchar, ..512u],
+    pub bits: [::libc::c_uchar; 512u],
+}
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierCiphertext {
+    fn default() -> Struct_GNUNET_CRYPTO_PaillierCiphertext {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type GNUNET_CRYPTO_HashCompletedCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const Struct_GNUNET_HashCode)>;
+                              (cls: *mut ::libc::c_void,
+                               res: *const Struct_GNUNET_HashCode)>;
 pub enum Struct_GNUNET_CRYPTO_FileHashContext { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_BANDWIDTH_Value32NBO {
     pub value__: uint32_t,
 }
+impl ::std::default::Default for Struct_GNUNET_BANDWIDTH_Value32NBO {
+    fn default() -> Struct_GNUNET_BANDWIDTH_Value32NBO {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type GNUNET_BANDWIDTH_TrackerUpdateCallback =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
+    ::std::option::Option<extern "C" fn(cls: *mut ::libc::c_void)>;
 pub type GNUNET_BANDWIDTH_ExcessNotificationCallback =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
+    ::std::option::Option<extern "C" fn(cls: *mut ::libc::c_void)>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_BANDWIDTH_Tracker {
     pub update_cb_cls: *mut ::libc::c_void,
     pub update_cb: GNUNET_BANDWIDTH_TrackerUpdateCallback,
@@ -3050,6 +3605,11 @@ pub struct Struct_GNUNET_BANDWIDTH_Tracker {
     pub last_update__: Struct_GNUNET_TIME_Absolute,
     pub available_bytes_per_s__: uint32_t,
     pub max_carry_s__: uint32_t,
+}
+impl ::std::default::Default for Struct_GNUNET_BANDWIDTH_Tracker {
+    fn default() -> Struct_GNUNET_BANDWIDTH_Tracker {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type Enum_EXTRACTOR_Options = ::libc::c_uint;
 pub const EXTRACTOR_OPTION_DEFAULT_POLICY: ::libc::c_uint = 0;
@@ -3295,40 +3855,45 @@ pub const EXTRACTOR_METATYPE_SUBTITLE_DURATION: ::libc::c_uint = 227;
 pub const EXTRACTOR_METATYPE_LAST: ::libc::c_uint = 228;
 pub type EXTRACTOR_MetaDataProcessor =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char,
-                               arg3: Enum_EXTRACTOR_MetaType,
-                               arg4: Enum_EXTRACTOR_MetaFormat,
-                               arg5: *const ::libc::c_char,
-                               arg6: *const ::libc::c_char, arg7: size_t)
+                              (cls: *mut ::libc::c_void,
+                               plugin_name: *const ::libc::c_char,
+                               _type: Enum_EXTRACTOR_MetaType,
+                               format: Enum_EXTRACTOR_MetaFormat,
+                               data_mime_type: *const ::libc::c_char,
+                               data: *const ::libc::c_char, data_len: size_t)
                               -> ::libc::c_int>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_EXTRACTOR_ExtractContext {
     pub cls: *mut ::libc::c_void,
     pub config: *const ::libc::c_char,
     pub read: ::std::option::Option<extern "C" fn
-                                        (arg1: *mut ::libc::c_void,
-                                         arg2: *mut *mut ::libc::c_void,
-                                         arg3: size_t) -> ssize_t>,
+                                        (cls: *mut ::libc::c_void,
+                                         data: *mut *mut ::libc::c_void,
+                                         size: size_t) -> ssize_t>,
     pub seek: ::std::option::Option<extern "C" fn
-                                        (arg1: *mut ::libc::c_void,
-                                         arg2: int64_t, arg3: ::libc::c_int)
+                                        (cls: *mut ::libc::c_void,
+                                         pos: int64_t, whence: ::libc::c_int)
                                         -> int64_t>,
     pub get_size: ::std::option::Option<extern "C" fn
-                                            (arg1: *mut ::libc::c_void)
+                                            (cls: *mut ::libc::c_void)
                                             -> uint64_t>,
     pub _proc: EXTRACTOR_MetaDataProcessor,
 }
+impl ::std::default::Default for Struct_EXTRACTOR_ExtractContext {
+    fn default() -> Struct_EXTRACTOR_ExtractContext {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type EXTRACTOR_extract_method =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut Struct_EXTRACTOR_ExtractContext)>;
+                              (ec: *mut Struct_EXTRACTOR_ExtractContext)>;
 pub enum Struct_EXTRACTOR_PluginList { }
 pub enum Struct_GNUNET_CONTAINER_BloomFilter { }
 pub type GNUNET_CONTAINER_HashCodeIterator =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_HashCode)
+                              (cls: *mut ::libc::c_void,
+                               next: *mut Struct_GNUNET_HashCode)
                               -> ::libc::c_int>;
 pub enum Struct_GNUNET_CONTAINER_MetaData { }
 pub type Enum_GNUNET_CONTAINER_MetaDataSerializationOptions = ::libc::c_uint;
@@ -3345,22 +3910,22 @@ pub const GNUNET_CONTAINER_MULTIHASHMAPOPTION_UNIQUE_ONLY: ::libc::c_uint = 2;
 pub const GNUNET_CONTAINER_MULTIHASHMAPOPTION_UNIQUE_FAST: ::libc::c_uint = 3;
 pub type GNUNET_CONTAINER_HashMapIterator =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const Struct_GNUNET_HashCode,
-                               arg3: *mut ::libc::c_void) -> ::libc::c_int>;
+                              (cls: *mut ::libc::c_void,
+                               key: *const Struct_GNUNET_HashCode,
+                               value: *mut ::libc::c_void) -> ::libc::c_int>;
 pub type GNUNET_CONTAINER_PeerMapIterator =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const Struct_GNUNET_PeerIdentity,
-                               arg3: *mut ::libc::c_void) -> ::libc::c_int>;
+                              (cls: *mut ::libc::c_void,
+                               key: *const Struct_GNUNET_PeerIdentity,
+                               value: *mut ::libc::c_void) -> ::libc::c_int>;
 pub enum Struct_GNUNET_CONTAINER_MultiPeerMap { }
 pub enum Struct_GNUNET_CONTAINER_MultiPeerMapIterator { }
 pub enum Struct_GNUNET_CONTAINER_MultiHashMap32 { }
 pub enum Struct_GNUNET_CONTAINER_MultiHashMap32Iterator { }
 pub type GNUNET_CONTAINER_HashMapIterator32 =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void, arg2: uint32_t,
-                               arg3: *mut ::libc::c_void) -> ::libc::c_int>;
+                              (cls: *mut ::libc::c_void, key: uint32_t,
+                               value: *mut ::libc::c_void) -> ::libc::c_int>;
 pub type GNUNET_CONTAINER_HeapCostType = uint64_t;
 pub type Enum_GNUNET_CONTAINER_HeapOrder = ::libc::c_uint;
 pub const GNUNET_CONTAINER_HEAP_ORDER_MAX: ::libc::c_uint = 0;
@@ -3369,10 +3934,10 @@ pub enum Struct_GNUNET_CONTAINER_Heap { }
 pub enum Struct_GNUNET_CONTAINER_HeapNode { }
 pub type GNUNET_CONTAINER_HeapIterator =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_CONTAINER_HeapNode,
-                               arg3: *mut ::libc::c_void,
-                               arg4: GNUNET_CONTAINER_HeapCostType)
+                              (cls: *mut ::libc::c_void,
+                               node: *mut Struct_GNUNET_CONTAINER_HeapNode,
+                               element: *mut ::libc::c_void,
+                               cost: GNUNET_CONTAINER_HeapCostType)
                               -> ::libc::c_int>;
 pub type Enum_GNUNET_CONTAINER_SListDisposition = ::libc::c_uint;
 pub const GNUNET_CONTAINER_SLIST_DISPOSITION_TRANSIENT: ::libc::c_uint = 0;
@@ -3381,59 +3946,69 @@ pub const GNUNET_CONTAINER_SLIST_DISPOSITION_DYNAMIC: ::libc::c_uint = 4;
 pub enum Struct_GNUNET_CONTAINER_SList_Elem { }
 pub enum Struct_GNUNET_CONTAINER_SList { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CONTAINER_SList_Iterator {
     pub list: *mut Struct_GNUNET_CONTAINER_SList,
     pub last: *mut Struct_GNUNET_CONTAINER_SList_Elem,
     pub elem: *mut Struct_GNUNET_CONTAINER_SList_Elem,
 }
+impl ::std::default::Default for Struct_GNUNET_CONTAINER_SList_Iterator {
+    fn default() -> Struct_GNUNET_CONTAINER_SList_Iterator {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub enum Struct_GNUNET_BIO_ReadHandle { }
 pub enum Struct_GNUNET_BIO_WriteHandle { }
 pub enum Struct_GNUNET_CONNECTION_Handle { }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CONNECTION_Credentials {
     pub uid: uid_t,
     pub gid: gid_t,
 }
+impl ::std::default::Default for Struct_GNUNET_CONNECTION_Credentials {
+    fn default() -> Struct_GNUNET_CONNECTION_Credentials {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type GNUNET_CONNECTION_AccessCheck =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2:
+                              (cls: *mut ::libc::c_void,
+                               ucred:
                                    *const Struct_GNUNET_CONNECTION_Credentials,
-                               arg3: *const Struct_sockaddr, arg4: socklen_t)
-                              -> ::libc::c_int>;
+                               addr: *const Struct_sockaddr,
+                               addrlen: socklen_t) -> ::libc::c_int>;
 pub type GNUNET_CONNECTION_Receiver =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_void, arg3: size_t,
-                               arg4: *const Struct_sockaddr, arg5: socklen_t,
-                               arg6: ::libc::c_int)>;
+                              (cls: *mut ::libc::c_void,
+                               buf: *const ::libc::c_void, available: size_t,
+                               addr: *const Struct_sockaddr,
+                               addrlen: socklen_t, errCode: ::libc::c_int)>;
 pub type GNUNET_CONNECTION_TransmitReadyNotify =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void, arg2: size_t,
-                               arg3: *mut ::libc::c_void) -> size_t>;
+                              (cls: *mut ::libc::c_void, size: size_t,
+                               buf: *mut ::libc::c_void) -> size_t>;
 pub enum Struct_GNUNET_CONNECTION_TransmitHandle { }
 pub enum Struct_GNUNET_CLIENT_Connection { }
 pub type GNUNET_CLIENT_MessageHandler =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const Struct_GNUNET_MessageHeader)>;
+                              (cls: *mut ::libc::c_void,
+                               msg: *const Struct_GNUNET_MessageHeader)>;
 pub enum Struct_GNUNET_CLIENT_TransmitHandle { }
 pub enum Struct_GNUNET_CLIENT_TestHandle { }
 pub type GNUNET_CLIENT_TestResultCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: ::libc::c_int)>;
+                              (cls: *mut ::libc::c_void,
+                               result: ::libc::c_int)>;
 pub enum Struct_GNUNET_CLIENT_MANAGER_Connection { }
 pub type GNUNET_CLIENT_MANAGER_MessageCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2:
+                              (cls: *mut ::libc::c_void,
+                               mgr:
                                    *mut Struct_GNUNET_CLIENT_MANAGER_Connection,
-                               arg3: *const Struct_GNUNET_MessageHeader)>;
+                               msg: *const Struct_GNUNET_MessageHeader)>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
     pub callback: GNUNET_CLIENT_MANAGER_MessageCallback,
     pub callback_cls: *mut ::libc::c_void,
@@ -3441,8 +4016,13 @@ pub struct Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
     pub expected_size: uint16_t,
     pub is_variable_size: uint8_t,
 }
+impl ::std::default::Default for Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
+    fn default() -> Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_GETOPT_CommandLineProcessorContext {
     pub binaryName: *const ::libc::c_char,
     pub binaryOptions: *const ::libc::c_char,
@@ -3451,15 +4031,22 @@ pub struct Struct_GNUNET_GETOPT_CommandLineProcessorContext {
     pub argc: ::libc::c_uint,
     pub currentArgument: ::libc::c_uint,
 }
+impl ::std::default::Default for
+ Struct_GNUNET_GETOPT_CommandLineProcessorContext {
+    fn default() -> Struct_GNUNET_GETOPT_CommandLineProcessorContext {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type GNUNET_GETOPT_CommandLineOptionProcessor =
     ::std::option::Option<extern "C" fn
-                              (arg1:
+                              (ctx:
                                    *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                               arg2: *mut ::libc::c_void,
-                               arg3: *const ::libc::c_char,
-                               arg4: *const ::libc::c_char) -> ::libc::c_int>;
+                               scls: *mut ::libc::c_void,
+                               option: *const ::libc::c_char,
+                               value: *const ::libc::c_char)
+                              -> ::libc::c_int>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_GETOPT_CommandLineOption {
     pub shortName: ::libc::c_char,
     pub name: *const ::libc::c_char,
@@ -3469,63 +4056,73 @@ pub struct Struct_GNUNET_GETOPT_CommandLineOption {
     pub processor: GNUNET_GETOPT_CommandLineOptionProcessor,
     pub scls: *mut ::libc::c_void,
 }
+impl ::std::default::Default for Struct_GNUNET_GETOPT_CommandLineOption {
+    fn default() -> Struct_GNUNET_GETOPT_CommandLineOption {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub enum Struct_GNUNET_SERVER_Handle { }
 pub enum Struct_GNUNET_SERVER_Client { }
 pub enum Struct_GNUNET_SERVER_TransmitHandle { }
 pub type GNUNET_SERVER_MessageCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_SERVER_Client,
-                               arg3: *const Struct_GNUNET_MessageHeader)>;
+                              (cls: *mut ::libc::c_void,
+                               client: *mut Struct_GNUNET_SERVER_Client,
+                               message: *const Struct_GNUNET_MessageHeader)>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_SERVER_MessageHandler {
     pub callback: GNUNET_SERVER_MessageCallback,
     pub callback_cls: *mut ::libc::c_void,
     pub _type: uint16_t,
     pub expected_size: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_SERVER_MessageHandler {
+    fn default() -> Struct_GNUNET_SERVER_MessageHandler {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type GNUNET_SERVER_DisconnectCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_SERVER_Client)>;
+                              (cls: *mut ::libc::c_void,
+                               client: *mut Struct_GNUNET_SERVER_Client)>;
 pub type GNUNET_SERVER_ConnectCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_SERVER_Client)>;
+                              (cls: *mut ::libc::c_void,
+                               client: *mut Struct_GNUNET_SERVER_Client)>;
 pub enum Struct_GNUNET_SERVER_TransmitContext { }
 pub enum Struct_GNUNET_SERVER_NotificationContext { }
 pub enum Struct_GNUNET_SERVER_MessageStreamTokenizer { }
 pub type GNUNET_SERVER_MessageTokenizerCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut ::libc::c_void,
-                               arg3: *const Struct_GNUNET_MessageHeader)
+                              (cls: *mut ::libc::c_void,
+                               client: *mut ::libc::c_void,
+                               message: *const Struct_GNUNET_MessageHeader)
                               -> ::libc::c_int>;
 pub type GNUNET_SERVER_MstCreateCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_SERVER_Client)
+                              (cls: *mut ::libc::c_void,
+                               client: *mut Struct_GNUNET_SERVER_Client)
                               -> *mut ::libc::c_void>;
 pub type GNUNET_SERVER_MstDestroyCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut ::libc::c_void)>;
+                              (cls: *mut ::libc::c_void,
+                               mst: *mut ::libc::c_void)>;
 pub type GNUNET_SERVER_MstReceiveCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut ::libc::c_void,
-                               arg3: *mut Struct_GNUNET_SERVER_Client,
-                               arg4: *const ::libc::c_char, arg5: size_t,
-                               arg6: ::libc::c_int, arg7: ::libc::c_int)
+                              (cls: *mut ::libc::c_void,
+                               mst: *mut ::libc::c_void,
+                               client: *mut Struct_GNUNET_SERVER_Client,
+                               buf: *const ::libc::c_char, size: size_t,
+                               purge: ::libc::c_int, one_shot: ::libc::c_int)
                               -> ::libc::c_int>;
 pub enum Struct_GNUNET_HELPER_Handle { }
 pub type GNUNET_HELPER_ExceptionCallback =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
+    ::std::option::Option<extern "C" fn(cls: *mut ::libc::c_void)>;
 pub type GNUNET_HELPER_Continuation =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: ::libc::c_int)>;
+                              (cls: *mut ::libc::c_void,
+                               result: ::libc::c_int)>;
 pub enum Struct_GNUNET_HELPER_SendHandle { }
 pub enum Struct_GNUNET_MQ_Envelope { }
 pub enum Struct_GNUNET_MQ_Handle { }
@@ -3535,33 +4132,38 @@ pub const GNUNET_MQ_ERROR_WRITE: ::libc::c_uint = 2;
 pub const GNUNET_MQ_ERROR_TIMEOUT: ::libc::c_uint = 4;
 pub type GNUNET_MQ_MessageCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const Struct_GNUNET_MessageHeader)>;
+                              (cls: *mut ::libc::c_void,
+                               msg: *const Struct_GNUNET_MessageHeader)>;
 pub type GNUNET_MQ_SendImpl =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut Struct_GNUNET_MQ_Handle,
-                               arg2: *const Struct_GNUNET_MessageHeader,
-                               arg3: *mut ::libc::c_void)>;
+                              (mq: *mut Struct_GNUNET_MQ_Handle,
+                               msg: *const Struct_GNUNET_MessageHeader,
+                               impl_state: *mut ::libc::c_void)>;
 pub type GNUNET_MQ_DestroyImpl =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut Struct_GNUNET_MQ_Handle,
-                               arg2: *mut ::libc::c_void)>;
+                              (mq: *mut Struct_GNUNET_MQ_Handle,
+                               impl_state: *mut ::libc::c_void)>;
 pub type GNUNET_MQ_CancelImpl =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut Struct_GNUNET_MQ_Handle,
-                               arg2: *mut ::libc::c_void)>;
+                              (mq: *mut Struct_GNUNET_MQ_Handle,
+                               impl_state: *mut ::libc::c_void)>;
 pub type GNUNET_MQ_NotifyCallback =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
+    ::std::option::Option<extern "C" fn(cls: *mut ::libc::c_void)>;
 pub type GNUNET_MQ_ErrorHandler =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: Enum_GNUNET_MQ_Error)>;
+                              (cls: *mut ::libc::c_void,
+                               error: Enum_GNUNET_MQ_Error)>;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_MQ_MessageHandler {
     pub cb: GNUNET_MQ_MessageCallback,
     pub _type: uint16_t,
     pub expected_size: uint16_t,
+}
+impl ::std::default::Default for Struct_GNUNET_MQ_MessageHandler {
+    fn default() -> Struct_GNUNET_MQ_MessageHandler {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type Enum_GNUNET_OS_InheritStdioFlags = ::libc::c_uint;
 pub const GNUNET_OS_INHERIT_STD_NONE: ::libc::c_uint = 0;
@@ -3589,39 +4191,39 @@ pub const GNUNET_OS_PROCESS_EXITED: ::libc::c_uint = 3;
 pub const GNUNET_OS_PROCESS_SIGNALED: ::libc::c_uint = 4;
 pub type GNUNET_OS_NetworkInterfaceProcessor =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char,
-                               arg3: ::libc::c_int,
-                               arg4: *const Struct_sockaddr,
-                               arg5: *const Struct_sockaddr,
-                               arg6: *const Struct_sockaddr, arg7: socklen_t)
-                              -> ::libc::c_int>;
+                              (cls: *mut ::libc::c_void,
+                               name: *const ::libc::c_char,
+                               isDefault: ::libc::c_int,
+                               addr: *const Struct_sockaddr,
+                               broadcast_addr: *const Struct_sockaddr,
+                               netmask: *const Struct_sockaddr,
+                               addrlen: socklen_t) -> ::libc::c_int>;
 pub enum Struct_GNUNET_OS_CommandHandle { }
 pub type GNUNET_OS_LineProcessor =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char)>;
+                              (cls: *mut ::libc::c_void,
+                               line: *const ::libc::c_char)>;
 pub type GNUNET_PEER_Id = ::libc::c_uint;
 pub type GNUNET_PLUGIN_Callback =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
+    ::std::option::Option<extern "C" fn(arg: *mut ::libc::c_void)
                               -> *mut ::libc::c_void>;
 pub type GNUNET_PLUGIN_LoaderCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char,
-                               arg3: *mut ::libc::c_void)>;
+                              (cls: *mut ::libc::c_void,
+                               library_name: *const ::libc::c_char,
+                               lib_ret: *mut ::libc::c_void)>;
 pub type GNUNET_PROGRAM_Main =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const *mut ::libc::c_char,
-                               arg3: *const ::libc::c_char,
-                               arg4:
+                              (cls: *mut ::libc::c_void,
+                               args: *const *mut ::libc::c_char,
+                               cfgfile: *const ::libc::c_char,
+                               cfg:
                                    *const Struct_GNUNET_CONFIGURATION_Handle)>;
 pub type GNUNET_SERVICE_Main =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_SERVER_Handle,
-                               arg3:
+                              (cls: *mut ::libc::c_void,
+                               server: *mut Struct_GNUNET_SERVER_Handle,
+                               cfg:
                                    *const Struct_GNUNET_CONFIGURATION_Handle)>;
 pub type Enum_GNUNET_SERVICE_Options = ::libc::c_uint;
 pub const GNUNET_SERVICE_OPTION_NONE: ::libc::c_uint = 0;
@@ -3636,99 +4238,129 @@ pub const GNUNET_STRINGS_CHECK_IS_DIRECTORY: ::libc::c_uint = 2;
 pub const GNUNET_STRINGS_CHECK_IS_LINK: ::libc::c_uint = 4;
 pub const GNUNET_STRINGS_CHECK_IS_ABSOLUTE: ::libc::c_uint = 8;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_STRINGS_PortPolicy {
     pub start_port: uint16_t,
     pub end_port: uint16_t,
     pub negate_portrange: ::libc::c_int,
 }
+impl ::std::default::Default for Struct_GNUNET_STRINGS_PortPolicy {
+    fn default() -> Struct_GNUNET_STRINGS_PortPolicy {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
     pub network: Struct_in_addr,
     pub netmask: Struct_in_addr,
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
 }
+impl ::std::default::Default for Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
+    fn default() -> Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
     pub network: Struct_in6_addr,
     pub netmask: Struct_in6_addr,
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
 }
+impl ::std::default::Default for Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
+    fn default() -> Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_Layer2PacketHeader {
     pub flags: uint16_t,
     pub proto: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_Layer2PacketHeader {
+    fn default() -> Struct_GNUNET_TUN_Layer2PacketHeader {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_IPv4Header {
-    pub header_length: ::libc::c_uint,
-    pub version: ::libc::c_uint,
+    pub _bindgen_bitfield_1_: ::libc::c_uint,
     pub diff_serv: uint8_t,
     pub total_length: uint16_t,
     pub identification: uint16_t,
-    pub flags: ::libc::c_uint,
-    pub fragmentation_offset: ::libc::c_uint,
+    pub _bindgen_bitfield_2_: ::libc::c_uint,
     pub ttl: uint8_t,
     pub protocol: uint8_t,
     pub checksum: uint16_t,
     pub source_address: Struct_in_addr,
     pub destination_address: Struct_in_addr,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_IPv4Header {
+    fn default() -> Struct_GNUNET_TUN_IPv4Header {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_IPv6Header {
-    pub traffic_class_h: ::libc::c_uint,
-    pub version: ::libc::c_uint,
-    pub traffic_class_l: ::libc::c_uint,
-    pub flow_label: ::libc::c_uint,
+    pub _bindgen_bitfield_1_: ::libc::c_uint,
     pub payload_length: uint16_t,
     pub next_header: uint8_t,
     pub hop_limit: uint8_t,
     pub source_address: Struct_in6_addr,
     pub destination_address: Struct_in6_addr,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_IPv6Header {
+    fn default() -> Struct_GNUNET_TUN_IPv6Header {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_TcpHeader {
     pub source_port: uint16_t,
     pub destination_port: uint16_t,
     pub seq: uint32_t,
     pub ack: uint32_t,
-    pub reserved: ::libc::c_uint,
-    pub off: ::libc::c_uint,
+    pub _bindgen_bitfield_1_: ::libc::c_uint,
     pub flags: uint8_t,
     pub window_size: uint16_t,
     pub crc: uint16_t,
     pub urgent_pointer: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_TcpHeader {
+    fn default() -> Struct_GNUNET_TUN_TcpHeader {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_UdpHeader {
     pub source_port: uint16_t,
     pub destination_port: uint16_t,
     pub len: uint16_t,
     pub crc: uint16_t,
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_GNUNET_TUN_DnsFlags {
-    pub recursion_desired: ::libc::c_uint,
-    pub message_truncated: ::libc::c_uint,
-    pub authoritative_answer: ::libc::c_uint,
-    pub opcode: ::libc::c_uint,
-    pub query_or_response: ::libc::c_uint,
-    pub return_code: ::libc::c_uint,
-    pub checking_disabled: ::libc::c_uint,
-    pub authenticated_data: ::libc::c_uint,
-    pub zero: ::libc::c_uint,
-    pub recursion_available: ::libc::c_uint,
+impl ::std::default::Default for Struct_GNUNET_TUN_UdpHeader {
+    fn default() -> Struct_GNUNET_TUN_UdpHeader {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
+pub struct Struct_GNUNET_TUN_DnsFlags {
+    pub _bindgen_bitfield_1_: ::libc::c_uint,
+}
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsFlags {
+    fn default() -> Struct_GNUNET_TUN_DnsFlags {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
+#[repr(C)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsHeader {
     pub id: uint16_t,
     pub flags: Struct_GNUNET_TUN_DnsFlags,
@@ -3737,8 +4369,13 @@ pub struct Struct_GNUNET_TUN_DnsHeader {
     pub authority_rcount: uint16_t,
     pub additional_rcount: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsHeader {
+    fn default() -> Struct_GNUNET_TUN_DnsHeader {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsSoaRecord {
     pub serial: uint32_t,
     pub refresh: uint32_t,
@@ -3746,106 +4383,170 @@ pub struct Struct_GNUNET_TUN_DnsSoaRecord {
     pub expire: uint32_t,
     pub minimum: uint32_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsSoaRecord {
+    fn default() -> Struct_GNUNET_TUN_DnsSoaRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsSrvRecord {
     pub prio: uint16_t,
     pub weight: uint16_t,
     pub port: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsSrvRecord {
+    fn default() -> Struct_GNUNET_TUN_DnsSrvRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsCertRecord {
     pub cert_type: uint16_t,
     pub cert_tag: uint16_t,
     pub algorithm: uint8_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsCertRecord {
+    fn default() -> Struct_GNUNET_TUN_DnsCertRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsTlsaRecord {
     pub usage: uint8_t,
     pub selector: uint8_t,
     pub matching_type: uint8_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsTlsaRecord {
+    fn default() -> Struct_GNUNET_TUN_DnsTlsaRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_GnsVpnRecord {
     pub peer: Struct_GNUNET_PeerIdentity,
     pub proto: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_GnsVpnRecord {
+    fn default() -> Struct_GNUNET_TUN_GnsVpnRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsQueryLine {
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsQueryLine {
+    fn default() -> Struct_GNUNET_TUN_DnsQueryLine {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsRecordLine {
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
     pub ttl: uint32_t,
     pub data_len: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_TUN_DnsRecordLine {
+    fn default() -> Struct_GNUNET_TUN_DnsRecordLine {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_TUN_IcmpHeader {
     pub _type: uint8_t,
     pub code: uint8_t,
     pub crc: uint16_t,
-    pub quench: Union_Unnamed77,
+    pub quench: Union_Unnamed73,
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed77 {
-    pub data: [u8, ..4u],
-}
-impl Union_Unnamed77 {
-    pub fn echo(&mut self) -> *mut Struct_Unnamed78 {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn destination_unreachable(&mut self) -> *mut Struct_ih_pmtu {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn redirect_gateway_address(&mut self) -> *mut Struct_in_addr {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn packet_too_big_mtu(&mut self) -> *mut uint32_t {
-        unsafe { ::std::mem::transmute(self) }
+impl ::std::default::Default for Struct_GNUNET_TUN_IcmpHeader {
+    fn default() -> Struct_GNUNET_TUN_IcmpHeader {
+        unsafe { ::std::mem::zeroed() }
     }
 }
 #[repr(C)]
-#[deriving(Copy)]
-pub struct Struct_Unnamed78 {
+#[derive(Copy)]
+pub struct Union_Unnamed73 {
+    pub _bindgen_data_: [u8; 4u],
+}
+impl Union_Unnamed73 {
+    pub unsafe fn echo(&mut self) -> *mut Struct_Unnamed74 {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn destination_unreachable(&mut self) -> *mut Struct_ih_pmtu {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn redirect_gateway_address(&mut self) -> *mut Struct_in_addr {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn packet_too_big_mtu(&mut self) -> *mut uint32_t {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+}
+impl ::std::default::Default for Union_Unnamed73 {
+    fn default() -> Union_Unnamed73 { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed74 {
     pub identifier: uint16_t,
     pub sequence_number: uint16_t,
 }
+impl ::std::default::Default for Struct_Unnamed74 {
+    fn default() -> Struct_Unnamed74 { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_ih_pmtu {
     pub empty: uint16_t,
     pub next_hop_mtu: uint16_t,
 }
+impl ::std::default::Default for Struct_ih_pmtu {
+    fn default() -> Struct_ih_pmtu { unsafe { ::std::mem::zeroed() } }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_Query {
     pub name: *mut ::libc::c_char,
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
 }
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Query {
+    fn default() -> Struct_GNUNET_DNSPARSER_Query {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_MxRecord {
     pub preference: uint16_t,
     pub mxhost: *mut ::libc::c_char,
 }
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_MxRecord {
+    fn default() -> Struct_GNUNET_DNSPARSER_MxRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_SrvRecord {
     pub target: *mut ::libc::c_char,
     pub priority: uint16_t,
     pub weight: uint16_t,
     pub port: uint16_t,
+}
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_SrvRecord {
+    fn default() -> Struct_GNUNET_DNSPARSER_SrvRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type Enum_GNUNET_DNSPARSER_CertType = ::libc::c_uint;
 pub const GNUNET_DNSPARSER_CERTTYPE_RESERVED: ::libc::c_uint = 0;
@@ -3873,7 +4574,7 @@ pub const GNUNET_DNSPARSER_CERTALGO_GOST_R34: ::libc::c_uint = 12;
 pub const GNUNET_DNSPARSER_CERTALGO_ECDSA_P256SHA256: ::libc::c_uint = 13;
 pub const GNUNET_DNSPARSER_CERTALGO_ECDSA_P384SHA384: ::libc::c_uint = 14;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_CertRecord {
     pub cert_type: Enum_GNUNET_DNSPARSER_CertType,
     pub cert_tag: uint16_t,
@@ -3881,8 +4582,13 @@ pub struct Struct_GNUNET_DNSPARSER_CertRecord {
     pub certificate_size: size_t,
     pub certificate_data: *mut ::libc::c_char,
 }
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_CertRecord {
+    fn default() -> Struct_GNUNET_DNSPARSER_CertRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_SoaRecord {
     pub mname: *mut ::libc::c_char,
     pub rname: *mut ::libc::c_char,
@@ -3892,48 +4598,70 @@ pub struct Struct_GNUNET_DNSPARSER_SoaRecord {
     pub expire: uint32_t,
     pub minimum_ttl: uint32_t,
 }
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_SoaRecord {
+    fn default() -> Struct_GNUNET_DNSPARSER_SoaRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_RawRecord {
     pub data: *mut ::libc::c_void,
     pub data_len: size_t,
 }
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_RawRecord {
+    fn default() -> Struct_GNUNET_DNSPARSER_RawRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_Record {
     pub name: *mut ::libc::c_char,
-    pub data: Union_Unnamed79,
+    pub data: Union_Unnamed75,
     pub expiration_time: Struct_GNUNET_TIME_Absolute,
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
 }
-#[repr(C)]
-#[deriving(Copy)]
-pub struct Union_Unnamed79 {
-    pub data: [u64, ..2u],
-}
-impl Union_Unnamed79 {
-    pub fn hostname(&mut self) -> *mut *mut ::libc::c_char {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn soa(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_SoaRecord {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn cert(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_CertRecord {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn mx(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_MxRecord {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn srv(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_SrvRecord {
-        unsafe { ::std::mem::transmute(self) }
-    }
-    pub fn raw(&mut self) -> *mut Struct_GNUNET_DNSPARSER_RawRecord {
-        unsafe { ::std::mem::transmute(self) }
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Record {
+    fn default() -> Struct_GNUNET_DNSPARSER_Record {
+        unsafe { ::std::mem::zeroed() }
     }
 }
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
+pub struct Union_Unnamed75 {
+    pub _bindgen_data_: [u64; 2u],
+}
+impl Union_Unnamed75 {
+    pub unsafe fn hostname(&mut self) -> *mut *mut ::libc::c_char {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn soa(&mut self)
+     -> *mut *mut Struct_GNUNET_DNSPARSER_SoaRecord {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn cert(&mut self)
+     -> *mut *mut Struct_GNUNET_DNSPARSER_CertRecord {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn mx(&mut self)
+     -> *mut *mut Struct_GNUNET_DNSPARSER_MxRecord {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn srv(&mut self)
+     -> *mut *mut Struct_GNUNET_DNSPARSER_SrvRecord {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+    pub unsafe fn raw(&mut self) -> *mut Struct_GNUNET_DNSPARSER_RawRecord {
+        ::std::mem::transmute(&self._bindgen_data_)
+    }
+}
+impl ::std::default::Default for Union_Unnamed75 {
+    fn default() -> Union_Unnamed75 { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_DNSPARSER_Packet {
     pub queries: *mut Struct_GNUNET_DNSPARSER_Query,
     pub answers: *mut Struct_GNUNET_DNSPARSER_Record,
@@ -3945,6 +4673,11 @@ pub struct Struct_GNUNET_DNSPARSER_Packet {
     pub num_additional_records: ::libc::c_uint,
     pub flags: Struct_GNUNET_TUN_DnsFlags,
     pub id: uint16_t,
+}
+impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Packet {
+    fn default() -> Struct_GNUNET_DNSPARSER_Packet {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type Enum_GNUNET_BLOCK_Type = ::libc::c_uint;
 pub const GNUNET_BLOCK_TYPE_ANY: ::libc::c_uint = 0;
@@ -3977,7 +4710,7 @@ pub const GNUNET_GNSRECORD_RF_PRIVATE: ::libc::c_uint = 2;
 pub const GNUNET_GNSRECORD_RF_RELATIVE_EXPIRATION: ::libc::c_uint = 8;
 pub const GNUNET_GNSRECORD_RF_SHADOW_RECORD: ::libc::c_uint = 16;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_Data {
     pub data: *const ::libc::c_void,
     pub expiration_time: uint64_t,
@@ -3985,57 +4718,77 @@ pub struct Struct_GNUNET_GNSRECORD_Data {
     pub record_type: uint32_t,
     pub flags: Enum_GNUNET_GNSRECORD_Flags,
 }
+impl ::std::default::Default for Struct_GNUNET_GNSRECORD_Data {
+    fn default() -> Struct_GNUNET_GNSRECORD_Data {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_PlaceData {
     pub place_key: Struct_GNUNET_CRYPTO_EddsaPublicKey,
     pub origin: Struct_GNUNET_PeerIdentity,
     pub relay_count: uint32_t,
 }
+impl ::std::default::Default for Struct_GNUNET_GNSRECORD_PlaceData {
+    fn default() -> Struct_GNUNET_GNSRECORD_PlaceData {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_Block {
     pub signature: Struct_GNUNET_CRYPTO_EcdsaSignature,
     pub derived_key: Struct_GNUNET_CRYPTO_EcdsaPublicKey,
     pub purpose: Struct_GNUNET_CRYPTO_EccSignaturePurpose,
     pub expiration_time: Struct_GNUNET_TIME_AbsoluteNBO,
 }
+impl ::std::default::Default for Struct_GNUNET_GNSRECORD_Block {
+    fn default() -> Struct_GNUNET_GNSRECORD_Block {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct_GNUNET_GNSRECORD_BoxRecord {
     pub protocol: uint16_t,
     pub service: uint16_t,
     pub record_type: uint32_t,
 }
+impl ::std::default::Default for Struct_GNUNET_GNSRECORD_BoxRecord {
+    fn default() -> Struct_GNUNET_GNSRECORD_BoxRecord {
+        unsafe { ::std::mem::zeroed() }
+    }
+}
 pub type GNUNET_GNSRECORD_RecordCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: ::libc::c_uint,
-                               arg3: *const Struct_GNUNET_GNSRECORD_Data)>;
+                              (cls: *mut ::libc::c_void,
+                               rd_count: ::libc::c_uint,
+                               rd: *const Struct_GNUNET_GNSRECORD_Data)>;
 pub enum Struct_GNUNET_NAMESTORE_QueueEntry { }
 pub enum Struct_GNUNET_NAMESTORE_Handle { }
 pub enum Struct_GNUNET_NAMESTORE_ZoneIterator { }
 pub type GNUNET_NAMESTORE_ContinuationWithStatus =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void, arg2: int32_t,
-                               arg3: *const ::libc::c_char)>;
+                              (cls: *mut ::libc::c_void, success: int32_t,
+                               emsg: *const ::libc::c_char)>;
 pub type GNUNET_NAMESTORE_RecordMonitor =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2:
+                              (cls: *mut ::libc::c_void,
+                               zone:
                                    *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                               arg3: *const ::libc::c_char,
-                               arg4: ::libc::c_uint,
-                               arg5: *const Struct_GNUNET_GNSRECORD_Data)>;
+                               label: *const ::libc::c_char,
+                               rd_count: ::libc::c_uint,
+                               rd: *const Struct_GNUNET_GNSRECORD_Data)>;
 pub enum Struct_GNUNET_NAMESTORE_ZoneMonitor { }
 pub type GNUNET_NAMESTORE_RecordsSynchronizedCallback =
-    ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)>;
+    ::std::option::Option<extern "C" fn(cls: *mut ::libc::c_void)>;
 pub enum Struct_GNUNET_GNS_Handle { }
 pub enum Struct_GNUNET_GNS_LookupRequest { }
 pub type GNUNET_GNS_LookupResultProcessor =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void, arg2: uint32_t,
-                               arg3: *const Struct_GNUNET_GNSRECORD_Data)>;
+                              (cls: *mut ::libc::c_void, rd_count: uint32_t,
+                               rd: *const Struct_GNUNET_GNSRECORD_Data)>;
 pub type Enum_GNUNET_GNS_LocalOptions = ::libc::c_uint;
 pub const GNUNET_GNS_LO_DEFAULT: ::libc::c_uint = 0;
 pub const GNUNET_GNS_LO_NO_DHT: ::libc::c_uint = 1;
@@ -4045,35 +4798,38 @@ pub enum Struct_GNUNET_IDENTITY_Ego { }
 pub enum Struct_GNUNET_IDENTITY_Operation { }
 pub type GNUNET_IDENTITY_Callback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *mut Struct_GNUNET_IDENTITY_Ego,
-                               arg3: *mut *mut ::libc::c_void,
-                               arg4: *const ::libc::c_char)>;
+                              (cls: *mut ::libc::c_void,
+                               ego: *mut Struct_GNUNET_IDENTITY_Ego,
+                               ctx: *mut *mut ::libc::c_void,
+                               name: *const ::libc::c_char)>;
 pub type GNUNET_IDENTITY_Continuation =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const ::libc::c_char)>;
+                              (cls: *mut ::libc::c_void,
+                               emsg: *const ::libc::c_char)>;
 pub type GNUNET_IDENTITY_EgoCallback =
     ::std::option::Option<extern "C" fn
-                              (arg1: *mut ::libc::c_void,
-                               arg2: *const Struct_GNUNET_IDENTITY_Ego)>;
+                              (cls: *mut ::libc::c_void,
+                               ego: *const Struct_GNUNET_IDENTITY_Ego)>;
 pub enum Struct_GNUNET_IDENTITY_EgoLookup { }
 pub type __va_list_tag = Struct___va_list_tag;
 #[repr(C)]
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct Struct___va_list_tag {
     pub gp_offset: ::libc::c_uint,
     pub fp_offset: ::libc::c_uint,
     pub overflow_arg_area: *mut ::libc::c_void,
     pub reg_save_area: *mut ::libc::c_void,
 }
+impl ::std::default::Default for Struct___va_list_tag {
+    fn default() -> Struct___va_list_tag { unsafe { ::std::mem::zeroed() } }
+}
 #[link(name = "gnunetutil")]
 #[link(name = "gnunetgnsrecord")]
 extern "C" {
     pub static in6addr_any: Struct_in6_addr;
     pub static in6addr_loopback: Struct_in6_addr;
-    pub static mut _sys_siglist: [*const ::libc::c_char, ..65u];
-    pub static mut sys_siglist: [*const ::libc::c_char, ..65u];
+    pub static mut _sys_siglist: [*const ::libc::c_char; 65u];
+    pub static mut sys_siglist: [*const ::libc::c_char; 65u];
     pub static mut _IO_2_1_stdin_: Struct__IO_FILE_plus;
     pub static mut _IO_2_1_stdout_: Struct__IO_FILE_plus;
     pub static mut _IO_2_1_stderr_: Struct__IO_FILE_plus;
@@ -4089,10 +4845,10 @@ extern "C" {
     pub static mut optopt: ::libc::c_int;
     pub static mut signgam: ::libc::c_int;
     pub static mut _LIB_VERSION: _LIB_VERSION_TYPE;
-    pub static mut __tzname: [*mut ::libc::c_char, ..2u];
+    pub static mut __tzname: [*mut ::libc::c_char; 2u];
     pub static mut __daylight: ::libc::c_int;
     pub static mut __timezone: ::libc::c_long;
-    pub static mut tzname: [*mut ::libc::c_char, ..2u];
+    pub static mut tzname: [*mut ::libc::c_char; 2u];
     pub static mut daylight: ::libc::c_int;
     pub static mut timezone: ::libc::c_long;
 }
@@ -4123,7 +4879,7 @@ extern "C" {
     pub fn socket(__domain: ::libc::c_int, __type: ::libc::c_int,
                   __protocol: ::libc::c_int) -> ::libc::c_int;
     pub fn socketpair(__domain: ::libc::c_int, __type: ::libc::c_int,
-                      __protocol: ::libc::c_int, __fds: [::libc::c_int, ..2u])
+                      __protocol: ::libc::c_int, __fds: *mut ::libc::c_int)
      -> ::libc::c_int;
     pub fn bind(__fd: ::libc::c_int, __addr: *const Struct_sockaddr,
                 __len: socklen_t) -> ::libc::c_int;
@@ -4741,7 +5497,7 @@ extern "C" {
     pub fn atof(__nptr: *const ::libc::c_char) -> ::libc::c_double;
     pub fn atoi(__nptr: *const ::libc::c_char) -> ::libc::c_int;
     pub fn atol(__nptr: *const ::libc::c_char) -> ::libc::c_long;
-    pub fn atoll(__nptr: *const ::libc::c_char) -> ::libc::c_longlong;
+    pub fn atoll(nptr: *const ::libc::c_char) -> ::libc::c_longlong;
     pub fn strtod(__nptr: *const ::libc::c_char,
                   __endptr: *mut *mut ::libc::c_char) -> ::libc::c_double;
     pub fn strtof(__nptr: *const ::libc::c_char,
@@ -4786,35 +5542,34 @@ extern "C" {
     pub fn srand(__seed: ::libc::c_uint);
     pub fn rand_r(__seed: *mut ::libc::c_uint) -> ::libc::c_int;
     pub fn drand48() -> ::libc::c_double;
-    pub fn erand48(__xsubi: [::libc::c_ushort, ..3u]) -> ::libc::c_double;
+    pub fn erand48(__xsubi: *mut ::libc::c_ushort) -> ::libc::c_double;
     pub fn lrand48() -> ::libc::c_long;
-    pub fn nrand48(__xsubi: [::libc::c_ushort, ..3u]) -> ::libc::c_long;
+    pub fn nrand48(__xsubi: *mut ::libc::c_ushort) -> ::libc::c_long;
     pub fn mrand48() -> ::libc::c_long;
-    pub fn jrand48(__xsubi: [::libc::c_ushort, ..3u]) -> ::libc::c_long;
+    pub fn jrand48(__xsubi: *mut ::libc::c_ushort) -> ::libc::c_long;
     pub fn srand48(__seedval: ::libc::c_long);
-    pub fn seed48(__seed16v: [::libc::c_ushort, ..3u])
-     -> *mut ::libc::c_ushort;
-    pub fn lcong48(__param: [::libc::c_ushort, ..7u]);
+    pub fn seed48(__seed16v: *mut ::libc::c_ushort) -> *mut ::libc::c_ushort;
+    pub fn lcong48(__param: *mut ::libc::c_ushort);
     pub fn drand48_r(__buffer: *mut Struct_drand48_data,
                      __result: *mut ::libc::c_double) -> ::libc::c_int;
-    pub fn erand48_r(__xsubi: [::libc::c_ushort, ..3u],
+    pub fn erand48_r(__xsubi: *mut ::libc::c_ushort,
                      __buffer: *mut Struct_drand48_data,
                      __result: *mut ::libc::c_double) -> ::libc::c_int;
     pub fn lrand48_r(__buffer: *mut Struct_drand48_data,
                      __result: *mut ::libc::c_long) -> ::libc::c_int;
-    pub fn nrand48_r(__xsubi: [::libc::c_ushort, ..3u],
+    pub fn nrand48_r(__xsubi: *mut ::libc::c_ushort,
                      __buffer: *mut Struct_drand48_data,
                      __result: *mut ::libc::c_long) -> ::libc::c_int;
     pub fn mrand48_r(__buffer: *mut Struct_drand48_data,
                      __result: *mut ::libc::c_long) -> ::libc::c_int;
-    pub fn jrand48_r(__xsubi: [::libc::c_ushort, ..3u],
+    pub fn jrand48_r(__xsubi: *mut ::libc::c_ushort,
                      __buffer: *mut Struct_drand48_data,
                      __result: *mut ::libc::c_long) -> ::libc::c_int;
     pub fn srand48_r(__seedval: ::libc::c_long,
                      __buffer: *mut Struct_drand48_data) -> ::libc::c_int;
-    pub fn seed48_r(__seed16v: [::libc::c_ushort, ..3u],
+    pub fn seed48_r(__seed16v: *mut ::libc::c_ushort,
                     __buffer: *mut Struct_drand48_data) -> ::libc::c_int;
-    pub fn lcong48_r(__param: [::libc::c_ushort, ..7u],
+    pub fn lcong48_r(__param: *mut ::libc::c_ushort,
                      __buffer: *mut Struct_drand48_data) -> ::libc::c_int;
     pub fn malloc(__size: size_t) -> *mut ::libc::c_void;
     pub fn calloc(__nmemb: size_t, __size: size_t) -> *mut ::libc::c_void;
@@ -4832,8 +5587,9 @@ extern "C" {
      -> ::libc::c_int;
     pub fn on_exit(__func:
                        ::std::option::Option<extern "C" fn
-                                                 (arg1: ::libc::c_int,
-                                                  arg2: *mut ::libc::c_void)>,
+                                                 (__status: ::libc::c_int,
+                                                  __arg:
+                                                      *mut ::libc::c_void)>,
                    __arg: *mut ::libc::c_void) -> ::libc::c_int;
     pub fn exit(__status: ::libc::c_int);
     pub fn _Exit(__status: ::libc::c_int);
@@ -4929,7 +5685,7 @@ extern "C" {
                  __nbytes: size_t, __offset: __off_t) -> ssize_t;
     pub fn pwrite(__fd: ::libc::c_int, __buf: *const ::libc::c_void,
                   __n: size_t, __offset: __off_t) -> ssize_t;
-    pub fn pipe(__pipedes: [::libc::c_int, ..2u]) -> ::libc::c_int;
+    pub fn pipe(__pipedes: *mut ::libc::c_int) -> ::libc::c_int;
     pub fn alarm(__seconds: ::libc::c_uint) -> ::libc::c_uint;
     pub fn sleep(__seconds: ::libc::c_uint) -> ::libc::c_uint;
     pub fn ualarm(__value: __useconds_t, __interval: __useconds_t)
@@ -5095,9 +5851,9 @@ extern "C" {
     pub fn mkfifoat(__fd: ::libc::c_int, __path: *const ::libc::c_char,
                     __mode: __mode_t) -> ::libc::c_int;
     pub fn utimensat(__fd: ::libc::c_int, __path: *const ::libc::c_char,
-                     __times: [Struct_timespec, ..2u], __flags: ::libc::c_int)
+                     __times: *mut Struct_timespec, __flags: ::libc::c_int)
      -> ::libc::c_int;
-    pub fn futimens(__fd: ::libc::c_int, __times: [Struct_timespec, ..2u])
+    pub fn futimens(__fd: ::libc::c_int, __times: *mut Struct_timespec)
      -> ::libc::c_int;
     pub fn __fxstat(__ver: ::libc::c_int, __fildes: ::libc::c_int,
                     __stat_buf: *mut Struct_stat) -> ::libc::c_int;
@@ -5962,6 +6718,79 @@ extern "C" {
                          linenumber: ::libc::c_int);
     pub fn GNUNET_copy_message(msg: *const Struct_GNUNET_MessageHeader)
      -> *mut Struct_GNUNET_MessageHeader;
+    pub fn GNUNET_TIME_relative_get_zero_() -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_get_zero_() -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_relative_get_unit_() -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_get_millisecond_()
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_get_second_() -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_get_minute_() -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_get_hour_() -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_get_forever_() -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_get_forever_() -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_absolute_get() -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_relative_to_absolute(rel: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_relative_min(t1: Struct_GNUNET_TIME_Relative,
+                                    t2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_max(t1: Struct_GNUNET_TIME_Relative,
+                                    t2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_min(t1: Struct_GNUNET_TIME_Absolute,
+                                    t2: Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_absolute_max(t1: Struct_GNUNET_TIME_Absolute,
+                                    t2: Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_absolute_get_remaining(future:
+                                                  Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_calculate_eta(start: Struct_GNUNET_TIME_Absolute,
+                                     finished: uint64_t, total: uint64_t)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_get_difference(start:
+                                                   Struct_GNUNET_TIME_Absolute,
+                                               end:
+                                                   Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_get_duration(whence:
+                                                 Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_add(start: Struct_GNUNET_TIME_Absolute,
+                                    duration: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_absolute_subtract(start: Struct_GNUNET_TIME_Absolute,
+                                         duration:
+                                             Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_relative_multiply(rel: Struct_GNUNET_TIME_Relative,
+                                         factor: ::libc::c_uint)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_divide(rel: Struct_GNUNET_TIME_Relative,
+                                       factor: ::libc::c_uint)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_add(a1: Struct_GNUNET_TIME_Relative,
+                                    a2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_subtract(a1: Struct_GNUNET_TIME_Relative,
+                                         a2: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_hton(a: Struct_GNUNET_TIME_Relative)
+     -> Struct_GNUNET_TIME_RelativeNBO;
+    pub fn GNUNET_TIME_relative_ntoh(a: Struct_GNUNET_TIME_RelativeNBO)
+     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_hton(a: Struct_GNUNET_TIME_Absolute)
+     -> Struct_GNUNET_TIME_AbsoluteNBO;
+    pub fn GNUNET_TIME_absolute_ntoh(a: Struct_GNUNET_TIME_AbsoluteNBO)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_set_offset(offset: ::libc::c_longlong);
+    pub fn GNUNET_TIME_get_offset() -> ::libc::c_longlong;
+    pub fn GNUNET_TIME_get_current_year() -> ::libc::c_uint;
+    pub fn GNUNET_TIME_year_to_time(year: ::libc::c_uint)
+     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_time_to_year(at: Struct_GNUNET_TIME_Absolute)
+     -> ::libc::c_uint;
     pub fn GNUNET_CONFIGURATION_create()
      -> *mut Struct_GNUNET_CONFIGURATION_Handle;
     pub fn GNUNET_CONFIGURATION_dup(cfg:
@@ -6148,79 +6977,6 @@ extern "C" {
                                                       value:
                                                           *const ::libc::c_char)
      -> ::libc::c_int;
-    pub fn GNUNET_TIME_relative_get_zero_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_get_zero_() -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_relative_get_unit_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_get_millisecond_()
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_get_second_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_get_minute_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_get_hour_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_get_forever_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_get_forever_() -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_absolute_get() -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_relative_to_absolute(rel: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_relative_min(t1: Struct_GNUNET_TIME_Relative,
-                                    t2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_max(t1: Struct_GNUNET_TIME_Relative,
-                                    t2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_min(t1: Struct_GNUNET_TIME_Absolute,
-                                    t2: Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_absolute_max(t1: Struct_GNUNET_TIME_Absolute,
-                                    t2: Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_absolute_get_remaining(future:
-                                                  Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_calculate_eta(start: Struct_GNUNET_TIME_Absolute,
-                                     finished: uint64_t, total: uint64_t)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_get_difference(start:
-                                                   Struct_GNUNET_TIME_Absolute,
-                                               end:
-                                                   Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_get_duration(whence:
-                                                 Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_add(start: Struct_GNUNET_TIME_Absolute,
-                                    duration: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_absolute_subtract(start: Struct_GNUNET_TIME_Absolute,
-                                         duration:
-                                             Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_relative_multiply(rel: Struct_GNUNET_TIME_Relative,
-                                         factor: ::libc::c_uint)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_divide(rel: Struct_GNUNET_TIME_Relative,
-                                       factor: ::libc::c_uint)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_add(a1: Struct_GNUNET_TIME_Relative,
-                                    a2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_subtract(a1: Struct_GNUNET_TIME_Relative,
-                                         a2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_hton(a: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_RelativeNBO;
-    pub fn GNUNET_TIME_relative_ntoh(a: Struct_GNUNET_TIME_RelativeNBO)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_hton(a: Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_AbsoluteNBO;
-    pub fn GNUNET_TIME_absolute_ntoh(a: Struct_GNUNET_TIME_AbsoluteNBO)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_set_offset(offset: ::libc::c_longlong);
-    pub fn GNUNET_TIME_get_offset() -> ::libc::c_longlong;
-    pub fn GNUNET_TIME_get_current_year() -> ::libc::c_uint;
-    pub fn GNUNET_TIME_year_to_time(year: ::libc::c_uint)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_time_to_year(at: Struct_GNUNET_TIME_Absolute)
-     -> ::libc::c_uint;
     pub fn GNUNET_DISK_handle_invalid(h: *const Struct_GNUNET_DISK_FileHandle)
      -> ::libc::c_int;
     pub fn GNUNET_DISK_file_test(fil: *const ::libc::c_char) -> ::libc::c_int;
@@ -6255,7 +7011,7 @@ extern "C" {
      -> *mut Struct_GNUNET_DISK_PipeHandle;
     pub fn GNUNET_DISK_pipe_from_fd(blocking_read: ::libc::c_int,
                                     blocking_write: ::libc::c_int,
-                                    fd: [::libc::c_int, ..2u])
+                                    fd: *mut ::libc::c_int)
      -> *mut Struct_GNUNET_DISK_PipeHandle;
     pub fn GNUNET_DISK_pipe_close(p: *mut Struct_GNUNET_DISK_PipeHandle)
      -> ::libc::c_int;
@@ -6605,9 +7361,9 @@ extern "C" {
                                                                  ()>);
     pub fn gpgrt_set_alloc_func(f:
                                     ::std::option::Option<extern "C" fn
-                                                              (arg1:
+                                                              (a:
                                                                    *mut ::libc::c_void,
-                                                               arg2: size_t)
+                                                               n: size_t)
                                                               ->
                                                                   *mut ::libc::c_void>);
     pub fn gpg_strerror(err: gpg_error_t) -> *const ::libc::c_char;
@@ -6634,13 +7390,13 @@ extern "C" {
                        data_len: size_t, grow: ::libc::c_uint,
                        func_realloc:
                            ::std::option::Option<extern "C" fn
-                                                     (arg1:
+                                                     (mem:
                                                           *mut ::libc::c_void,
-                                                      arg2: size_t)
+                                                      size: size_t)
                                                      -> *mut ::libc::c_void>,
                        func_free:
                            ::std::option::Option<extern "C" fn
-                                                     (arg1:
+                                                     (mem:
                                                           *mut ::libc::c_void)>,
                        mode: *const ::libc::c_char) -> gpgrt_stream_t;
     pub fn gpgrt_fopenmem(memlimit: size_t, mode: *const ::libc::c_char)
@@ -6795,11 +7551,11 @@ extern "C" {
     pub fn setitimer(__which: __itimer_which_t,
                      __new: *const Struct_itimerval,
                      __old: *mut Struct_itimerval) -> ::libc::c_int;
-    pub fn utimes(__file: *const ::libc::c_char,
-                  __tvp: [Struct_timeval, ..2u]) -> ::libc::c_int;
-    pub fn lutimes(__file: *const ::libc::c_char,
-                   __tvp: [Struct_timeval, ..2u]) -> ::libc::c_int;
-    pub fn futimes(__fd: ::libc::c_int, __tvp: [Struct_timeval, ..2u])
+    pub fn utimes(__file: *const ::libc::c_char, __tvp: *mut Struct_timeval)
+     -> ::libc::c_int;
+    pub fn lutimes(__file: *const ::libc::c_char, __tvp: *mut Struct_timeval)
+     -> ::libc::c_int;
+    pub fn futimes(__fd: ::libc::c_int, __tvp: *mut Struct_timeval)
      -> ::libc::c_int;
     pub fn gcry_strerror(err: gcry_error_t) -> *const ::libc::c_char;
     pub fn gcry_strsource(err: gcry_error_t) -> *const ::libc::c_char;
@@ -9174,4 +9930,6 @@ pub const GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE: u16 = 626;
 pub const GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT: u16 = 627;
 pub const GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT: u16 = 628;
 pub const GNUNET_DNSPARSER_MAX_NAME_LENGTH: u16 = 253;
+
+unsafe impl Send for Struct_GNUNET_GNSRECORD_Data {}
 

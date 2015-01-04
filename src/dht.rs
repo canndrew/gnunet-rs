@@ -148,7 +148,7 @@ impl DHT {
     let (tx, rx) = channel::<GetGnsNameRecordResult>();
     spawn(move |:| {
       loop {
-        let pull = gh.receiver.recv();
+        let pull = try!(gh.receiver.recv_opt());
         if pull.key != check_key {
           continue;
         }
@@ -161,10 +161,13 @@ impl DHT {
           put_path: pull.put_path,
           data: pull.data,
         }
-        tx.send(push);
+        try!(tx.send_opt(push).map_err(|_| ()));
       }
     });
-
+    Ok(GetGnsNameRecordHandle {
+      marker: InvariantLifetime,
+      receiver: rx,
+    })
   }
 
   pub fn get<'a>(

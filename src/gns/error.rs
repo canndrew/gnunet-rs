@@ -1,20 +1,20 @@
 use std::io::IoError;
+use std::error::FromError;
 
 use service;
 use identity;
-use FromError;
 
 /// Possible errors returned by the GNS lookup functions.
-#[deriving(Show)]
+#[derive(Show)]
 pub enum LookupError {
   /// The specified domain name was too long.
   NameTooLong,
   /// An I/O error occured while talking to the GNS service.
   Io(IoError),
 }
-error_chain!(IoError, LookupError, Io)
+error_chain! {IoError, LookupError, Io}
 
-#[deriving(Show)]
+#[derive(Show)]
 pub enum ConnectLookupError {
   /// Failed to connect to the GNS service.
   Connect(service::ConnectError),
@@ -22,16 +22,16 @@ pub enum ConnectLookupError {
   /// The lookup failed.
   Lookup(LookupError),
 }
-error_chain!(service::ConnectError, ConnectLookupError, Connect)
-error_chain!(LookupError, ConnectLookupError, Lookup)
+error_chain! {service::ConnectError, ConnectLookupError, Connect}
+error_chain! {LookupError, ConnectLookupError, Lookup}
 
-#[deriving(Show)]
+#[derive(Show)]
 pub enum ConnectLookupInMasterError {
   /// Failed to connect to the GNS service and perform the lookup.
   ConnectLookup(ConnectLookupError),
   /// Failed to retrieve the default identity for gns-master from the identity service.
   ConnectGetDefaultEgo(identity::ConnectGetDefaultEgoError),
 }
-error_chain!(ConnectLookupError, ConnectLookupInMasterError, ConnectLookup)
-error_chain!(identity::ConnectGetDefaultEgoError, ConnectLookupInMasterError, ConnectGetDefaultEgo)
+error_chain! {ConnectLookupError, ConnectLookupInMasterError, ConnectLookup}
+error_chain! {identity::ConnectGetDefaultEgoError, ConnectLookupInMasterError, ConnectGetDefaultEgo}
 

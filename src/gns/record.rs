@@ -12,7 +12,7 @@ use self::RecordType::*;
 ///
 /// Some of these records exist in the legacy DNS (but are still used in GNS). Others are specific
 /// to GNS. These are marked **Legacy** and **GNS** respectively.
-#[deriving(Copy, Clone, Show, PartialEq, Eq)]
+#[derive(Copy, Clone, Show, PartialEq, Eq)]
 pub enum RecordType {
   /// **Legacy.** Address record. Stores a 32bit IPv4 address.
   A       = 1,
@@ -139,11 +139,11 @@ pub struct Record {
 impl Record {
   /// Deserialize a record from a byte stream.
   pub fn deserialize<T>(reader: &mut T) -> IoResult<Record> where T: Reader {
-    let expiration_time = ttry!(reader.read_be_u64());
-    let data_size = ttry!(reader.read_be_u32()) as u64;
-    let record_type = ttry!(reader.read_be_u32());
-    let flags = ttry!(reader.read_be_u32());
-    let buff = ttry!(reader.read_exact(data_size as uint));
+    let expiration_time = try!(reader.read_be_u64());
+    let data_size = try!(reader.read_be_u32()) as u64;
+    let record_type = try!(reader.read_be_u32());
+    let flags = try!(reader.read_be_u32());
+    let buff = try!(reader.read_exact(data_size as uint));
     let data = buff.as_ptr() as *const c_void;
 
     Ok(Record {

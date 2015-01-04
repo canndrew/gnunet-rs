@@ -8,9 +8,11 @@
 //! Perform a [GNS](https://gnunet.org/gns) lookup.
 //!
 //! ```rust
-//! use gnunet::gns;
+//! use std::sync::Arc;
+//! use gnunet::{Configuration, gns};
 //!
-//! let r = gns::lookup_in_master(None, "www.gnu", gns::RecordType::A, None).unwrap();
+//! let c = Arc::new(Configuration::default().unwrap());
+//! let r = gns::lookup_in_master(c, "www.gnu", gns::RecordType::A, None).unwrap();
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
@@ -20,6 +22,7 @@
 #![feature(unsafe_destructor)]
 #![feature(default_type_params)]
 #![feature(globs)]
+#![feature(old_orphan_check)]
 
 #![crate_name = "gnunet"]
 #![experimental]
@@ -36,6 +39,7 @@ pub use gns::{GNS, LocalOptions};
 pub use identity::{Ego, IdentityService};
 //pub use dht::DHT;
 
+/*
 macro_rules! ttry (
     ($expr:expr) => ({
         use FromError;
@@ -45,8 +49,9 @@ macro_rules! ttry (
         }
     })
 )
+*/
 
-macro_rules! error_chain (
+macro_rules! error_chain {
   ($from:ty, $to:ident, $f:ident) => (
     impl FromError<$from> for $to {
       fn from_error(e: $from) -> $to {
@@ -54,11 +59,10 @@ macro_rules! error_chain (
       }
     }
   )
-)
+}
 
 #[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals, raw_pointer_deriving)]
 mod ll;
-mod util;
 
 pub mod service;
 mod configuration;
@@ -66,7 +70,9 @@ pub mod gns;
 //pub mod dht;
 mod crypto;
 pub mod identity;
+mod util;
 
+/*
 trait FromError<E> {
   fn from_error(x: E) -> Self;
 }
@@ -76,4 +82,5 @@ impl<E> FromError<E> for E {
     e
   }
 }
+*/
 

@@ -5,12 +5,14 @@ use std::str::{from_utf8, FromStr};
 use std::rand::{Rand, Rng};
 use std::hash::Hash;
 use std::hash;
+use std::cmp::Ordering;
+use std::ops::{Add, Sub, BitXor};
 use libc::{c_char, c_uint, c_void, size_t};
 
 use ll;
 
 /// A 512bit hash code used in various places throughout GNUnet.
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct HashCode {
   data: ll::Struct_GNUNET_HashCode,
 }
@@ -61,9 +63,9 @@ impl HashCode {
   pub fn xor_cmp(&self, h1: &HashCode, h2: &HashCode) -> Ordering {
     unsafe {
       match ll::GNUNET_CRYPTO_hash_xorcmp(&h1.data, &h2.data, &self.data) {
-        -1  => Less,
-        0   => Equal,
-        1   => Greater,
+        -1  => Ordering::Less,
+        0   => Ordering::Equal,
+        1   => Ordering::Greater,
         _   => panic!("Invalid value returned by ll::GNUNET_CRYPTO_hash_xorcmp"),
       }
     }
@@ -93,12 +95,12 @@ impl Show for HashCode {
     unsafe {
       const LEN: uint = 103u;
       assert!(LEN == (size_of_val(&self.data.bits) * 8 + 4) / 5);
-      let mut enc: [u8, ..LEN] = uninitialized();
+      let mut enc: [u8; LEN] = uninitialized();
       let res = ll::GNUNET_STRINGS_data_to_string(self.data.bits.as_ptr() as *const c_void,
                                                   size_of_val(&self.data.bits) as size_t,
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   enc.len() as size_t);
-      assert!(res.is_not_null());
+      assert!(!res.is_null());
       from_utf8(&enc).unwrap().fmt(f)
     }
   }
@@ -134,7 +136,7 @@ impl Rand for HashCode {
 }
 
 impl Add<HashCode, HashCode> for HashCode {
-  fn add(&self, rhs: &HashCode) -> HashCode {
+  fn add(self, rhs: HashCode) -> HashCode {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
       ll::GNUNET_CRYPTO_hash_sum(&self.data, &rhs.data, &mut ret);
@@ -146,7 +148,7 @@ impl Add<HashCode, HashCode> for HashCode {
 }
 
 impl Sub<HashCode, HashCode> for HashCode {
-  fn sub(&self, rhs: &HashCode) -> HashCode {
+  fn sub(self, rhs: HashCode) -> HashCode {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
       ll::GNUNET_CRYPTO_hash_difference(&rhs.data, &self.data, &mut ret);
@@ -158,7 +160,7 @@ impl Sub<HashCode, HashCode> for HashCode {
 }
 
 impl BitXor<HashCode, HashCode> for HashCode {
-  fn bitxor(&self, rhs: &HashCode) -> HashCode {
+  fn bitxor(self, rhs: HashCode) -> HashCode {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
       ll::GNUNET_CRYPTO_hash_xor(&self.data, &rhs.data, &mut ret);
@@ -179,9 +181,9 @@ impl Ord for HashCode {
   fn cmp(&self, other: &HashCode) -> Ordering {
     unsafe {
       match ll::GNUNET_CRYPTO_hash_cmp(&self.data, &other.data) {
-        -1  => Less,
-        0   => Equal,
-        1   => Greater,
+        -1  => Ordering::Less,
+        0   => Ordering::Equal,
+        1   => Ordering::Greater,
         _   => panic!("Invalid return from GNUNET_CRYPTO_hash_cmp"),
       }
     }
@@ -193,11 +195,6 @@ impl<S: hash::Writer> Hash<S> for HashCode {
     self.data.bits.hash(state)
   }
 }
-
-/*
-impl Iterator<bool> for HashCode {
-}
-*/
 
 #[test]
 fn test_hashcode_to_from_string() {
@@ -212,9 +209,9 @@ fn test_hashcode_to_from_string() {
 
 #[test]
 fn test_hashcode_rand_add_sub() {
-  use std::rand::task_rng;
+  use std::rand::weak_rng;
 
-  let mut rng = task_rng();
+  let mut rng = weak_rng();
   let h0: HashCode = rng.gen();
   let h1: HashCode = rng.gen();
   let diff = h1 - h0;

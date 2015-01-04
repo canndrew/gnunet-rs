@@ -12,7 +12,7 @@ use ll;
 use HashCode;
 
 /// A 256bit ECDSA public key.
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct EcdsaPublicKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey,
 }
@@ -57,19 +57,19 @@ impl Show for EcdsaPublicKey {
       const LEN: uint = 52u;
       println!("sizeof == {}", size_of_val(&self.data.q_y));
       assert!(LEN == (size_of_val(&self.data.q_y) * 8 + 4) / 5);
-      let mut enc: [u8, ..LEN] = uninitialized();
+      let mut enc: [u8; LEN] = uninitialized();
       let res = ll::GNUNET_STRINGS_data_to_string(self.data.q_y.as_ptr() as *const c_void,
                                                   self.data.q_y.len() as size_t,
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   52);
-      assert!(res.is_not_null());
+      assert!(!res.is_null());
       from_utf8(&enc).unwrap().fmt(f)
     }
   }
 }
 
 /// A 256bit ECDSA private key.
-#[deriving(Copy)]
+#[derive(Copy)]
 pub struct EcdsaPrivateKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
 }
@@ -83,7 +83,7 @@ impl EcdsaPrivateKey {
   /// Deserialize a from a byte stream.
   pub fn deserialize<T>(r: &mut T) -> IoResult<EcdsaPrivateKey> where T: Reader {
     let mut ret: EcdsaPrivateKey = unsafe { uninitialized() };
-    ttry!(r.read(&mut ret.data.d));
+    try!(r.read(&mut ret.data.d));
     Ok(ret)
   }
 

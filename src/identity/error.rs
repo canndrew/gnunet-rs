@@ -1,10 +1,11 @@
 use std::io::IoError;
+use std::error::FromError;
+use std::string;
 
 use service;
-use FromError;
 
 /// Errors returned by `IdentityService::get_default_ego`. 
-#[deriving(Show)]
+#[derive(Show)]
 pub enum GetDefaultEgoError {
   /// The name of the service was too long.
   NameTooLong,
@@ -20,12 +21,12 @@ pub enum GetDefaultEgoError {
   /// variant.
   InvalidResponse,
 }
-error_chain!(ConnectError, GetDefaultEgoError, Connect)
-error_chain!(IoError, GetDefaultEgoError, Io)
-error_chain!(service::ReadMessageError, GetDefaultEgoError, ReadMessage)
+error_chain! {ConnectError, GetDefaultEgoError, Connect}
+error_chain! {IoError, GetDefaultEgoError, Io}
+error_chain! {service::ReadMessageError, GetDefaultEgoError, ReadMessage}
 
 /// Errors returned by `IdentityService::connect`
-#[deriving(Show)]
+#[derive(Show)]
 pub enum ConnectError {
   /// Failed to connect to the service.
   Connect(service::ConnectError),
@@ -34,22 +35,22 @@ pub enum ConnectError {
   /// Failed to read a message from the service.
   ReadMessage(service::ReadMessageError),
   /// The service responded with an invalid utf-8 name. *(It is a bug to see this variant)*
-  InvalidName(Vec<u8>),
+  InvalidName(string::FromUtf8Error),
   /// Received an unexpected message from the service. *(It is a bug to see this variant)*
   UnexpectedMessageType(u16),
 }
-error_chain!(service::ConnectError, ConnectError, Connect)
-error_chain!(IoError, ConnectError, Io)
-error_chain!(service::ReadMessageError, ConnectError, ReadMessage)
+error_chain! {service::ConnectError, ConnectError, Connect}
+error_chain! {IoError, ConnectError, Io}
+error_chain! {service::ReadMessageError, ConnectError, ReadMessage}
 
 /// Errors returned by `identity::get_default_ego`
-#[deriving(Show)]
+#[derive(Show)]
 pub enum ConnectGetDefaultEgoError {
   /// Ego lookup failed.
   GetDefaultEgo(GetDefaultEgoError),
   /// Failed to connect to the service and perform initialization.
   Connect(ConnectError),
 }
-error_chain!(GetDefaultEgoError, ConnectGetDefaultEgoError, GetDefaultEgo)
-error_chain!(ConnectError, ConnectGetDefaultEgoError, Connect)
+error_chain! {GetDefaultEgoError, ConnectGetDefaultEgoError, GetDefaultEgo}
+error_chain! {ConnectError, ConnectGetDefaultEgoError, Connect}
 
