@@ -41,7 +41,7 @@ impl HashCode {
   /// # Failure
   ///
   /// Fails if `idx >= 512`.
-  pub fn get_bit(&self, idx: uint) -> bool {
+  pub fn get_bit(&self, idx: u32) -> bool {
     assert!(idx < 512);
     unsafe {
       ll::GNUNET_CRYPTO_hash_get_bit(&self.data, idx as c_uint) == 1
@@ -49,11 +49,11 @@ impl HashCode {
   }
 
   /// Compute the length (in bits) of the common prefix of two hashes. ie. two identical hashes
-  /// will return a value of 512u while two hashes that vary in the first bit will return a value
-  /// of 0u.
-  pub fn matching_prefix_len(&self, other: &HashCode) -> uint {
+  /// will return a value of 512u32 while two hashes that vary in the first bit will return a value
+  /// of 0u32.
+  pub fn matching_prefix_len(&self, other: &HashCode) -> u32 {
     unsafe {
-      ll::GNUNET_CRYPTO_hash_matching_bits(&self.data, &other.data) as uint
+      ll::GNUNET_CRYPTO_hash_matching_bits(&self.data, &other.data) as u32
     }
   }
 
@@ -93,7 +93,7 @@ impl Clone for HashCode {
 impl Show for HashCode {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
-      const LEN: uint = 103u;
+      const LEN: usize = 103us;
       assert!(LEN == (size_of_val(&self.data.bits) * 8 + 4) / 5);
       let mut enc: [u8; LEN] = uninitialized();
       let res = ll::GNUNET_STRINGS_data_to_string(self.data.bits.as_ptr() as *const c_void,
@@ -135,7 +135,9 @@ impl Rand for HashCode {
   }
 }
 
-impl Add<HashCode, HashCode> for HashCode {
+impl Add<HashCode> for HashCode {
+  type Output = HashCode;
+
   fn add(self, rhs: HashCode) -> HashCode {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
@@ -147,7 +149,9 @@ impl Add<HashCode, HashCode> for HashCode {
   }
 }
 
-impl Sub<HashCode, HashCode> for HashCode {
+impl Sub<HashCode> for HashCode {
+  type Output = HashCode;
+
   fn sub(self, rhs: HashCode) -> HashCode {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
@@ -159,7 +163,9 @@ impl Sub<HashCode, HashCode> for HashCode {
   }
 }
 
-impl BitXor<HashCode, HashCode> for HashCode {
+impl BitXor<HashCode> for HashCode {
+  type Output = HashCode;
+
   fn bitxor(self, rhs: HashCode) -> HashCode {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
@@ -190,7 +196,7 @@ impl Ord for HashCode {
   }
 }
 
-impl<S: hash::Writer> Hash<S> for HashCode {
+impl<S: hash::Writer + hash::Hasher> Hash<S> for HashCode {
   fn hash(&self, state: &mut S) {
     self.data.bits.hash(state)
   }

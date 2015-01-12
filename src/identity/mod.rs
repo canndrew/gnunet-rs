@@ -96,7 +96,7 @@ impl IdentityService {
             break;
           };
           let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-          let mut v: Vec<u8> = Vec::with_capacity(name_len as uint);
+          let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
           for r in mr.bytes() {
             let b = try!(r);
             if b == 0u8 {
@@ -166,8 +166,8 @@ impl IdentityService {
         match zero {
           0 => {
             let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-            let s = try!(mr.read_cstring_with_len(reply_name_len as uint));
-            match s[] == name {
+            let s = try!(mr.read_cstring_with_len(reply_name_len as usize));
+            match &s[] == name {
               true  =>  {
                 let id = pk.get_public().hash();
                 Ok(self.egos[id].clone())

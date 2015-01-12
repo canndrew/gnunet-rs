@@ -2,8 +2,10 @@ use std::io::IoResult;
 use std::str::FromStr;
 use std::fmt::{Show, Formatter};
 use std::fmt;
-use std::c_str::CString;
-use libc::c_void;
+use std::ffi::c_str_to_bytes;
+use std::str::from_utf8;
+//use std::c_str::CString;
+use libc::{free, c_char, c_void};
 
 use ll;
 use self::RecordType::*;
@@ -143,7 +145,7 @@ impl Record {
     let data_size = try!(reader.read_be_u32()) as u64;
     let record_type = try!(reader.read_be_u32());
     let flags = try!(reader.read_be_u32());
-    let buff = try!(reader.read_exact(data_size as uint));
+    let buff = try!(reader.read_exact(data_size as usize));
     let data = buff.as_ptr() as *const c_void;
 
     Ok(Record {
@@ -167,14 +169,21 @@ impl Record {
 impl Show for Record {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     let tpe = self.data.record_type;
-    try!(write!(f, "{}: ", RecordType::from_u32(tpe).unwrap()));
+    try!(write!(f, "{:?}: ", RecordType::from_u32(tpe).unwrap()));
     unsafe {
       let cs = ll::GNUNET_GNSRECORD_value_to_string(tpe, self.data.data, self.data.data_size);
       match cs.is_null() {
         true  => write!(f, "<malformed record data>"),
         false => {
-          let cs = CString::new(cs as *const i8, true);
-          write!(f, "{}", cs)
+          let constified = cs as *const c_char;
+          let s = from_utf8(c_str_to_bytes(&constified));
+          let ret = match s {
+            Ok(ss)  => write!(f, "{}", ss),
+            Err(_)  => write!(f, "<invalid utf8>"),
+          };
+          // TODO: use the c-string wrapper that automatically dealloces when it exists
+          free(cs as *mut c_void);
+          ret
         },
       }
     }

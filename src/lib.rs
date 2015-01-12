@@ -16,13 +16,12 @@
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
-#![feature(macro_rules)]
 #![feature(unboxed_closures)]
 #![feature(slicing_syntax)]
 #![feature(unsafe_destructor)]
-#![feature(default_type_params)]
-#![feature(globs)]
 #![feature(old_orphan_check)]
+
+#![allow(unstable)]
 
 #![crate_name = "gnunet"]
 #![experimental]
@@ -61,7 +60,7 @@ macro_rules! error_chain {
   )
 }
 
-#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals, raw_pointer_deriving)]
+#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals, raw_pointer_derive)]
 mod ll;
 
 pub mod service;

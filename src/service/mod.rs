@@ -23,12 +23,12 @@ pub struct Service<'c> {
 
 pub struct ServiceReader {
   pub connection: UnixStream, // TODO: should be UnixReader
-  pub cfg: Arc<Configuration>,
+  //pub cfg: Arc<Configuration>,
 }
 
 pub struct ServiceWriter {
   pub connection: UnixStream, // TODO: should be UnixWriter
-  pub cfg: Arc<Configuration>,
+  //pub cfg: Arc<Configuration>,
 }
 
 #[derive(Copy)]
@@ -50,11 +50,11 @@ pub fn connect(cfg: Arc<Configuration>, name: &str) -> Result<(ServiceReader, Se
 
   let r = ServiceReader {
     connection: in_stream,
-    cfg: cfg.clone(),
+    //cfg: cfg.clone(),
   };
   let w = ServiceWriter {
     connection: out_stream,
-    cfg: cfg,
+    //cfg: cfg,
   };
   Ok((r, w))
 }
@@ -65,7 +65,7 @@ impl ServiceReader {
             F: Send
   {
     let reader = self.connection.clone();
-    let callback_loop = Thread::spawn(move |:| -> ServiceReader {
+    let callback_loop = Thread::scoped(move |:| -> ServiceReader {
       //TODO: implement reconnection (currently fails)
       loop {
         let len = match self.connection.read_be_u16() {
@@ -77,7 +77,7 @@ impl ServiceReader {
         };
         // TODO: remove these unwraps, do auto reconnect of failure
         let tpe = self.connection.read_be_u16().unwrap();
-        let lr = LimitReader::new(self.connection.clone(), len as uint); // TODO: get rid of this clone
+        let lr = LimitReader::new(self.connection.clone(), len as usize); // TODO: get rid of this clone
         match cb(tpe, lr) {
           ProcessMessageResult::Continue  => /* TODO: need lifetimes on closures to do this: assert!(lr.limit() == 0, "callback did not read entire message") */ (),
           ProcessMessageResult::Reconnect => return self, //TODO: auto reconnect
@@ -96,7 +96,7 @@ impl ServiceReader {
     if len < 4 {
       return Err(ReadMessageError::ShortMessage(len));
     }
-    let v = try!(self.connection.read_exact(len as uint - 2));
+    let v = try!(self.connection.read_exact(len as usize - 2));
     let mut mr = MemReader::new(v);
     let tpe = try!(mr.read_be_u16());
     Ok((tpe, mr))
@@ -106,7 +106,7 @@ impl ServiceReader {
 impl ServiceWriter {
   pub fn write_message<'a>(&'a mut self, len: u16, tpe: u16) -> MessageWriter<'a> {
     assert!(len >= 4);
-    let mut mw = MemWriter::with_capacity(len as uint);
+    let mut mw = MemWriter::with_capacity(len as usize);
     mw.write_be_u16(len).unwrap();
     mw.write_be_u16(tpe).unwrap();
     MessageWriter {
@@ -125,7 +125,7 @@ impl<'a> MessageWriter<'a> {
   pub fn send(self) -> IoResult<()> {
     let v = self.mw.into_inner();
     assert!(v.len() == v.capacity());
-    self.service_writer.connection.write(v[])
+    self.service_writer.connection.write(&v[])
   }
 }
 
@@ -137,7 +137,7 @@ impl<'a> Writer for MessageWriter<'a> {
 
 pub struct ServiceReadLoop {
   reader: UnixStream,
-  _callback_loop: JoinGuard<ServiceReader>,
+  _callback_loop: JoinGuard<'static, ServiceReader>,
 }
 
 impl ServiceReadLoop {

@@ -17,7 +17,7 @@ pub trait CStringReader: Reader {
     }
   }
 
-  fn read_cstring_with_len(&mut self, len: uint) -> IoResult<String> {
+  fn read_cstring_with_len(&mut self, len: usize) -> IoResult<String> {
     let mut v: Vec<u8> = Vec::with_capacity(len);
     for _ in range(0, len) {
       let b = try!(self.read_u8());

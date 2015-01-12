@@ -1,7 +1,7 @@
 use std::io::net::pipe::UnixStream;
 use std::io::util::LimitReader;
 use std::collections::HashMap;
-use std::kinds::marker::InvariantLifetime;
+use std::marker::InvariantLifetime;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
 use std::sync::Arc;
 use std::num::ToPrimitive;
@@ -42,8 +42,7 @@ impl GNS {
   /// Connect to the GNS service.
   ///
   /// Returns either a handle to the GNS service or a `service::ConnectError`. `cfg` contains the
-  /// configuration to use to connect to the service. Can be `None` to use the system default
-  /// configuration - this should work on most properly-configured systems.
+  /// configuration to use to connect to the service.
   pub fn connect(cfg: Arc<Configuration>) -> Result<GNS, service::ConnectError> {
     let (lookup_tx, lookup_rx) = channel::<(u32, Sender<Record>)>();
     let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
@@ -134,7 +133,7 @@ impl GNS {
     ) -> Result<LookupHandle<'a>, LookupError> {
 
     let name_len = name.len();
-    if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as uint {
+    if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
       return Err(LookupError::NameTooLong);
     };
 

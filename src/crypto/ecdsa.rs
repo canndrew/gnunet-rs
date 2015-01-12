@@ -54,7 +54,7 @@ impl FromStr for EcdsaPublicKey {
 impl Show for EcdsaPublicKey {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
-      const LEN: uint = 52u;
+      const LEN: usize = 52us;
       println!("sizeof == {}", size_of_val(&self.data.q_y));
       assert!(LEN == (size_of_val(&self.data.q_y) * 8 + 4) / 5);
       let mut enc: [u8; LEN] = uninitialized();

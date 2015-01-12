@@ -2,7 +2,7 @@
 
 pub type __int128_t = ::libc::c_void;
 pub type __uint128_t = ::libc::c_void;
-pub type __builtin_va_list = [__va_list_tag; 1u];
+pub type __builtin_va_list = [__va_list_tag; 1us];
 pub type __u_char = ::libc::c_uchar;
 pub type __u_short = ::libc::c_ushort;
 pub type __u_int = ::libc::c_uint;
@@ -30,7 +30,7 @@ pub type __pid_t = ::libc::c_int;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_Unnamed1 {
-    pub __val: [::libc::c_int; 2u],
+    pub __val: [::libc::c_int; 2us],
 }
 impl ::std::default::Default for Struct_Unnamed1 {
     fn default() -> Struct_Unnamed1 { unsafe { ::std::mem::zeroed() } }
@@ -67,7 +67,7 @@ pub type __sig_atomic_t = ::libc::c_int;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_Unnamed2 {
-    pub __val: [::libc::c_ulong; 16u],
+    pub __val: [::libc::c_ulong; 16us],
 }
 impl ::std::default::Default for Struct_Unnamed2 {
     fn default() -> Struct_Unnamed2 { unsafe { ::std::mem::zeroed() } }
@@ -98,7 +98,7 @@ pub type __fd_mask = ::libc::c_long;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_Unnamed3 {
-    pub __fds_bits: [__fd_mask; 16u],
+    pub __fds_bits: [__fd_mask; 16us],
 }
 impl ::std::default::Default for Struct_Unnamed3 {
     fn default() -> Struct_Unnamed3 { unsafe { ::std::mem::zeroed() } }
@@ -176,10 +176,10 @@ pub type pthread_t = ::libc::c_ulong;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_pthread_attr_t {
-    pub _bindgen_data_: [u64; 7u],
+    pub _bindgen_data_: [u64; 7us],
 }
 impl Union_pthread_attr_t {
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 56u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 56us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
@@ -205,13 +205,13 @@ pub type __pthread_list_t = Struct___pthread_internal_list;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed4 {
-    pub _bindgen_data_: [u64; 5u],
+    pub _bindgen_data_: [u64; 5us],
 }
 impl Union_Unnamed4 {
     pub unsafe fn __data(&mut self) -> *mut Struct___pthread_mutex_s {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 40u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 40us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
@@ -242,10 +242,10 @@ pub type pthread_mutex_t = Union_Unnamed4;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed5 {
-    pub _bindgen_data_: [u32; 1u],
+    pub _bindgen_data_: [u32; 1us],
 }
 impl Union_Unnamed5 {
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_int {
@@ -259,13 +259,13 @@ pub type pthread_mutexattr_t = Union_Unnamed5;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed6 {
-    pub _bindgen_data_: [u64; 6u],
+    pub _bindgen_data_: [u64; 6us],
 }
 impl Union_Unnamed6 {
     pub unsafe fn __data(&mut self) -> *mut Struct_Unnamed7 {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 48u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 48us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_longlong {
@@ -294,10 +294,10 @@ pub type pthread_cond_t = Union_Unnamed6;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed8 {
-    pub _bindgen_data_: [u32; 1u],
+    pub _bindgen_data_: [u32; 1us],
 }
 impl Union_Unnamed8 {
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_int {
@@ -313,13 +313,13 @@ pub type pthread_once_t = ::libc::c_int;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed9 {
-    pub _bindgen_data_: [u64; 7u],
+    pub _bindgen_data_: [u64; 7us],
 }
 impl Union_Unnamed9 {
     pub unsafe fn __data(&mut self) -> *mut Struct_Unnamed10 {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 56u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 56us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
@@ -351,10 +351,10 @@ pub type pthread_rwlock_t = Union_Unnamed9;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed11 {
-    pub _bindgen_data_: [u64; 1u],
+    pub _bindgen_data_: [u64; 1us],
 }
 impl Union_Unnamed11 {
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 8u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 8us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
@@ -369,10 +369,10 @@ pub type pthread_spinlock_t = ::libc::c_int;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed12 {
-    pub _bindgen_data_: [u64; 4u],
+    pub _bindgen_data_: [u64; 4us],
 }
 impl Union_Unnamed12 {
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 32u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 32us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_long {
@@ -386,10 +386,10 @@ pub type pthread_barrier_t = Union_Unnamed12;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed13 {
-    pub _bindgen_data_: [u32; 1u],
+    pub _bindgen_data_: [u32; 1us],
 }
 impl Union_Unnamed13 {
-    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4u] {
+    pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn __align(&mut self) -> *mut ::libc::c_int {
@@ -425,7 +425,7 @@ pub type sa_family_t = ::libc::c_ushort;
 #[derive(Copy)]
 pub struct Struct_sockaddr {
     pub sa_family: sa_family_t,
-    pub sa_data: [::libc::c_char; 14u],
+    pub sa_data: [::libc::c_char; 14us],
 }
 impl ::std::default::Default for Struct_sockaddr {
     fn default() -> Struct_sockaddr { unsafe { ::std::mem::zeroed() } }
@@ -435,7 +435,7 @@ impl ::std::default::Default for Struct_sockaddr {
 pub struct Struct_sockaddr_storage {
     pub ss_family: sa_family_t,
     pub __ss_align: ::libc::c_ulong,
-    pub __ss_padding: [::libc::c_char; 112u],
+    pub __ss_padding: [::libc::c_char; 112us],
 }
 impl ::std::default::Default for Struct_sockaddr_storage {
     fn default() -> Struct_sockaddr_storage {
@@ -502,7 +502,7 @@ impl ::std::default::Default for Struct_linger {
 #[derive(Copy)]
 pub struct Struct_osockaddr {
     pub sa_family: ::libc::c_ushort,
-    pub sa_data: [::libc::c_uchar; 14u],
+    pub sa_data: [::libc::c_uchar; 14us],
 }
 impl ::std::default::Default for Struct_osockaddr {
     fn default() -> Struct_osockaddr { unsafe { ::std::mem::zeroed() } }
@@ -524,7 +524,7 @@ impl ::std::default::Default for Struct_in_addr {
 #[derive(Copy)]
 pub struct Struct_ip_opts {
     pub ip_dst: Struct_in_addr,
-    pub ip_opts: [::libc::c_char; 40u],
+    pub ip_opts: [::libc::c_char; 40us],
 }
 impl ::std::default::Default for Struct_ip_opts {
     fn default() -> Struct_ip_opts { unsafe { ::std::mem::zeroed() } }
@@ -622,16 +622,16 @@ impl ::std::default::Default for Struct_in6_addr {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed20 {
-    pub _bindgen_data_: [u32; 4u],
+    pub _bindgen_data_: [u32; 4us],
 }
 impl Union_Unnamed20 {
-    pub unsafe fn __u6_addr8(&mut self) -> *mut [uint8_t; 16u] {
+    pub unsafe fn __u6_addr8(&mut self) -> *mut [uint8_t; 16us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn __u6_addr16(&mut self) -> *mut [uint16_t; 8u] {
+    pub unsafe fn __u6_addr16(&mut self) -> *mut [uint16_t; 8us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn __u6_addr32(&mut self) -> *mut [uint32_t; 4u] {
+    pub unsafe fn __u6_addr32(&mut self) -> *mut [uint32_t; 4us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
 }
@@ -644,7 +644,7 @@ pub struct Struct_sockaddr_in {
     pub sin_family: sa_family_t,
     pub sin_port: in_port_t,
     pub sin_addr: Struct_in_addr,
-    pub sin_zero: [::libc::c_uchar; 8u],
+    pub sin_zero: [::libc::c_uchar; 8us],
 }
 impl ::std::default::Default for Struct_sockaddr_in {
     fn default() -> Struct_sockaddr_in { unsafe { ::std::mem::zeroed() } }
@@ -717,7 +717,7 @@ pub struct Struct_ip_msfilter {
     pub imsf_interface: Struct_in_addr,
     pub imsf_fmode: uint32_t,
     pub imsf_numsrc: uint32_t,
-    pub imsf_slist: [Struct_in_addr; 1u],
+    pub imsf_slist: [Struct_in_addr; 1us],
 }
 impl ::std::default::Default for Struct_ip_msfilter {
     fn default() -> Struct_ip_msfilter { unsafe { ::std::mem::zeroed() } }
@@ -729,7 +729,7 @@ pub struct Struct_group_filter {
     pub gf_group: Struct_sockaddr_storage,
     pub gf_fmode: uint32_t,
     pub gf_numsrc: uint32_t,
-    pub gf_slist: [Struct_sockaddr_storage; 1u],
+    pub gf_slist: [Struct_sockaddr_storage; 1us],
 }
 impl ::std::default::Default for Struct_group_filter {
     fn default() -> Struct_group_filter { unsafe { ::std::mem::zeroed() } }
@@ -807,7 +807,7 @@ impl ::std::default::Default for Struct_addrinfo {
 #[derive(Copy)]
 pub struct Struct_sockaddr_un {
     pub sun_family: sa_family_t,
-    pub sun_path: [::libc::c_char; 108u],
+    pub sun_path: [::libc::c_char; 108us],
 }
 impl ::std::default::Default for Struct_sockaddr_un {
     fn default() -> Struct_sockaddr_un { unsafe { ::std::mem::zeroed() } }
@@ -816,11 +816,11 @@ pub enum Struct___locale_data { }
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct___locale_struct {
-    pub __locales: [*mut Struct___locale_data; 13u],
+    pub __locales: [*mut Struct___locale_data; 13us],
     pub __ctype_b: *const ::libc::c_ushort,
     pub __ctype_tolower: *const ::libc::c_int,
     pub __ctype_toupper: *const ::libc::c_int,
-    pub __names: [*const ::libc::c_char; 13u],
+    pub __names: [*const ::libc::c_char; 13us],
 }
 impl ::std::default::Default for Struct___locale_struct {
     fn default() -> Struct___locale_struct { unsafe { ::std::mem::zeroed() } }
@@ -831,7 +831,7 @@ pub type tcp_seq = u_int32_t;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_tcphdr {
-    pub _bindgen_data_1_: [u32; 5u],
+    pub _bindgen_data_1_: [u32; 5us],
 }
 impl Struct_tcphdr {
     pub unsafe fn th_sport(&mut self) -> *mut u_int16_t {
@@ -839,58 +839,58 @@ impl Struct_tcphdr {
     }
     pub unsafe fn th_dport(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(2i))
+        ::std::mem::transmute(raw.offset(2is))
     }
     pub unsafe fn th_seq(&mut self) -> *mut tcp_seq {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(4i))
+        ::std::mem::transmute(raw.offset(4is))
     }
     pub unsafe fn th_ack(&mut self) -> *mut tcp_seq {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(8i))
+        ::std::mem::transmute(raw.offset(8is))
     }
     pub unsafe fn th_flags(&mut self) -> *mut u_int8_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(14i))
+        ::std::mem::transmute(raw.offset(14is))
     }
     pub unsafe fn th_win(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(15i))
+        ::std::mem::transmute(raw.offset(15is))
     }
     pub unsafe fn th_sum(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(17i))
+        ::std::mem::transmute(raw.offset(17is))
     }
     pub unsafe fn th_urp(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(19i))
+        ::std::mem::transmute(raw.offset(19is))
     }
     pub unsafe fn source(&mut self) -> *mut u_int16_t {
         ::std::mem::transmute(&self._bindgen_data_1_)
     }
     pub unsafe fn dest(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(2i))
+        ::std::mem::transmute(raw.offset(2is))
     }
     pub unsafe fn seq(&mut self) -> *mut u_int32_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(4i))
+        ::std::mem::transmute(raw.offset(4is))
     }
     pub unsafe fn ack_seq(&mut self) -> *mut u_int32_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(8i))
+        ::std::mem::transmute(raw.offset(8is))
     }
     pub unsafe fn window(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(30i))
+        ::std::mem::transmute(raw.offset(30is))
     }
     pub unsafe fn check(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(32i))
+        ::std::mem::transmute(raw.offset(32is))
     }
     pub unsafe fn urg_ptr(&mut self) -> *mut u_int16_t {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
-        ::std::mem::transmute(raw.offset(34i))
+        ::std::mem::transmute(raw.offset(34is))
     }
 }
 impl ::std::default::Default for Struct_tcphdr {
@@ -960,7 +960,7 @@ pub struct Struct_tcp_md5sig {
     pub __tcpm_pad1: u_int16_t,
     pub tcpm_keylen: u_int16_t,
     pub __tcpm_pad2: u_int32_t,
-    pub tcpm_key: [u_int8_t; 80u],
+    pub tcpm_key: [u_int8_t; 80us],
 }
 impl ::std::default::Default for Struct_tcp_md5sig {
     fn default() -> Struct_tcp_md5sig { unsafe { ::std::mem::zeroed() } }
@@ -987,7 +987,7 @@ pub struct Struct_tcp_cookie_transactions {
     pub tcpct_cookie_desired: u_int8_t,
     pub tcpct_s_data_desired: u_int16_t,
     pub tcpct_used: u_int16_t,
-    pub tcpct_value: [u_int8_t; 536u],
+    pub tcpct_value: [u_int8_t; 536us],
 }
 impl ::std::default::Default for Struct_tcp_cookie_transactions {
     fn default() -> Struct_tcp_cookie_transactions {
@@ -1028,7 +1028,7 @@ pub struct Struct_termio {
     pub c_cflag: ::libc::c_ushort,
     pub c_lflag: ::libc::c_ushort,
     pub c_line: ::libc::c_uchar,
-    pub c_cc: [::libc::c_uchar; 8u],
+    pub c_cc: [::libc::c_uchar; 8us],
 }
 impl ::std::default::Default for Struct_termio {
     fn default() -> Struct_termio { unsafe { ::std::mem::zeroed() } }
@@ -1037,7 +1037,7 @@ pub type sig_atomic_t = __sig_atomic_t;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_sigval {
-    pub _bindgen_data_: [u64; 1u],
+    pub _bindgen_data_: [u64; 1us],
 }
 impl Union_sigval {
     pub unsafe fn sival_int(&mut self) -> *mut ::libc::c_int {
@@ -1066,10 +1066,10 @@ impl ::std::default::Default for Struct_Unnamed23 {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed24 {
-    pub _bindgen_data_: [u64; 14u],
+    pub _bindgen_data_: [u64; 14us],
 }
 impl Union_Unnamed24 {
-    pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 28u] {
+    pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 28us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn _kill(&mut self) -> *mut Struct_Unnamed25 {
@@ -1235,10 +1235,10 @@ impl ::std::default::Default for Struct_sigevent {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed40 {
-    pub _bindgen_data_: [u64; 6u],
+    pub _bindgen_data_: [u64; 6us],
 }
 impl Union_Unnamed40 {
-    pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 12u] {
+    pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 12us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn _tid(&mut self) -> *mut __pid_t {
@@ -1283,7 +1283,7 @@ impl ::std::default::Default for Struct_sigaction {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed43 {
-    pub _bindgen_data_: [u64; 1u],
+    pub _bindgen_data_: [u64; 1us],
 }
 impl Union_Unnamed43 {
     pub unsafe fn sa_handler(&mut self) -> *mut __sighandler_t {
@@ -1318,7 +1318,7 @@ pub struct Struct__fpx_sw_bytes {
     pub extended_size: __uint32_t,
     pub xstate_bv: __uint64_t,
     pub xstate_size: __uint32_t,
-    pub padding: [__uint32_t; 7u],
+    pub padding: [__uint32_t; 7us],
 }
 impl ::std::default::Default for Struct__fpx_sw_bytes {
     fn default() -> Struct__fpx_sw_bytes { unsafe { ::std::mem::zeroed() } }
@@ -1326,7 +1326,7 @@ impl ::std::default::Default for Struct__fpx_sw_bytes {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct__fpreg {
-    pub significand: [::libc::c_ushort; 4u],
+    pub significand: [::libc::c_ushort; 4us],
     pub exponent: ::libc::c_ushort,
 }
 impl ::std::default::Default for Struct__fpreg {
@@ -1335,9 +1335,9 @@ impl ::std::default::Default for Struct__fpreg {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct__fpxreg {
-    pub significand: [::libc::c_ushort; 4u],
+    pub significand: [::libc::c_ushort; 4us],
     pub exponent: ::libc::c_ushort,
-    pub padding: [::libc::c_ushort; 3u],
+    pub padding: [::libc::c_ushort; 3us],
 }
 impl ::std::default::Default for Struct__fpxreg {
     fn default() -> Struct__fpxreg { unsafe { ::std::mem::zeroed() } }
@@ -1345,7 +1345,7 @@ impl ::std::default::Default for Struct__fpxreg {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct__xmmreg {
-    pub element: [__uint32_t; 4u],
+    pub element: [__uint32_t; 4us],
 }
 impl ::std::default::Default for Struct__xmmreg {
     fn default() -> Struct__xmmreg { unsafe { ::std::mem::zeroed() } }
@@ -1361,9 +1361,9 @@ pub struct Struct__fpstate {
     pub rdp: __uint64_t,
     pub mxcsr: __uint32_t,
     pub mxcr_mask: __uint32_t,
-    pub _st: [Struct__fpxreg; 8u],
-    pub _xmm: [Struct__xmmreg; 16u],
-    pub padding: [__uint32_t; 24u],
+    pub _st: [Struct__fpxreg; 8us],
+    pub _xmm: [Struct__xmmreg; 16us],
+    pub padding: [__uint32_t; 24us],
 }
 impl ::std::default::Default for Struct__fpstate {
     fn default() -> Struct__fpstate { unsafe { ::std::mem::zeroed() } }
@@ -1397,8 +1397,8 @@ pub struct Struct_sigcontext {
     pub trapno: __uint64_t,
     pub oldmask: __uint64_t,
     pub cr2: __uint64_t,
-    pub _bindgen_data_1_: [u64; 1u],
-    pub __reserved1: [__uint64_t; 8u],
+    pub _bindgen_data_1_: [u64; 1us],
+    pub __reserved1: [__uint64_t; 8us],
 }
 impl Struct_sigcontext {
     pub unsafe fn fpstate(&mut self) -> *mut *mut Struct__fpstate {
@@ -1415,8 +1415,8 @@ impl ::std::default::Default for Struct_sigcontext {
 #[derive(Copy)]
 pub struct Struct__xsave_hdr {
     pub xstate_bv: __uint64_t,
-    pub reserved1: [__uint64_t; 2u],
-    pub reserved2: [__uint64_t; 5u],
+    pub reserved1: [__uint64_t; 2us],
+    pub reserved2: [__uint64_t; 5us],
 }
 impl ::std::default::Default for Struct__xsave_hdr {
     fn default() -> Struct__xsave_hdr { unsafe { ::std::mem::zeroed() } }
@@ -1424,7 +1424,7 @@ impl ::std::default::Default for Struct__xsave_hdr {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct__ymmh_state {
-    pub ymmh_space: [__uint32_t; 64u],
+    pub ymmh_space: [__uint32_t; 64us],
 }
 impl ::std::default::Default for Struct__ymmh_state {
     fn default() -> Struct__ymmh_state { unsafe { ::std::mem::zeroed() } }
@@ -1463,13 +1463,13 @@ impl ::std::default::Default for Struct_sigaltstack {
 }
 pub type stack_t = Struct_sigaltstack;
 pub type greg_t = ::libc::c_longlong;
-pub type gregset_t = [greg_t; 23u];
+pub type gregset_t = [greg_t; 23us];
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct__libc_fpxreg {
-    pub significand: [::libc::c_ushort; 4u],
+    pub significand: [::libc::c_ushort; 4us],
     pub exponent: ::libc::c_ushort,
-    pub padding: [::libc::c_ushort; 3u],
+    pub padding: [::libc::c_ushort; 3us],
 }
 impl ::std::default::Default for Struct__libc_fpxreg {
     fn default() -> Struct__libc_fpxreg { unsafe { ::std::mem::zeroed() } }
@@ -1477,7 +1477,7 @@ impl ::std::default::Default for Struct__libc_fpxreg {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct__libc_xmmreg {
-    pub element: [__uint32_t; 4u],
+    pub element: [__uint32_t; 4us],
 }
 impl ::std::default::Default for Struct__libc_xmmreg {
     fn default() -> Struct__libc_xmmreg { unsafe { ::std::mem::zeroed() } }
@@ -1493,9 +1493,9 @@ pub struct Struct__libc_fpstate {
     pub rdp: __uint64_t,
     pub mxcsr: __uint32_t,
     pub mxcr_mask: __uint32_t,
-    pub _st: [Struct__libc_fpxreg; 8u],
-    pub _xmm: [Struct__libc_xmmreg; 16u],
-    pub padding: [__uint32_t; 24u],
+    pub _st: [Struct__libc_fpxreg; 8us],
+    pub _xmm: [Struct__libc_xmmreg; 16us],
+    pub padding: [__uint32_t; 24us],
 }
 impl ::std::default::Default for Struct__libc_fpstate {
     fn default() -> Struct__libc_fpstate { unsafe { ::std::mem::zeroed() } }
@@ -1506,7 +1506,7 @@ pub type fpregset_t = *mut Struct__libc_fpstate;
 pub struct Struct_Unnamed45 {
     pub gregs: gregset_t,
     pub fpregs: fpregset_t,
-    pub __reserved1: [::libc::c_ulonglong; 8u],
+    pub __reserved1: [::libc::c_ulonglong; 8us],
 }
 impl ::std::default::Default for Struct_Unnamed45 {
     fn default() -> Struct_Unnamed45 { unsafe { ::std::mem::zeroed() } }
@@ -1529,7 +1529,7 @@ pub type ucontext_t = Struct_ucontext;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed46 {
-    pub _bindgen_data_: [u64; 1u],
+    pub _bindgen_data_: [u64; 1us],
 }
 impl Union_Unnamed46 {
     pub unsafe fn __uptr(&mut self) -> *mut *mut Union_wait {
@@ -1546,7 +1546,7 @@ pub type __WAIT_STATUS = Union_Unnamed46;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_wait {
-    pub _bindgen_data_: [u32; 1u],
+    pub _bindgen_data_: [u32; 1us],
 }
 impl Union_wait {
     pub unsafe fn w_status(&mut self) -> *mut ::libc::c_int {
@@ -1608,13 +1608,13 @@ impl ::std::default::Default for Struct_Unnamed50 {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed51 {
-    pub _bindgen_data_: [u32; 1u],
+    pub _bindgen_data_: [u32; 1us],
 }
 impl Union_Unnamed51 {
     pub unsafe fn __wch(&mut self) -> *mut ::libc::c_uint {
         ::std::mem::transmute(&self._bindgen_data_)
     }
-    pub unsafe fn __wchb(&mut self) -> *mut [::libc::c_char; 4u] {
+    pub unsafe fn __wchb(&mut self) -> *mut [::libc::c_char; 4us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
 }
@@ -1683,7 +1683,7 @@ pub struct Struct__IO_FILE {
     pub _old_offset: __off_t,
     pub _cur_column: ::libc::c_ushort,
     pub _vtable_offset: ::libc::c_char,
-    pub _shortbuf: [::libc::c_char; 1u],
+    pub _shortbuf: [::libc::c_char; 1us],
     pub _lock: *mut _IO_lock_t,
     pub _offset: __off64_t,
     pub __pad1: *mut ::libc::c_void,
@@ -1692,7 +1692,7 @@ pub struct Struct__IO_FILE {
     pub __pad4: *mut ::libc::c_void,
     pub __pad5: size_t,
     pub _mode: ::libc::c_int,
-    pub _unused2: [::libc::c_char; 20u],
+    pub _unused2: [::libc::c_char; 20us],
 }
 impl ::std::default::Default for Struct__IO_FILE {
     fn default() -> Struct__IO_FILE { unsafe { ::std::mem::zeroed() } }
@@ -1761,8 +1761,8 @@ impl ::std::default::Default for Struct_random_data {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_drand48_data {
-    pub __x: [::libc::c_ushort; 3u],
-    pub __old_x: [::libc::c_ushort; 3u],
+    pub __x: [::libc::c_ushort; 3us],
+    pub __old_x: [::libc::c_ushort; 3us],
     pub __c: ::libc::c_ushort,
     pub __init: ::libc::c_ushort,
     pub __a: ::libc::c_ulonglong,
@@ -2095,7 +2095,7 @@ pub struct Struct_stat {
     pub st_atim: Struct_timespec,
     pub st_mtim: Struct_timespec,
     pub st_ctim: Struct_timespec,
-    pub __glibc_reserved: [__syscall_slong_t; 3u],
+    pub __glibc_reserved: [__syscall_slong_t; 3us],
 }
 impl ::std::default::Default for Struct_stat {
     fn default() -> Struct_stat { unsafe { ::std::mem::zeroed() } }
@@ -2107,7 +2107,7 @@ pub struct Struct_dirent {
     pub d_off: __off_t,
     pub d_reclen: ::libc::c_ushort,
     pub d_type: ::libc::c_uchar,
-    pub d_name: [::libc::c_char; 256u],
+    pub d_name: [::libc::c_char; 256us],
 }
 impl ::std::default::Default for Struct_dirent {
     fn default() -> Struct_dirent { unsafe { ::std::mem::zeroed() } }
@@ -2209,7 +2209,7 @@ pub enum Struct_qelem { }
 pub struct Struct_PLIBC_SEARCH_QELEM {
     pub q_forw: *mut Struct_qelem,
     pub q_back: *mut Struct_qelem,
-    pub q_data: [::libc::c_char; 1u],
+    pub q_data: [::libc::c_char; 1us],
 }
 impl ::std::default::Default for Struct_PLIBC_SEARCH_QELEM {
     fn default() -> Struct_PLIBC_SEARCH_QELEM {
@@ -2938,10 +2938,10 @@ impl ::std::default::Default for Struct_Unnamed68 {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed69 {
-    pub _bindgen_data_: [u64; 5u],
+    pub _bindgen_data_: [u64; 5us],
 }
 impl Union_Unnamed69 {
-    pub unsafe fn _priv(&mut self) -> *mut [::libc::c_char; 40u] {
+    pub unsafe fn _priv(&mut self) -> *mut [::libc::c_char; 40us] {
         ::std::mem::transmute(&self._bindgen_data_)
     }
     pub unsafe fn _x_align(&mut self) -> *mut ::libc::c_long {
@@ -3031,7 +3031,7 @@ impl ::std::default::Default for Struct__gpgrt_syshd {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed71 {
-    pub _bindgen_data_: [u64; 1u],
+    pub _bindgen_data_: [u64; 1us],
 }
 impl Union_Unnamed71 {
     pub unsafe fn fd(&mut self) -> *mut ::libc::c_int {
@@ -3284,7 +3284,7 @@ pub struct Struct_gcry_md_handle {
     pub ctx: *mut Struct_gcry_md_context,
     pub bufpos: ::libc::c_int,
     pub bufsize: ::libc::c_int,
-    pub buf: [::libc::c_uchar; 1u],
+    pub buf: [::libc::c_uchar; 1us],
 }
 impl ::std::default::Default for Struct_gcry_md_handle {
     fn default() -> Struct_gcry_md_handle { unsafe { ::std::mem::zeroed() } }
@@ -3387,7 +3387,7 @@ pub type gcry_handler_log_t =
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_HashCode {
-    pub bits: [uint32_t; 16u],
+    pub bits: [uint32_t; 16us],
 }
 impl ::std::default::Default for Struct_GNUNET_HashCode {
     fn default() -> Struct_GNUNET_HashCode { unsafe { ::std::mem::zeroed() } }
@@ -3399,7 +3399,7 @@ pub const GNUNET_CRYPTO_QUALITY_NONCE: ::libc::c_uint = 2;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_HashAsciiEncoded {
-    pub encoding: [::libc::c_uchar; 104u],
+    pub encoding: [::libc::c_uchar; 104us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_HashAsciiEncoded {
     fn default() -> Struct_GNUNET_CRYPTO_HashAsciiEncoded {
@@ -3420,8 +3420,8 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EccSignaturePurpose {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaSignature {
-    pub r: [::libc::c_uchar; 32u],
-    pub s: [::libc::c_uchar; 32u],
+    pub r: [::libc::c_uchar; 32us],
+    pub s: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaSignature {
     fn default() -> Struct_GNUNET_CRYPTO_EddsaSignature {
@@ -3431,8 +3431,8 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaSignature {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaSignature {
-    pub r: [::libc::c_uchar; 32u],
-    pub s: [::libc::c_uchar; 32u],
+    pub r: [::libc::c_uchar; 32us],
+    pub s: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaSignature {
     fn default() -> Struct_GNUNET_CRYPTO_EcdsaSignature {
@@ -3442,7 +3442,7 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaSignature {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPublicKey {
-    pub q_y: [::libc::c_uchar; 32u],
+    pub q_y: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_EddsaPublicKey {
@@ -3452,7 +3452,7 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPublicKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaPublicKey {
-    pub q_y: [::libc::c_uchar; 32u],
+    pub q_y: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdsaPublicKey {
@@ -3472,7 +3472,7 @@ impl ::std::default::Default for Struct_GNUNET_PeerIdentity {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdhePublicKey {
-    pub q_y: [::libc::c_uchar; 32u],
+    pub q_y: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdhePublicKey {
@@ -3482,7 +3482,7 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePublicKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdhePrivateKey {
-    pub d: [::libc::c_uchar; 32u],
+    pub d: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdhePrivateKey {
@@ -3492,7 +3492,7 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePrivateKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
-    pub d: [::libc::c_uchar; 32u],
+    pub d: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
@@ -3502,7 +3502,7 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPrivateKey {
-    pub d: [::libc::c_uchar; 32u],
+    pub d: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_EddsaPrivateKey {
@@ -3512,8 +3512,8 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPrivateKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_SymmetricSessionKey {
-    pub aes_key: [::libc::c_uchar; 32u],
-    pub twofish_key: [::libc::c_uchar; 32u],
+    pub aes_key: [::libc::c_uchar; 32us],
+    pub twofish_key: [::libc::c_uchar; 32us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_SymmetricSessionKey {
     fn default() -> Struct_GNUNET_CRYPTO_SymmetricSessionKey {
@@ -3523,8 +3523,8 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_SymmetricSessionKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
-    pub aes_iv: [::libc::c_uchar; 16u],
-    pub twofish_iv: [::libc::c_uchar; 16u],
+    pub aes_iv: [::libc::c_uchar; 16us],
+    pub twofish_iv: [::libc::c_uchar; 16us],
 }
 impl ::std::default::Default for
  Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
@@ -3535,7 +3535,7 @@ impl ::std::default::Default for
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_AuthKey {
-    pub key: [::libc::c_uchar; 64u],
+    pub key: [::libc::c_uchar; 64us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_AuthKey {
     fn default() -> Struct_GNUNET_CRYPTO_AuthKey {
@@ -3545,7 +3545,7 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_AuthKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierPublicKey {
-    pub n: [::libc::c_uchar; 256u],
+    pub n: [::libc::c_uchar; 256us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_PaillierPublicKey {
@@ -3555,8 +3555,8 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPublicKey {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierPrivateKey {
-    pub lambda: [::libc::c_uchar; 256u],
-    pub mu: [::libc::c_uchar; 256u],
+    pub lambda: [::libc::c_uchar; 256us],
+    pub mu: [::libc::c_uchar; 256us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_PaillierPrivateKey {
@@ -3567,7 +3567,7 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierCiphertext {
     pub remaining_ops: int32_t,
-    pub bits: [::libc::c_uchar; 512u],
+    pub bits: [::libc::c_uchar; 512us],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierCiphertext {
     fn default() -> Struct_GNUNET_CRYPTO_PaillierCiphertext {
@@ -4475,7 +4475,7 @@ impl ::std::default::Default for Struct_GNUNET_TUN_IcmpHeader {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed73 {
-    pub _bindgen_data_: [u8; 4u],
+    pub _bindgen_data_: [u8; 4us],
 }
 impl Union_Unnamed73 {
     pub unsafe fn echo(&mut self) -> *mut Struct_Unnamed74 {
@@ -4631,7 +4631,7 @@ impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Record {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Union_Unnamed75 {
-    pub _bindgen_data_: [u64; 2u],
+    pub _bindgen_data_: [u64; 2us],
 }
 impl Union_Unnamed75 {
     pub unsafe fn hostname(&mut self) -> *mut *mut ::libc::c_char {
@@ -4828,8 +4828,8 @@ impl ::std::default::Default for Struct___va_list_tag {
 extern "C" {
     pub static in6addr_any: Struct_in6_addr;
     pub static in6addr_loopback: Struct_in6_addr;
-    pub static mut _sys_siglist: [*const ::libc::c_char; 65u];
-    pub static mut sys_siglist: [*const ::libc::c_char; 65u];
+    pub static mut _sys_siglist: [*const ::libc::c_char; 65us];
+    pub static mut sys_siglist: [*const ::libc::c_char; 65us];
     pub static mut _IO_2_1_stdin_: Struct__IO_FILE_plus;
     pub static mut _IO_2_1_stdout_: Struct__IO_FILE_plus;
     pub static mut _IO_2_1_stderr_: Struct__IO_FILE_plus;
@@ -4845,10 +4845,10 @@ extern "C" {
     pub static mut optopt: ::libc::c_int;
     pub static mut signgam: ::libc::c_int;
     pub static mut _LIB_VERSION: _LIB_VERSION_TYPE;
-    pub static mut __tzname: [*mut ::libc::c_char; 2u];
+    pub static mut __tzname: [*mut ::libc::c_char; 2us];
     pub static mut __daylight: ::libc::c_int;
     pub static mut __timezone: ::libc::c_long;
-    pub static mut tzname: [*mut ::libc::c_char; 2u];
+    pub static mut tzname: [*mut ::libc::c_char; 2us];
     pub static mut daylight: ::libc::c_int;
     pub static mut timezone: ::libc::c_long;
 }
