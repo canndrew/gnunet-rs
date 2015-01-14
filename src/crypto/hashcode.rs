@@ -101,8 +101,14 @@ impl Show for HashCode {
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   enc.len() as size_t);
       assert!(!res.is_null());
-      from_utf8(&enc).unwrap().fmt(f)
+      fmt::String::fmt(from_utf8(&enc).unwrap(), f)
     }
+  }
+}
+
+impl fmt::String for HashCode {
+  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    Show::fmt(self, f)
   }
 }
 

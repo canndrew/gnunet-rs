@@ -107,29 +107,11 @@ impl FromStr for RecordType {
   }
 }
 
-/*
-impl Show for RecordType {
+impl fmt::String for RecordType {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    match self {
-      &A       => "A",
-      &NS      => "NS",
-      &CNAME   => "CNAME",
-      &SOA     => "SOA",
-      &PTR     => "PTR",
-      &MX      => "MX",
-      &TXT     => "TXT",
-      &AAAA    => "AAAA",
-      &TLSA    => "TLSA",
-
-      &PKEY    => "PKEY",
-      &NICK    => "NICK",
-      &LEHO    => "LEHO",
-      &VPN     => "VPN",
-      &GNS2DNS => "GNS2DNS",
-    }.fmt(f)
+    Show::fmt(self, f)
   }
 }
-*/
 
 /// A record in the GNU Name System.
 #[allow(dead_code)]
@@ -187,6 +169,12 @@ impl Show for Record {
         },
       }
     }
+  }
+}
+
+impl fmt::String for Record {
+  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    Show::fmt(self, f)
   }
 }
 

@@ -3,7 +3,6 @@ use std::io::net::pipe::UnixStream;
 use std::io::util::LimitReader;
 use std::io::{MemReader, MemWriter};
 use std::thread::{Thread, JoinGuard};
-use std::sync::Arc;
 use std::result::Result;
 
 use Configuration;
@@ -23,12 +22,10 @@ pub struct Service<'c> {
 
 pub struct ServiceReader {
   pub connection: UnixStream, // TODO: should be UnixReader
-  //pub cfg: Arc<Configuration>,
 }
 
 pub struct ServiceWriter {
   pub connection: UnixStream, // TODO: should be UnixWriter
-  //pub cfg: Arc<Configuration>,
 }
 
 #[derive(Copy)]
@@ -38,7 +35,7 @@ pub enum ProcessMessageResult {
   Shutdown,
 }
 
-pub fn connect(cfg: Arc<Configuration>, name: &str) -> Result<(ServiceReader, ServiceWriter), ConnectError> {
+pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, ServiceWriter), ConnectError> {
   let unixpath = match cfg.get_value_filename(name, "UNIXPATH") {
     Some(p)   => p,
     None      => return Err(ConnectError::NotConfigured),
@@ -50,11 +47,9 @@ pub fn connect(cfg: Arc<Configuration>, name: &str) -> Result<(ServiceReader, Se
 
   let r = ServiceReader {
     connection: in_stream,
-    //cfg: cfg.clone(),
   };
   let w = ServiceWriter {
     connection: out_stream,
-    //cfg: cfg,
   };
   Ok((r, w))
 }

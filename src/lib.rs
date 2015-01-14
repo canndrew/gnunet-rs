@@ -8,11 +8,10 @@
 //! Perform a [GNS](https://gnunet.org/gns) lookup.
 //!
 //! ```rust
-//! use std::sync::Arc;
 //! use gnunet::{Configuration, gns};
 //!
-//! let c = Arc::new(Configuration::default().unwrap());
-//! let r = gns::lookup_in_master(c, "www.gnu", gns::RecordType::A, None).unwrap();
+//! let c = Configuration::default().unwrap();
+//! let r = gns::lookup_in_master(&c, "www.gnu", gns::RecordType::A, None).unwrap();
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
@@ -59,6 +58,8 @@ macro_rules! error_chain {
     }
   )
 }
+
+const HOMEPAGE: &'static str = "http://github.com/canndrew/gnunet-rs";
 
 #[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals, raw_pointer_derive)]
 mod ll;

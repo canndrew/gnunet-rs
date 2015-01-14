@@ -1,7 +1,8 @@
+#![allow(unstable)]
+
 extern crate gnunet;
 
 use std::os;
-use std::sync::Arc;
 
 use gnunet::{gns, Configuration};
 
@@ -18,7 +19,7 @@ fn main() {
       return;
     },
   };
-  match gns::lookup_in_master(Arc::new(config), args[1].as_slice(), gns::RecordType::A, None) {
+  match gns::lookup_in_master(&config, args[1].as_slice(), gns::RecordType::A, None) {
     Ok(r)   => println!("\t{}", r),
     Err(e)  => println!("Error: {}", e),
   };

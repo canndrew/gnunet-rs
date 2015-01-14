@@ -1,8 +1,7 @@
 use std::io::IoResult;
 use std::str::FromStr;
 use std::mem;
-use std::fmt::{Show, Formatter};
-use std::fmt;
+use std::fmt::{self, Show, Formatter};
 use std::mem::{uninitialized, size_of, size_of_val};
 use std::str::from_utf8;
 use std::slice::from_raw_buf;
@@ -63,8 +62,14 @@ impl Show for EcdsaPublicKey {
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   52);
       assert!(!res.is_null());
-      from_utf8(&enc).unwrap().fmt(f)
+      fmt::String::fmt(from_utf8(&enc).unwrap(), f)
     }
+  }
+}
+
+impl fmt::String for EcdsaPublicKey {
+  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+    Show::fmt(self, f)
   }
 }
 
@@ -148,6 +153,6 @@ fn test_ecdsa_to_from_string() {
   let s1: String = format!("{}", key.unwrap());
   println!("{} {}", s0, s0.len());
   println!("{} {}", s1, s1.len());
-  assert!(s0 == s1[]);
+  assert!(s0 == &s1[]);
 }
 

@@ -1,7 +1,6 @@
 use std::io::{Reader, BytesReader};
 use std::str::from_utf8;
 use std::collections::HashMap;
-use std::sync::Arc;
 use std::num::ToPrimitive;
 
 use ll;
@@ -69,9 +68,8 @@ impl IdentityService {
   /// Connect to the identity service.
   ///
   /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
-  /// the configuration to use to connect to the service. Can be `None` to use the system default
-  /// configuration - this should work on most properly-configured systems.
-  pub fn connect(cfg: Arc<Configuration>) -> Result<IdentityService, ConnectError> {
+  /// the configuration to use to connect to the service.
+  pub fn connect(cfg: &Configuration) -> Result<IdentityService, ConnectError> {
     /*
     let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
     let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
@@ -132,9 +130,10 @@ impl IdentityService {
   /// Get the ego for the default master zone.
   ///
   /// ```rust
-  /// use gnunet::IdentityService;
+  /// use gnunet::{Configuration, IdentityService};
   ///
-  /// let mut ids = IdentityService::connect(None).unwrap();
+  /// let config = Configuration::default().unwrap();
+  /// let mut ids = IdentityService::connect(&config).unwrap();
   /// let ego = ids.get_default_ego("gns-master").unwrap();
   /// ```
   pub fn get_default_ego(&mut self, name: &str) -> Result<Ego, GetDefaultEgoError> {
@@ -142,7 +141,7 @@ impl IdentityService {
 
     let msg_length = match (8 + name_len + 1).to_u16() {
       Some(l) => l,
-      None    => return Err(GetDefaultEgoError::NameTooLong),
+      None    => return Err(GetDefaultEgoError::NameTooLong(name.to_string())),
     };
     {
       let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
@@ -190,9 +189,10 @@ impl IdentityService {
 /// Get the ego for the default master zone.
 ///
 /// ```rust
-/// use gnunet::identity;
+/// use gnunet::{Configuration, identity};
 ///
-/// let ego = identity::get_default_ego(None, "gns-master").unwrap();
+/// let config = Configuration::default().unwrap();
+/// let ego = identity::get_default_ego(&config, "gns-master").unwrap();
 /// ```
 ///
 /// # Note
@@ -201,7 +201,7 @@ impl IdentityService {
 /// disconnects. If you want to do multiple queries you should connect to the service with
 /// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
-    cfg: Arc<Configuration>,
+    cfg: &Configuration,
     name: &str) -> Result<Ego, ConnectGetDefaultEgoError> {
   let mut is = try!(IdentityService::connect(cfg));
   let ret = try!(is.get_default_ego(name));

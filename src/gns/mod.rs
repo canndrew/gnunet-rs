@@ -3,7 +3,6 @@ use std::io::util::LimitReader;
 use std::collections::HashMap;
 use std::marker::InvariantLifetime;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
-use std::sync::Arc;
 use std::num::ToPrimitive;
 
 use identity;
@@ -43,7 +42,7 @@ impl GNS {
   ///
   /// Returns either a handle to the GNS service or a `service::ConnectError`. `cfg` contains the
   /// configuration to use to connect to the service.
-  pub fn connect(cfg: Arc<Configuration>) -> Result<GNS, service::ConnectError> {
+  pub fn connect(cfg: &Configuration) -> Result<GNS, service::ConnectError> {
     let (lookup_tx, lookup_rx) = channel::<(u32, Sender<Record>)>();
     let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
 
@@ -108,13 +107,12 @@ impl GNS {
   /// # Example
   ///
   /// ```rust
-  /// use std::sync::Arc;
   /// use gnunet::{Configuration, IdentityService, GNS, gns};
   ///
-  /// let config = Arc::new(Configuration::default().unwrap());
-  /// let mut ids = IdentityService::connect(config.clone()).unwrap();
+  /// let config = Configuration::default().unwrap();
+  /// let mut ids = IdentityService::connect(&config).unwrap();
   /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
-  /// let mut gns = GNS::connect(config).unwrap();
+  /// let mut gns = GNS::connect(&config).unwrap();
   /// let mut lh = gns.lookup("www.gnu",
   ///                         &gns_ego.get_public_key(),
   ///                         gns::RecordType::A,
@@ -134,7 +132,7 @@ impl GNS {
 
     let name_len = name.len();
     if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-      return Err(LookupError::NameTooLong);
+      return Err(LookupError::NameTooLong(name.to_string()));
     };
 
     let id = self.lookup_id;
@@ -172,12 +170,11 @@ impl GNS {
 /// # Example
 ///
 /// ```rust
-/// use std::sync::Arc;
 /// use gnunet::{Configuration, identity, gns};
 ///
-/// let config = Arc::new(Configuration::default().unwrap());
-/// let gns_ego = identity::get_default_ego(config.clone(), "gns-master").unwrap();
-/// let record = gns::lookup(config,
+/// let config = Configuration::default().unwrap();
+/// let gns_ego = identity::get_default_ego(&config, "gns-master").unwrap();
+/// let record = gns::lookup(&config,
 ///                          "www.gnu",
 ///                          &gns_ego.get_public_key(),
 ///                          gns::RecordType::A,
@@ -192,7 +189,7 @@ impl GNS {
 /// one result, then disconects. If you are performing multiple lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup(
-    cfg: Arc<Configuration>,
+    cfg: &Configuration,
     name: &str,
     zone: &EcdsaPublicKey,
     record_type: RecordType,
@@ -211,11 +208,10 @@ pub fn lookup(
 /// # Example
 ///
 /// ```rust
-/// use std::sync::Arc;
 /// use gnunet::{Configuration, gns};
 ///
-/// let config = Arc::new(Configuration::default().unwrap());
-/// let record = gns::lookup_in_master(config, "www.gnu", gns::RecordType::A, None).unwrap();
+/// let config = Configuration::default().unwrap();
+/// let record = gns::lookup_in_master(&config, "www.gnu", gns::RecordType::A, None).unwrap();
 /// println!("Got the IPv4 record for www.gnu: {}", record);
 /// ```
 ///
@@ -226,11 +222,11 @@ pub fn lookup(
 /// then disconnects from everything. If you are performing lots of lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup_in_master(
-    cfg: Arc<Configuration>,
+    cfg: &Configuration,
     name: &str,
     record_type: RecordType,
     shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupInMasterError> {
-  let ego = try!(identity::get_default_ego(cfg.clone(), "gns-master"));
+  let ego = try!(identity::get_default_ego(cfg, "gns-master"));
   let pk = ego.get_public_key();
   let mut it = name.split('.');
   let opt = match (it.next(), it.next(), it.next()) {
