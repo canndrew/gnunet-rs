@@ -11,7 +11,7 @@ use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Configuration;
-use self::error::*;
+pub use self::error::*;
 pub use self::record::*;
 
 mod error;

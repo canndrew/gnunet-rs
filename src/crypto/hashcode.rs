@@ -38,9 +38,9 @@ impl HashCode {
 
   /// Get the nth bit of a 512bit hash code.
   ///
-  /// # Failure
+  /// # Panics
   ///
-  /// Fails if `idx >= 512`.
+  /// Panics if `idx >= 512`.
   pub fn get_bit(&self, idx: u32) -> bool {
     assert!(idx < 512);
     unsafe {
