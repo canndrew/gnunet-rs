@@ -5,7 +5,7 @@ struct PeerIdentity {
 impl PeerIdentity {
   pub fn deserialize<T>(r: &mut T) -> IoResult<PeerIdentity> where T: Reader {
     let mut ret: PeerIdentity = unsafe { uninitialized() };
-    ttry!(r.read(ret.data.public_key.q_y));
+    ttry!(r.read_at_least(ret.data.public_key.q_y.len(), ret.data.public_key.q_y));
     Ok(ret)
   }
 }

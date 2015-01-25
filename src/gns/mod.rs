@@ -26,7 +26,7 @@ pub struct GNS {
 }
 
 /// Options for GNS lookups.
-#[derive(Copy, Clone, Show, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum LocalOptions {
   /// Default behaviour. Look in the local cache, then in the DHT.
   Default     = 0,

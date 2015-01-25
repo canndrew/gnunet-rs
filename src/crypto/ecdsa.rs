@@ -1,7 +1,7 @@
 use std::io::IoResult;
 use std::str::FromStr;
 use std::mem;
-use std::fmt::{self, Show, Formatter};
+use std::fmt::{self, Debug, Formatter};
 use std::mem::{uninitialized, size_of, size_of_val};
 use std::str::from_utf8;
 use std::slice::from_raw_buf;
@@ -50,7 +50,7 @@ impl FromStr for EcdsaPublicKey {
   }
 }
 
-impl Show for EcdsaPublicKey {
+impl Debug for EcdsaPublicKey {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
       const LEN: usize = 52us;
@@ -62,14 +62,14 @@ impl Show for EcdsaPublicKey {
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   52);
       assert!(!res.is_null());
-      fmt::String::fmt(from_utf8(&enc).unwrap(), f)
+      fmt::Display::fmt(from_utf8(&enc).unwrap(), f)
     }
   }
 }
 
-impl fmt::String for EcdsaPublicKey {
+impl fmt::Display for EcdsaPublicKey {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    Show::fmt(self, f)
+    Debug::fmt(self, f)
   }
 }
 
@@ -88,7 +88,7 @@ impl EcdsaPrivateKey {
   /// Deserialize a from a byte stream.
   pub fn deserialize<T>(r: &mut T) -> IoResult<EcdsaPrivateKey> where T: Reader {
     let mut ret: EcdsaPrivateKey = unsafe { uninitialized() };
-    try!(r.read(&mut ret.data.d));
+    try!(r.read_at_least(ret.data.d.len(), &mut ret.data.d));
     Ok(ret)
   }
 

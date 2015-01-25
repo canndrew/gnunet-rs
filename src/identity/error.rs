@@ -6,7 +6,7 @@ use std::fmt;
 use service;
 
 /// Errors returned by `IdentityService::get_default_ego`. 
-#[derive(Show)]
+#[derive(Debug)]
 pub enum GetDefaultEgoError {
   /// The name of the service was too long.
   NameTooLong(String),
@@ -27,7 +27,7 @@ error_chain! {IoError, GetDefaultEgoError, Io}
 error_chain! {service::ReadMessageError, GetDefaultEgoError, ReadMessage}
 
 /// Errors returned by `IdentityService::connect`
-#[derive(Show)]
+#[derive(Debug)]
 pub enum ConnectError {
   /// Failed to connect to the service.
   Connect(service::ConnectError),
@@ -45,7 +45,7 @@ error_chain! {IoError, ConnectError, Io}
 error_chain! {service::ReadMessageError, ConnectError, ReadMessage}
 
 /// Errors returned by `identity::get_default_ego`
-#[derive(Show)]
+#[derive(Debug)]
 pub enum ConnectGetDefaultEgoError {
   /// Ego lookup failed.
   GetDefaultEgo(GetDefaultEgoError),
@@ -55,7 +55,7 @@ pub enum ConnectGetDefaultEgoError {
 error_chain! {GetDefaultEgoError, ConnectGetDefaultEgoError, GetDefaultEgo}
 error_chain! {ConnectError, ConnectGetDefaultEgoError, Connect}
 
-impl fmt::String for GetDefaultEgoError {
+impl fmt::Display for GetDefaultEgoError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &GetDefaultEgoError::NameTooLong(ref s)
@@ -74,7 +74,7 @@ impl fmt::String for GetDefaultEgoError {
   }
 }
 
-impl fmt::String for ConnectError {
+impl fmt::Display for ConnectError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &ConnectError::Connect(ref e)
@@ -91,7 +91,7 @@ impl fmt::String for ConnectError {
   }
 }
 
-impl fmt::String for ConnectGetDefaultEgoError {
+impl fmt::Display for ConnectGetDefaultEgoError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &ConnectGetDefaultEgoError::GetDefaultEgo(ref e)

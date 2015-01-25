@@ -7,7 +7,7 @@ use identity;
 use ll;
 
 /// Possible errors returned by the GNS lookup functions.
-#[derive(Show)]
+#[derive(Debug)]
 pub enum LookupError {
   /// The specified domain name was too long.
   NameTooLong(String),
@@ -16,7 +16,7 @@ pub enum LookupError {
 }
 error_chain! {IoError, LookupError, Io}
 
-#[derive(Show)]
+#[derive(Debug)]
 pub enum ConnectLookupError {
   /// Failed to connect to the GNS service.
   Connect(service::ConnectError),
@@ -27,7 +27,7 @@ pub enum ConnectLookupError {
 error_chain! {service::ConnectError, ConnectLookupError, Connect}
 error_chain! {LookupError, ConnectLookupError, Lookup}
 
-#[derive(Show)]
+#[derive(Debug)]
 pub enum ConnectLookupInMasterError {
   /// Failed to connect to the GNS service and perform the lookup.
   GnsLookup(ConnectLookupError),
@@ -37,7 +37,7 @@ pub enum ConnectLookupInMasterError {
 error_chain! {ConnectLookupError, ConnectLookupInMasterError, GnsLookup}
 error_chain! {identity::ConnectGetDefaultEgoError, ConnectLookupInMasterError, IdentityGetDefaultEgo}
 
-impl fmt::String for LookupError {
+impl fmt::Display for LookupError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &LookupError::NameTooLong(ref name)
@@ -48,7 +48,7 @@ impl fmt::String for LookupError {
   }
 }
 
-impl fmt::String for ConnectLookupError {
+impl fmt::Display for ConnectLookupError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &ConnectLookupError::Connect(ref e)
@@ -59,7 +59,7 @@ impl fmt::String for ConnectLookupError {
   }
 }
 
-impl fmt::String for ConnectLookupInMasterError {
+impl fmt::Display for ConnectLookupInMasterError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &ConnectLookupInMasterError::GnsLookup(ref e)

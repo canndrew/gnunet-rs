@@ -1,5 +1,5 @@
 use std::mem::{uninitialized, size_of_val};
-use std::fmt::{Show, Formatter};
+use std::fmt::{Debug, Formatter};
 use std::fmt;
 use std::str::{from_utf8, FromStr};
 use std::rand::{Rand, Rng};
@@ -90,7 +90,7 @@ impl Clone for HashCode {
   }
 }
 
-impl Show for HashCode {
+impl Debug for HashCode {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
       const LEN: usize = 103us;
@@ -101,14 +101,14 @@ impl Show for HashCode {
                                                   enc.as_mut_ptr() as *mut c_char,
                                                   enc.len() as size_t);
       assert!(!res.is_null());
-      fmt::String::fmt(from_utf8(&enc).unwrap(), f)
+      fmt::Display::fmt(from_utf8(&enc).unwrap(), f)
     }
   }
 }
 
-impl fmt::String for HashCode {
+impl fmt::Display for HashCode {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    Show::fmt(self, f)
+    Debug::fmt(self, f)
   }
 }
 

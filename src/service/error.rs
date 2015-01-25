@@ -3,7 +3,7 @@ use std::error::FromError;
 use std::fmt;
 
 /// Error that can be generated when attempting to connect to a service.
-#[derive(Show)]
+#[derive(Debug)]
 pub enum ConnectError {
   /// The config file does not contain information on how to connect to the service.
   NotConfigured,
@@ -12,7 +12,7 @@ pub enum ConnectError {
 }
 error_chain! {IoError, ConnectError, Io}
 
-#[derive(Show)]
+#[derive(Debug)]
 pub enum ReadMessageError {
   /// There was an I/O error communicating with the service.
   Io(IoError),
@@ -21,7 +21,7 @@ pub enum ReadMessageError {
 }
 error_chain! {IoError, ReadMessageError, Io}
 
-impl fmt::String for ConnectError {
+impl fmt::Display for ConnectError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &ConnectError::NotConfigured
@@ -32,7 +32,7 @@ impl fmt::String for ConnectError {
   }
 }
 
-impl fmt::String for ReadMessageError {
+impl fmt::Display for ReadMessageError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       &ReadMessageError::Io(ref e)
