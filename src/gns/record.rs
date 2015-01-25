@@ -1,6 +1,6 @@
 use std::io::IoResult;
 use std::str::FromStr;
-use std::fmt::{Show, Formatter};
+use std::fmt::{Debug, Formatter};
 use std::fmt;
 use std::ffi::c_str_to_bytes;
 use std::str::from_utf8;
@@ -14,7 +14,7 @@ use self::RecordType::*;
 ///
 /// Some of these records exist in the legacy DNS (but are still used in GNS). Others are specific
 /// to GNS. These are marked **Legacy** and **GNS** respectively.
-#[derive(Copy, Clone, Show, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum RecordType {
   /// **Legacy.** Address record. Stores a 32bit IPv4 address.
   A       = 1,
@@ -107,9 +107,9 @@ impl FromStr for RecordType {
   }
 }
 
-impl fmt::String for RecordType {
+impl fmt::Display for RecordType {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    Show::fmt(self, f)
+    Debug::fmt(self, f)
   }
 }
 
@@ -148,7 +148,7 @@ impl Record {
   }
 }
 
-impl Show for Record {
+impl Debug for Record {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     let tpe = self.data.record_type;
     try!(write!(f, "{:?}: ", RecordType::from_u32(tpe).unwrap()));
@@ -172,9 +172,9 @@ impl Show for Record {
   }
 }
 
-impl fmt::String for Record {
+impl fmt::Display for Record {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    Show::fmt(self, f)
+    Debug::fmt(self, f)
   }
 }
 
