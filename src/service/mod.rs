@@ -1,7 +1,7 @@
-use std::io::{Reader, IoResult, EndOfFile};
-use std::io::net::pipe::UnixStream;
-use std::io::util::LimitReader;
-use std::io::{MemReader, MemWriter};
+use std::old_io::{Reader, IoResult, EndOfFile};
+use std::old_io::net::pipe::UnixStream;
+use std::old_io::util::LimitReader;
+use std::old_io::{MemReader, MemWriter};
 use std::thread::{Thread, JoinGuard};
 use std::result::Result;
 
@@ -57,10 +57,11 @@ pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, Servic
 impl ServiceReader {
   pub fn spawn_callback_loop<F>(mut self, mut cb: F) -> ServiceReadLoop
       where F: FnMut(u16, LimitReader<UnixStream>) -> ProcessMessageResult,
-            F: Send
+            F: Send,
+            F: 'static
   {
     let reader = self.connection.clone();
-    let callback_loop = Thread::scoped(move |:| -> ServiceReader {
+    let callback_loop = Thread::scoped(move || -> ServiceReader {
       //TODO: implement reconnection (currently fails)
       loop {
         let len = match self.connection.read_be_u16() {
@@ -120,13 +121,17 @@ impl<'a> MessageWriter<'a> {
   pub fn send(self) -> IoResult<()> {
     let v = self.mw.into_inner();
     assert!(v.len() == v.capacity());
-    self.service_writer.connection.write(&v[])
+    self.service_writer.connection.write(&v[..])
   }
 }
 
 impl<'a> Writer for MessageWriter<'a> {
   fn write(&mut self, buf: &[u8]) -> IoResult<()> {
     self.mw.write(buf)
+  }
+
+  fn write_all(&mut self, buf: &[u8]) -> IoResult<()> {
+    self.mw.write_all(buf)
   }
 }
 

@@ -1,5 +1,5 @@
-use std::io::net::pipe::UnixStream;
-use std::io::util::LimitReader;
+use std::old_io::net::pipe::UnixStream;
+use std::old_io::util::LimitReader;
 use std::collections::HashMap;
 use std::marker::InvariantLifetime;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
@@ -47,7 +47,7 @@ impl GNS {
     let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
 
     let (service_reader, service_writer) = try!(service::connect(cfg, "gns"));
-    let callback_loop = service_reader.spawn_callback_loop(move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
+    let callback_loop = service_reader.spawn_callback_loop(move |tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
       loop {
         match lookup_rx.try_recv() {
           Ok((id, sender)) => {

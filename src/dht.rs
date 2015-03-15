@@ -1,5 +1,5 @@
-use std::io::net::pipe::UnixStream;
-use std::io::util::LimitReader;
+use std::old_io::net::pipe::UnixStream;
+use std::old_io::util::LimitReader;
 
 use Configuration;
 use FromError;

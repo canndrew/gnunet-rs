@@ -1,4 +1,4 @@
-use std::io::IoResult;
+use std::old_io::IoResult;
 use std::str::FromStr;
 use std::fmt::{Debug, Formatter};
 use std::fmt;
@@ -9,6 +9,7 @@ use libc::{free, c_char, c_void};
 
 use ll;
 use self::RecordType::*;
+use gns::error::*;
 
 /// An enum of the different GNS record types.
 ///
@@ -85,24 +86,26 @@ impl RecordType {
 }
 
 impl FromStr for RecordType {
-  fn from_str(s: &str) -> Option<RecordType> {
-    match s {
-      "A"       => Some(A),
-      "NS"      => Some(NS),
-      "CNAME"   => Some(CNAME),
-      "SOA"     => Some(SOA),
-      "PTR"     => Some(PTR),
-      "MX"      => Some(MX),
-      "TXT"     => Some(TXT),
-      "AAAA"    => Some(AAAA),
-      "TLSA"    => Some(TLSA),
+  type Err = RecordTypeFromStrError;
 
-      "PKEY"    => Some(PKEY),
-      "NICK"    => Some(NICK),
-      "LEHO"    => Some(LEHO),
-      "VPN"     => Some(VPN),
-      "GNS2DNS" => Some(GNS2DNS),
-      _         => None,
+  fn from_str(s: &str) -> Result<RecordType, RecordTypeFromStrError> {
+    match s {
+      "A"       => Ok(A),
+      "NS"      => Ok(NS),
+      "CNAME"   => Ok(CNAME),
+      "SOA"     => Ok(SOA),
+      "PTR"     => Ok(PTR),
+      "MX"      => Ok(MX),
+      "TXT"     => Ok(TXT),
+      "AAAA"    => Ok(AAAA),
+      "TLSA"    => Ok(TLSA),
+
+      "PKEY"    => Ok(PKEY),
+      "NICK"    => Ok(NICK),
+      "LEHO"    => Ok(LEHO),
+      "VPN"     => Ok(VPN),
+      "GNS2DNS" => Ok(GNS2DNS),
+      _         => Err(RecordTypeFromStrError),
     }
   }
 }

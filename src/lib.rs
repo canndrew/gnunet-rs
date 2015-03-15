@@ -16,21 +16,25 @@
 //! ```
 
 #![feature(unboxed_closures)]
-#![feature(slicing_syntax)]
 #![feature(unsafe_destructor)]
 #![feature(old_orphan_check)]
+#![feature(io)]
+#![feature(old_io)]
+#![feature(std_misc)]
+#![feature(core)]
+#![feature(old_path)]
+#![feature(rand)]
+#![feature(libc)]
+#![feature(hash)]
 
-#![allow(unstable)]
+#![allow(deprecated)]
 
 #![crate_name = "gnunet"]
-#![experimental]
 
 extern crate libc;
 
 pub use configuration::Configuration;
-//pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey};
-pub use crypto::ecdsa::{EcdsaPublicKey, EcdsaPrivateKey};
-pub use crypto::hashcode::HashCode;
+pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 
 pub use gns::{Record, RecordType};
 pub use gns::{GNS, LocalOptions};

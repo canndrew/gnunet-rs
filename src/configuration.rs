@@ -1,5 +1,4 @@
 use std::ptr;
-use std::path;
 use libc::{c_char, c_void, size_t, free};
 use std::mem::uninitialized;
 use std::time::Duration;
@@ -8,9 +7,10 @@ use std::str::from_utf8;
 use std::ffi::c_str_to_bytes;
 use std::num::ToPrimitive;
 use std::ffi::CString;
-use std::path::BytesContainer;
+use std::path::AsPath;
 
 use ll;
+use util::{ToCPathError, to_c_path};
 
 /*
  * TODO: Make this all nicer once Index is reformed
@@ -46,6 +46,16 @@ pub struct ConfigSection<'s> {
 }
 */
 
+pub enum ConfigurationLoadError {
+  BadPath(ToCPathError),
+  NoSuchFile,
+}
+
+pub enum ConfigurationSaveError {
+  BadPath(ToCPathError),
+  UnknownError,
+}
+
 impl Configuration {
   /// Generate an empty configuration
   pub fn empty() -> Configuration {
@@ -62,13 +72,11 @@ impl Configuration {
   /// This will find and load the system-wide GNUnet config file. If it cannot find the file then
   /// `None` is returned.
   pub fn default() -> Option<Configuration> {
+    let cfg = Configuration::empty();
     unsafe {
-      let cfg = ll::GNUNET_CONFIGURATION_create();
-      match ll::GNUNET_CONFIGURATION_load(cfg, ptr::null()) {
-        ll::GNUNET_OK => Some(Configuration {
-          data: cfg,
-        }),
-        _ => None,
+      match ll::GNUNET_CONFIGURATION_load(cfg.data, ptr::null()) {
+        ll::GNUNET_OK => Some(cfg),
+        _             => None,
       }
     }
   }
@@ -78,16 +86,17 @@ impl Configuration {
   /// This starts by loading the system-wide config file then loads any additional options in
   /// `filename`. If either the system-wide config or `filename` cannot be found then `None` is
   /// returned.
-  pub fn load(filename: path::Path) -> Option<Configuration> {
-    let cpath = CString::from_slice(filename.container_as_bytes());
+  pub fn load<P: AsPath + ?Sized>(filename: &P) -> Result<Configuration, ConfigurationLoadError> {
+    let cpath = match to_c_path(filename) {
+      Ok(cpath) => cpath,
+      Err(e)    => return Err(ConfigurationLoadError::BadPath(e)),
+    };
+    let cfg = Configuration::empty();
     unsafe {
-      let cfg = ll::GNUNET_CONFIGURATION_create();
-      let r = ll::GNUNET_CONFIGURATION_load(cfg, cpath.as_ptr());
+      let r = ll::GNUNET_CONFIGURATION_load(cfg.data, cpath.as_ptr());
       match r {
-        ll::GNUNET_OK => Some(Configuration {
-          data: cfg,
-        }),
-        _ => None,
+        ll::GNUNET_OK => Ok(cfg),
+        _             => Err(ConfigurationLoadError::NoSuchFile),
       }
     }
   }
@@ -263,14 +272,17 @@ impl Configuration {
   }
 
   /// Save configuration to a file.
-  pub fn save(&mut self, filename: Path) -> bool {
-    let cpath = CString::from_slice(filename.container_as_bytes());
+  pub fn save<P: AsPath + ?Sized>(&mut self, filename: &P) -> Result<(), ConfigurationSaveError> {
+    let cpath = match to_c_path(filename) {
+      Ok(cpath) => cpath,
+      Err(e)    => return Err(ConfigurationSaveError::BadPath(e)),
+    };
     let res = unsafe {
       ll::GNUNET_CONFIGURATION_write(self.data, cpath.as_ptr())
     };
     match res {
-      ll::GNUNET_OK => true,
-      _             => false,
+      ll::GNUNET_OK => Ok(()),
+      _             => Err(ConfigurationSaveError::UnknownError),
     }
   }
 }
@@ -286,15 +298,17 @@ impl<'s> Index<&'s str, ConfigSection> for Configuration {
 }
 */
 
+pub struct ConfigurationFromStrError;
+
 impl FromStr for Configuration {
-  fn from_str(s: &str) -> Option<Configuration> {
+  type Err = ConfigurationFromStrError;
+
+  fn from_str(s: &str) -> Result<Configuration, ConfigurationFromStrError> {
+    let cfg = Configuration::empty();
     unsafe {
-      let cfg = ll::GNUNET_CONFIGURATION_create();
-      match ll::GNUNET_CONFIGURATION_deserialize(cfg, s.as_ptr() as *const c_char, s.len() as size_t, 1) {
-        ll::GNUNET_OK => Some(Configuration {
-          data: cfg,
-        }),
-        _ => None,
+      match ll::GNUNET_CONFIGURATION_deserialize(cfg.data, s.as_ptr() as *const c_char, s.len() as size_t, 1) {
+        ll::GNUNET_OK => Ok(cfg),
+        _             => Err(ConfigurationFromStrError),
       }
     }
   }

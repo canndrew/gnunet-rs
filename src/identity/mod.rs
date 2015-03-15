@@ -1,4 +1,4 @@
-use std::io::{Reader, BytesReader};
+use std::old_io::{Reader, BytesReader};
 use std::str::from_utf8;
 use std::collections::HashMap;
 use std::num::ToPrimitive;
@@ -166,7 +166,7 @@ impl IdentityService {
           0 => {
             let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
             let s = try!(mr.read_cstring_with_len(reply_name_len as usize));
-            match &s[] == name {
+            match &s[..] == name {
               true  =>  {
                 let id = pk.get_public().hash();
                 Ok(self.egos[id].clone())

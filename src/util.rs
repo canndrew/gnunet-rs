@@ -1,5 +1,7 @@
-use std::io::IoResult;
-use std::io;
+use std::old_io::IoResult;
+use std::old_io;
+use std::path::AsPath;
+use std::ffi::{AsOsStr, CString, NulError};
 
 pub trait CStringReader: Reader {
   fn read_cstring(&mut self) -> IoResult<String> {
@@ -13,7 +15,7 @@ pub trait CStringReader: Reader {
     }
     match String::from_utf8(v) {
       Ok(s)   => Ok(s),
-      Err(_)  => Err(io::standard_error(io::OtherIoError)),
+      Err(_)  => Err(old_io::standard_error(old_io::OtherIoError)),
     }
   }
 
@@ -23,21 +25,39 @@ pub trait CStringReader: Reader {
       let b = try!(self.read_u8());
       if b == 0u8 {
         // must not contain embedded NULs
-        return Err(io::standard_error(io::OtherIoError));
+        return Err(old_io::standard_error(old_io::OtherIoError));
       }
       v.push(b);
     }
     let b = try!(self.read_u8());
     if b != 0u8 {
       // must be NUL-terminated
-      return Err(io::standard_error(io::OtherIoError));
+      return Err(old_io::standard_error(old_io::OtherIoError));
     }
     match String::from_utf8(v) {
       Ok(s)   => Ok(s),
-      Err(_)  => Err(io::standard_error(io::OtherIoError)),
+      Err(_)  => Err(old_io::standard_error(old_io::OtherIoError)),
     }
   }
 }
 
 impl<T> CStringReader for T where T: Reader {}
+
+pub enum ToCPathError {
+  InvalidUnicode,
+  NulError(NulError),
+}
+
+pub fn to_c_path<P: AsPath + ?Sized>(path: &P) -> Result<CString, ToCPathError> {
+  let path = path.as_path();
+  let path = match path.as_os_str().to_os_string().into_string() {
+    Ok(path)  => path,
+    Err(_)    => return Err(ToCPathError::InvalidUnicode),
+  };
+  let path = match CString::new(path) {
+    Ok(path)  => path,
+    Err(e)    => return Err(ToCPathError::NulError(e)),
+  };
+  Ok(path)
+}
 

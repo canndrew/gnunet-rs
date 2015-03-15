@@ -93,7 +93,7 @@ impl Clone for HashCode {
 impl Debug for HashCode {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
-      const LEN: usize = 103us;
+      const LEN: usize = 103usize;
       assert!(LEN == (size_of_val(&self.data.bits) * 8 + 4) / 5);
       let mut enc: [u8; LEN] = uninitialized();
       let res = ll::GNUNET_STRINGS_data_to_string(self.data.bits.as_ptr() as *const c_void,
@@ -112,16 +112,20 @@ impl fmt::Display for HashCode {
   }
 }
 
+pub struct HashCodeFromStrError;
+
 impl FromStr for HashCode {
-  fn from_str(s: &str) -> Option<HashCode> {
+  type Err = HashCodeFromStrError;
+
+  fn from_str(s: &str) -> Result<HashCode, HashCodeFromStrError> {
     unsafe {
       let mut ret: ll::Struct_GNUNET_HashCode = uninitialized();
       let res = ll::GNUNET_CRYPTO_hash_from_string2(s.as_ptr() as *const i8, s.len() as size_t, &mut ret);
       match res {
-        ll::GNUNET_OK => Some(HashCode {
+        ll::GNUNET_OK => Ok(HashCode {
             data: ret,
         }),
-        _ => None,
+        _ => Err(HashCodeFromStrError),
       }
     }
   }
@@ -202,9 +206,19 @@ impl Ord for HashCode {
   }
 }
 
-impl<S: hash::Writer + hash::Hasher> Hash<S> for HashCode {
-  fn hash(&self, state: &mut S) {
+impl hash::Hash for HashCode {
+  fn hash<H>(&self, state: &mut H)
+      where H: hash::Hasher
+  {
     self.data.bits.hash(state)
+  }
+
+  fn hash_slice<H>(data: &[HashCode], state: &mut H)
+      where H: hash::Hasher
+  {
+    for h in data.iter() {
+      h.hash(state);
+    }
   }
 }
 

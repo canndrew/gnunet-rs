@@ -1,4 +1,4 @@
-use std::io::IoResult;
+use std::old_io::IoResult;
 use std::str::FromStr;
 use std::mem;
 use std::fmt::{self, Debug, Formatter};
@@ -8,7 +8,8 @@ use std::slice::from_raw_buf;
 use libc::{c_void, size_t, c_char};
 
 use ll;
-use HashCode;
+use crypto::hashcode::HashCode;
+use crypto::error::*;
 
 /// A 256bit ECDSA public key.
 #[derive(Copy)]
@@ -34,7 +35,9 @@ impl EcdsaPublicKey {
 }
 
 impl FromStr for EcdsaPublicKey {
-  fn from_str(s: &str) -> Option<EcdsaPublicKey> {
+  type Err = EcdsaPublicKeyFromStrError;
+
+  fn from_str(s: &str) -> Result<EcdsaPublicKey, EcdsaPublicKeyFromStrError> {
     let bytes = s.as_bytes();
     unsafe {
       let mut ret: EcdsaPublicKey = mem::uninitialized();
@@ -43,8 +46,8 @@ impl FromStr for EcdsaPublicKey {
           bytes.len() as u64,
           &mut ret.data);
       match res {
-        ll::GNUNET_OK => Some(ret),
-        _             => None,
+        ll::GNUNET_OK => Ok(ret),
+        _             => Err(EcdsaPublicKeyFromStrError),
       }
     }
   }
@@ -53,7 +56,7 @@ impl FromStr for EcdsaPublicKey {
 impl Debug for EcdsaPublicKey {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
-      const LEN: usize = 52us;
+      const LEN: usize = 52usize;
       println!("sizeof == {}", size_of_val(&self.data.q_y));
       assert!(LEN == (size_of_val(&self.data.q_y) * 8 + 4) / 5);
       let mut enc: [u8; LEN] = uninitialized();
@@ -153,6 +156,6 @@ fn test_ecdsa_to_from_string() {
   let s1: String = format!("{}", key.unwrap());
   println!("{} {}", s0, s0.len());
   println!("{} {}", s1, s1.len());
-  assert!(s0 == &s1[]);
+  assert!(s0 == &s1[..]);
 }
 

@@ -1,4 +1,4 @@
-use std::io::IoError;
+use std::old_io::IoError;
 use std::error::FromError;
 use std::fmt;
 
@@ -37,6 +37,9 @@ pub enum ConnectLookupInMasterError {
 error_chain! {ConnectLookupError, ConnectLookupInMasterError, GnsLookup}
 error_chain! {identity::ConnectGetDefaultEgoError, ConnectLookupInMasterError, IdentityGetDefaultEgo}
 
+#[derive(Debug)]
+pub struct RecordTypeFromStrError;
+
 impl fmt::Display for LookupError {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
@@ -67,6 +70,12 @@ impl fmt::Display for ConnectLookupInMasterError {
       &ConnectLookupInMasterError::IdentityGetDefaultEgo(ref e)
           => write!(f, "Failed to retrieve gns-master default ego from identity service: {}", e),
     }
+  }
+}
+
+impl fmt::Display for RecordTypeFromStrError {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    write!(f, "Invalid record type")
   }
 }
 

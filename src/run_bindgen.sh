@@ -5,7 +5,7 @@
 
 export LD_PRELOAD=/usr/lib/libclang.so
 bindgen -builtins \
-        -I/usr/lib64/clang/3.4.2/include \
+        -I/usr/lib64/clang/3.5.0/include \
         -I/usr/local/include \
         -lgnunetutil \
         -lgnunetgnsrecord \
