@@ -10,7 +10,8 @@ use std::ffi::CString;
 use std::path::AsPath;
 
 use ll;
-use util::{ToCPathError, to_c_path};
+use util::to_c_path;
+use configuration::error::*;
 
 /*
  * TODO: Make this all nicer once Index is reformed
@@ -45,16 +46,6 @@ pub struct ConfigSection<'s> {
   name: &'s str,
 }
 */
-
-pub enum ConfigurationLoadError {
-  BadPath(ToCPathError),
-  NoSuchFile,
-}
-
-pub enum ConfigurationSaveError {
-  BadPath(ToCPathError),
-  UnknownError,
-}
 
 impl Configuration {
   /// Generate an empty configuration
@@ -297,8 +288,6 @@ impl<'s> Index<&'s str, ConfigSection> for Configuration {
   }
 }
 */
-
-pub struct ConfigurationFromStrError;
 
 impl FromStr for Configuration {
   type Err = ConfigurationFromStrError;

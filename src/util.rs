@@ -2,6 +2,7 @@ use std::old_io::IoResult;
 use std::old_io;
 use std::path::AsPath;
 use std::ffi::{AsOsStr, CString, NulError};
+use std::error::FromError;
 
 pub trait CStringReader: Reader {
   fn read_cstring(&mut self) -> IoResult<String> {
@@ -43,10 +44,15 @@ pub trait CStringReader: Reader {
 
 impl<T> CStringReader for T where T: Reader {}
 
+/// A `std::path::Path` could not be converted to a utf-8 CString.
+#[derive(Debug)]
 pub enum ToCPathError {
+  /// The path contains invalid unicode.
   InvalidUnicode,
-  NulError(NulError),
+  /// The path contains an interior NUL byte.
+  InteriorNul(NulError),
 }
+error_chain! {NulError, ToCPathError, InteriorNul}
 
 pub fn to_c_path<P: AsPath + ?Sized>(path: &P) -> Result<CString, ToCPathError> {
   let path = path.as_path();
@@ -56,7 +62,7 @@ pub fn to_c_path<P: AsPath + ?Sized>(path: &P) -> Result<CString, ToCPathError> 
   };
   let path = match CString::new(path) {
     Ok(path)  => path,
-    Err(e)    => return Err(ToCPathError::NulError(e)),
+    Err(e)    => return Err(ToCPathError::InteriorNul(e)),
   };
   Ok(path)
 }
