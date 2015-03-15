@@ -57,13 +57,12 @@ impl Debug for EcdsaPublicKey {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {
     unsafe {
       const LEN: usize = 52usize;
-      println!("sizeof == {}", size_of_val(&self.data.q_y));
       assert!(LEN == (size_of_val(&self.data.q_y) * 8 + 4) / 5);
       let mut enc: [u8; LEN] = uninitialized();
       let res = ll::GNUNET_STRINGS_data_to_string(self.data.q_y.as_ptr() as *const c_void,
                                                   self.data.q_y.len() as size_t,
                                                   enc.as_mut_ptr() as *mut c_char,
-                                                  52);
+                                                  enc.len() as size_t);
       assert!(!res.is_null());
       fmt::Display::fmt(from_utf8(&enc).unwrap(), f)
     }
@@ -152,8 +151,8 @@ fn test_ecdsa_to_from_string() {
 
   //let s0: &str = "JK55QA8JLAL64MBO8UM209KE93M9JBBO7M2UB8M3M03FKRFSUOMG";
   let s0: &str = "JK55QA8J1A164MB08VM209KE93M9JBB07M2VB8M3M03FKRFSV0MG";
-  let key: Option<EcdsaPublicKey> = FromStr::from_str(s0);
-  let s1: String = format!("{}", key.unwrap());
+  let key: EcdsaPublicKey = FromStr::from_str(s0).unwrap();
+  let s1: String = format!("{}", key);
   println!("{} {}", s0, s0.len());
   println!("{} {}", s1, s1.len());
   assert!(s0 == &s1[..]);

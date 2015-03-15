@@ -10,6 +10,7 @@ use std::ops::{Add, Sub, BitXor};
 use libc::{c_char, c_uint, c_void, size_t};
 
 use ll;
+use crypto::error::*;
 
 /// A 512bit hash code used in various places throughout GNUnet.
 #[derive(Copy)]
@@ -111,8 +112,6 @@ impl fmt::Display for HashCode {
     Debug::fmt(self, f)
   }
 }
-
-pub struct HashCodeFromStrError;
 
 impl FromStr for HashCode {
   type Err = HashCodeFromStrError;
@@ -225,8 +224,8 @@ impl hash::Hash for HashCode {
 #[test]
 fn test_hashcode_to_from_string() {
   let s0: &str = "RMKN0V1JNA3PVC1148D6J10STVG94A8A651N0K849CF1RT6BGF26AMMT14GMDMNRDFSJRJME61KJ31DFBV12R1TPQJE64155132QN5G";
-  let hc: Option<HashCode> = FromStr::from_str(s0);
-  let s: String = format!("{}", hc.unwrap());
+  let hc: HashCode = FromStr::from_str(s0).unwrap();
+  let s: String = format!("{}", hc);
   let s1: &str = s.as_slice();
   println!("s0: {}", s0);
   println!("s1: {}", s1);

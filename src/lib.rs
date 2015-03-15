@@ -39,6 +39,8 @@ pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 pub use gns::{Record, RecordType};
 pub use gns::{GNS, LocalOptions};
 pub use identity::{Ego, IdentityService};
+pub use hello::Hello;
+pub use peerinfo::iterate_peers;
 //pub use dht::DHT;
 
 /*
@@ -75,6 +77,8 @@ pub mod gns;
 mod crypto;
 pub mod identity;
 mod util;
+pub mod peerinfo;
+pub mod hello;
 
 /*
 trait FromError<E> {
