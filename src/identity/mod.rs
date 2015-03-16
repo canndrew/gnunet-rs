@@ -11,6 +11,7 @@ use service::{self, ServiceReader, ServiceWriter};
 use Configuration;
 use util::CStringReader;
 pub use self::error::*;
+use util::ReadCStringError;
 
 mod error;
 
@@ -156,26 +157,33 @@ impl IdentityService {
     match tpe {
       ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
         try!(mr.read_be_u32());
-        let s = try!(mr.read_cstring());
-        Err(GetDefaultEgoError::ServiceResponse(s))
-      },
-      ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => {
-        let reply_name_len = try!(mr.read_be_u16());
-        let zero = try!(mr.read_be_u16());
-        match zero {
-          0 => {
-            let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-            let s = try!(mr.read_cstring_with_len(reply_name_len as usize));
-            match &s[..] == name {
-              true  =>  {
-                let id = pk.get_public().hash();
-                Ok(self.egos[id].clone())
-              },
-              false => Err(GetDefaultEgoError::InvalidResponse),
-            }
+        match mr.read_cstring() {
+          Err(e)  => match e {
+            ReadCStringError::Io(e)       => Err(GetDefaultEgoError::Io(e)),
+            ReadCStringError::FromUtf8(e) => Err(GetDefaultEgoError::MalformedErrorResponse(e)),
           },
-          _ => Err(GetDefaultEgoError::InvalidResponse),
+          Ok(s) => Err(GetDefaultEgoError::ServiceResponse(s)),
         }
+      },
+      ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_be_u16()) {
+        0 => Err(GetDefaultEgoError::InvalidResponse),
+        reply_name_len => {
+          let zero = try!(mr.read_be_u16());
+          match zero {
+            0 => {
+              let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
+              let s = try!(mr.read_cstring_with_len((reply_name_len - 1) as usize));
+              match &s[..] == name {
+                true  =>  {
+                  let id = pk.get_public().hash();
+                  Ok(self.egos[id].clone())
+                },
+                false => Err(GetDefaultEgoError::InvalidResponse),
+              }
+            },
+            _ => Err(GetDefaultEgoError::InvalidResponse),
+          }
+        },
       },
       _ => Err(GetDefaultEgoError::InvalidResponse),
     }

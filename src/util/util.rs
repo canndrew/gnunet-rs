@@ -1,11 +1,10 @@
-use std::old_io::IoResult;
-use std::old_io;
 use std::path::AsPath;
-use std::ffi::{AsOsStr, CString, NulError};
-use std::error::FromError;
+use std::ffi::{AsOsStr, CString};
+
+use util::error::*;
 
 pub trait CStringReader: Reader {
-  fn read_cstring(&mut self) -> IoResult<String> {
+  fn read_cstring(&mut self) -> Result<String, ReadCStringError> {
     let mut v: Vec<u8> = Vec::new();
     loop {
       let b = try!(self.read_u8());
@@ -16,43 +15,33 @@ pub trait CStringReader: Reader {
     }
     match String::from_utf8(v) {
       Ok(s)   => Ok(s),
-      Err(_)  => Err(old_io::standard_error(old_io::OtherIoError)),
+      Err(e)  => Err(ReadCStringError::FromUtf8(e)),
     }
   }
 
-  fn read_cstring_with_len(&mut self, len: usize) -> IoResult<String> {
+  fn read_cstring_with_len(&mut self, len: usize) -> Result<String, ReadCStringWithLenError> {
     let mut v: Vec<u8> = Vec::with_capacity(len);
-    for _ in range(0, len) {
+    for i in range(0, len) {
       let b = try!(self.read_u8());
       if b == 0u8 {
         // must not contain embedded NULs
-        return Err(old_io::standard_error(old_io::OtherIoError));
+        return Err(ReadCStringWithLenError::InteriorNul(i));
       }
       v.push(b);
     }
     let b = try!(self.read_u8());
     if b != 0u8 {
       // must be NUL-terminated
-      return Err(old_io::standard_error(old_io::OtherIoError));
+      return Err(ReadCStringWithLenError::NoTerminator);
     }
     match String::from_utf8(v) {
       Ok(s)   => Ok(s),
-      Err(_)  => Err(old_io::standard_error(old_io::OtherIoError)),
+      Err(e)  => Err(ReadCStringWithLenError::FromUtf8(e)),
     }
   }
 }
 
 impl<T> CStringReader for T where T: Reader {}
-
-/// A `std::path::Path` could not be converted to a utf-8 CString.
-#[derive(Debug)]
-pub enum ToCPathError {
-  /// The path contains invalid unicode.
-  InvalidUnicode,
-  /// The path contains an interior NUL byte.
-  InteriorNul(NulError),
-}
-error_chain! {NulError, ToCPathError, InteriorNul}
 
 pub fn to_c_path<P: AsPath + ?Sized>(path: &P) -> Result<CString, ToCPathError> {
   let path = path.as_path();

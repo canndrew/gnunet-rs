@@ -4,6 +4,7 @@ use std::string;
 use std::fmt;
 
 use service;
+use util::ReadCStringWithLenError;
 
 /// Errors returned by `IdentityService::get_default_ego`. 
 #[derive(Debug)]
@@ -16,6 +17,10 @@ pub enum GetDefaultEgoError {
   ReadMessage(service::ReadMessageError),
   /// The service responded with an error message.
   ServiceResponse(String),
+  /// The service responded with an error message but the message contained invalid utf-8.
+  MalformedErrorResponse(string::FromUtf8Error),
+  /// Failed to receive the identity name from the service.
+  ReceiveName(ReadCStringWithLenError),
   /// Failed to connect to the identity service.
   Connect(ConnectError),
   /// The service response was incoherent. You should file a bug-report if you encounter this
@@ -25,6 +30,7 @@ pub enum GetDefaultEgoError {
 error_chain! {ConnectError, GetDefaultEgoError, Connect}
 error_chain! {IoError, GetDefaultEgoError, Io}
 error_chain! {service::ReadMessageError, GetDefaultEgoError, ReadMessage}
+error_chain! {ReadCStringWithLenError, GetDefaultEgoError, ReceiveName}
 
 /// Errors returned by `IdentityService::connect`
 #[derive(Debug)]
@@ -66,6 +72,10 @@ impl fmt::Display for GetDefaultEgoError {
           => write!(f, "Error receiving message from identity service during default ego lookup: {}", e),
       &GetDefaultEgoError::ServiceResponse(ref s)
           => write!(f, "Service responded with an error message in response to default ego lookup: {}", s),
+      &GetDefaultEgoError::MalformedErrorResponse(ref e)
+          => write!(f, "Service responded with an error message in response to default ego lookup but the response contained invalid utf-8: {}", e),
+      &GetDefaultEgoError::ReceiveName(ref e)
+          => write!(f, "Failed to receive the identity name from the service during default ego lookup: {}", e),
       &GetDefaultEgoError::Connect(ref e)
           => write!(f, "Failed to connect to identity service for default ego lookup: {}", e),
       &GetDefaultEgoError::InvalidResponse
