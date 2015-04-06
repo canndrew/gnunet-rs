@@ -1,6 +1,5 @@
 use std::old_io::IoError;
 use std::string::FromUtf8Error;
-use std::error::FromError;
 use std::ffi::NulError;
 use std::fmt;
 

@@ -4,10 +4,9 @@ use std::mem::uninitialized;
 use std::time::Duration;
 use std::str::FromStr;
 use std::str::from_utf8;
-use std::ffi::c_str_to_bytes;
 use std::num::ToPrimitive;
-use std::ffi::CString;
-use std::path::AsPath;
+use std::ffi::CStr;
+use std::path::{PathBuf, AsPath};
 
 use ll;
 use util::to_c_path;
@@ -97,12 +96,10 @@ impl Configuration {
   pub fn get_value_int(&self, section: &str, option: &str) -> Option<u64> {
     unsafe {
       let mut n: u64 = uninitialized();
-      let c_section = CString::from_slice(section.as_bytes());
-      let c_option  = CString::from_slice(option.as_bytes());
       let r = ll::GNUNET_CONFIGURATION_get_value_number(
           self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          c_section.as_ptr(),
-          c_option.as_ptr(),
+          section.as_ptr() as *const c_char,
+          option.as_ptr() as *const c_char,
           &mut n);
       match r {
         ll::GNUNET_OK => Some(n),
@@ -116,12 +113,10 @@ impl Configuration {
   pub fn get_value_float(&self, section: &str, option: &str) -> Option<f32> {
     unsafe {
       let mut f: f32 = uninitialized();
-      let c_section = CString::from_slice(section.as_bytes());
-      let c_option  = CString::from_slice(option.as_bytes());
       let r = ll::GNUNET_CONFIGURATION_get_value_float(
           self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          c_section.as_ptr(),
-          c_option.as_ptr(),
+          section.as_ptr() as *const c_char,
+          option.as_ptr() as *const c_char,
           &mut f);
       match r {
         ll::GNUNET_OK => Some(f),
@@ -135,12 +130,10 @@ impl Configuration {
   pub fn get_value_duration(&self, section: &str, option: &str) -> Option<Duration> {
     unsafe {
       let mut t: ll::Struct_GNUNET_TIME_Relative = uninitialized();
-      let c_section = CString::from_slice(section.as_bytes());
-      let c_option  = CString::from_slice(option.as_bytes());
       let r = ll::GNUNET_CONFIGURATION_get_value_time(
           self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          c_section.as_ptr(),
-          c_option.as_ptr(),
+          section.as_ptr() as *const c_char,
+          option.as_ptr() as *const c_char,
           &mut t);
       match r {
         ll::GNUNET_OK => t.rel_value_us.to_i64().map(Duration::microseconds),
@@ -154,12 +147,10 @@ impl Configuration {
   pub fn get_value_size(&self, section: &str, option: &str) -> Option<u64> {
     unsafe {
       let mut s: u64= uninitialized();
-      let c_section = CString::from_slice(section.as_bytes());
-      let c_option  = CString::from_slice(option.as_bytes());
       let r = ll::GNUNET_CONFIGURATION_get_value_size(
           self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          c_section.as_ptr(),
-          c_option.as_ptr(),
+          section.as_ptr() as *const c_char,
+          option.as_ptr() as *const c_char,
           &mut s);
       match r {
         ll::GNUNET_OK => Some(s),
@@ -173,18 +164,16 @@ impl Configuration {
   pub fn get_value_string(&self, section: &str, option: &str) -> Option<String> {
     unsafe {
       let mut s: *mut c_char = ptr::null::<c_char>() as *mut c_char;
-      let c_section = CString::from_slice(section.as_bytes());
-      let c_option  = CString::from_slice(option.as_bytes());
       let r = ll::GNUNET_CONFIGURATION_get_value_string(
           self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          c_section.as_ptr(),
-          c_option.as_ptr(),
+          section.as_ptr() as *const c_char,
+          option.as_ptr() as *const c_char,
           &mut s);
-      let cs = s as *const i8;
+      let cs = s as *const c_char;
       let ret = match r {
         // TODO: config strings that aren't utf8 will will appear to not exist
         //       think of a better way to do this
-        ll::GNUNET_OK => from_utf8(c_str_to_bytes(&cs)).ok().map(|s| s.to_string()),
+        ll::GNUNET_OK => from_utf8(CStr::from_ptr(cs).to_bytes()).ok().map(|s| s.to_string()),
         _ => None,
       };
       free(s as *mut c_void);
@@ -211,12 +200,10 @@ impl Configuration {
                              .map(|s| s.as_bytes().as_ptr() as *const c_char)
                              .collect::<Vec<*const c_char>>();
       let mut s: *const c_char = ptr::null::<c_char>() as *const c_char;
-      let c_section = CString::from_slice(section.as_bytes());
-      let c_option  = CString::from_slice(option.as_bytes());
       let r = ll::GNUNET_CONFIGURATION_get_value_choice(
           self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          c_section.as_ptr(),
-          c_option.as_ptr(),
+          section.as_ptr() as *const c_char,
+          option.as_ptr() as *const c_char,
           c_choices.as_ptr(),
           &mut s);
       match r {
@@ -229,22 +216,24 @@ impl Configuration {
     }
   }
 
-  /// Get a filename value from the config in the form of a `Path`. `None` is returned if the
+  /// Get a filename value from the config in the form of a `PathBuf`. `None` is returned if the
   /// `section` or `option` are not found or if they don't index a filename.
-  pub fn get_value_filename(&self, section: &str, option: &str) -> Option<Path> {
+  pub fn get_value_filename(&self, section: &str, option: &str) -> Option<PathBuf> {
     unsafe {
       let mut s: *mut c_char = ptr::null::<c_char>() as *mut c_char;
-      let c_section = CString::from_slice(section.as_bytes());
-      let c_option  = CString::from_slice(option.as_bytes());
       let r = ll::GNUNET_CONFIGURATION_get_value_filename(
           self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          c_section.as_ptr(),
-          c_option.as_ptr(),
+          section.as_ptr() as *const c_char,
+          option.as_ptr() as *const c_char,
           &mut s);
-      let cs = s as *const i8;
+      let cs = s as *const c_char;
+      let path = match from_utf8(CStr::from_ptr(cs).to_bytes()) {
+        Ok(s)   => s,
+        Err(_)  => return None,
+      };
       let ret = match r {
-        ll::GNUNET_OK => Path::new_opt(c_str_to_bytes(&cs)),
-        _ => None,
+        ll::GNUNET_OK => Some(PathBuf::from(path)),
+        _             => None,
       };
       free(s as *mut c_void);
       ret
@@ -309,7 +298,7 @@ impl ToString for Configuration {
       let mut size: size_t = uninitialized();
       let serialized = ll::GNUNET_CONFIGURATION_serialize(self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle, &mut size);
       let constified = serialized as *const c_char;
-      let bytes = c_str_to_bytes(&constified);
+      let bytes = CStr::from_ptr(constified).to_bytes();
       let ret = match from_utf8(bytes) {
         Ok(s)   => s.to_string(),
         Err(_)  => panic!("GNUNET_CONFIGURATION_serialize returned invalid utf-8"),

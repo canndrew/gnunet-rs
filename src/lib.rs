@@ -17,12 +17,10 @@
 
 #![feature(unboxed_closures)]
 #![feature(unsafe_destructor)]
-#![feature(old_orphan_check)]
 #![feature(io)]
 #![feature(old_io)]
 #![feature(std_misc)]
 #![feature(core)]
-#![feature(old_path)]
 #![feature(rand)]
 #![feature(libc)]
 #![feature(hash)]
@@ -43,22 +41,10 @@ pub use hello::Hello;
 pub use peerinfo::iterate_peers;
 //pub use dht::DHT;
 
-/*
-macro_rules! ttry (
-    ($expr:expr) => ({
-        use FromError;
-        match $expr {
-            Ok(val) => val,
-            Err(err) => return Err(FromError::from_error(err))
-        }
-    })
-)
-*/
-
 macro_rules! error_chain {
   ($from:ty, $to:ident, $f:ident) => (
-    impl FromError<$from> for $to {
-      fn from_error(e: $from) -> $to {
+    impl From<$from> for $to {
+      fn from(e: $from) -> $to {
         $to::$f(e)
       }
     }
@@ -79,16 +65,4 @@ pub mod identity;
 mod util;
 pub mod peerinfo;
 pub mod hello;
-
-/*
-trait FromError<E> {
-  fn from_error(x: E) -> Self;
-}
-
-impl<E> FromError<E> for E {
-  fn from_error(e: E) -> E {
-    e
-  }
-}
-*/
 

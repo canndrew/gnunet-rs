@@ -1,7 +1,8 @@
 use std::old_io::net::pipe::UnixStream;
 use std::old_io::util::LimitReader;
+use std::old_io::{Reader, Writer};
 use std::collections::HashMap;
-use std::marker::InvariantLifetime;
+use std::marker::PhantomData;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
 use std::num::ToPrimitive;
 
@@ -73,7 +74,7 @@ impl GNS {
                 Ok(x)   => x,
                 Err(_)  => return ProcessMessageResult::Reconnect,
               };
-              for _ in range(0, rd_count) {
+              for _ in 0..rd_count {
                 let rec = match Record::deserialize(&mut reader) {
                   Ok(r)   => r,
                   Err(_)  => return ProcessMessageResult::Reconnect,
@@ -156,7 +157,7 @@ impl GNS {
     self.lookup_tx.send((id, tx)).unwrap(); // panics if the callback loop has panicked
     try!(mw.send());
     Ok(LookupHandle {
-      marker: InvariantLifetime,
+      marker: PhantomData,
       receiver: rx,
     })
   }
@@ -241,7 +242,7 @@ pub fn lookup_in_master(
 ///
 /// Used to retrieve the results of a lookup.
 pub struct LookupHandle<'a> {
-  marker: InvariantLifetime<'a>,
+  marker: PhantomData<&'a GNS>,
   receiver: Receiver<Record>,
 }
 

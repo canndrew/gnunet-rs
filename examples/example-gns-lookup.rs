@@ -1,5 +1,3 @@
-#![allow(unstable)]
-
 extern crate gnunet;
 
 use std::env;

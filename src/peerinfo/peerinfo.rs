@@ -1,5 +1,5 @@
 use std::mem::{uninitialized, size_of_val};
-use std::old_io::IoResult;
+use std::old_io::{Reader, Writer, IoResult};
 use std::fmt;
 use std::str::from_utf8;
 use libc::{c_void, c_char, size_t};

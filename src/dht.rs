@@ -2,7 +2,6 @@ use std::old_io::net::pipe::UnixStream;
 use std::old_io::util::LimitReader;
 
 use Configuration;
-use FromError;
 use service::{Service, ConnectError, ProcessMessageResult};
 
 pub enum BlockType {

@@ -1,5 +1,4 @@
 use std::old_io::IoError;
-use std::error::FromError;
 use std::fmt;
 
 /// Error that can be generated when attempting to connect to a service.

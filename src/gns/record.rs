@@ -1,9 +1,9 @@
-use std::old_io::IoResult;
+use std::old_io::{IoResult, Reader};
 use std::str::FromStr;
 use std::fmt::{Debug, Formatter};
 use std::fmt;
-use std::ffi::c_str_to_bytes;
 use std::str::from_utf8;
+use std::ffi::CStr;
 //use std::c_str::CString;
 use libc::{free, c_char, c_void};
 
@@ -161,7 +161,7 @@ impl Debug for Record {
         true  => write!(f, "<malformed record data>"),
         false => {
           let constified = cs as *const c_char;
-          let s = from_utf8(c_str_to_bytes(&constified));
+          let s = from_utf8(CStr::from_ptr(constified).to_bytes());
           let ret = match s {
             Ok(ss)  => write!(f, "{}", ss),
             Err(_)  => write!(f, "<invalid utf8>"),

@@ -1,5 +1,4 @@
 use std::old_io::IoError;
-use std::error::FromError;
 use std::fmt;
 
 use service::{ConnectError, ReadMessageError};

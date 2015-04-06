@@ -1,5 +1,4 @@
 use util::ToCPathError;
-use std::error::FromError;
 
 /// Errors returned by `Configuration::load`.
 #[derive(Debug)]

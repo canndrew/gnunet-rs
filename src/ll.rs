@@ -29,6 +29,10 @@ pub type __pid_t = ::libc::c_int;
 pub struct Struct_Unnamed1 {
     pub __val: [::libc::c_int; 2usize],
 }
+impl ::std::clone::Clone for Struct_Unnamed1 {
+  fn clone(&self) -> Struct_Unnamed1 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed1) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed1>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed1 {
     fn default() -> Struct_Unnamed1 { unsafe { ::std::mem::zeroed() } }
 }
@@ -66,6 +70,10 @@ pub type __sig_atomic_t = ::libc::c_int;
 pub struct Struct_Unnamed2 {
     pub __val: [::libc::c_ulong; 16usize],
 }
+impl ::std::clone::Clone for Struct_Unnamed2 {
+  fn clone(&self) -> Struct_Unnamed2 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed2) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed2>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed2 {
     fn default() -> Struct_Unnamed2 { unsafe { ::std::mem::zeroed() } }
 }
@@ -78,6 +86,10 @@ pub struct Struct_timespec {
     pub tv_sec: __time_t,
     pub tv_nsec: __syscall_slong_t,
 }
+impl ::std::clone::Clone for Struct_timespec {
+  fn clone(&self) -> Struct_timespec { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_timespec) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_timespec>()) } }
+}
 impl ::std::default::Default for Struct_timespec {
     fn default() -> Struct_timespec { unsafe { ::std::mem::zeroed() } }
 }
@@ -86,6 +98,10 @@ impl ::std::default::Default for Struct_timespec {
 pub struct Struct_timeval {
     pub tv_sec: __time_t,
     pub tv_usec: __suseconds_t,
+}
+impl ::std::clone::Clone for Struct_timeval {
+  fn clone(&self) -> Struct_timeval { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_timeval) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_timeval>()) } }
 }
 impl ::std::default::Default for Struct_timeval {
     fn default() -> Struct_timeval { unsafe { ::std::mem::zeroed() } }
@@ -96,6 +112,10 @@ pub type __fd_mask = ::libc::c_long;
 #[derive(Copy)]
 pub struct Struct_Unnamed3 {
     pub __fds_bits: [__fd_mask; 16usize],
+}
+impl ::std::clone::Clone for Struct_Unnamed3 {
+  fn clone(&self) -> Struct_Unnamed3 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed3) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed3>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed3 {
     fn default() -> Struct_Unnamed3 { unsafe { ::std::mem::zeroed() } }
@@ -173,6 +193,10 @@ pub type pthread_t = ::libc::c_ulong;
 pub struct Union_pthread_attr_t {
     pub _bindgen_data_: [u64; 7usize],
 }
+impl ::std::clone::Clone for Union_pthread_attr_t {
+  fn clone(&self) -> Union_pthread_attr_t { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_pthread_attr_t) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_pthread_attr_t>()) } }
+}
 impl Union_pthread_attr_t {
     pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 56usize] {
         ::std::mem::transmute(&self._bindgen_data_)
@@ -191,6 +215,10 @@ pub struct Struct___pthread_internal_list {
     pub __prev: *mut Struct___pthread_internal_list,
     pub __next: *mut Struct___pthread_internal_list,
 }
+impl ::std::clone::Clone for Struct___pthread_internal_list {
+  fn clone(&self) -> Struct___pthread_internal_list { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct___pthread_internal_list) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct___pthread_internal_list>()) } }
+}
 impl ::std::default::Default for Struct___pthread_internal_list {
     fn default() -> Struct___pthread_internal_list {
         unsafe { ::std::mem::zeroed() }
@@ -201,6 +229,10 @@ pub type __pthread_list_t = Struct___pthread_internal_list;
 #[derive(Copy)]
 pub struct Union_Unnamed4 {
     pub _bindgen_data_: [u64; 5usize],
+}
+impl ::std::clone::Clone for Union_Unnamed4 {
+  fn clone(&self) -> Union_Unnamed4 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed4) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed4>()) } }
 }
 impl Union_Unnamed4 {
     pub unsafe fn __data(&mut self) -> *mut Struct___pthread_mutex_s {
@@ -228,6 +260,10 @@ pub struct Struct___pthread_mutex_s {
     pub __elision: ::libc::c_short,
     pub __list: __pthread_list_t,
 }
+impl ::std::clone::Clone for Struct___pthread_mutex_s {
+  fn clone(&self) -> Struct___pthread_mutex_s { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct___pthread_mutex_s) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct___pthread_mutex_s>()) } }
+}
 impl ::std::default::Default for Struct___pthread_mutex_s {
     fn default() -> Struct___pthread_mutex_s {
         unsafe { ::std::mem::zeroed() }
@@ -238,6 +274,10 @@ pub type pthread_mutex_t = Union_Unnamed4;
 #[derive(Copy)]
 pub struct Union_Unnamed5 {
     pub _bindgen_data_: [u32; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed5 {
+  fn clone(&self) -> Union_Unnamed5 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed5) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed5>()) } }
 }
 impl Union_Unnamed5 {
     pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4usize] {
@@ -255,6 +295,10 @@ pub type pthread_mutexattr_t = Union_Unnamed5;
 #[derive(Copy)]
 pub struct Union_Unnamed6 {
     pub _bindgen_data_: [u64; 6usize],
+}
+impl ::std::clone::Clone for Union_Unnamed6 {
+  fn clone(&self) -> Union_Unnamed6 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed6) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed6>()) } }
 }
 impl Union_Unnamed6 {
     pub unsafe fn __data(&mut self) -> *mut Struct_Unnamed7 {
@@ -282,6 +326,10 @@ pub struct Struct_Unnamed7 {
     pub __nwaiters: ::libc::c_uint,
     pub __broadcast_seq: ::libc::c_uint,
 }
+impl ::std::clone::Clone for Struct_Unnamed7 {
+  fn clone(&self) -> Struct_Unnamed7 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed7) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed7>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed7 {
     fn default() -> Struct_Unnamed7 { unsafe { ::std::mem::zeroed() } }
 }
@@ -290,6 +338,10 @@ pub type pthread_cond_t = Union_Unnamed6;
 #[derive(Copy)]
 pub struct Union_Unnamed8 {
     pub _bindgen_data_: [u32; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed8 {
+  fn clone(&self) -> Union_Unnamed8 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed8) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed8>()) } }
 }
 impl Union_Unnamed8 {
     pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4usize] {
@@ -309,6 +361,10 @@ pub type pthread_once_t = ::libc::c_int;
 #[derive(Copy)]
 pub struct Union_Unnamed9 {
     pub _bindgen_data_: [u64; 7usize],
+}
+impl ::std::clone::Clone for Union_Unnamed9 {
+  fn clone(&self) -> Union_Unnamed9 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed9) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed9>()) } }
 }
 impl Union_Unnamed9 {
     pub unsafe fn __data(&mut self) -> *mut Struct_Unnamed10 {
@@ -339,6 +395,10 @@ pub struct Struct_Unnamed10 {
     pub __pad2: ::libc::c_ulong,
     pub __flags: ::libc::c_uint,
 }
+impl ::std::clone::Clone for Struct_Unnamed10 {
+  fn clone(&self) -> Struct_Unnamed10 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed10) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed10>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed10 {
     fn default() -> Struct_Unnamed10 { unsafe { ::std::mem::zeroed() } }
 }
@@ -347,6 +407,10 @@ pub type pthread_rwlock_t = Union_Unnamed9;
 #[derive(Copy)]
 pub struct Union_Unnamed11 {
     pub _bindgen_data_: [u64; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed11 {
+  fn clone(&self) -> Union_Unnamed11 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed11) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed11>()) } }
 }
 impl Union_Unnamed11 {
     pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 8usize] {
@@ -366,6 +430,10 @@ pub type pthread_spinlock_t = ::libc::c_int;
 pub struct Union_Unnamed12 {
     pub _bindgen_data_: [u64; 4usize],
 }
+impl ::std::clone::Clone for Union_Unnamed12 {
+  fn clone(&self) -> Union_Unnamed12 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed12) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed12>()) } }
+}
 impl Union_Unnamed12 {
     pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 32usize] {
         ::std::mem::transmute(&self._bindgen_data_)
@@ -382,6 +450,10 @@ pub type pthread_barrier_t = Union_Unnamed12;
 #[derive(Copy)]
 pub struct Union_Unnamed13 {
     pub _bindgen_data_: [u32; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed13 {
+  fn clone(&self) -> Union_Unnamed13 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed13) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed13>()) } }
 }
 impl Union_Unnamed13 {
     pub unsafe fn __size(&mut self) -> *mut [::libc::c_char; 4usize] {
@@ -400,6 +472,10 @@ pub type pthread_barrierattr_t = Union_Unnamed13;
 pub struct Struct_iovec {
     pub iov_base: *mut ::libc::c_void,
     pub iov_len: size_t,
+}
+impl ::std::clone::Clone for Struct_iovec {
+  fn clone(&self) -> Struct_iovec { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_iovec) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_iovec>()) } }
 }
 impl ::std::default::Default for Struct_iovec {
     fn default() -> Struct_iovec { unsafe { ::std::mem::zeroed() } }
@@ -422,6 +498,10 @@ pub struct Struct_sockaddr {
     pub sa_family: sa_family_t,
     pub sa_data: [::libc::c_char; 14usize],
 }
+impl ::std::clone::Clone for Struct_sockaddr {
+  fn clone(&self) -> Struct_sockaddr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sockaddr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sockaddr>()) } }
+}
 impl ::std::default::Default for Struct_sockaddr {
     fn default() -> Struct_sockaddr { unsafe { ::std::mem::zeroed() } }
 }
@@ -431,6 +511,10 @@ pub struct Struct_sockaddr_storage {
     pub ss_family: sa_family_t,
     pub __ss_align: ::libc::c_ulong,
     pub __ss_padding: [::libc::c_char; 112usize],
+}
+impl ::std::clone::Clone for Struct_sockaddr_storage {
+  fn clone(&self) -> Struct_sockaddr_storage { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sockaddr_storage) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sockaddr_storage>()) } }
 }
 impl ::std::default::Default for Struct_sockaddr_storage {
     fn default() -> Struct_sockaddr_storage {
@@ -468,6 +552,10 @@ pub struct Struct_msghdr {
     pub msg_controllen: size_t,
     pub msg_flags: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_msghdr {
+  fn clone(&self) -> Struct_msghdr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_msghdr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_msghdr>()) } }
+}
 impl ::std::default::Default for Struct_msghdr {
     fn default() -> Struct_msghdr { unsafe { ::std::mem::zeroed() } }
 }
@@ -478,6 +566,10 @@ pub struct Struct_cmsghdr {
     pub cmsg_level: ::libc::c_int,
     pub cmsg_type: ::libc::c_int,
     pub __cmsg_data: *mut ::libc::c_uchar,
+}
+impl ::std::clone::Clone for Struct_cmsghdr {
+  fn clone(&self) -> Struct_cmsghdr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_cmsghdr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_cmsghdr>()) } }
 }
 impl ::std::default::Default for Struct_cmsghdr {
     fn default() -> Struct_cmsghdr { unsafe { ::std::mem::zeroed() } }
@@ -490,6 +582,10 @@ pub struct Struct_linger {
     pub l_onoff: ::libc::c_int,
     pub l_linger: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_linger {
+  fn clone(&self) -> Struct_linger { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_linger) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_linger>()) } }
+}
 impl ::std::default::Default for Struct_linger {
     fn default() -> Struct_linger { unsafe { ::std::mem::zeroed() } }
 }
@@ -498,6 +594,10 @@ impl ::std::default::Default for Struct_linger {
 pub struct Struct_osockaddr {
     pub sa_family: ::libc::c_ushort,
     pub sa_data: [::libc::c_uchar; 14usize],
+}
+impl ::std::clone::Clone for Struct_osockaddr {
+  fn clone(&self) -> Struct_osockaddr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_osockaddr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_osockaddr>()) } }
 }
 impl ::std::default::Default for Struct_osockaddr {
     fn default() -> Struct_osockaddr { unsafe { ::std::mem::zeroed() } }
@@ -512,6 +612,10 @@ pub type in_addr_t = uint32_t;
 pub struct Struct_in_addr {
     pub s_addr: in_addr_t,
 }
+impl ::std::clone::Clone for Struct_in_addr {
+  fn clone(&self) -> Struct_in_addr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_in_addr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_in_addr>()) } }
+}
 impl ::std::default::Default for Struct_in_addr {
     fn default() -> Struct_in_addr { unsafe { ::std::mem::zeroed() } }
 }
@@ -520,6 +624,10 @@ impl ::std::default::Default for Struct_in_addr {
 pub struct Struct_ip_opts {
     pub ip_dst: Struct_in_addr,
     pub ip_opts: [::libc::c_char; 40usize],
+}
+impl ::std::clone::Clone for Struct_ip_opts {
+  fn clone(&self) -> Struct_ip_opts { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ip_opts) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ip_opts>()) } }
 }
 impl ::std::default::Default for Struct_ip_opts {
     fn default() -> Struct_ip_opts { unsafe { ::std::mem::zeroed() } }
@@ -531,6 +639,10 @@ pub struct Struct_ip_mreqn {
     pub imr_address: Struct_in_addr,
     pub imr_ifindex: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_ip_mreqn {
+  fn clone(&self) -> Struct_ip_mreqn { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ip_mreqn) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ip_mreqn>()) } }
+}
 impl ::std::default::Default for Struct_ip_mreqn {
     fn default() -> Struct_ip_mreqn { unsafe { ::std::mem::zeroed() } }
 }
@@ -540,6 +652,10 @@ pub struct Struct_in_pktinfo {
     pub ipi_ifindex: ::libc::c_int,
     pub ipi_spec_dst: Struct_in_addr,
     pub ipi_addr: Struct_in_addr,
+}
+impl ::std::clone::Clone for Struct_in_pktinfo {
+  fn clone(&self) -> Struct_in_pktinfo { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_in_pktinfo) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_in_pktinfo>()) } }
 }
 impl ::std::default::Default for Struct_in_pktinfo {
     fn default() -> Struct_in_pktinfo { unsafe { ::std::mem::zeroed() } }
@@ -611,6 +727,10 @@ pub const IPPORT_USERRESERVED: ::libc::c_uint = 5000;
 pub struct Struct_in6_addr {
     pub __in6_u: Union_Unnamed20,
 }
+impl ::std::clone::Clone for Struct_in6_addr {
+  fn clone(&self) -> Struct_in6_addr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_in6_addr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_in6_addr>()) } }
+}
 impl ::std::default::Default for Struct_in6_addr {
     fn default() -> Struct_in6_addr { unsafe { ::std::mem::zeroed() } }
 }
@@ -618,6 +738,10 @@ impl ::std::default::Default for Struct_in6_addr {
 #[derive(Copy)]
 pub struct Union_Unnamed20 {
     pub _bindgen_data_: [u32; 4usize],
+}
+impl ::std::clone::Clone for Union_Unnamed20 {
+  fn clone(&self) -> Union_Unnamed20 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed20) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed20>()) } }
 }
 impl Union_Unnamed20 {
     pub unsafe fn __u6_addr8(&mut self) -> *mut [uint8_t; 16usize] {
@@ -641,6 +765,10 @@ pub struct Struct_sockaddr_in {
     pub sin_addr: Struct_in_addr,
     pub sin_zero: [::libc::c_uchar; 8usize],
 }
+impl ::std::clone::Clone for Struct_sockaddr_in {
+  fn clone(&self) -> Struct_sockaddr_in { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sockaddr_in) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sockaddr_in>()) } }
+}
 impl ::std::default::Default for Struct_sockaddr_in {
     fn default() -> Struct_sockaddr_in { unsafe { ::std::mem::zeroed() } }
 }
@@ -653,6 +781,10 @@ pub struct Struct_sockaddr_in6 {
     pub sin6_addr: Struct_in6_addr,
     pub sin6_scope_id: uint32_t,
 }
+impl ::std::clone::Clone for Struct_sockaddr_in6 {
+  fn clone(&self) -> Struct_sockaddr_in6 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sockaddr_in6) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sockaddr_in6>()) } }
+}
 impl ::std::default::Default for Struct_sockaddr_in6 {
     fn default() -> Struct_sockaddr_in6 { unsafe { ::std::mem::zeroed() } }
 }
@@ -661,6 +793,10 @@ impl ::std::default::Default for Struct_sockaddr_in6 {
 pub struct Struct_ip_mreq {
     pub imr_multiaddr: Struct_in_addr,
     pub imr_interface: Struct_in_addr,
+}
+impl ::std::clone::Clone for Struct_ip_mreq {
+  fn clone(&self) -> Struct_ip_mreq { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ip_mreq) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ip_mreq>()) } }
 }
 impl ::std::default::Default for Struct_ip_mreq {
     fn default() -> Struct_ip_mreq { unsafe { ::std::mem::zeroed() } }
@@ -672,6 +808,10 @@ pub struct Struct_ip_mreq_source {
     pub imr_interface: Struct_in_addr,
     pub imr_sourceaddr: Struct_in_addr,
 }
+impl ::std::clone::Clone for Struct_ip_mreq_source {
+  fn clone(&self) -> Struct_ip_mreq_source { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ip_mreq_source) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ip_mreq_source>()) } }
+}
 impl ::std::default::Default for Struct_ip_mreq_source {
     fn default() -> Struct_ip_mreq_source { unsafe { ::std::mem::zeroed() } }
 }
@@ -680,6 +820,10 @@ impl ::std::default::Default for Struct_ip_mreq_source {
 pub struct Struct_ipv6_mreq {
     pub ipv6mr_multiaddr: Struct_in6_addr,
     pub ipv6mr_interface: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_ipv6_mreq {
+  fn clone(&self) -> Struct_ipv6_mreq { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ipv6_mreq) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ipv6_mreq>()) } }
 }
 impl ::std::default::Default for Struct_ipv6_mreq {
     fn default() -> Struct_ipv6_mreq { unsafe { ::std::mem::zeroed() } }
@@ -690,6 +834,10 @@ pub struct Struct_group_req {
     pub gr_interface: uint32_t,
     pub gr_group: Struct_sockaddr_storage,
 }
+impl ::std::clone::Clone for Struct_group_req {
+  fn clone(&self) -> Struct_group_req { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_group_req) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_group_req>()) } }
+}
 impl ::std::default::Default for Struct_group_req {
     fn default() -> Struct_group_req { unsafe { ::std::mem::zeroed() } }
 }
@@ -699,6 +847,10 @@ pub struct Struct_group_source_req {
     pub gsr_interface: uint32_t,
     pub gsr_group: Struct_sockaddr_storage,
     pub gsr_source: Struct_sockaddr_storage,
+}
+impl ::std::clone::Clone for Struct_group_source_req {
+  fn clone(&self) -> Struct_group_source_req { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_group_source_req) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_group_source_req>()) } }
 }
 impl ::std::default::Default for Struct_group_source_req {
     fn default() -> Struct_group_source_req {
@@ -714,6 +866,10 @@ pub struct Struct_ip_msfilter {
     pub imsf_numsrc: uint32_t,
     pub imsf_slist: [Struct_in_addr; 1usize],
 }
+impl ::std::clone::Clone for Struct_ip_msfilter {
+  fn clone(&self) -> Struct_ip_msfilter { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ip_msfilter) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ip_msfilter>()) } }
+}
 impl ::std::default::Default for Struct_ip_msfilter {
     fn default() -> Struct_ip_msfilter { unsafe { ::std::mem::zeroed() } }
 }
@@ -726,6 +882,10 @@ pub struct Struct_group_filter {
     pub gf_numsrc: uint32_t,
     pub gf_slist: [Struct_sockaddr_storage; 1usize],
 }
+impl ::std::clone::Clone for Struct_group_filter {
+  fn clone(&self) -> Struct_group_filter { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_group_filter) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_group_filter>()) } }
+}
 impl ::std::default::Default for Struct_group_filter {
     fn default() -> Struct_group_filter { unsafe { ::std::mem::zeroed() } }
 }
@@ -735,6 +895,10 @@ pub struct Struct_rpcent {
     pub r_name: *mut ::libc::c_char,
     pub r_aliases: *mut *mut ::libc::c_char,
     pub r_number: ::libc::c_int,
+}
+impl ::std::clone::Clone for Struct_rpcent {
+  fn clone(&self) -> Struct_rpcent { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_rpcent) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_rpcent>()) } }
 }
 impl ::std::default::Default for Struct_rpcent {
     fn default() -> Struct_rpcent { unsafe { ::std::mem::zeroed() } }
@@ -746,6 +910,10 @@ pub struct Struct_netent {
     pub n_aliases: *mut *mut ::libc::c_char,
     pub n_addrtype: ::libc::c_int,
     pub n_net: uint32_t,
+}
+impl ::std::clone::Clone for Struct_netent {
+  fn clone(&self) -> Struct_netent { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_netent) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_netent>()) } }
 }
 impl ::std::default::Default for Struct_netent {
     fn default() -> Struct_netent { unsafe { ::std::mem::zeroed() } }
@@ -759,6 +927,10 @@ pub struct Struct_hostent {
     pub h_length: ::libc::c_int,
     pub h_addr_list: *mut *mut ::libc::c_char,
 }
+impl ::std::clone::Clone for Struct_hostent {
+  fn clone(&self) -> Struct_hostent { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_hostent) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_hostent>()) } }
+}
 impl ::std::default::Default for Struct_hostent {
     fn default() -> Struct_hostent { unsafe { ::std::mem::zeroed() } }
 }
@@ -770,6 +942,10 @@ pub struct Struct_servent {
     pub s_port: ::libc::c_int,
     pub s_proto: *mut ::libc::c_char,
 }
+impl ::std::clone::Clone for Struct_servent {
+  fn clone(&self) -> Struct_servent { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_servent) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_servent>()) } }
+}
 impl ::std::default::Default for Struct_servent {
     fn default() -> Struct_servent { unsafe { ::std::mem::zeroed() } }
 }
@@ -779,6 +955,10 @@ pub struct Struct_protoent {
     pub p_name: *mut ::libc::c_char,
     pub p_aliases: *mut *mut ::libc::c_char,
     pub p_proto: ::libc::c_int,
+}
+impl ::std::clone::Clone for Struct_protoent {
+  fn clone(&self) -> Struct_protoent { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_protoent) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_protoent>()) } }
 }
 impl ::std::default::Default for Struct_protoent {
     fn default() -> Struct_protoent { unsafe { ::std::mem::zeroed() } }
@@ -795,6 +975,10 @@ pub struct Struct_addrinfo {
     pub ai_canonname: *mut ::libc::c_char,
     pub ai_next: *mut Struct_addrinfo,
 }
+impl ::std::clone::Clone for Struct_addrinfo {
+  fn clone(&self) -> Struct_addrinfo { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_addrinfo) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_addrinfo>()) } }
+}
 impl ::std::default::Default for Struct_addrinfo {
     fn default() -> Struct_addrinfo { unsafe { ::std::mem::zeroed() } }
 }
@@ -803,6 +987,10 @@ impl ::std::default::Default for Struct_addrinfo {
 pub struct Struct_sockaddr_un {
     pub sun_family: sa_family_t,
     pub sun_path: [::libc::c_char; 108usize],
+}
+impl ::std::clone::Clone for Struct_sockaddr_un {
+  fn clone(&self) -> Struct_sockaddr_un { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sockaddr_un) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sockaddr_un>()) } }
 }
 impl ::std::default::Default for Struct_sockaddr_un {
     fn default() -> Struct_sockaddr_un { unsafe { ::std::mem::zeroed() } }
@@ -817,6 +1005,10 @@ pub struct Struct___locale_struct {
     pub __ctype_toupper: *const ::libc::c_int,
     pub __names: [*const ::libc::c_char; 13usize],
 }
+impl ::std::clone::Clone for Struct___locale_struct {
+  fn clone(&self) -> Struct___locale_struct { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct___locale_struct) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct___locale_struct>()) } }
+}
 impl ::std::default::Default for Struct___locale_struct {
     fn default() -> Struct___locale_struct { unsafe { ::std::mem::zeroed() } }
 }
@@ -827,6 +1019,10 @@ pub type tcp_seq = u_int32_t;
 #[derive(Copy)]
 pub struct Struct_tcphdr {
     pub _bindgen_data_1_: [u32; 5usize],
+}
+impl ::std::clone::Clone for Struct_tcphdr {
+  fn clone(&self) -> Struct_tcphdr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_tcphdr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_tcphdr>()) } }
 }
 impl Struct_tcphdr {
     pub unsafe fn th_sport(&mut self) -> *mut u_int16_t {
@@ -945,6 +1141,10 @@ pub struct Struct_tcp_info {
     pub tcpi_rcv_space: u_int32_t,
     pub tcpi_total_retrans: u_int32_t,
 }
+impl ::std::clone::Clone for Struct_tcp_info {
+  fn clone(&self) -> Struct_tcp_info { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_tcp_info) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_tcp_info>()) } }
+}
 impl ::std::default::Default for Struct_tcp_info {
     fn default() -> Struct_tcp_info { unsafe { ::std::mem::zeroed() } }
 }
@@ -957,6 +1157,10 @@ pub struct Struct_tcp_md5sig {
     pub __tcpm_pad2: u_int32_t,
     pub tcpm_key: [u_int8_t; 80usize],
 }
+impl ::std::clone::Clone for Struct_tcp_md5sig {
+  fn clone(&self) -> Struct_tcp_md5sig { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_tcp_md5sig) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_tcp_md5sig>()) } }
+}
 impl ::std::default::Default for Struct_tcp_md5sig {
     fn default() -> Struct_tcp_md5sig { unsafe { ::std::mem::zeroed() } }
 }
@@ -965,6 +1169,10 @@ impl ::std::default::Default for Struct_tcp_md5sig {
 pub struct Struct_tcp_repair_opt {
     pub opt_code: u_int32_t,
     pub opt_val: u_int32_t,
+}
+impl ::std::clone::Clone for Struct_tcp_repair_opt {
+  fn clone(&self) -> Struct_tcp_repair_opt { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_tcp_repair_opt) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_tcp_repair_opt>()) } }
 }
 impl ::std::default::Default for Struct_tcp_repair_opt {
     fn default() -> Struct_tcp_repair_opt { unsafe { ::std::mem::zeroed() } }
@@ -984,6 +1192,10 @@ pub struct Struct_tcp_cookie_transactions {
     pub tcpct_used: u_int16_t,
     pub tcpct_value: [u_int8_t; 536usize],
 }
+impl ::std::clone::Clone for Struct_tcp_cookie_transactions {
+  fn clone(&self) -> Struct_tcp_cookie_transactions { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_tcp_cookie_transactions) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_tcp_cookie_transactions>()) } }
+}
 impl ::std::default::Default for Struct_tcp_cookie_transactions {
     fn default() -> Struct_tcp_cookie_transactions {
         unsafe { ::std::mem::zeroed() }
@@ -1000,6 +1212,10 @@ pub struct Struct_passwd {
     pub pw_dir: *mut ::libc::c_char,
     pub pw_shell: *mut ::libc::c_char,
 }
+impl ::std::clone::Clone for Struct_passwd {
+  fn clone(&self) -> Struct_passwd { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_passwd) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_passwd>()) } }
+}
 impl ::std::default::Default for Struct_passwd {
     fn default() -> Struct_passwd { unsafe { ::std::mem::zeroed() } }
 }
@@ -1011,6 +1227,10 @@ pub struct Struct_winsize {
     pub ws_col: ::libc::c_ushort,
     pub ws_xpixel: ::libc::c_ushort,
     pub ws_ypixel: ::libc::c_ushort,
+}
+impl ::std::clone::Clone for Struct_winsize {
+  fn clone(&self) -> Struct_winsize { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_winsize) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_winsize>()) } }
 }
 impl ::std::default::Default for Struct_winsize {
     fn default() -> Struct_winsize { unsafe { ::std::mem::zeroed() } }
@@ -1025,6 +1245,10 @@ pub struct Struct_termio {
     pub c_line: ::libc::c_uchar,
     pub c_cc: [::libc::c_uchar; 8usize],
 }
+impl ::std::clone::Clone for Struct_termio {
+  fn clone(&self) -> Struct_termio { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_termio) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_termio>()) } }
+}
 impl ::std::default::Default for Struct_termio {
     fn default() -> Struct_termio { unsafe { ::std::mem::zeroed() } }
 }
@@ -1033,6 +1257,10 @@ pub type sig_atomic_t = __sig_atomic_t;
 #[derive(Copy)]
 pub struct Union_sigval {
     pub _bindgen_data_: [u64; 1usize],
+}
+impl ::std::clone::Clone for Union_sigval {
+  fn clone(&self) -> Union_sigval { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_sigval) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_sigval>()) } }
 }
 impl Union_sigval {
     pub unsafe fn sival_int(&mut self) -> *mut ::libc::c_int {
@@ -1055,6 +1283,10 @@ pub struct Struct_Unnamed23 {
     pub si_code: ::libc::c_int,
     pub _sifields: Union_Unnamed24,
 }
+impl ::std::clone::Clone for Struct_Unnamed23 {
+  fn clone(&self) -> Struct_Unnamed23 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed23) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed23>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed23 {
     fn default() -> Struct_Unnamed23 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1062,6 +1294,10 @@ impl ::std::default::Default for Struct_Unnamed23 {
 #[derive(Copy)]
 pub struct Union_Unnamed24 {
     pub _bindgen_data_: [u64; 14usize],
+}
+impl ::std::clone::Clone for Union_Unnamed24 {
+  fn clone(&self) -> Union_Unnamed24 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed24) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed24>()) } }
 }
 impl Union_Unnamed24 {
     pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 28usize] {
@@ -1098,6 +1334,10 @@ pub struct Struct_Unnamed25 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
 }
+impl ::std::clone::Clone for Struct_Unnamed25 {
+  fn clone(&self) -> Struct_Unnamed25 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed25) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed25>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed25 {
     fn default() -> Struct_Unnamed25 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1108,6 +1348,10 @@ pub struct Struct_Unnamed26 {
     pub si_overrun: ::libc::c_int,
     pub si_sigval: sigval_t,
 }
+impl ::std::clone::Clone for Struct_Unnamed26 {
+  fn clone(&self) -> Struct_Unnamed26 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed26) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed26>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed26 {
     fn default() -> Struct_Unnamed26 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1117,6 +1361,10 @@ pub struct Struct_Unnamed27 {
     pub si_pid: __pid_t,
     pub si_uid: __uid_t,
     pub si_sigval: sigval_t,
+}
+impl ::std::clone::Clone for Struct_Unnamed27 {
+  fn clone(&self) -> Struct_Unnamed27 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed27) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed27>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed27 {
     fn default() -> Struct_Unnamed27 { unsafe { ::std::mem::zeroed() } }
@@ -1130,6 +1378,10 @@ pub struct Struct_Unnamed28 {
     pub si_utime: __sigchld_clock_t,
     pub si_stime: __sigchld_clock_t,
 }
+impl ::std::clone::Clone for Struct_Unnamed28 {
+  fn clone(&self) -> Struct_Unnamed28 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed28) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed28>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed28 {
     fn default() -> Struct_Unnamed28 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1138,6 +1390,10 @@ impl ::std::default::Default for Struct_Unnamed28 {
 pub struct Struct_Unnamed29 {
     pub si_addr: *mut ::libc::c_void,
     pub si_addr_lsb: ::libc::c_short,
+}
+impl ::std::clone::Clone for Struct_Unnamed29 {
+  fn clone(&self) -> Struct_Unnamed29 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed29) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed29>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed29 {
     fn default() -> Struct_Unnamed29 { unsafe { ::std::mem::zeroed() } }
@@ -1148,6 +1404,10 @@ pub struct Struct_Unnamed30 {
     pub si_band: ::libc::c_long,
     pub si_fd: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_Unnamed30 {
+  fn clone(&self) -> Struct_Unnamed30 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed30) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed30>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed30 {
     fn default() -> Struct_Unnamed30 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1157,6 +1417,10 @@ pub struct Struct_Unnamed31 {
     pub _call_addr: *mut ::libc::c_void,
     pub _syscall: ::libc::c_int,
     pub _arch: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_Unnamed31 {
+  fn clone(&self) -> Struct_Unnamed31 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed31) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed31>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed31 {
     fn default() -> Struct_Unnamed31 { unsafe { ::std::mem::zeroed() } }
@@ -1224,6 +1488,10 @@ pub struct Struct_sigevent {
     pub sigev_notify: ::libc::c_int,
     pub _sigev_un: Union_Unnamed40,
 }
+impl ::std::clone::Clone for Struct_sigevent {
+  fn clone(&self) -> Struct_sigevent { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sigevent) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sigevent>()) } }
+}
 impl ::std::default::Default for Struct_sigevent {
     fn default() -> Struct_sigevent { unsafe { ::std::mem::zeroed() } }
 }
@@ -1231,6 +1499,10 @@ impl ::std::default::Default for Struct_sigevent {
 #[derive(Copy)]
 pub struct Union_Unnamed40 {
     pub _bindgen_data_: [u64; 6usize],
+}
+impl ::std::clone::Clone for Union_Unnamed40 {
+  fn clone(&self) -> Union_Unnamed40 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed40) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed40>()) } }
 }
 impl Union_Unnamed40 {
     pub unsafe fn _pad(&mut self) -> *mut [::libc::c_int; 12usize] {
@@ -1252,6 +1524,10 @@ pub struct Struct_Unnamed41 {
     pub _function: ::std::option::Option<extern "C" fn(arg1: sigval_t) -> ()>,
     pub _attribute: *mut pthread_attr_t,
 }
+impl ::std::clone::Clone for Struct_Unnamed41 {
+  fn clone(&self) -> Struct_Unnamed41 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed41) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed41>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed41 {
     fn default() -> Struct_Unnamed41 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1272,6 +1548,10 @@ pub struct Struct_sigaction {
     pub sa_flags: ::libc::c_int,
     pub sa_restorer: ::std::option::Option<extern "C" fn() -> ()>,
 }
+impl ::std::clone::Clone for Struct_sigaction {
+  fn clone(&self) -> Struct_sigaction { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sigaction) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sigaction>()) } }
+}
 impl ::std::default::Default for Struct_sigaction {
     fn default() -> Struct_sigaction { unsafe { ::std::mem::zeroed() } }
 }
@@ -1279,6 +1559,10 @@ impl ::std::default::Default for Struct_sigaction {
 #[derive(Copy)]
 pub struct Union_Unnamed43 {
     pub _bindgen_data_: [u64; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed43 {
+  fn clone(&self) -> Union_Unnamed43 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed43) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed43>()) } }
 }
 impl Union_Unnamed43 {
     pub unsafe fn sa_handler(&mut self) -> *mut __sighandler_t {
@@ -1303,6 +1587,10 @@ pub struct Struct_sigvec {
     pub sv_mask: ::libc::c_int,
     pub sv_flags: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_sigvec {
+  fn clone(&self) -> Struct_sigvec { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sigvec) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sigvec>()) } }
+}
 impl ::std::default::Default for Struct_sigvec {
     fn default() -> Struct_sigvec { unsafe { ::std::mem::zeroed() } }
 }
@@ -1315,6 +1603,10 @@ pub struct Struct__fpx_sw_bytes {
     pub xstate_size: __uint32_t,
     pub padding: [__uint32_t; 7usize],
 }
+impl ::std::clone::Clone for Struct__fpx_sw_bytes {
+  fn clone(&self) -> Struct__fpx_sw_bytes { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__fpx_sw_bytes) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__fpx_sw_bytes>()) } }
+}
 impl ::std::default::Default for Struct__fpx_sw_bytes {
     fn default() -> Struct__fpx_sw_bytes { unsafe { ::std::mem::zeroed() } }
 }
@@ -1323,6 +1615,10 @@ impl ::std::default::Default for Struct__fpx_sw_bytes {
 pub struct Struct__fpreg {
     pub significand: [::libc::c_ushort; 4usize],
     pub exponent: ::libc::c_ushort,
+}
+impl ::std::clone::Clone for Struct__fpreg {
+  fn clone(&self) -> Struct__fpreg { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__fpreg) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__fpreg>()) } }
 }
 impl ::std::default::Default for Struct__fpreg {
     fn default() -> Struct__fpreg { unsafe { ::std::mem::zeroed() } }
@@ -1334,6 +1630,10 @@ pub struct Struct__fpxreg {
     pub exponent: ::libc::c_ushort,
     pub padding: [::libc::c_ushort; 3usize],
 }
+impl ::std::clone::Clone for Struct__fpxreg {
+  fn clone(&self) -> Struct__fpxreg { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__fpxreg) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__fpxreg>()) } }
+}
 impl ::std::default::Default for Struct__fpxreg {
     fn default() -> Struct__fpxreg { unsafe { ::std::mem::zeroed() } }
 }
@@ -1341,6 +1641,10 @@ impl ::std::default::Default for Struct__fpxreg {
 #[derive(Copy)]
 pub struct Struct__xmmreg {
     pub element: [__uint32_t; 4usize],
+}
+impl ::std::clone::Clone for Struct__xmmreg {
+  fn clone(&self) -> Struct__xmmreg { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__xmmreg) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__xmmreg>()) } }
 }
 impl ::std::default::Default for Struct__xmmreg {
     fn default() -> Struct__xmmreg { unsafe { ::std::mem::zeroed() } }
@@ -1359,6 +1663,10 @@ pub struct Struct__fpstate {
     pub _st: [Struct__fpxreg; 8usize],
     pub _xmm: [Struct__xmmreg; 16usize],
     pub padding: [__uint32_t; 24usize],
+}
+impl ::std::clone::Clone for Struct__fpstate {
+  fn clone(&self) -> Struct__fpstate { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__fpstate) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__fpstate>()) } }
 }
 impl ::std::default::Default for Struct__fpstate {
     fn default() -> Struct__fpstate { unsafe { ::std::mem::zeroed() } }
@@ -1395,6 +1703,10 @@ pub struct Struct_sigcontext {
     pub _bindgen_data_1_: [u64; 1usize],
     pub __reserved1: [__uint64_t; 8usize],
 }
+impl ::std::clone::Clone for Struct_sigcontext {
+  fn clone(&self) -> Struct_sigcontext { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sigcontext) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sigcontext>()) } }
+}
 impl Struct_sigcontext {
     pub unsafe fn fpstate(&mut self) -> *mut *mut Struct__fpstate {
         ::std::mem::transmute(&self._bindgen_data_1_)
@@ -1413,6 +1725,10 @@ pub struct Struct__xsave_hdr {
     pub reserved1: [__uint64_t; 2usize],
     pub reserved2: [__uint64_t; 5usize],
 }
+impl ::std::clone::Clone for Struct__xsave_hdr {
+  fn clone(&self) -> Struct__xsave_hdr { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__xsave_hdr) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__xsave_hdr>()) } }
+}
 impl ::std::default::Default for Struct__xsave_hdr {
     fn default() -> Struct__xsave_hdr { unsafe { ::std::mem::zeroed() } }
 }
@@ -1420,6 +1736,10 @@ impl ::std::default::Default for Struct__xsave_hdr {
 #[derive(Copy)]
 pub struct Struct__ymmh_state {
     pub ymmh_space: [__uint32_t; 64usize],
+}
+impl ::std::clone::Clone for Struct__ymmh_state {
+  fn clone(&self) -> Struct__ymmh_state { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__ymmh_state) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__ymmh_state>()) } }
 }
 impl ::std::default::Default for Struct__ymmh_state {
     fn default() -> Struct__ymmh_state { unsafe { ::std::mem::zeroed() } }
@@ -1431,6 +1751,10 @@ pub struct Struct__xstate {
     pub xstate_hdr: Struct__xsave_hdr,
     pub ymmh: Struct__ymmh_state,
 }
+impl ::std::clone::Clone for Struct__xstate {
+  fn clone(&self) -> Struct__xstate { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__xstate) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__xstate>()) } }
+}
 impl ::std::default::Default for Struct__xstate {
     fn default() -> Struct__xstate { unsafe { ::std::mem::zeroed() } }
 }
@@ -1439,6 +1763,10 @@ impl ::std::default::Default for Struct__xstate {
 pub struct Struct_sigstack {
     pub ss_sp: *mut ::libc::c_void,
     pub ss_onstack: ::libc::c_int,
+}
+impl ::std::clone::Clone for Struct_sigstack {
+  fn clone(&self) -> Struct_sigstack { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sigstack) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sigstack>()) } }
 }
 impl ::std::default::Default for Struct_sigstack {
     fn default() -> Struct_sigstack { unsafe { ::std::mem::zeroed() } }
@@ -1453,6 +1781,10 @@ pub struct Struct_sigaltstack {
     pub ss_flags: ::libc::c_int,
     pub ss_size: size_t,
 }
+impl ::std::clone::Clone for Struct_sigaltstack {
+  fn clone(&self) -> Struct_sigaltstack { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_sigaltstack) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_sigaltstack>()) } }
+}
 impl ::std::default::Default for Struct_sigaltstack {
     fn default() -> Struct_sigaltstack { unsafe { ::std::mem::zeroed() } }
 }
@@ -1466,6 +1798,10 @@ pub struct Struct__libc_fpxreg {
     pub exponent: ::libc::c_ushort,
     pub padding: [::libc::c_ushort; 3usize],
 }
+impl ::std::clone::Clone for Struct__libc_fpxreg {
+  fn clone(&self) -> Struct__libc_fpxreg { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__libc_fpxreg) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__libc_fpxreg>()) } }
+}
 impl ::std::default::Default for Struct__libc_fpxreg {
     fn default() -> Struct__libc_fpxreg { unsafe { ::std::mem::zeroed() } }
 }
@@ -1473,6 +1809,10 @@ impl ::std::default::Default for Struct__libc_fpxreg {
 #[derive(Copy)]
 pub struct Struct__libc_xmmreg {
     pub element: [__uint32_t; 4usize],
+}
+impl ::std::clone::Clone for Struct__libc_xmmreg {
+  fn clone(&self) -> Struct__libc_xmmreg { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__libc_xmmreg) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__libc_xmmreg>()) } }
 }
 impl ::std::default::Default for Struct__libc_xmmreg {
     fn default() -> Struct__libc_xmmreg { unsafe { ::std::mem::zeroed() } }
@@ -1492,6 +1832,10 @@ pub struct Struct__libc_fpstate {
     pub _xmm: [Struct__libc_xmmreg; 16usize],
     pub padding: [__uint32_t; 24usize],
 }
+impl ::std::clone::Clone for Struct__libc_fpstate {
+  fn clone(&self) -> Struct__libc_fpstate { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__libc_fpstate) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__libc_fpstate>()) } }
+}
 impl ::std::default::Default for Struct__libc_fpstate {
     fn default() -> Struct__libc_fpstate { unsafe { ::std::mem::zeroed() } }
 }
@@ -1502,6 +1846,10 @@ pub struct Struct_Unnamed45 {
     pub gregs: gregset_t,
     pub fpregs: fpregset_t,
     pub __reserved1: [::libc::c_ulonglong; 8usize],
+}
+impl ::std::clone::Clone for Struct_Unnamed45 {
+  fn clone(&self) -> Struct_Unnamed45 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed45) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed45>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed45 {
     fn default() -> Struct_Unnamed45 { unsafe { ::std::mem::zeroed() } }
@@ -1517,6 +1865,10 @@ pub struct Struct_ucontext {
     pub uc_sigmask: __sigset_t,
     pub __fpregs_mem: Struct__libc_fpstate,
 }
+impl ::std::clone::Clone for Struct_ucontext {
+  fn clone(&self) -> Struct_ucontext { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ucontext) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ucontext>()) } }
+}
 impl ::std::default::Default for Struct_ucontext {
     fn default() -> Struct_ucontext { unsafe { ::std::mem::zeroed() } }
 }
@@ -1525,6 +1877,10 @@ pub type ucontext_t = Struct_ucontext;
 #[derive(Copy)]
 pub struct Union_Unnamed46 {
     pub _bindgen_data_: [u64; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed46 {
+  fn clone(&self) -> Union_Unnamed46 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed46) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed46>()) } }
 }
 impl Union_Unnamed46 {
     pub unsafe fn __uptr(&mut self) -> *mut *mut Union_wait {
@@ -1542,6 +1898,10 @@ pub type __WAIT_STATUS = Union_Unnamed46;
 #[derive(Copy)]
 pub struct Union_wait {
     pub _bindgen_data_: [u32; 1usize],
+}
+impl ::std::clone::Clone for Union_wait {
+  fn clone(&self) -> Union_wait { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_wait) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_wait>()) } }
 }
 impl Union_wait {
     pub unsafe fn w_status(&mut self) -> *mut ::libc::c_int {
@@ -1562,6 +1922,10 @@ impl ::std::default::Default for Union_wait {
 pub struct Struct_Unnamed47 {
     pub _bindgen_bitfield_1_: ::libc::c_uint,
 }
+impl ::std::clone::Clone for Struct_Unnamed47 {
+  fn clone(&self) -> Struct_Unnamed47 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed47) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed47>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed47 {
     fn default() -> Struct_Unnamed47 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1569,6 +1933,10 @@ impl ::std::default::Default for Struct_Unnamed47 {
 #[derive(Copy)]
 pub struct Struct_Unnamed48 {
     pub _bindgen_bitfield_1_: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_Unnamed48 {
+  fn clone(&self) -> Struct_Unnamed48 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed48) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed48>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed48 {
     fn default() -> Struct_Unnamed48 { unsafe { ::std::mem::zeroed() } }
@@ -1587,6 +1955,10 @@ pub struct Struct_group {
     pub gr_gid: __gid_t,
     pub gr_mem: *mut *mut ::libc::c_char,
 }
+impl ::std::clone::Clone for Struct_group {
+  fn clone(&self) -> Struct_group { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_group) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_group>()) } }
+}
 impl ::std::default::Default for Struct_group {
     fn default() -> Struct_group { unsafe { ::std::mem::zeroed() } }
 }
@@ -1597,6 +1969,10 @@ pub struct Struct_Unnamed50 {
     pub __count: ::libc::c_int,
     pub __value: Union_Unnamed51,
 }
+impl ::std::clone::Clone for Struct_Unnamed50 {
+  fn clone(&self) -> Struct_Unnamed50 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed50) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed50>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed50 {
     fn default() -> Struct_Unnamed50 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1604,6 +1980,10 @@ impl ::std::default::Default for Struct_Unnamed50 {
 #[derive(Copy)]
 pub struct Union_Unnamed51 {
     pub _bindgen_data_: [u32; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed51 {
+  fn clone(&self) -> Union_Unnamed51 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed51) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed51>()) } }
 }
 impl Union_Unnamed51 {
     pub unsafe fn __wch(&mut self) -> *mut ::libc::c_uint {
@@ -1623,6 +2003,10 @@ pub struct Struct_Unnamed52 {
     pub __pos: __off_t,
     pub __state: __mbstate_t,
 }
+impl ::std::clone::Clone for Struct_Unnamed52 {
+  fn clone(&self) -> Struct_Unnamed52 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed52) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed52>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed52 {
     fn default() -> Struct_Unnamed52 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1632,6 +2016,10 @@ pub type _G_fpos_t = Struct_Unnamed52;
 pub struct Struct_Unnamed53 {
     pub __pos: __off64_t,
     pub __state: __mbstate_t,
+}
+impl ::std::clone::Clone for Struct_Unnamed53 {
+  fn clone(&self) -> Struct_Unnamed53 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed53) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed53>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed53 {
     fn default() -> Struct_Unnamed53 { unsafe { ::std::mem::zeroed() } }
@@ -1647,6 +2035,10 @@ pub struct Struct__IO_marker {
     pub _next: *mut Struct__IO_marker,
     pub _sbuf: *mut Struct__IO_FILE,
     pub _pos: ::libc::c_int,
+}
+impl ::std::clone::Clone for Struct__IO_marker {
+  fn clone(&self) -> Struct__IO_marker { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__IO_marker) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__IO_marker>()) } }
 }
 impl ::std::default::Default for Struct__IO_marker {
     fn default() -> Struct__IO_marker { unsafe { ::std::mem::zeroed() } }
@@ -1689,6 +2081,10 @@ pub struct Struct__IO_FILE {
     pub _mode: ::libc::c_int,
     pub _unused2: [::libc::c_char; 20usize],
 }
+impl ::std::clone::Clone for Struct__IO_FILE {
+  fn clone(&self) -> Struct__IO_FILE { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__IO_FILE) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__IO_FILE>()) } }
+}
 impl ::std::default::Default for Struct__IO_FILE {
     fn default() -> Struct__IO_FILE { unsafe { ::std::mem::zeroed() } }
 }
@@ -1716,6 +2112,10 @@ pub struct Struct_Unnamed54 {
     pub quot: ::libc::c_int,
     pub rem: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_Unnamed54 {
+  fn clone(&self) -> Struct_Unnamed54 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed54) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed54>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed54 {
     fn default() -> Struct_Unnamed54 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1726,6 +2126,10 @@ pub struct Struct_Unnamed55 {
     pub quot: ::libc::c_long,
     pub rem: ::libc::c_long,
 }
+impl ::std::clone::Clone for Struct_Unnamed55 {
+  fn clone(&self) -> Struct_Unnamed55 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed55) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed55>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed55 {
     fn default() -> Struct_Unnamed55 { unsafe { ::std::mem::zeroed() } }
 }
@@ -1735,6 +2139,10 @@ pub type ldiv_t = Struct_Unnamed55;
 pub struct Struct_Unnamed56 {
     pub quot: ::libc::c_longlong,
     pub rem: ::libc::c_longlong,
+}
+impl ::std::clone::Clone for Struct_Unnamed56 {
+  fn clone(&self) -> Struct_Unnamed56 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed56) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed56>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed56 {
     fn default() -> Struct_Unnamed56 { unsafe { ::std::mem::zeroed() } }
@@ -1751,6 +2159,10 @@ pub struct Struct_random_data {
     pub rand_sep: ::libc::c_int,
     pub end_ptr: *mut int32_t,
 }
+impl ::std::clone::Clone for Struct_random_data {
+  fn clone(&self) -> Struct_random_data { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_random_data) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_random_data>()) } }
+}
 impl ::std::default::Default for Struct_random_data {
     fn default() -> Struct_random_data { unsafe { ::std::mem::zeroed() } }
 }
@@ -1762,6 +2174,10 @@ pub struct Struct_drand48_data {
     pub __c: ::libc::c_ushort,
     pub __init: ::libc::c_ushort,
     pub __a: ::libc::c_ulonglong,
+}
+impl ::std::clone::Clone for Struct_drand48_data {
+  fn clone(&self) -> Struct_drand48_data { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_drand48_data) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_drand48_data>()) } }
 }
 impl ::std::default::Default for Struct_drand48_data {
     fn default() -> Struct_drand48_data { unsafe { ::std::mem::zeroed() } }
@@ -2093,6 +2509,10 @@ pub struct Struct_stat {
     pub st_ctim: Struct_timespec,
     pub __glibc_reserved: [__syscall_slong_t; 3usize],
 }
+impl ::std::clone::Clone for Struct_stat {
+  fn clone(&self) -> Struct_stat { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_stat) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_stat>()) } }
+}
 impl ::std::default::Default for Struct_stat {
     fn default() -> Struct_stat { unsafe { ::std::mem::zeroed() } }
 }
@@ -2104,6 +2524,10 @@ pub struct Struct_dirent {
     pub d_reclen: ::libc::c_ushort,
     pub d_type: ::libc::c_uchar,
     pub d_name: [::libc::c_char; 256usize],
+}
+impl ::std::clone::Clone for Struct_dirent {
+  fn clone(&self) -> Struct_dirent { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_dirent) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_dirent>()) } }
 }
 impl ::std::default::Default for Struct_dirent {
     fn default() -> Struct_dirent { unsafe { ::std::mem::zeroed() } }
@@ -2128,6 +2552,10 @@ pub struct Struct_flock {
     pub l_start: __off_t,
     pub l_len: __off_t,
     pub l_pid: __pid_t,
+}
+impl ::std::clone::Clone for Struct_flock {
+  fn clone(&self) -> Struct_flock { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_flock) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_flock>()) } }
 }
 impl ::std::default::Default for Struct_flock {
     fn default() -> Struct_flock { unsafe { ::std::mem::zeroed() } }
@@ -2156,6 +2584,10 @@ pub struct Struct_exception {
     pub arg2: ::libc::c_double,
     pub retval: ::libc::c_double,
 }
+impl ::std::clone::Clone for Struct_exception {
+  fn clone(&self) -> Struct_exception { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_exception) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_exception>()) } }
+}
 impl ::std::default::Default for Struct_exception {
     fn default() -> Struct_exception { unsafe { ::std::mem::zeroed() } }
 }
@@ -2174,6 +2606,10 @@ pub struct Struct_tm {
     pub tm_gmtoff: ::libc::c_long,
     pub tm_zone: *const ::libc::c_char,
 }
+impl ::std::clone::Clone for Struct_tm {
+  fn clone(&self) -> Struct_tm { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_tm) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_tm>()) } }
+}
 impl ::std::default::Default for Struct_tm {
     fn default() -> Struct_tm { unsafe { ::std::mem::zeroed() } }
 }
@@ -2182,6 +2618,10 @@ impl ::std::default::Default for Struct_tm {
 pub struct Struct_itimerspec {
     pub it_interval: Struct_timespec,
     pub it_value: Struct_timespec,
+}
+impl ::std::clone::Clone for Struct_itimerspec {
+  fn clone(&self) -> Struct_itimerspec { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_itimerspec) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_itimerspec>()) } }
 }
 impl ::std::default::Default for Struct_itimerspec {
     fn default() -> Struct_itimerspec { unsafe { ::std::mem::zeroed() } }
@@ -2208,6 +2648,10 @@ pub struct Struct_PLIBC_SEARCH_QELEM {
     pub q_back: *mut Struct_qelem,
     pub q_data: [::libc::c_char; 1usize],
 }
+impl ::std::clone::Clone for Struct_PLIBC_SEARCH_QELEM {
+  fn clone(&self) -> Struct_PLIBC_SEARCH_QELEM { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_PLIBC_SEARCH_QELEM) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_PLIBC_SEARCH_QELEM>()) } }
+}
 impl ::std::default::Default for Struct_PLIBC_SEARCH_QELEM {
     fn default() -> Struct_PLIBC_SEARCH_QELEM {
         unsafe { ::std::mem::zeroed() }
@@ -2228,6 +2672,10 @@ pub struct Struct_PLIBC_SEARCH_entry {
     pub key: *mut ::libc::c_char,
     pub data: *mut ::libc::c_void,
 }
+impl ::std::clone::Clone for Struct_PLIBC_SEARCH_entry {
+  fn clone(&self) -> Struct_PLIBC_SEARCH_entry { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_PLIBC_SEARCH_entry) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_PLIBC_SEARCH_entry>()) } }
+}
 impl ::std::default::Default for Struct_PLIBC_SEARCH_entry {
     fn default() -> Struct_PLIBC_SEARCH_entry {
         unsafe { ::std::mem::zeroed() }
@@ -2239,6 +2687,10 @@ pub type PLIBC_SEARCH_ENTRY = Struct_PLIBC_SEARCH_entry;
 pub struct Struct__PLIBC_SEARCH_ENTRY {
     pub used: ::libc::c_uint,
     pub entry: PLIBC_SEARCH_ENTRY,
+}
+impl ::std::clone::Clone for Struct__PLIBC_SEARCH_ENTRY {
+  fn clone(&self) -> Struct__PLIBC_SEARCH_ENTRY { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__PLIBC_SEARCH_ENTRY) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__PLIBC_SEARCH_ENTRY>()) } }
 }
 impl ::std::default::Default for Struct__PLIBC_SEARCH_ENTRY {
     fn default() -> Struct__PLIBC_SEARCH_ENTRY {
@@ -2252,6 +2704,10 @@ pub struct Struct_PLIBC_SEARCH_hsearch_data {
     pub table: *mut Struct__PLIBC_SEARCH_ENTRY,
     pub size: ::libc::c_uint,
     pub filled: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_PLIBC_SEARCH_hsearch_data {
+  fn clone(&self) -> Struct_PLIBC_SEARCH_hsearch_data { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_PLIBC_SEARCH_hsearch_data) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_PLIBC_SEARCH_hsearch_data>()) } }
 }
 impl ::std::default::Default for Struct_PLIBC_SEARCH_hsearch_data {
     fn default() -> Struct_PLIBC_SEARCH_hsearch_data {
@@ -2299,6 +2755,10 @@ pub struct Struct_lconv {
     pub int_p_sign_posn: ::libc::c_char,
     pub int_n_sign_posn: ::libc::c_char,
 }
+impl ::std::clone::Clone for Struct_lconv {
+  fn clone(&self) -> Struct_lconv { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_lconv) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_lconv>()) } }
+}
 impl ::std::default::Default for Struct_lconv {
     fn default() -> Struct_lconv { unsafe { ::std::mem::zeroed() } }
 }
@@ -2307,6 +2767,10 @@ impl ::std::default::Default for Struct_lconv {
 pub struct Struct_GNUNET_MessageHeader {
     pub size: uint16_t,
     pub _type: uint16_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_MessageHeader {
+  fn clone(&self) -> Struct_GNUNET_MessageHeader { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_MessageHeader) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_MessageHeader>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_MessageHeader {
     fn default() -> Struct_GNUNET_MessageHeader {
@@ -2360,6 +2824,10 @@ pub const GNUNET_SCHEDULER_PRIORITY_COUNT: ::libc::c_uint = 8;
 pub struct Struct_GNUNET_TIME_Absolute {
     pub abs_value_us: uint64_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TIME_Absolute {
+  fn clone(&self) -> Struct_GNUNET_TIME_Absolute { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TIME_Absolute) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TIME_Absolute>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TIME_Absolute {
     fn default() -> Struct_GNUNET_TIME_Absolute {
         unsafe { ::std::mem::zeroed() }
@@ -2369,6 +2837,10 @@ impl ::std::default::Default for Struct_GNUNET_TIME_Absolute {
 #[derive(Copy)]
 pub struct Struct_GNUNET_TIME_Relative {
     pub rel_value_us: uint64_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_TIME_Relative {
+  fn clone(&self) -> Struct_GNUNET_TIME_Relative { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TIME_Relative) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TIME_Relative>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_TIME_Relative {
     fn default() -> Struct_GNUNET_TIME_Relative {
@@ -2380,6 +2852,10 @@ impl ::std::default::Default for Struct_GNUNET_TIME_Relative {
 pub struct Struct_GNUNET_TIME_RelativeNBO {
     pub rel_value_us__: uint64_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TIME_RelativeNBO {
+  fn clone(&self) -> Struct_GNUNET_TIME_RelativeNBO { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TIME_RelativeNBO) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TIME_RelativeNBO>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TIME_RelativeNBO {
     fn default() -> Struct_GNUNET_TIME_RelativeNBO {
         unsafe { ::std::mem::zeroed() }
@@ -2389,6 +2865,10 @@ impl ::std::default::Default for Struct_GNUNET_TIME_RelativeNBO {
 #[derive(Copy)]
 pub struct Struct_GNUNET_TIME_AbsoluteNBO {
     pub abs_value_us__: uint64_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_TIME_AbsoluteNBO {
+  fn clone(&self) -> Struct_GNUNET_TIME_AbsoluteNBO { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TIME_AbsoluteNBO) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TIME_AbsoluteNBO>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_TIME_AbsoluteNBO {
     fn default() -> Struct_GNUNET_TIME_AbsoluteNBO {
@@ -2401,6 +2881,10 @@ pub enum Struct_GNUNET_NETWORK_Handle { }
 pub struct Struct_GNUNET_NETWORK_FDSet {
     pub nsds: ::libc::c_int,
     pub sds: fd_set,
+}
+impl ::std::clone::Clone for Struct_GNUNET_NETWORK_FDSet {
+  fn clone(&self) -> Struct_GNUNET_NETWORK_FDSet { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_NETWORK_FDSet) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_NETWORK_FDSet>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_NETWORK_FDSet {
     fn default() -> Struct_GNUNET_NETWORK_FDSet {
@@ -2415,6 +2899,10 @@ pub const GNUNET_DISK_HANLDE_TYPE_PIPE: ::libc::c_uint = 1;
 #[derive(Copy)]
 pub struct Struct_GNUNET_DISK_FileHandle {
     pub fd: ::libc::c_int,
+}
+impl ::std::clone::Clone for Struct_GNUNET_DISK_FileHandle {
+  fn clone(&self) -> Struct_GNUNET_DISK_FileHandle { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DISK_FileHandle) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DISK_FileHandle>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_DISK_FileHandle {
     fn default() -> Struct_GNUNET_DISK_FileHandle {
@@ -2476,6 +2964,10 @@ pub struct Struct_GNUNET_SCHEDULER_TaskContext {
     pub reason: Enum_GNUNET_SCHEDULER_Reason,
     pub read_ready: *const Struct_GNUNET_NETWORK_FDSet,
     pub write_ready: *const Struct_GNUNET_NETWORK_FDSet,
+}
+impl ::std::clone::Clone for Struct_GNUNET_SCHEDULER_TaskContext {
+  fn clone(&self) -> Struct_GNUNET_SCHEDULER_TaskContext { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_SCHEDULER_TaskContext) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_SCHEDULER_TaskContext>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_SCHEDULER_TaskContext {
     fn default() -> Struct_GNUNET_SCHEDULER_TaskContext {
@@ -2930,6 +3422,10 @@ pub struct Struct_Unnamed68 {
     pub _vers: ::libc::c_long,
     pub u: Union_Unnamed69,
 }
+impl ::std::clone::Clone for Struct_Unnamed68 {
+  fn clone(&self) -> Struct_Unnamed68 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed68) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed68>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed68 {
     fn default() -> Struct_Unnamed68 { unsafe { ::std::mem::zeroed() } }
 }
@@ -2937,6 +3433,10 @@ impl ::std::default::Default for Struct_Unnamed68 {
 #[derive(Copy)]
 pub struct Union_Unnamed69 {
     pub _bindgen_data_: [u64; 5usize],
+}
+impl ::std::clone::Clone for Union_Unnamed69 {
+  fn clone(&self) -> Union_Unnamed69 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed69) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed69>()) } }
 }
 impl Union_Unnamed69 {
     pub unsafe fn _priv(&mut self) -> *mut [::libc::c_char; 40usize] {
@@ -2968,6 +3468,10 @@ pub struct Struct__gpgrt__stream {
     pub unread_data_len: size_t,
     pub intern: *mut Struct__gpgrt_stream_internal,
 }
+impl ::std::clone::Clone for Struct__gpgrt__stream {
+  fn clone(&self) -> Struct__gpgrt__stream { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__gpgrt__stream) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__gpgrt__stream>()) } }
+}
 impl ::std::default::Default for Struct__gpgrt__stream {
     fn default() -> Struct__gpgrt__stream { unsafe { ::std::mem::zeroed() } }
 }
@@ -2975,6 +3479,10 @@ impl ::std::default::Default for Struct__gpgrt__stream {
 #[derive(Copy)]
 pub struct Struct_Unnamed70 {
     pub _bindgen_bitfield_1_: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_Unnamed70 {
+  fn clone(&self) -> Struct_Unnamed70 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed70) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed70>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed70 {
     fn default() -> Struct_Unnamed70 { unsafe { ::std::mem::zeroed() } }
@@ -3005,6 +3513,10 @@ pub struct Struct__gpgrt_cookie_io_functions {
     pub func_seek: gpgrt_cookie_seek_function_t,
     pub func_close: gpgrt_cookie_close_function_t,
 }
+impl ::std::clone::Clone for Struct__gpgrt_cookie_io_functions {
+  fn clone(&self) -> Struct__gpgrt_cookie_io_functions { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__gpgrt_cookie_io_functions) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__gpgrt_cookie_io_functions>()) } }
+}
 impl ::std::default::Default for Struct__gpgrt_cookie_io_functions {
     fn default() -> Struct__gpgrt_cookie_io_functions {
         unsafe { ::std::mem::zeroed() }
@@ -3023,6 +3535,10 @@ pub struct Struct__gpgrt_syshd {
     pub _type: Enum_gpgrt_syshd_types,
     pub u: Union_Unnamed71,
 }
+impl ::std::clone::Clone for Struct__gpgrt_syshd {
+  fn clone(&self) -> Struct__gpgrt_syshd { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct__gpgrt_syshd) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct__gpgrt_syshd>()) } }
+}
 impl ::std::default::Default for Struct__gpgrt_syshd {
     fn default() -> Struct__gpgrt_syshd { unsafe { ::std::mem::zeroed() } }
 }
@@ -3030,6 +3546,10 @@ impl ::std::default::Default for Struct__gpgrt_syshd {
 #[derive(Copy)]
 pub struct Union_Unnamed71 {
     pub _bindgen_data_: [u64; 1usize],
+}
+impl ::std::clone::Clone for Union_Unnamed71 {
+  fn clone(&self) -> Union_Unnamed71 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed71) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed71>()) } }
 }
 impl Union_Unnamed71 {
     pub unsafe fn fd(&mut self) -> *mut ::libc::c_int {
@@ -3055,6 +3575,10 @@ pub struct Struct_timezone {
     pub tz_minuteswest: ::libc::c_int,
     pub tz_dsttime: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_timezone {
+  fn clone(&self) -> Struct_timezone { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_timezone) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_timezone>()) } }
+}
 impl ::std::default::Default for Struct_timezone {
     fn default() -> Struct_timezone { unsafe { ::std::mem::zeroed() } }
 }
@@ -3069,6 +3593,10 @@ pub struct Struct_itimerval {
     pub it_interval: Struct_timeval,
     pub it_value: Struct_timeval,
 }
+impl ::std::clone::Clone for Struct_itimerval {
+  fn clone(&self) -> Struct_itimerval { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_itimerval) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_itimerval>()) } }
+}
 impl ::std::default::Default for Struct_itimerval {
     fn default() -> Struct_itimerval { unsafe { ::std::mem::zeroed() } }
 }
@@ -3081,6 +3609,10 @@ pub type gcry_err_source_t = gpg_err_source_t;
 #[derive(Copy)]
 pub struct Struct_gcry_thread_cbs {
     pub option: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_gcry_thread_cbs {
+  fn clone(&self) -> Struct_gcry_thread_cbs { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_gcry_thread_cbs) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_gcry_thread_cbs>()) } }
 }
 impl ::std::default::Default for Struct_gcry_thread_cbs {
     fn default() -> Struct_gcry_thread_cbs { unsafe { ::std::mem::zeroed() } }
@@ -3100,6 +3632,10 @@ pub struct Struct_Unnamed72 {
     pub off: size_t,
     pub len: size_t,
     pub data: *mut ::libc::c_void,
+}
+impl ::std::clone::Clone for Struct_Unnamed72 {
+  fn clone(&self) -> Struct_Unnamed72 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed72) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed72>()) } }
 }
 impl ::std::default::Default for Struct_Unnamed72 {
     fn default() -> Struct_Unnamed72 { unsafe { ::std::mem::zeroed() } }
@@ -3284,6 +3820,10 @@ pub struct Struct_gcry_md_handle {
     pub bufsize: ::libc::c_int,
     pub buf: [::libc::c_uchar; 1usize],
 }
+impl ::std::clone::Clone for Struct_gcry_md_handle {
+  fn clone(&self) -> Struct_gcry_md_handle { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_gcry_md_handle) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_gcry_md_handle>()) } }
+}
 impl ::std::default::Default for Struct_gcry_md_handle {
     fn default() -> Struct_gcry_md_handle { unsafe { ::std::mem::zeroed() } }
 }
@@ -3388,6 +3928,10 @@ pub type gcry_handler_log_t =
 pub struct Struct_GNUNET_HashCode {
     pub bits: [uint32_t; 16usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_HashCode {
+  fn clone(&self) -> Struct_GNUNET_HashCode { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_HashCode) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_HashCode>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_HashCode {
     fn default() -> Struct_GNUNET_HashCode { unsafe { ::std::mem::zeroed() } }
 }
@@ -3400,6 +3944,10 @@ pub const GNUNET_CRYPTO_QUALITY_NONCE: ::libc::c_uint = 2;
 pub struct Struct_GNUNET_CRYPTO_HashAsciiEncoded {
     pub encoding: [::libc::c_uchar; 104usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_HashAsciiEncoded {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_HashAsciiEncoded { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_HashAsciiEncoded) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_HashAsciiEncoded>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_HashAsciiEncoded {
     fn default() -> Struct_GNUNET_CRYPTO_HashAsciiEncoded {
         unsafe { ::std::mem::zeroed() }
@@ -3410,6 +3958,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_HashAsciiEncoded {
 pub struct Struct_GNUNET_CRYPTO_EccSignaturePurpose {
     pub size: uint32_t,
     pub purpose: uint32_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EccSignaturePurpose {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EccSignaturePurpose { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EccSignaturePurpose) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EccSignaturePurpose>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EccSignaturePurpose {
     fn default() -> Struct_GNUNET_CRYPTO_EccSignaturePurpose {
@@ -3422,6 +3974,10 @@ pub struct Struct_GNUNET_CRYPTO_EddsaSignature {
     pub r: [::libc::c_uchar; 32usize],
     pub s: [::libc::c_uchar; 32usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EddsaSignature {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EddsaSignature { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EddsaSignature) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EddsaSignature>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaSignature {
     fn default() -> Struct_GNUNET_CRYPTO_EddsaSignature {
         unsafe { ::std::mem::zeroed() }
@@ -3433,6 +3989,10 @@ pub struct Struct_GNUNET_CRYPTO_EcdsaSignature {
     pub r: [::libc::c_uchar; 32usize],
     pub s: [::libc::c_uchar; 32usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EcdsaSignature {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EcdsaSignature { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EcdsaSignature) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EcdsaSignature>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaSignature {
     fn default() -> Struct_GNUNET_CRYPTO_EcdsaSignature {
         unsafe { ::std::mem::zeroed() }
@@ -3442,6 +4002,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaSignature {
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPublicKey {
     pub q_y: [::libc::c_uchar; 32usize],
+}
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EddsaPublicKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EddsaPublicKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EddsaPublicKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EddsaPublicKey>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_EddsaPublicKey {
@@ -3453,6 +4017,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPublicKey {
 pub struct Struct_GNUNET_CRYPTO_EcdsaPublicKey {
     pub q_y: [::libc::c_uchar; 32usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EcdsaPublicKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EcdsaPublicKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EcdsaPublicKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EcdsaPublicKey>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdsaPublicKey {
         unsafe { ::std::mem::zeroed() }
@@ -3462,6 +4030,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPublicKey {
 #[derive(Copy)]
 pub struct Struct_GNUNET_PeerIdentity {
     pub public_key: Struct_GNUNET_CRYPTO_EddsaPublicKey,
+}
+impl ::std::clone::Clone for Struct_GNUNET_PeerIdentity {
+  fn clone(&self) -> Struct_GNUNET_PeerIdentity { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_PeerIdentity) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_PeerIdentity>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_PeerIdentity {
     fn default() -> Struct_GNUNET_PeerIdentity {
@@ -3473,6 +4045,10 @@ impl ::std::default::Default for Struct_GNUNET_PeerIdentity {
 pub struct Struct_GNUNET_CRYPTO_EcdhePublicKey {
     pub q_y: [::libc::c_uchar; 32usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EcdhePublicKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EcdhePublicKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EcdhePublicKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EcdhePublicKey>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdhePublicKey {
         unsafe { ::std::mem::zeroed() }
@@ -3482,6 +4058,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePublicKey {
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EcdhePrivateKey {
     pub d: [::libc::c_uchar; 32usize],
+}
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EcdhePrivateKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EcdhePrivateKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EcdhePrivateKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EcdhePrivateKey>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdhePrivateKey {
@@ -3493,6 +4073,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePrivateKey {
 pub struct Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
     pub d: [::libc::c_uchar; 32usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EcdsaPrivateKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EcdsaPrivateKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EcdsaPrivateKey>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
         unsafe { ::std::mem::zeroed() }
@@ -3502,6 +4086,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_EddsaPrivateKey {
     pub d: [::libc::c_uchar; 32usize],
+}
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_EddsaPrivateKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_EddsaPrivateKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_EddsaPrivateKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_EddsaPrivateKey>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_EddsaPrivateKey {
@@ -3514,6 +4102,10 @@ pub struct Struct_GNUNET_CRYPTO_SymmetricSessionKey {
     pub aes_key: [::libc::c_uchar; 32usize],
     pub twofish_key: [::libc::c_uchar; 32usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_SymmetricSessionKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_SymmetricSessionKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_SymmetricSessionKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_SymmetricSessionKey>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_SymmetricSessionKey {
     fn default() -> Struct_GNUNET_CRYPTO_SymmetricSessionKey {
         unsafe { ::std::mem::zeroed() }
@@ -3524,6 +4116,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_SymmetricSessionKey {
 pub struct Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
     pub aes_iv: [::libc::c_uchar; 16usize],
     pub twofish_iv: [::libc::c_uchar; 16usize],
+}
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_SymmetricInitializationVector { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_SymmetricInitializationVector) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_SymmetricInitializationVector>()) } }
 }
 impl ::std::default::Default for
  Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
@@ -3536,6 +4132,10 @@ impl ::std::default::Default for
 pub struct Struct_GNUNET_CRYPTO_AuthKey {
     pub key: [::libc::c_uchar; 64usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_AuthKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_AuthKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_AuthKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_AuthKey>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_AuthKey {
     fn default() -> Struct_GNUNET_CRYPTO_AuthKey {
         unsafe { ::std::mem::zeroed() }
@@ -3545,6 +4145,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_AuthKey {
 #[derive(Copy)]
 pub struct Struct_GNUNET_CRYPTO_PaillierPublicKey {
     pub n: [::libc::c_uchar; 256usize],
+}
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_PaillierPublicKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_PaillierPublicKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_PaillierPublicKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_PaillierPublicKey>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPublicKey {
     fn default() -> Struct_GNUNET_CRYPTO_PaillierPublicKey {
@@ -3557,6 +4161,10 @@ pub struct Struct_GNUNET_CRYPTO_PaillierPrivateKey {
     pub lambda: [::libc::c_uchar; 256usize],
     pub mu: [::libc::c_uchar; 256usize],
 }
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_PaillierPrivateKey { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_PaillierPrivateKey) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_PaillierPrivateKey>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
     fn default() -> Struct_GNUNET_CRYPTO_PaillierPrivateKey {
         unsafe { ::std::mem::zeroed() }
@@ -3567,6 +4175,10 @@ impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
 pub struct Struct_GNUNET_CRYPTO_PaillierCiphertext {
     pub remaining_ops: int32_t,
     pub bits: [::libc::c_uchar; 512usize],
+}
+impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_PaillierCiphertext {
+  fn clone(&self) -> Struct_GNUNET_CRYPTO_PaillierCiphertext { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CRYPTO_PaillierCiphertext) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CRYPTO_PaillierCiphertext>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierCiphertext {
     fn default() -> Struct_GNUNET_CRYPTO_PaillierCiphertext {
@@ -3587,6 +4199,10 @@ pub enum Struct_GNUNET_CRYPTO_rsa_Signature { }
 #[derive(Copy)]
 pub struct Struct_GNUNET_BANDWIDTH_Value32NBO {
     pub value__: uint32_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_BANDWIDTH_Value32NBO {
+  fn clone(&self) -> Struct_GNUNET_BANDWIDTH_Value32NBO { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_BANDWIDTH_Value32NBO) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_BANDWIDTH_Value32NBO>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_BANDWIDTH_Value32NBO {
     fn default() -> Struct_GNUNET_BANDWIDTH_Value32NBO {
@@ -3609,6 +4225,10 @@ pub struct Struct_GNUNET_BANDWIDTH_Tracker {
     pub last_update__: Struct_GNUNET_TIME_Absolute,
     pub available_bytes_per_s__: uint32_t,
     pub max_carry_s__: uint32_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_BANDWIDTH_Tracker {
+  fn clone(&self) -> Struct_GNUNET_BANDWIDTH_Tracker { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_BANDWIDTH_Tracker) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_BANDWIDTH_Tracker>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_BANDWIDTH_Tracker {
     fn default() -> Struct_GNUNET_BANDWIDTH_Tracker {
@@ -3884,6 +4504,10 @@ pub struct Struct_EXTRACTOR_ExtractContext {
                                             -> uint64_t>,
     pub _proc: EXTRACTOR_MetaDataProcessor,
 }
+impl ::std::clone::Clone for Struct_EXTRACTOR_ExtractContext {
+  fn clone(&self) -> Struct_EXTRACTOR_ExtractContext { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_EXTRACTOR_ExtractContext) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_EXTRACTOR_ExtractContext>()) } }
+}
 impl ::std::default::Default for Struct_EXTRACTOR_ExtractContext {
     fn default() -> Struct_EXTRACTOR_ExtractContext {
         unsafe { ::std::mem::zeroed() }
@@ -3953,6 +4577,10 @@ pub struct Struct_GNUNET_CONNECTION_Credentials {
     pub uid: uid_t,
     pub gid: gid_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_CONNECTION_Credentials {
+  fn clone(&self) -> Struct_GNUNET_CONNECTION_Credentials { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CONNECTION_Credentials) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CONNECTION_Credentials>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CONNECTION_Credentials {
     fn default() -> Struct_GNUNET_CONNECTION_Credentials {
         unsafe { ::std::mem::zeroed() }
@@ -4006,6 +4634,10 @@ pub struct Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
     pub expected_size: uint16_t,
     pub is_variable_size: uint8_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
+  fn clone(&self) -> Struct_GNUNET_CLIENT_MANAGER_MessageHandler { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_CLIENT_MANAGER_MessageHandler) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_CLIENT_MANAGER_MessageHandler>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
     fn default() -> Struct_GNUNET_CLIENT_MANAGER_MessageHandler {
         unsafe { ::std::mem::zeroed() }
@@ -4020,6 +4652,10 @@ pub struct Struct_GNUNET_GETOPT_CommandLineProcessorContext {
     pub argv: *const *mut ::libc::c_char,
     pub argc: ::libc::c_uint,
     pub currentArgument: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_GNUNET_GETOPT_CommandLineProcessorContext {
+  fn clone(&self) -> Struct_GNUNET_GETOPT_CommandLineProcessorContext { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_GETOPT_CommandLineProcessorContext) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_GETOPT_CommandLineProcessorContext>()) } }
 }
 impl ::std::default::Default for
  Struct_GNUNET_GETOPT_CommandLineProcessorContext {
@@ -4046,6 +4682,10 @@ pub struct Struct_GNUNET_GETOPT_CommandLineOption {
     pub processor: GNUNET_GETOPT_CommandLineOptionProcessor,
     pub scls: *mut ::libc::c_void,
 }
+impl ::std::clone::Clone for Struct_GNUNET_GETOPT_CommandLineOption {
+  fn clone(&self) -> Struct_GNUNET_GETOPT_CommandLineOption { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_GETOPT_CommandLineOption) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_GETOPT_CommandLineOption>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_GETOPT_CommandLineOption {
     fn default() -> Struct_GNUNET_GETOPT_CommandLineOption {
         unsafe { ::std::mem::zeroed() }
@@ -4067,6 +4707,10 @@ pub struct Struct_GNUNET_SERVER_MessageHandler {
     pub callback_cls: *mut ::libc::c_void,
     pub _type: uint16_t,
     pub expected_size: uint16_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_SERVER_MessageHandler {
+  fn clone(&self) -> Struct_GNUNET_SERVER_MessageHandler { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_SERVER_MessageHandler) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_SERVER_MessageHandler>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_SERVER_MessageHandler {
     fn default() -> Struct_GNUNET_SERVER_MessageHandler {
@@ -4154,6 +4798,10 @@ pub struct Struct_GNUNET_MQ_MessageHandler {
     pub _type: uint16_t,
     pub expected_size: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_MQ_MessageHandler {
+  fn clone(&self) -> Struct_GNUNET_MQ_MessageHandler { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_MQ_MessageHandler) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_MQ_MessageHandler>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_MQ_MessageHandler {
     fn default() -> Struct_GNUNET_MQ_MessageHandler {
         unsafe { ::std::mem::zeroed() }
@@ -4238,6 +4886,10 @@ pub struct Struct_GNUNET_STRINGS_PortPolicy {
     pub end_port: uint16_t,
     pub negate_portrange: ::libc::c_int,
 }
+impl ::std::clone::Clone for Struct_GNUNET_STRINGS_PortPolicy {
+  fn clone(&self) -> Struct_GNUNET_STRINGS_PortPolicy { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_STRINGS_PortPolicy) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_STRINGS_PortPolicy>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_STRINGS_PortPolicy {
     fn default() -> Struct_GNUNET_STRINGS_PortPolicy {
         unsafe { ::std::mem::zeroed() }
@@ -4249,6 +4901,10 @@ pub struct Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
     pub network: Struct_in_addr,
     pub netmask: Struct_in_addr,
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
+}
+impl ::std::clone::Clone for Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
+  fn clone(&self) -> Struct_GNUNET_STRINGS_IPv4NetworkPolicy { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_STRINGS_IPv4NetworkPolicy) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_STRINGS_IPv4NetworkPolicy>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
     fn default() -> Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
@@ -4262,6 +4918,10 @@ pub struct Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
     pub netmask: Struct_in6_addr,
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
 }
+impl ::std::clone::Clone for Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
+  fn clone(&self) -> Struct_GNUNET_STRINGS_IPv6NetworkPolicy { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_STRINGS_IPv6NetworkPolicy) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_STRINGS_IPv6NetworkPolicy>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
     fn default() -> Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
         unsafe { ::std::mem::zeroed() }
@@ -4272,6 +4932,10 @@ impl ::std::default::Default for Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
 pub struct Struct_GNUNET_TUN_Layer2PacketHeader {
     pub flags: uint16_t,
     pub proto: uint16_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_TUN_Layer2PacketHeader {
+  fn clone(&self) -> Struct_GNUNET_TUN_Layer2PacketHeader { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_Layer2PacketHeader) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_Layer2PacketHeader>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_Layer2PacketHeader {
     fn default() -> Struct_GNUNET_TUN_Layer2PacketHeader {
@@ -4292,6 +4956,10 @@ pub struct Struct_GNUNET_TUN_IPv4Header {
     pub source_address: Struct_in_addr,
     pub destination_address: Struct_in_addr,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_IPv4Header {
+  fn clone(&self) -> Struct_GNUNET_TUN_IPv4Header { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_IPv4Header) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_IPv4Header>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_IPv4Header {
     fn default() -> Struct_GNUNET_TUN_IPv4Header {
         unsafe { ::std::mem::zeroed() }
@@ -4306,6 +4974,10 @@ pub struct Struct_GNUNET_TUN_IPv6Header {
     pub hop_limit: uint8_t,
     pub source_address: Struct_in6_addr,
     pub destination_address: Struct_in6_addr,
+}
+impl ::std::clone::Clone for Struct_GNUNET_TUN_IPv6Header {
+  fn clone(&self) -> Struct_GNUNET_TUN_IPv6Header { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_IPv6Header) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_IPv6Header>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_IPv6Header {
     fn default() -> Struct_GNUNET_TUN_IPv6Header {
@@ -4325,6 +4997,10 @@ pub struct Struct_GNUNET_TUN_TcpHeader {
     pub crc: uint16_t,
     pub urgent_pointer: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_TcpHeader {
+  fn clone(&self) -> Struct_GNUNET_TUN_TcpHeader { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_TcpHeader) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_TcpHeader>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_TcpHeader {
     fn default() -> Struct_GNUNET_TUN_TcpHeader {
         unsafe { ::std::mem::zeroed() }
@@ -4338,6 +5014,10 @@ pub struct Struct_GNUNET_TUN_UdpHeader {
     pub len: uint16_t,
     pub crc: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_UdpHeader {
+  fn clone(&self) -> Struct_GNUNET_TUN_UdpHeader { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_UdpHeader) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_UdpHeader>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_UdpHeader {
     fn default() -> Struct_GNUNET_TUN_UdpHeader {
         unsafe { ::std::mem::zeroed() }
@@ -4347,6 +5027,10 @@ impl ::std::default::Default for Struct_GNUNET_TUN_UdpHeader {
 #[derive(Copy)]
 pub struct Struct_GNUNET_TUN_DnsFlags {
     pub _bindgen_bitfield_1_: ::libc::c_uint,
+}
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsFlags {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsFlags { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsFlags) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsFlags>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsFlags {
     fn default() -> Struct_GNUNET_TUN_DnsFlags {
@@ -4363,6 +5047,10 @@ pub struct Struct_GNUNET_TUN_DnsHeader {
     pub authority_rcount: uint16_t,
     pub additional_rcount: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsHeader {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsHeader { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsHeader) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsHeader>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsHeader {
     fn default() -> Struct_GNUNET_TUN_DnsHeader {
         unsafe { ::std::mem::zeroed() }
@@ -4377,6 +5065,10 @@ pub struct Struct_GNUNET_TUN_DnsSoaRecord {
     pub expire: uint32_t,
     pub minimum: uint32_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsSoaRecord {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsSoaRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsSoaRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsSoaRecord>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsSoaRecord {
     fn default() -> Struct_GNUNET_TUN_DnsSoaRecord {
         unsafe { ::std::mem::zeroed() }
@@ -4388,6 +5080,10 @@ pub struct Struct_GNUNET_TUN_DnsSrvRecord {
     pub prio: uint16_t,
     pub weight: uint16_t,
     pub port: uint16_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsSrvRecord {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsSrvRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsSrvRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsSrvRecord>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsSrvRecord {
     fn default() -> Struct_GNUNET_TUN_DnsSrvRecord {
@@ -4401,6 +5097,10 @@ pub struct Struct_GNUNET_TUN_DnsCertRecord {
     pub cert_tag: uint16_t,
     pub algorithm: uint8_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsCertRecord {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsCertRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsCertRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsCertRecord>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsCertRecord {
     fn default() -> Struct_GNUNET_TUN_DnsCertRecord {
         unsafe { ::std::mem::zeroed() }
@@ -4413,6 +5113,10 @@ pub struct Struct_GNUNET_TUN_DnsTlsaRecord {
     pub selector: uint8_t,
     pub matching_type: uint8_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsTlsaRecord {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsTlsaRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsTlsaRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsTlsaRecord>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsTlsaRecord {
     fn default() -> Struct_GNUNET_TUN_DnsTlsaRecord {
         unsafe { ::std::mem::zeroed() }
@@ -4424,6 +5128,10 @@ pub struct Struct_GNUNET_TUN_GnsVpnRecord {
     pub peer: Struct_GNUNET_PeerIdentity,
     pub proto: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_GnsVpnRecord {
+  fn clone(&self) -> Struct_GNUNET_TUN_GnsVpnRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_GnsVpnRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_GnsVpnRecord>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_GnsVpnRecord {
     fn default() -> Struct_GNUNET_TUN_GnsVpnRecord {
         unsafe { ::std::mem::zeroed() }
@@ -4434,6 +5142,10 @@ impl ::std::default::Default for Struct_GNUNET_TUN_GnsVpnRecord {
 pub struct Struct_GNUNET_TUN_DnsQueryLine {
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsQueryLine {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsQueryLine { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsQueryLine) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsQueryLine>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsQueryLine {
     fn default() -> Struct_GNUNET_TUN_DnsQueryLine {
@@ -4448,6 +5160,10 @@ pub struct Struct_GNUNET_TUN_DnsRecordLine {
     pub ttl: uint32_t,
     pub data_len: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_DnsRecordLine {
+  fn clone(&self) -> Struct_GNUNET_TUN_DnsRecordLine { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_DnsRecordLine) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_DnsRecordLine>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsRecordLine {
     fn default() -> Struct_GNUNET_TUN_DnsRecordLine {
         unsafe { ::std::mem::zeroed() }
@@ -4461,6 +5177,10 @@ pub struct Struct_GNUNET_TUN_IcmpHeader {
     pub crc: uint16_t,
     pub quench: Union_Unnamed73,
 }
+impl ::std::clone::Clone for Struct_GNUNET_TUN_IcmpHeader {
+  fn clone(&self) -> Struct_GNUNET_TUN_IcmpHeader { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_TUN_IcmpHeader) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_TUN_IcmpHeader>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_TUN_IcmpHeader {
     fn default() -> Struct_GNUNET_TUN_IcmpHeader {
         unsafe { ::std::mem::zeroed() }
@@ -4470,6 +5190,10 @@ impl ::std::default::Default for Struct_GNUNET_TUN_IcmpHeader {
 #[derive(Copy)]
 pub struct Union_Unnamed73 {
     pub _bindgen_data_: [u8; 4usize],
+}
+impl ::std::clone::Clone for Union_Unnamed73 {
+  fn clone(&self) -> Union_Unnamed73 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed73) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed73>()) } }
 }
 impl Union_Unnamed73 {
     pub unsafe fn echo(&mut self) -> *mut Struct_Unnamed74 {
@@ -4494,6 +5218,10 @@ pub struct Struct_Unnamed74 {
     pub identifier: uint16_t,
     pub sequence_number: uint16_t,
 }
+impl ::std::clone::Clone for Struct_Unnamed74 {
+  fn clone(&self) -> Struct_Unnamed74 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_Unnamed74) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_Unnamed74>()) } }
+}
 impl ::std::default::Default for Struct_Unnamed74 {
     fn default() -> Struct_Unnamed74 { unsafe { ::std::mem::zeroed() } }
 }
@@ -4502,6 +5230,10 @@ impl ::std::default::Default for Struct_Unnamed74 {
 pub struct Struct_ih_pmtu {
     pub empty: uint16_t,
     pub next_hop_mtu: uint16_t,
+}
+impl ::std::clone::Clone for Struct_ih_pmtu {
+  fn clone(&self) -> Struct_ih_pmtu { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_ih_pmtu) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_ih_pmtu>()) } }
 }
 impl ::std::default::Default for Struct_ih_pmtu {
     fn default() -> Struct_ih_pmtu { unsafe { ::std::mem::zeroed() } }
@@ -4513,6 +5245,10 @@ pub struct Struct_GNUNET_DNSPARSER_Query {
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_Query {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_Query { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_Query) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_Query>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Query {
     fn default() -> Struct_GNUNET_DNSPARSER_Query {
         unsafe { ::std::mem::zeroed() }
@@ -4523,6 +5259,10 @@ impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Query {
 pub struct Struct_GNUNET_DNSPARSER_MxRecord {
     pub preference: uint16_t,
     pub mxhost: *mut ::libc::c_char,
+}
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_MxRecord {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_MxRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_MxRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_MxRecord>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_MxRecord {
     fn default() -> Struct_GNUNET_DNSPARSER_MxRecord {
@@ -4536,6 +5276,10 @@ pub struct Struct_GNUNET_DNSPARSER_SrvRecord {
     pub priority: uint16_t,
     pub weight: uint16_t,
     pub port: uint16_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_SrvRecord {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_SrvRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_SrvRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_SrvRecord>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_SrvRecord {
     fn default() -> Struct_GNUNET_DNSPARSER_SrvRecord {
@@ -4576,6 +5320,10 @@ pub struct Struct_GNUNET_DNSPARSER_CertRecord {
     pub certificate_size: size_t,
     pub certificate_data: *mut ::libc::c_char,
 }
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_CertRecord {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_CertRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_CertRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_CertRecord>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_CertRecord {
     fn default() -> Struct_GNUNET_DNSPARSER_CertRecord {
         unsafe { ::std::mem::zeroed() }
@@ -4592,6 +5340,10 @@ pub struct Struct_GNUNET_DNSPARSER_SoaRecord {
     pub expire: uint32_t,
     pub minimum_ttl: uint32_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_SoaRecord {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_SoaRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_SoaRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_SoaRecord>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_SoaRecord {
     fn default() -> Struct_GNUNET_DNSPARSER_SoaRecord {
         unsafe { ::std::mem::zeroed() }
@@ -4602,6 +5354,10 @@ impl ::std::default::Default for Struct_GNUNET_DNSPARSER_SoaRecord {
 pub struct Struct_GNUNET_DNSPARSER_RawRecord {
     pub data: *mut ::libc::c_void,
     pub data_len: size_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_RawRecord {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_RawRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_RawRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_RawRecord>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_RawRecord {
     fn default() -> Struct_GNUNET_DNSPARSER_RawRecord {
@@ -4617,6 +5373,10 @@ pub struct Struct_GNUNET_DNSPARSER_Record {
     pub _type: uint16_t,
     pub dns_traffic_class: uint16_t,
 }
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_Record {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_Record { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_Record) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_Record>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Record {
     fn default() -> Struct_GNUNET_DNSPARSER_Record {
         unsafe { ::std::mem::zeroed() }
@@ -4626,6 +5386,10 @@ impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Record {
 #[derive(Copy)]
 pub struct Union_Unnamed75 {
     pub _bindgen_data_: [u64; 2usize],
+}
+impl ::std::clone::Clone for Union_Unnamed75 {
+  fn clone(&self) -> Union_Unnamed75 { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Union_Unnamed75) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Union_Unnamed75>()) } }
 }
 impl Union_Unnamed75 {
     pub unsafe fn hostname(&mut self) -> *mut *mut ::libc::c_char {
@@ -4667,6 +5431,10 @@ pub struct Struct_GNUNET_DNSPARSER_Packet {
     pub num_additional_records: ::libc::c_uint,
     pub flags: Struct_GNUNET_TUN_DnsFlags,
     pub id: uint16_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_DNSPARSER_Packet {
+  fn clone(&self) -> Struct_GNUNET_DNSPARSER_Packet { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_DNSPARSER_Packet) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_DNSPARSER_Packet>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Packet {
     fn default() -> Struct_GNUNET_DNSPARSER_Packet {
@@ -4712,6 +5480,10 @@ pub struct Struct_GNUNET_GNSRECORD_Data {
     pub record_type: uint32_t,
     pub flags: Enum_GNUNET_GNSRECORD_Flags,
 }
+impl ::std::clone::Clone for Struct_GNUNET_GNSRECORD_Data {
+  fn clone(&self) -> Struct_GNUNET_GNSRECORD_Data { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_GNSRECORD_Data) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_GNSRECORD_Data>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_GNSRECORD_Data {
     fn default() -> Struct_GNUNET_GNSRECORD_Data {
         unsafe { ::std::mem::zeroed() }
@@ -4723,6 +5495,10 @@ pub struct Struct_GNUNET_GNSRECORD_PlaceData {
     pub place_key: Struct_GNUNET_CRYPTO_EddsaPublicKey,
     pub origin: Struct_GNUNET_PeerIdentity,
     pub relay_count: uint32_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_GNSRECORD_PlaceData {
+  fn clone(&self) -> Struct_GNUNET_GNSRECORD_PlaceData { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_GNSRECORD_PlaceData) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_GNSRECORD_PlaceData>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_GNSRECORD_PlaceData {
     fn default() -> Struct_GNUNET_GNSRECORD_PlaceData {
@@ -4737,6 +5513,10 @@ pub struct Struct_GNUNET_GNSRECORD_Block {
     pub purpose: Struct_GNUNET_CRYPTO_EccSignaturePurpose,
     pub expiration_time: Struct_GNUNET_TIME_AbsoluteNBO,
 }
+impl ::std::clone::Clone for Struct_GNUNET_GNSRECORD_Block {
+  fn clone(&self) -> Struct_GNUNET_GNSRECORD_Block { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_GNSRECORD_Block) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_GNSRECORD_Block>()) } }
+}
 impl ::std::default::Default for Struct_GNUNET_GNSRECORD_Block {
     fn default() -> Struct_GNUNET_GNSRECORD_Block {
         unsafe { ::std::mem::zeroed() }
@@ -4748,6 +5528,10 @@ pub struct Struct_GNUNET_GNSRECORD_BoxRecord {
     pub protocol: uint16_t,
     pub service: uint16_t,
     pub record_type: uint32_t,
+}
+impl ::std::clone::Clone for Struct_GNUNET_GNSRECORD_BoxRecord {
+  fn clone(&self) -> Struct_GNUNET_GNSRECORD_BoxRecord { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct_GNUNET_GNSRECORD_BoxRecord) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct_GNUNET_GNSRECORD_BoxRecord>()) } }
 }
 impl ::std::default::Default for Struct_GNUNET_GNSRECORD_BoxRecord {
     fn default() -> Struct_GNUNET_GNSRECORD_BoxRecord {
@@ -4817,6 +5601,10 @@ pub struct Struct___va_list_tag {
     pub fp_offset: ::libc::c_uint,
     pub overflow_arg_area: *mut ::libc::c_void,
     pub reg_save_area: *mut ::libc::c_void,
+}
+impl ::std::clone::Clone for Struct___va_list_tag {
+  fn clone(&self) -> Struct___va_list_tag { unsafe { ::std::mem::transmute_copy(self) } }
+  fn clone_from(&mut self, source: &Struct___va_list_tag) { unsafe { ::std::ptr::copy_nonoverlapping(source, self, ::std::mem::size_of::<Struct___va_list_tag>()) } }
 }
 impl ::std::default::Default for Struct___va_list_tag {
     fn default() -> Struct___va_list_tag { unsafe { ::std::mem::zeroed() } }

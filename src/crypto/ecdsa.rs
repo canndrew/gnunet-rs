@@ -1,10 +1,11 @@
+use std::old_io::{Writer, Reader};
 use std::old_io::IoResult;
 use std::str::FromStr;
 use std::mem;
 use std::fmt::{self, Debug, Formatter};
 use std::mem::{uninitialized, size_of, size_of_val};
 use std::str::from_utf8;
-use std::slice::from_raw_buf;
+use std::slice::from_raw_parts;
 use libc::{c_void, size_t, c_char};
 
 use ll;
@@ -12,7 +13,7 @@ use crypto::hashcode::HashCode;
 use crypto::error::*;
 
 /// A 256bit ECDSA public key.
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct EcdsaPublicKey {
   data: ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey,
 }
@@ -26,8 +27,8 @@ impl EcdsaPublicKey {
   /// Compute the hash of this key.
   pub fn hash(&self) -> HashCode {
     unsafe {
-      HashCode::hash(from_raw_buf(
-          &(&self.data as *const ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey as *const u8),
+      HashCode::hash(from_raw_parts(
+          &self.data as *const ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey as *const u8,
           size_of::<ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey>()
       ))
     }

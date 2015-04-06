@@ -1,4 +1,4 @@
-use std::old_io::{Reader, BytesReader};
+use std::old_io::{Reader, Writer, BytesReader};
 use std::str::from_utf8;
 use std::collections::HashMap;
 use std::num::ToPrimitive;
@@ -176,7 +176,7 @@ impl IdentityService {
               match &s[..] == name {
                 true  =>  {
                   let id = pk.get_public().hash();
-                  Ok(self.egos[id].clone())
+                  Ok(self.egos[&id].clone())
                 },
                 false => Err(GetDefaultEgoError::InvalidResponse),
               }

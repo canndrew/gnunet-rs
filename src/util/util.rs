@@ -1,3 +1,4 @@
+use std::old_io::Reader;
 use std::path::AsPath;
 use std::ffi::{AsOsStr, CString};
 
@@ -21,7 +22,7 @@ pub trait CStringReader: Reader {
 
   fn read_cstring_with_len(&mut self, len: usize) -> Result<String, ReadCStringWithLenError> {
     let mut v: Vec<u8> = Vec::with_capacity(len);
-    for i in range(0, len) {
+    for i in 0..len {
       let b = try!(self.read_u8());
       if b == 0u8 {
         // must not contain embedded NULs

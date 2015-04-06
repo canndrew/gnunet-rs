@@ -1,8 +1,8 @@
-use std::old_io::{Reader, IoResult, EndOfFile};
+use std::old_io::{Reader, Writer, IoResult, EndOfFile};
 use std::old_io::net::pipe::UnixStream;
 use std::old_io::util::LimitReader;
 use std::old_io::{MemReader, MemWriter};
-use std::thread::{Thread, JoinGuard};
+use std::thread;
 use std::result::Result;
 
 use Configuration;
@@ -28,7 +28,7 @@ pub struct ServiceWriter {
   pub connection: UnixStream, // TODO: should be UnixWriter
 }
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum ProcessMessageResult {
   Continue,
   Reconnect,
@@ -42,7 +42,8 @@ pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, Servic
   };
 
   // TODO: use UnixStream::split() instead when it exists
-  let in_stream = try!(UnixStream::connect(&unixpath));
+  let path = unixpath.into_os_string().into_string().unwrap();
+  let in_stream = try!(UnixStream::connect(path));
   let out_stream = in_stream.clone();
 
   let r = ServiceReader {
@@ -61,7 +62,7 @@ impl ServiceReader {
             F: 'static
   {
     let reader = self.connection.clone();
-    let callback_loop = Thread::scoped(move || -> ServiceReader {
+    let callback_loop = thread::scoped(move || -> ServiceReader {
       //TODO: implement reconnection (currently fails)
       loop {
         let len = match self.connection.read_be_u16() {
@@ -137,7 +138,7 @@ impl<'a> Writer for MessageWriter<'a> {
 
 pub struct ServiceReadLoop {
   reader: UnixStream,
-  _callback_loop: JoinGuard<'static, ServiceReader>,
+  _callback_loop: thread::JoinGuard<'static, ServiceReader>,
 }
 
 impl ServiceReadLoop {
