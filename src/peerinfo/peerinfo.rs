@@ -11,6 +11,7 @@ use Hello;
 
 use peerinfo::error::*;
 
+/// The identity of a GNUnet peer.
 pub struct PeerIdentity {
   data: ll::Struct_GNUNET_PeerIdentity,
 }
@@ -23,6 +24,7 @@ impl PeerIdentity {
   }
 }
 
+/// Iterate over all the currently connected peers.
 pub fn iterate_peers(cfg: &Configuration) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
   
@@ -35,6 +37,7 @@ pub fn iterate_peers(cfg: &Configuration) -> Result<Peers, IteratePeersError> {
   })
 } 
 
+/// An iterator over all the currently connected peers.
 pub struct Peers {
   service: ServiceReader,
 }

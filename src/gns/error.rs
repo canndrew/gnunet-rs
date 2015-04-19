@@ -15,6 +15,7 @@ pub enum LookupError {
 }
 error_chain! {IoError, LookupError, Io}
 
+/// Errors returned by `gns::lookup`.
 #[derive(Debug)]
 pub enum ConnectLookupError {
   /// Failed to connect to the GNS service.
@@ -26,6 +27,7 @@ pub enum ConnectLookupError {
 error_chain! {service::ConnectError, ConnectLookupError, Connect}
 error_chain! {LookupError, ConnectLookupError, Lookup}
 
+/// Errors returned by `gns::lookup_in_master`.
 #[derive(Debug)]
 pub enum ConnectLookupInMasterError {
   /// Failed to connect to the GNS service and perform the lookup.
@@ -36,6 +38,7 @@ pub enum ConnectLookupInMasterError {
 error_chain! {ConnectLookupError, ConnectLookupInMasterError, GnsLookup}
 error_chain! {identity::ConnectGetDefaultEgoError, ConnectLookupInMasterError, IdentityGetDefaultEgo}
 
+/// Used to indicate a `str` could not be parsed as a `RecordType`.
 #[derive(Debug)]
 pub struct RecordTypeFromStrError;
 

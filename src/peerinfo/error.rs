@@ -3,6 +3,7 @@ use std::fmt;
 
 use service::{ConnectError, ReadMessageError};
 
+/// Errors returned by `iterate_peers`.
 #[derive(Debug)]
 pub enum IteratePeersError {
   Io(IoError),
@@ -11,11 +12,16 @@ pub enum IteratePeersError {
 error_chain! {IoError, IteratePeersError, Io}
 error_chain! {ConnectError, IteratePeersError, Connect}
 
+/// Errors returned by `Peers::next`.
 #[derive(Debug)]
 pub enum NextPeerError {
+  /// The response from the gnunet-peerinfo service was incoherent.
   InvalidResponse,
+  /// The gnunet-peerinfo service gave an unexpected response.
   UnexpectedMessageType(u16),
+  /// There was an I/O error communicating with the gnunet-peerinfo service.
   Io(IoError),
+  /// There was an error receiving the response from the gnunet-peerinfo service.
   ReadMessage(ReadMessageError),
 }
 error_chain! {IoError, NextPeerError, Io}
