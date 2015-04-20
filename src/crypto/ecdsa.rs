@@ -1,16 +1,16 @@
-use std::old_io::{Writer, Reader};
-use std::old_io::IoResult;
 use std::str::FromStr;
 use std::mem;
 use std::fmt::{self, Debug, Formatter};
 use std::mem::{uninitialized, size_of, size_of_val};
 use std::str::from_utf8;
 use std::slice::from_raw_parts;
+use std::io::{self, Read, Write};
 use libc::{c_void, size_t, c_char};
 
 use ll;
 use crypto::hashcode::HashCode;
 use crypto::error::*;
+use util::io::ReadUtil;
 
 /// A 256bit ECDSA public key.
 #[derive(Copy, Clone)]
@@ -20,8 +20,8 @@ pub struct EcdsaPublicKey {
 
 impl EcdsaPublicKey {
   /// Serialize key to a byte stream.
-  pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
-    w.write(&self.data.q_y)
+  pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error> where T: Write {
+    w.write_all(&self.data.q_y)
   }
 
   /// Compute the hash of this key.
@@ -84,14 +84,14 @@ pub struct EcdsaPrivateKey {
 
 impl EcdsaPrivateKey {
   /// Serialize this key to a byte stream.
-  pub fn serialize<T>(&self, w: &mut T) -> IoResult<()> where T: Writer {
-    w.write(&self.data.d)
+  pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error> where T: Write {
+    w.write_all(&self.data.d)
   }
 
   /// Deserialize a from a byte stream.
-  pub fn deserialize<T>(r: &mut T) -> IoResult<EcdsaPrivateKey> where T: Reader {
+  pub fn deserialize<T>(r: &mut T) -> Result<EcdsaPrivateKey, io::Error> where T: Read {
     let mut ret: EcdsaPrivateKey = unsafe { uninitialized() };
-    try!(r.read_at_least(ret.data.d.len(), &mut ret.data.d));
+    try!(r.read_exact(&mut ret.data.d[..]));
     Ok(ret)
   }
 

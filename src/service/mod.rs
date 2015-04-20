@@ -1,11 +1,11 @@
-use std::old_io::{Reader, Writer, IoResult, EndOfFile};
-use std::old_io::net::pipe::UnixStream;
-use std::old_io::util::LimitReader;
-use std::old_io::{MemReader, MemWriter};
+use std::io::{self, Write, Cursor};
 use std::thread;
-use std::result::Result;
+use std::net::Shutdown;
+use unix_socket::UnixStream;
+use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
 use Configuration;
+use util::io::ReadUtil;
 
 pub use self::error::*;
 
@@ -44,7 +44,7 @@ pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, Servic
   // TODO: use UnixStream::split() instead when it exists
   let path = unixpath.into_os_string().into_string().unwrap();
   let in_stream = try!(UnixStream::connect(path));
-  let out_stream = in_stream.clone();
+  let out_stream = try!(in_stream.try_clone());
 
   let r = ServiceReader {
     connection: in_stream,
@@ -56,46 +56,40 @@ pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, Servic
 }
 
 impl ServiceReader {
-  pub fn spawn_callback_loop<F>(mut self, mut cb: F) -> ServiceReadLoop
-      where F: FnMut(u16, LimitReader<UnixStream>) -> ProcessMessageResult,
+  pub fn spawn_callback_loop<F>(mut self, mut cb: F) -> Result<ServiceReadLoop, io::Error>
+      where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
             F: Send,
             F: 'static
   {
-    let reader = self.connection.clone();
+    let reader = try!(self.connection.try_clone());
     let callback_loop = thread::scoped(move || -> ServiceReader {
       //TODO: implement reconnection (currently fails)
       loop {
-        let len = match self.connection.read_be_u16() {
+        let (tpe, mr) = match self.read_message() {
           Ok(x)   => x,
-          Err(e)  => match e.kind {
-            EndOfFile => return self,
-            _         => return self, //TODO: auto reconnect
-          },
+          Err(_)  => return self, // TODO: reconnect
         };
-        // TODO: remove these unwraps, do auto reconnect of failure
-        let tpe = self.connection.read_be_u16().unwrap();
-        let lr = LimitReader::new(self.connection.clone(), len as usize); // TODO: get rid of this clone
-        match cb(tpe, lr) {
-          ProcessMessageResult::Continue  => /* TODO: need lifetimes on closures to do this: assert!(lr.limit() == 0, "callback did not read entire message") */ (),
+        match cb(tpe, mr) {
+          ProcessMessageResult::Continue  => (),
           ProcessMessageResult::Reconnect => return self, //TODO: auto reconnect
           ProcessMessageResult::Shutdown  => return self,
         };
       }
     });
-    ServiceReadLoop {
-      reader: reader,
+    Ok(ServiceReadLoop {
+      reader:        reader,
       _callback_loop: callback_loop,
-    }
+    })
   }
 
-  pub fn read_message(&mut self) -> Result<(u16, MemReader), ReadMessageError> {
-    let len = try!(self.connection.read_be_u16());
+  pub fn read_message(&mut self) -> Result<(u16, Cursor<Vec<u8>>), ReadMessageError> {
+    let len = try!(self.connection.read_u16::<BigEndian>());
     if len < 4 {
       return Err(ReadMessageError::ShortMessage(len));
-    }
-    let v = try!(self.connection.read_exact(len as usize - 2));
-    let mut mr = MemReader::new(v);
-    let tpe = try!(mr.read_be_u16());
+    };
+    let v = try!(self.connection.read_exact_alloc(len as usize - 2));
+    let mut mr = Cursor::new(v);
+    let tpe = try!(mr.read_u16::<BigEndian>());
     Ok((tpe, mr))
   }
 }
@@ -103,9 +97,10 @@ impl ServiceReader {
 impl ServiceWriter {
   pub fn write_message<'a>(&'a mut self, len: u16, tpe: u16) -> MessageWriter<'a> {
     assert!(len >= 4);
-    let mut mw = MemWriter::with_capacity(len as usize);
-    mw.write_be_u16(len).unwrap();
-    mw.write_be_u16(tpe).unwrap();
+    let v = Vec::with_capacity(len as usize);
+    let mut mw = Cursor::new(v);
+    mw.write_u16::<BigEndian>(len).unwrap();
+    mw.write_u16::<BigEndian>(tpe).unwrap();
     MessageWriter {
       service_writer: self,
       mw: mw,
@@ -115,24 +110,24 @@ impl ServiceWriter {
 
 pub struct MessageWriter<'a> {
   service_writer: &'a mut ServiceWriter,
-  mw: MemWriter,
+  mw: Cursor<Vec<u8>>,
 }
 
 impl<'a> MessageWriter<'a> {
-  pub fn send(self) -> IoResult<()> {
+  pub fn send(self) -> Result<(), io::Error> {
     let v = self.mw.into_inner();
     assert!(v.len() == v.capacity());
-    self.service_writer.connection.write(&v[..])
+    self.service_writer.connection.write_all(&v[..])
   }
 }
 
-impl<'a> Writer for MessageWriter<'a> {
-  fn write(&mut self, buf: &[u8]) -> IoResult<()> {
+impl<'a> Write for MessageWriter<'a> {
+  fn write(&mut self, buf: &[u8]) -> Result<usize, io::Error> {
     self.mw.write(buf)
   }
 
-  fn write_all(&mut self, buf: &[u8]) -> IoResult<()> {
-    self.mw.write_all(buf)
+  fn flush(&mut self) -> Result<(), io::Error> {
+    Ok(())
   }
 }
 
@@ -144,15 +139,15 @@ pub struct ServiceReadLoop {
 impl ServiceReadLoop {
   /*
   fn join(mut self) -> ServiceReader {
-    let _ = self.reader.close_read();
-    self.callback_loop.join().ok().unwrap()
+    let _ = self.reader.shutdown(Shutdown::Read);
+    self.callback_loop.join().unwrap()
   }
   */
 }
 
 impl Drop for ServiceReadLoop {
   fn drop(&mut self) {
-    let _ = self.reader.close_read();
+    let _ = self.reader.shutdown(Shutdown::Read);
     //let _ = self.callback_loop.join();
   }
 }

@@ -1,10 +1,9 @@
-use std::old_io::net::pipe::UnixStream;
-use std::old_io::util::LimitReader;
-use std::old_io::{Reader, Writer};
 use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
 use std::num::ToPrimitive;
+use std::io::{Write, Cursor};
+use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
 use identity;
 use ll;
@@ -48,7 +47,7 @@ impl GNS {
     let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
 
     let (service_reader, service_writer) = try!(service::connect(cfg, "gns"));
-    let callback_loop = service_reader.spawn_callback_loop(move |tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
+    let callback_loop = try!(service_reader.spawn_callback_loop(move |tpe: u16, mut reader: Cursor<Vec<u8>>| -> ProcessMessageResult {
       loop {
         match lookup_rx.try_recv() {
           Ok((id, sender)) => {
@@ -64,13 +63,13 @@ impl GNS {
       //       need a way to detect when the remote Receiver has hung up
       match tpe {
         ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
-          let id = match reader.read_be_u32() {
+          let id = match reader.read_u32::<BigEndian>() {
             Ok(id)  => id,
             Err(_)  => return ProcessMessageResult::Reconnect,
           };
           match handles.get(&id) {
             Some(sender) => {
-              let rd_count = match reader.read_be_u32() {
+              let rd_count = match reader.read_u32::<BigEndian>() {
                 Ok(x)   => x,
                 Err(_)  => return ProcessMessageResult::Reconnect,
               };
@@ -87,11 +86,8 @@ impl GNS {
         },
         _ => return ProcessMessageResult::Reconnect,
       };
-      match reader.limit() {
-        0 => ProcessMessageResult::Continue,
-        _ => ProcessMessageResult::Reconnect,
-      }
-    });
+      ProcessMessageResult::Continue
+    }));
     Ok(GNS {
       service_writer: service_writer,
       _callback_loop: callback_loop,
@@ -141,17 +137,17 @@ impl GNS {
 
     let msg_length = (80 + name_len + 1).to_u16().unwrap();
     let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP);
-    try!(mw.write_be_u32(id));
-    try!(zone.serialize(&mut mw));
-    try!(mw.write_be_i16(options as i16));
-    try!(mw.write_be_i16(shorten.is_some() as i16));
-    try!(mw.write_be_i32(record_type as i32));
+    mw.write_u32::<BigEndian>(id).unwrap();
+    zone.serialize(&mut mw).unwrap();
+    mw.write_i16::<BigEndian>(options as i16).unwrap();
+    mw.write_i16::<BigEndian>(shorten.is_some() as i16).unwrap();
+    mw.write_i32::<BigEndian>(record_type as i32).unwrap();
     match shorten {
-      Some(z) => try!(z.serialize(&mut mw)),
-      None    => try!(mw.write(&[0u8; 32])),
+      Some(z) => z.serialize(&mut mw).unwrap(),
+      None    => mw.write_all(&[0u8; 32]).unwrap(),
     };
-    try!(mw.write(name.as_bytes()));
-    try!(mw.write_u8(0u8));
+    mw.write_all(name.as_bytes()).unwrap();
+    mw.write_u8(0u8).unwrap();
 
     let (tx, rx) = channel::<Record>();
     self.lookup_tx.send((id, tx)).unwrap(); // panics if the callback loop has panicked

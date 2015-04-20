@@ -1,15 +1,17 @@
-use std::old_io::{IoResult, Reader};
 use std::str::FromStr;
 use std::fmt::{Debug, Formatter};
 use std::fmt;
 use std::str::from_utf8;
 use std::ffi::CStr;
+use std::io::{self, Read};
 //use std::c_str::CString;
+use byteorder::{BigEndian, ReadBytesExt};
 use libc::{free, c_char, c_void};
 
 use ll;
 use self::RecordType::*;
 use gns::error::*;
+use util::io::ReadUtil;
 
 /// An enum of the different GNS record types.
 ///
@@ -125,12 +127,12 @@ pub struct Record {
 
 impl Record {
   /// Deserialize a record from a byte stream.
-  pub fn deserialize<T>(reader: &mut T) -> IoResult<Record> where T: Reader {
-    let expiration_time = try!(reader.read_be_u64());
-    let data_size = try!(reader.read_be_u32()) as u64;
-    let record_type = try!(reader.read_be_u32());
-    let flags = try!(reader.read_be_u32());
-    let buff = try!(reader.read_exact(data_size as usize));
+  pub fn deserialize<T>(reader: &mut T) -> Result<Record, io::Error> where T: Read {
+    let expiration_time = try!(reader.read_u64::<BigEndian>());
+    let data_size = try!(reader.read_u32::<BigEndian>()) as u64;
+    let record_type = try!(reader.read_u32::<BigEndian>());
+    let flags = try!(reader.read_u32::<BigEndian>());
+    let buff = try!(reader.read_exact_alloc(data_size as usize));
     let data = buff.as_ptr() as *const c_void;
 
     Ok(Record {

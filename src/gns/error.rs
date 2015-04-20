@@ -1,4 +1,4 @@
-use std::old_io::IoError;
+use std::io;
 use std::fmt;
 
 use service;
@@ -11,9 +11,9 @@ pub enum LookupError {
   /// The specified domain name was too long.
   NameTooLong(String),
   /// An I/O error occured while talking to the GNS service.
-  Io(IoError),
+  Io(io::Error),
 }
-error_chain! {IoError, LookupError, Io}
+error_chain! {io::Error, LookupError, Io}
 
 /// Errors returned by `gns::lookup`.
 #[derive(Debug)]

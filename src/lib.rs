@@ -17,19 +17,20 @@
 
 #![feature(unboxed_closures)]
 #![feature(unsafe_destructor)]
-#![feature(io)]
-#![feature(old_io)]
 #![feature(std_misc)]
 #![feature(core)]
-#![feature(rand)]
 #![feature(libc)]
 #![feature(hash)]
+#![feature(scoped)]
 
 #![allow(deprecated)]
 
 #![crate_name = "gnunet"]
 
 extern crate libc;
+extern crate unix_socket;
+extern crate rand;
+extern crate byteorder;
 
 pub use configuration::Configuration;
 pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
@@ -46,6 +47,20 @@ macro_rules! error_chain {
     impl From<$from> for $to {
       fn from(e: $from) -> $to {
         $to::$f(e)
+      }
+    }
+  )
+}
+
+macro_rules! byteorder_error_chain {
+  ($t:ident) => (
+    impl From<byteorder::Error> for $t {
+      #[inline]
+      fn from(e: byteorder::Error) -> $t {
+        match e {
+          byteorder::Error::UnexpectedEOF => $t::Disconnected,
+          byteorder::Error::Io(e)         => $t::Io(e),
+        }
       }
     }
   )

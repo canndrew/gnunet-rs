@@ -2,12 +2,12 @@ use std::mem::{uninitialized, size_of_val};
 use std::fmt::{Debug, Formatter};
 use std::fmt;
 use std::str::{from_utf8, FromStr};
-use std::rand::{Rand, Rng};
 use std::hash::Hash;
 use std::hash;
 use std::cmp::Ordering;
 use std::ops::{Add, Sub, BitXor};
 use libc::{c_char, c_uint, c_void, size_t};
+use rand::{Rand, Rng};
 
 use ll;
 use crypto::error::*;
@@ -226,7 +226,7 @@ fn test_hashcode_to_from_string() {
   let s0: &str = "RMKN0V1JNA3PVC1148D6J10STVG94A8A651N0K849CF1RT6BGF26AMMT14GMDMNRDFSJRJME61KJ31DFBV12R1TPQJE64155132QN5G";
   let hc: HashCode = FromStr::from_str(s0).unwrap();
   let s: String = format!("{}", hc);
-  let s1: &str = s.as_slice();
+  let s1: &str = &s[..];
   println!("s0: {}", s0);
   println!("s1: {}", s1);
   assert!(s0 == s1);
@@ -234,7 +234,7 @@ fn test_hashcode_to_from_string() {
 
 #[test]
 fn test_hashcode_rand_add_sub() {
-  use std::rand::weak_rng;
+  use rand::weak_rng;
 
   let mut rng = weak_rng();
   let h0: HashCode = rng.gen();

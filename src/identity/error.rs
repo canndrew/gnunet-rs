@@ -1,6 +1,8 @@
-use std::old_io::IoError;
 use std::string;
 use std::fmt;
+use std::io;
+
+use byteorder;
 
 use service;
 use util::ReadCStringWithLenError;
@@ -11,7 +13,7 @@ pub enum GetDefaultEgoError {
   /// The name of the service was too long.
   NameTooLong(String),
   /// An I/O error occured while communicating with the identity service.
-  Io(IoError),
+  Io(io::Error),
   /// Failed to read a message from the server.
   ReadMessage(service::ReadMessageError),
   /// The service responded with an error message.
@@ -25,19 +27,24 @@ pub enum GetDefaultEgoError {
   /// The service response was incoherent. You should file a bug-report if you encounter this
   /// variant.
   InvalidResponse,
+  /// The remote service disconnected.
+  Disconnected,
 }
 error_chain! {ConnectError, GetDefaultEgoError, Connect}
-error_chain! {IoError, GetDefaultEgoError, Io}
+error_chain! {io::Error, GetDefaultEgoError, Io}
 error_chain! {service::ReadMessageError, GetDefaultEgoError, ReadMessage}
 error_chain! {ReadCStringWithLenError, GetDefaultEgoError, ReceiveName}
+byteorder_error_chain! {GetDefaultEgoError}
 
 /// Errors returned by `IdentityService::connect`
 #[derive(Debug)]
 pub enum ConnectError {
   /// Failed to connect to the service.
   Connect(service::ConnectError),
+  /// The remote service disconnected.
+  Disconnected,
   /// There was an I/O error communicating with the service.
-  Io(IoError),
+  Io(io::Error),
   /// Failed to read a message from the service.
   ReadMessage(service::ReadMessageError),
   /// The service responded with an invalid utf-8 name. *(It is a bug to see this variant)*
@@ -46,8 +53,9 @@ pub enum ConnectError {
   UnexpectedMessageType(u16),
 }
 error_chain! {service::ConnectError, ConnectError, Connect}
-error_chain! {IoError, ConnectError, Io}
+error_chain! {io::Error, ConnectError, Io}
 error_chain! {service::ReadMessageError, ConnectError, ReadMessage}
+byteorder_error_chain! {ConnectError}
 
 /// Errors returned by `identity::get_default_ego`
 #[derive(Debug)]
@@ -79,6 +87,8 @@ impl fmt::Display for GetDefaultEgoError {
           => write!(f, "Failed to connect to identity service for default ego lookup: {}", e),
       &GetDefaultEgoError::InvalidResponse
           => write!(f, "Service response was incoherent. THIS IS A BUG! Please file a bug report at {}", ::HOMEPAGE),
+      &GetDefaultEgoError::Disconnected
+          => write!(f, "The service unexpectedly disconnected."),
     }
   }
 }
@@ -96,6 +106,8 @@ impl fmt::Display for ConnectError {
           => write!(f, "The identity service sent a non-utf8 encoded name during initial exchange when connecting ({}). THIS IS A BUG. Please file a bug report at {}", e, ::HOMEPAGE),
       &ConnectError::UnexpectedMessageType(n)
           => write!(f, "The identity service sent an unexpected message type ({}) during initial exchange when connecting. THIS IS A BUG. Please file a bug report at {}", n, ::HOMEPAGE),
+      &ConnectError::Disconnected
+          => write!(f, "The service unexpectedly disconnected."),
     }
   }
 }

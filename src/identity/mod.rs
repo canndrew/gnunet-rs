@@ -1,7 +1,8 @@
-use std::old_io::{Reader, Writer, BytesReader};
 use std::str::from_utf8;
 use std::collections::HashMap;
 use std::num::ToPrimitive;
+use std::io::{Read, Write};
+use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
 use ll;
 use EcdsaPrivateKey;
@@ -9,7 +10,7 @@ use EcdsaPublicKey;
 use HashCode;
 use service::{self, ServiceReader, ServiceWriter};
 use Configuration;
-use util::CStringReader;
+use util::ReadCString;
 pub use self::error::*;
 use util::ReadCStringError;
 
@@ -89,8 +90,8 @@ impl IdentityService {
       let (tpe, mut mr) = try!(service_reader.read_message());
       match tpe {
         ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
-          let name_len = try!(mr.read_be_u16());
-          let eol = try!(mr.read_be_u16());
+          let name_len = try!(mr.read_u16::<BigEndian>());
+          let eol = try!(mr.read_u16::<BigEndian>());
           if eol != 0 {
             break;
           };
@@ -146,33 +147,34 @@ impl IdentityService {
     };
     {
       let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
-      try!(mw.write_be_u16((name_len + 1) as u16));
-      try!(mw.write_be_u16(0));
-      try!(mw.write(name.as_bytes()));
-      try!(mw.write_u8(0u8));
+      mw.write_u16::<BigEndian>((name_len + 1) as u16).unwrap();
+      mw.write_u16::<BigEndian>(0).unwrap();
+      mw.write_all(name.as_bytes()).unwrap();
+      mw.write_u8(0u8).unwrap();
       try!(mw.send());
     };
 
     let (tpe, mut mr) = try!(self.service_reader.read_message());
     match tpe {
       ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
-        try!(mr.read_be_u32());
-        match mr.read_cstring() {
+        try!(mr.read_u32::<BigEndian>());
+        match mr.read_c_string() {
           Err(e)  => match e {
-            ReadCStringError::Io(e)       => Err(GetDefaultEgoError::Io(e)),
-            ReadCStringError::FromUtf8(e) => Err(GetDefaultEgoError::MalformedErrorResponse(e)),
+            ReadCStringError::Io(e)        => Err(GetDefaultEgoError::Io(e)),
+            ReadCStringError::FromUtf8(e)  => Err(GetDefaultEgoError::MalformedErrorResponse(e)),
+            ReadCStringError::Disconnected => Err(GetDefaultEgoError::Disconnected),
           },
           Ok(s) => Err(GetDefaultEgoError::ServiceResponse(s)),
         }
       },
-      ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_be_u16()) {
+      ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_u16::<BigEndian>()) {
         0 => Err(GetDefaultEgoError::InvalidResponse),
         reply_name_len => {
-          let zero = try!(mr.read_be_u16());
+          let zero = try!(mr.read_u16::<BigEndian>());
           match zero {
             0 => {
               let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-              let s = try!(mr.read_cstring_with_len((reply_name_len - 1) as usize));
+              let s = try!(mr.read_c_string_with_len((reply_name_len - 1) as usize));
               match &s[..] == name {
                 true  =>  {
                   let id = pk.get_public().hash();

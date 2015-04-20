@@ -1,11 +1,12 @@
-use std::old_io::Reader;
 use std::path::AsPath;
 use std::ffi::{AsOsStr, CString};
+use std::io::Read;
+use byteorder::ReadBytesExt;
 
 use util::error::*;
 
-pub trait CStringReader: Reader {
-  fn read_cstring(&mut self) -> Result<String, ReadCStringError> {
+pub trait ReadCString: Read {
+  fn read_c_string(&mut self) -> Result<String, ReadCStringError> {
     let mut v: Vec<u8> = Vec::new();
     loop {
       let b = try!(self.read_u8());
@@ -20,7 +21,7 @@ pub trait CStringReader: Reader {
     }
   }
 
-  fn read_cstring_with_len(&mut self, len: usize) -> Result<String, ReadCStringWithLenError> {
+  fn read_c_string_with_len(&mut self, len: usize) -> Result<String, ReadCStringWithLenError> {
     let mut v: Vec<u8> = Vec::with_capacity(len);
     for i in 0..len {
       let b = try!(self.read_u8());
@@ -42,7 +43,7 @@ pub trait CStringReader: Reader {
   }
 }
 
-impl<T> CStringReader for T where T: Reader {}
+impl<T> ReadCString for T where T: Read {}
 
 pub fn to_c_path<P: AsPath + ?Sized>(path: &P) -> Result<CString, ToCPathError> {
   let path = path.as_path();

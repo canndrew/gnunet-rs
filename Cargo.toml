@@ -9,3 +9,8 @@ license = "GPL-3.0"
 readme = "README.md"
 keywords = ["gnunet", "gns", "p2p"]
 
+[dependencies]
+unix_socket = "0.3.0"
+rand = "0.3"
+byteorder = "*"
+

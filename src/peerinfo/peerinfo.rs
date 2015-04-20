@@ -1,13 +1,15 @@
 use std::mem::{uninitialized, size_of_val};
-use std::old_io::{Reader, Writer, IoResult};
 use std::fmt;
 use std::str::from_utf8;
+use std::io::{self, Read};
 use libc::{c_void, c_char, size_t};
+use byteorder::{self, BigEndian, ReadBytesExt, WriteBytesExt};
 
 use ll;
 use Configuration;
 use service::{connect, ServiceReader};
 use Hello;
+use util::io::ReadUtil;
 
 use peerinfo::error::*;
 
@@ -17,9 +19,9 @@ pub struct PeerIdentity {
 }
 
 impl PeerIdentity {
-  pub fn deserialize<R>(r: &mut R) -> IoResult<PeerIdentity> where R: Reader {
+  pub fn deserialize<R>(r: &mut R) -> Result<PeerIdentity, io::Error> where R: Read {
     let mut ret: PeerIdentity = unsafe { uninitialized() };
-    try!(r.read_at_least(ret.data.public_key.q_y.len(), &mut ret.data.public_key.q_y));
+    try!(r.read_exact(&mut ret.data.public_key.q_y[..]));
     Ok(ret)
   }
 }
@@ -30,7 +32,7 @@ pub fn iterate_peers(cfg: &Configuration) -> Result<Peers, IteratePeersError> {
   
   let msg_length = 8u16;
   let mut mw = sw.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL);
-  try!(mw.write_be_u32(0));
+  mw.write_u32::<BigEndian>(0).unwrap();
   try!(mw.send());
   Ok(Peers {
     service: sr,
@@ -51,8 +53,11 @@ impl Iterator for Peers {
       Ok(x)   => x,
     };
     match tpe {
-      ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_be_u32() {
-        Err(e)  => Some(Err(NextPeerError::Io(e))),
+      ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
+        Err(e)  => match e {
+          byteorder::Error::UnexpectedEOF => Some(Err(NextPeerError::Disconnected)),
+          byteorder::Error::Io(e)         => Some(Err(NextPeerError::Io(e))),
+        },
         Ok(x)   => match x == 0 {
           false => Some(Err(NextPeerError::InvalidResponse)),
           true  => match PeerIdentity::deserialize(&mut mr) {

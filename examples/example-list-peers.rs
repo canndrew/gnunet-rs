@@ -8,7 +8,7 @@ fn main() {
       return;
     },
   };
-  let mut peers = match gnunet::iterate_peers(&config) {
+  let peers = match gnunet::iterate_peers(&config) {
     Ok(peers) => peers,
     Err(e)    => {
       println!("Failed to iterate peers: {}", e);
