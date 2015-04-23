@@ -4,6 +4,9 @@ use byteorder;
 
 use service::{ConnectError, ReadMessageError};
 
+#[derive(Debug)]
+pub struct PeerIdentityFromStrError;
+
 /// Errors returned by `iterate_peers`.
 #[derive(Debug)]
 pub enum IteratePeersError {

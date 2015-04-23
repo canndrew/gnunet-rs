@@ -1,7 +1,7 @@
 use std::mem::{uninitialized, size_of_val};
 use std::fmt;
-use std::str::from_utf8;
-use std::io::{self, Read};
+use std::str::{from_utf8, FromStr};
+use std::io::{self, Read, Write};
 use libc::{c_void, c_char, size_t};
 use byteorder::{self, BigEndian, ReadBytesExt, WriteBytesExt};
 
@@ -23,6 +23,27 @@ impl PeerIdentity {
     let mut ret: PeerIdentity = unsafe { uninitialized() };
     try!(r.read_exact(&mut ret.data.public_key.q_y[..]));
     Ok(ret)
+  }
+
+  pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error> where T: Write {
+    w.write_all(&self.data.public_key.q_y[..])
+  }
+}
+
+impl FromStr for PeerIdentity {
+  type Err = PeerIdentityFromStrError;
+
+  fn from_str(s: &str) -> Result<PeerIdentity, PeerIdentityFromStrError> {
+    unsafe {
+      let ret: ll::Struct_GNUNET_PeerIdentity = uninitialized();
+      let res = ll::GNUNET_STRINGS_string_to_data(s.as_ptr() as *const i8, s.len() as size_t, ret.public_key.q_y.as_ptr() as *mut c_void, ret.public_key.q_y.len() as size_t);
+      match res {
+        ll::GNUNET_OK => Ok(PeerIdentity {
+          data: ret,
+        }),
+        _ => Err(PeerIdentityFromStrError),
+      }
+    }
   }
 }
 

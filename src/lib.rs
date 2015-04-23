@@ -39,7 +39,7 @@ pub use gns::{Record, RecordType};
 pub use gns::{GNS, LocalOptions};
 pub use identity::{Ego, IdentityService};
 pub use hello::Hello;
-pub use peerinfo::iterate_peers;
+pub use peerinfo::{iterate_peers, PeerIdentity};
 //pub use dht::DHT;
 
 macro_rules! error_chain {
@@ -80,4 +80,6 @@ pub mod identity;
 mod util;
 pub mod peerinfo;
 pub mod hello;
+//pub mod cadet;
+pub mod data;
 
