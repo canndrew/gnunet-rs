@@ -1,7 +1,8 @@
 use std::str::from_utf8;
+use std::string;
 use std::collections::HashMap;
 use std::num::ToPrimitive;
-use std::io::{Read, Write};
+use std::io::{self, Read, Write};
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
 use ll;
@@ -10,11 +11,7 @@ use EcdsaPublicKey;
 use HashCode;
 use service::{self, ServiceReader, ServiceWriter};
 use Configuration;
-use util::ReadCString;
-pub use self::error::*;
-use util::ReadCStringError;
-
-mod error;
+use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
 
 /// A GNUnet identity.
 ///
@@ -66,6 +63,46 @@ pub struct IdentityService {
   egos: HashMap<HashCode, Ego>,
 }
 
+/// Errors returned by `IdentityService::connect`
+error_def! ConnectError {
+  Connect { #[from] cause: service::ConnectError }
+    => "Failed to connect to the service" ("Reason: {}", cause),
+  Disconnected
+    => "The service disconnected unexpectedly",
+  Io { #[from] cause: io::Error }
+    => "An I/O error occured while communicating with the identity service" ("Specifically: {}", cause),
+  ReadMessage { #[from] cause: service::ReadMessageError }
+    => "Failed to read a message from the server" ("Specifically: {}", cause),
+  InvalidName { #[from] cause: string::FromUtf8Error }
+    => "The service responded with a name containing invalid utf-8 during initial exchange. *(It is a bug to see this error)*" ("Utf8-error: {}", cause),
+  UnexpectedMessageType { ty: u16 }
+    => "Received an unexpected message from the service during initial exchange. *(It is a bug to see this error)*" ("Message type {} was not expected.", ty)
+}
+byteorder_error_chain! {ConnectError}
+
+/// Errors returned by `IdentityService::get_default_ego`
+error_def! GetDefaultEgoError {
+  NameTooLong { name: String }
+    => "The name of the service was too long" ("\"{}\" is too long to be the name of a service.", name),
+  Io { #[from] cause: io::Error }
+    => "An I/O error occured while communicating with the identity service" ("Specifically: {}", cause),
+  ReadMessage { #[from] cause: service::ReadMessageError }
+    => "Failed to read a message from the server" ("Specifically: {}", cause),
+  ServiceResponse { response: String }
+    => "The service responded with an error message" ("Error: \"{}\"", response),
+  MalformedErrorResponse { #[from] cause: string::FromUtf8Error }
+    => "The service responded with an error message but the message contained invalid utf-8" ("Utf8-error: {}", cause),
+  ReceiveName { #[from] cause: ReadCStringWithLenError }
+    => "Failed to receive the identity name from the service" ("Reason: {}", cause),
+  Connect { #[from] cause: ConnectError }
+    => "Failed to connect to the identity service" ("Reason: {}", cause),
+  InvalidResponse
+    => "The service response was incoherent. You should file a bug-report if you encounter this error.",
+  Disconnected
+    => "The service disconnected unexpectedly",
+}
+byteorder_error_chain! {GetDefaultEgoError}
+
 impl IdentityService {
   /// Connect to the identity service.
   ///
@@ -106,7 +143,7 @@ impl IdentityService {
           };
           let name = match String::from_utf8(v) {
             Ok(n)   => n,
-            Err(v)  => return Err(ConnectError::InvalidName(v)),
+            Err(v)  => return Err(ConnectError::InvalidName { cause: v }),
           };
           let id = pk.get_public().hash();
           egos.insert(id.clone(), Ego {
@@ -115,7 +152,7 @@ impl IdentityService {
             id: id,
           });
         },
-        _ => return Err(ConnectError::UnexpectedMessageType(tpe)),
+        _ => return Err(ConnectError::UnexpectedMessageType { ty: tpe }),
       };
     };
     Ok(IdentityService {
@@ -143,7 +180,7 @@ impl IdentityService {
 
     let msg_length = match (8 + name_len + 1).to_u16() {
       Some(l) => l,
-      None    => return Err(GetDefaultEgoError::NameTooLong(name.to_string())),
+      None    => return Err(GetDefaultEgoError::NameTooLong { name: name.to_string() }),
     };
     {
       let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
@@ -160,11 +197,11 @@ impl IdentityService {
         try!(mr.read_u32::<BigEndian>());
         match mr.read_c_string() {
           Err(e)  => match e {
-            ReadCStringError::Io(e)        => Err(GetDefaultEgoError::Io(e)),
-            ReadCStringError::FromUtf8(e)  => Err(GetDefaultEgoError::MalformedErrorResponse(e)),
-            ReadCStringError::Disconnected => Err(GetDefaultEgoError::Disconnected),
+            ReadCStringError::Io { cause }       => Err(GetDefaultEgoError::Io { cause: cause }),
+            ReadCStringError::FromUtf8 { cause } => Err(GetDefaultEgoError::MalformedErrorResponse { cause: cause }),
+            ReadCStringError::Disconnected       => Err(GetDefaultEgoError::Disconnected),
           },
-          Ok(s) => Err(GetDefaultEgoError::ServiceResponse(s)),
+          Ok(s) => Err(GetDefaultEgoError::ServiceResponse { response: s }),
         }
       },
       ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_u16::<BigEndian>()) {
@@ -190,6 +227,14 @@ impl IdentityService {
       _ => Err(GetDefaultEgoError::InvalidResponse),
     }
   }
+}
+
+/// Errors returned by `identity::get_default_ego`
+error_def! ConnectGetDefaultEgoError {
+  GetDefaultEgo { #[from] cause: GetDefaultEgoError }
+    => "Ego lookup failed" ("Reason: {}", cause),
+  Connect { #[from] cause: ConnectError }
+    => "Failed to connect to the service and perform initialization" ("Reason: {}", cause),
 }
 
 /// Get the default identity associated with a service.

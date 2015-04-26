@@ -1,7 +1,5 @@
-pub use self::util::*;
-pub use self::error::*;
+pub use self::c_strings::*;
 
-pub mod util;
-pub mod error;
+pub mod c_strings;
 pub mod io;
 

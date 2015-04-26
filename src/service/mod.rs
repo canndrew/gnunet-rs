@@ -7,10 +7,6 @@ use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 use Configuration;
 use util::io::ReadUtil;
 
-pub use self::error::*;
-
-mod error;
-
 /*
 pub struct Service<'c> {
   //connection: Box<Stream + 'static>,
@@ -20,21 +16,38 @@ pub struct Service<'c> {
 }
 */
 
+/// Created by `service::connect`. Used to read messages from a GNUnet service.
 pub struct ServiceReader {
   pub connection: UnixStream, // TODO: should be UnixReader
 }
 
+/// Created by `service::connect`. Used to send messages to a GNUnet service.
 pub struct ServiceWriter {
   pub connection: UnixStream, // TODO: should be UnixWriter
 }
 
+/// Callbacks passed to `ServiceReader::spawn_callback_loop` return a `ProcessMessageResult` to
+/// tell the callback loop what action to take next.
 #[derive(Copy, Clone)]
 pub enum ProcessMessageResult {
+  /// Continue talking to the service and passing received messages to the callback.
   Continue,
+  /// Attempt to reconnect to the service.
   Reconnect,
+  /// Exit the callback loop, shutting down it's thread.
   Shutdown,
 }
 
+/// Error that can be generated when attempting to connect to a service.
+error_def! ConnectError {
+  NotConfigured                   => "The configuration does not describe how to connect to the service",
+  Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+}
+
+/// Attempt to connect to the local GNUnet service named `name`.
+///
+/// eg. `connect(cfg, "arm")` will attempt to connect to the locally-running `gnunet-arm` service
+/// using the congfiguration details (eg. socket address, port etc.) in `cfg`.
 pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, ServiceWriter), ConnectError> {
   let unixpath = match cfg.get_value_filename(name, "UNIXPATH") {
     Some(p)   => p,
@@ -54,6 +67,14 @@ pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, Servic
   };
   Ok((r, w))
 }
+
+/// Error that can be generated when attempting to receive data from a service.
+error_def! ReadMessageError {
+  Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+  ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
+  Disconnected                    => "The service disconnected unexpectedly",
+}
+byteorder_error_chain! {ReadMessageError}
 
 impl ServiceReader {
   pub fn spawn_callback_loop<F>(mut self, mut cb: F) -> Result<ServiceReadLoop, io::Error>
@@ -85,7 +106,7 @@ impl ServiceReader {
   pub fn read_message(&mut self) -> Result<(u16, Cursor<Vec<u8>>), ReadMessageError> {
     let len = try!(self.connection.read_u16::<BigEndian>());
     if len < 4 {
-      return Err(ReadMessageError::ShortMessage(len));
+      return Err(ReadMessageError::ShortMessage { len: len });
     };
     let v = try!(self.connection.read_exact_alloc(len as usize - 2));
     let mut mr = Cursor::new(v);
@@ -108,12 +129,14 @@ impl ServiceWriter {
   }
 }
 
+/// Used to form messsages before sending them to the GNUnet service.
 pub struct MessageWriter<'a> {
   service_writer: &'a mut ServiceWriter,
   mw: Cursor<Vec<u8>>,
 }
 
 impl<'a> MessageWriter<'a> {
+  /// Finish the message and transmit it to the service.
   pub fn send(self) -> Result<(), io::Error> {
     let v = self.mw.into_inner();
     assert!(v.len() == v.capacity());
@@ -131,6 +154,8 @@ impl<'a> Write for MessageWriter<'a> {
   }
 }
 
+/// A thread that loops, recieving messages from the service and passing them to a callback.
+/// Created with `ServiceReader::spawn_callback_loop`.
 pub struct ServiceReadLoop {
   reader: UnixStream,
   _callback_loop: thread::JoinGuard<'static, ServiceReader>,

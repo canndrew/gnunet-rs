@@ -9,7 +9,6 @@ use libc::{c_void, size_t, c_char};
 
 use ll;
 use crypto::hashcode::HashCode;
-use crypto::error::*;
 use util::io::ReadUtil;
 
 /// A 256bit ECDSA public key.
@@ -27,12 +26,17 @@ impl EcdsaPublicKey {
   /// Compute the hash of this key.
   pub fn hash(&self) -> HashCode {
     unsafe {
-      HashCode::hash(from_raw_parts(
+      HashCode::from_buffer(from_raw_parts(
           &self.data as *const ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey as *const u8,
           size_of::<ll::Struct_GNUNET_CRYPTO_EcdsaPublicKey>()
       ))
     }
   }
+}
+
+/// Error generated when attempting to parse an ecdsa public key
+error_def! EcdsaPublicKeyFromStrError {
+  ParsingFailed => "Failed to parse the string as an ecdsa public key",
 }
 
 impl FromStr for EcdsaPublicKey {
@@ -48,7 +52,7 @@ impl FromStr for EcdsaPublicKey {
           &mut ret.data);
       match res {
         ll::GNUNET_OK => Ok(ret),
-        _             => Err(EcdsaPublicKeyFromStrError),
+        _             => Err(EcdsaPublicKeyFromStrError::ParsingFailed),
       }
     }
   }

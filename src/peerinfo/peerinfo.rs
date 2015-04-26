@@ -7,11 +7,9 @@ use byteorder::{self, BigEndian, ReadBytesExt, WriteBytesExt};
 
 use ll;
 use Configuration;
-use service::{connect, ServiceReader};
+use service::{self, connect, ServiceReader, ReadMessageError};
 use Hello;
 use util::io::ReadUtil;
-
-use peerinfo::error::*;
 
 /// The identity of a GNUnet peer.
 pub struct PeerIdentity {
@@ -30,6 +28,11 @@ impl PeerIdentity {
   }
 }
 
+/// Error generated when attempting to parse a PeerIdentity
+error_def! PeerIdentityFromStrError {
+  ParsingFailed => "Failed to parse the string as a PeerIdentity"
+}
+
 impl FromStr for PeerIdentity {
   type Err = PeerIdentityFromStrError;
 
@@ -41,10 +44,18 @@ impl FromStr for PeerIdentity {
         ll::GNUNET_OK => Ok(PeerIdentity {
           data: ret,
         }),
-        _ => Err(PeerIdentityFromStrError),
+        _ => Err(PeerIdentityFromStrError::ParsingFailed),
       }
     }
   }
+}
+
+/// Errors returned by `iterate_peers`.
+error_def! IteratePeersError {
+  Io { #[from] cause: io::Error }
+    => "There as an I/O error communicating with the peerinfo service" ("Specifically: {}", cause),
+  Connect { #[from] cause: service::ConnectError }
+    => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
 }
 
 /// Iterate over all the currently connected peers.
@@ -65,24 +76,39 @@ pub struct Peers {
   service: ServiceReader,
 }
 
+/// Errors returned by `Peers::next`.
+error_def! NextPeerError {
+  InvalidResponse
+    => "The response from the gnunet-peerinfo service was incoherent",
+  UnexpectedMessageType { ty: u16 }
+    => "The peerinfo service sent an unexpected response message type" ("Message type {} was not expected", ty),
+  Io { #[from] cause: io::Error }
+    => "There was an I/O error communicating with the peerinfo service" ("Specifically: {}", cause),
+  ReadMessage { #[from] cause: ReadMessageError }
+    => "Failed to receive the response from the peerinfo service" ("Reason: {}", cause),
+  Disconnected
+    => "The service disconnected unexpectedly"
+}
+byteorder_error_chain! {NextPeerError}
+
 impl Iterator for Peers {
   type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
 
   fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
     let (tpe, mut mr) = match self.service.read_message() {
-      Err(e)  => return Some(Err(NextPeerError::ReadMessage(e))),
+      Err(e)  => return Some(Err(NextPeerError::ReadMessage { cause: e })),
       Ok(x)   => x,
     };
     match tpe {
       ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
         Err(e)  => match e {
           byteorder::Error::UnexpectedEOF => Some(Err(NextPeerError::Disconnected)),
-          byteorder::Error::Io(e)         => Some(Err(NextPeerError::Io(e))),
+          byteorder::Error::Io(e)         => Some(Err(NextPeerError::Io { cause: e })),
         },
         Ok(x)   => match x == 0 {
           false => Some(Err(NextPeerError::InvalidResponse)),
           true  => match PeerIdentity::deserialize(&mut mr) {
-            Err(e)  => Some(Err(NextPeerError::Io(e))),
+            Err(e)  => Some(Err(NextPeerError::Io { cause: e })),
             Ok(pi)  => {
               Some(Ok((pi, None)))
               /*
@@ -99,7 +125,7 @@ impl Iterator for Peers {
         },
       },
       ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END => None,
-      x => Some(Err(NextPeerError::UnexpectedMessageType(x))),
+      x => Some(Err(NextPeerError::UnexpectedMessageType { ty: x })),
     }
   }
 }

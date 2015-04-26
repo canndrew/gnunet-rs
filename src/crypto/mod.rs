@@ -4,5 +4,4 @@ pub use self::hashcode::HashCode;
 
 pub mod ecdsa;
 pub mod hashcode;
-pub mod error;
 

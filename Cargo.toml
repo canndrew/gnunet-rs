@@ -13,4 +13,6 @@ keywords = ["gnunet", "gns", "p2p"]
 unix_socket = "0.3.0"
 rand = "0.3"
 byteorder = "*"
+error_def = "*"
+rust-crypto = "*"
 

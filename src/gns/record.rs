@@ -10,7 +10,6 @@ use libc::{free, c_char, c_void};
 
 use ll;
 use self::RecordType::*;
-use gns::error::*;
 use util::io::ReadUtil;
 
 /// An enum of the different GNS record types.
@@ -87,6 +86,11 @@ impl RecordType {
   }
 }
 
+/// Error generated when attempting to parse a `RecordType`
+error_def! RecordTypeFromStrError {
+  ParsingFailed => "Failed to parse the string as a RecordType",
+}
+
 impl FromStr for RecordType {
   type Err = RecordTypeFromStrError;
 
@@ -107,7 +111,7 @@ impl FromStr for RecordType {
       "LEHO"    => Ok(LEHO),
       "VPN"     => Ok(VPN),
       "GNS2DNS" => Ok(GNS2DNS),
-      _         => Err(RecordTypeFromStrError),
+      _         => Err(RecordTypeFromStrError::ParsingFailed),
     }
   }
 }

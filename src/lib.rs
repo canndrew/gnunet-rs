@@ -22,6 +22,9 @@
 #![feature(libc)]
 #![feature(hash)]
 #![feature(scoped)]
+#![feature(plugin)]
+
+#![plugin(error_def)]
 
 #![allow(deprecated)]
 
@@ -31,6 +34,7 @@ extern crate libc;
 extern crate unix_socket;
 extern crate rand;
 extern crate byteorder;
+extern crate crypto as rcrypto;
 
 pub use configuration::Configuration;
 pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
@@ -42,6 +46,7 @@ pub use hello::Hello;
 pub use peerinfo::{iterate_peers, PeerIdentity};
 //pub use dht::DHT;
 
+/*
 macro_rules! error_chain {
   ($from:ty, $to:ident, $f:ident) => (
     impl From<$from> for $to {
@@ -65,8 +70,23 @@ macro_rules! byteorder_error_chain {
     }
   )
 }
+*/
 
-const HOMEPAGE: &'static str = "http://github.com/canndrew/gnunet-rs";
+macro_rules! byteorder_error_chain {
+  ($t:ident) => (
+    impl From<::byteorder::Error> for $t {
+      #[inline]
+      fn from(e: ::byteorder::Error) -> $t {
+        match e {
+          ::byteorder::Error::UnexpectedEOF => $t::Disconnected,
+          ::byteorder::Error::Io(e)         => $t::Io { cause: e },
+        }
+      }
+    }
+  )
+}
+
+//const HOMEPAGE: &'static str = "http://github.com/canndrew/gnunet-rs";
 
 #[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals, raw_pointer_derive)]
 mod ll;

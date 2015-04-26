@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
 use std::num::ToPrimitive;
-use std::io::{Write, Cursor};
+use std::io::{self, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
 use identity;
@@ -11,10 +11,8 @@ use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Configuration;
-pub use self::error::*;
 pub use self::record::*;
 
-mod error;
 mod record;
 
 /// A handle to a locally-running instance of the GNS daemon.
@@ -35,6 +33,14 @@ pub enum LocalOptions {
   /// For domains controlled by our master zone only look in the cache. Otherwise look in the
   /// cache, then in the DHT.
   LocalMaster = 2,
+}
+
+/// Possible errors returned by the GNS lookup functions.
+error_def! LookupError {
+  NameTooLong { name: String }
+    => "The domain name was too long" ("The domain name \"{}\" is too long to lookup.", name),
+  Io { #[from] cause: io::Error }
+    => "There was an I/O error communicating with the service" ("Specifically {}", cause),
 }
 
 impl GNS {
@@ -129,7 +135,7 @@ impl GNS {
 
     let name_len = name.len();
     if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-      return Err(LookupError::NameTooLong(name.to_string()));
+      return Err(LookupError::NameTooLong { name: name.to_string() });
     };
 
     let id = self.lookup_id;
@@ -157,6 +163,14 @@ impl GNS {
       receiver: rx,
     })
   }
+}
+
+/// Errors returned by `gns::lookup`.
+error_def! ConnectLookupError {
+  Connect { #[from] cause: service::ConnectError } 
+    => "Failed to connect to the GNS service" ("Reason: {}", cause),
+  Lookup { #[from] cause: LookupError }
+    => "Failed to perform the lookup." ("Reason: {}", cause),
 }
 
 /// Lookup a GNS record in the given zone.
@@ -195,6 +209,14 @@ pub fn lookup(
   let mut gns = try!(GNS::connect(cfg));
   let mut h = try!(gns.lookup(name, zone, record_type, options, shorten));
   Ok(h.recv())
+}
+
+/// Errors returned by `gns::lookup_in_master`.
+error_def! ConnectLookupInMasterError {
+  GnsLookup { #[from] cause: ConnectLookupError }
+    => "Failed to connect to the GNS service and perform the lookup" ("Reason: {}", cause),
+  IdentityGetDefaultEgo { #[from] cause: identity::ConnectGetDefaultEgoError }
+    => "Failed to retrieve the default identity for gns-master from the identity service" ("Reason: {}", cause),
 }
 
 /// Lookup a GNS record in the master zone.

@@ -9,8 +9,7 @@ use std::ffi::CStr;
 use std::path::{PathBuf, AsPath};
 
 use ll;
-use util::to_c_path;
-use configuration::error::*;
+use util::{to_c_path, ToCPathError};
 
 /*
  * TODO: Make this all nicer once Index is reformed
@@ -46,6 +45,18 @@ pub struct ConfigSection<'s> {
 }
 */
 
+/// Errors returned by `Configuration::load`.
+error_def! ConfigurationLoadError {
+  BadPath { #[from] cause: ToCPathError } => "The path given was malformed" ("Reason: {}", cause),
+  NoSuchFile                              => "The path does not exist"
+}
+
+/// Errors returned by `Configuration::save`.
+error_def! ConfigurationSaveError {
+  BadPath { #[from] cause: ToCPathError } => "The path given was malformed" ("Reason: {}", cause),
+  UnknownError                            => "The underlying library call failed"
+}
+
 impl Configuration {
   /// Generate an empty configuration
   pub fn empty() -> Configuration {
@@ -79,7 +90,7 @@ impl Configuration {
   pub fn load<P: AsPath + ?Sized>(filename: &P) -> Result<Configuration, ConfigurationLoadError> {
     let cpath = match to_c_path(filename) {
       Ok(cpath) => cpath,
-      Err(e)    => return Err(ConfigurationLoadError::BadPath(e)),
+      Err(e)    => return Err(ConfigurationLoadError::BadPath { cause: e }),
     };
     let cfg = Configuration::empty();
     unsafe {
@@ -255,7 +266,7 @@ impl Configuration {
   pub fn save<P: AsPath + ?Sized>(&mut self, filename: &P) -> Result<(), ConfigurationSaveError> {
     let cpath = match to_c_path(filename) {
       Ok(cpath) => cpath,
-      Err(e)    => return Err(ConfigurationSaveError::BadPath(e)),
+      Err(e)    => return Err(ConfigurationSaveError::BadPath { cause: e }),
     };
     let res = unsafe {
       ll::GNUNET_CONFIGURATION_write(self.data, cpath.as_ptr())
@@ -278,6 +289,11 @@ impl<'s> Index<&'s str, ConfigSection> for Configuration {
 }
 */
 
+/// Returned by `Configuration::from_str` when parsing fails.
+error_def! ConfigurationFromStrError {
+  ParsingFailed => "Failed to parse the config data"
+}
+
 impl FromStr for Configuration {
   type Err = ConfigurationFromStrError;
 
@@ -286,7 +302,7 @@ impl FromStr for Configuration {
     unsafe {
       match ll::GNUNET_CONFIGURATION_deserialize(cfg.data, s.as_ptr() as *const c_char, s.len() as size_t, 1) {
         ll::GNUNET_OK => Ok(cfg),
-        _             => Err(ConfigurationFromStrError),
+        _             => Err(ConfigurationFromStrError::ParsingFailed),
       }
     }
   }
