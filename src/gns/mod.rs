@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 use std::marker::PhantomData;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
-use std::num::ToPrimitive;
 use std::io::{self, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use num::ToPrimitive;
 
 use identity;
 use ll;

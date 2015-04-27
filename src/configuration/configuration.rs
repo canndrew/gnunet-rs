@@ -4,9 +4,9 @@ use std::mem::uninitialized;
 use std::time::Duration;
 use std::str::FromStr;
 use std::str::from_utf8;
-use std::num::ToPrimitive;
 use std::ffi::CStr;
-use std::path::{PathBuf, AsPath};
+use std::path::{Path, PathBuf};
+use num::ToPrimitive;
 
 use ll;
 use util::{to_c_path, ToCPathError};
@@ -87,7 +87,9 @@ impl Configuration {
   /// This starts by loading the system-wide config file then loads any additional options in
   /// `filename`. If either the system-wide config or `filename` cannot be found then `None` is
   /// returned.
-  pub fn load<P: AsPath + ?Sized>(filename: &P) -> Result<Configuration, ConfigurationLoadError> {
+  pub fn load<P: ?Sized>(filename: &P) -> Result<Configuration, ConfigurationLoadError>
+      where P: AsRef<Path>
+  {
     let cpath = match to_c_path(filename) {
       Ok(cpath) => cpath,
       Err(e)    => return Err(ConfigurationLoadError::BadPath { cause: e }),
@@ -263,7 +265,9 @@ impl Configuration {
   }
 
   /// Save configuration to a file.
-  pub fn save<P: AsPath + ?Sized>(&mut self, filename: &P) -> Result<(), ConfigurationSaveError> {
+  pub fn save<P: ?Sized>(&mut self, filename: &P) -> Result<(), ConfigurationSaveError>
+      where P: AsRef<Path>
+  {
     let cpath = match to_c_path(filename) {
       Ok(cpath) => cpath,
       Err(e)    => return Err(ConfigurationSaveError::BadPath { cause: e }),

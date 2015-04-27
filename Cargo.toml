@@ -15,4 +15,5 @@ rand = "0.3"
 byteorder = "*"
 error_def = "*"
 rust-crypto = "*"
+num = "*"
 

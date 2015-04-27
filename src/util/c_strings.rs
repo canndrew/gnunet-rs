@@ -1,5 +1,5 @@
-use std::path::AsPath;
-use std::ffi::{AsOsStr, CString};
+use std::path::Path;
+use std::ffi::CString;
 use std::io::{self, Read};
 use std::string::FromUtf8Error;
 use std::ffi::NulError;
@@ -80,8 +80,10 @@ error_def! ToCPathError {
     => "The path contains an interior NUL byte" ("Specifically: {}", cause)
 }
 
-pub fn to_c_path<P: AsPath + ?Sized>(path: &P) -> Result<CString, ToCPathError> {
-  let path = path.as_path();
+pub fn to_c_path<P: ?Sized>(path: &P) -> Result<CString, ToCPathError>
+    where P: AsRef<Path>
+{
+  let path = path.as_ref();
   let path = match path.as_os_str().to_os_string().into_string() {
     Ok(path)  => path,
     Err(_)    => return Err(ToCPathError::InvalidUnicode),

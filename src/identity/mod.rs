@@ -1,9 +1,9 @@
 use std::str::from_utf8;
 use std::string;
 use std::collections::HashMap;
-use std::num::ToPrimitive;
 use std::io::{self, Read, Write};
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use num::ToPrimitive;
 
 use ll;
 use EcdsaPrivateKey;

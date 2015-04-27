@@ -35,6 +35,7 @@ extern crate unix_socket;
 extern crate rand;
 extern crate byteorder;
 extern crate crypto as rcrypto;
+extern crate num;
 
 pub use configuration::Configuration;
 pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
