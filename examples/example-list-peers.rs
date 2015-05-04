@@ -29,6 +29,11 @@ fn main() {
         println!("");
       },
     }
-  }
+  };
+
+  match gnunet::self_id(&config) {
+    Ok(id)  => println!("Our id is: {}", id),
+    Err(e)  => println!("Error obtaining our own id: {}", e),
+  };
 }
 
