@@ -79,7 +79,7 @@ impl HashCode {
   /// Determine which hash is closer to `self` in the XOR metric (Kademlia). Returns `Less` if
   /// `h1` is smaller than `h2` relative to `self`. ie. if `(h1 ^ self) < (h2 ^ self)`. Otherwise
   /// returns `Greater` or `Equal` if `h1` is greater than or equal to `h2` relative to `self`.
-  pub fn xor_cmp(&self, h0: &HashCode, h1: HashCode) -> Ordering {
+  pub fn xor_cmp(&self, h0: &HashCode, h1: &HashCode) -> Ordering {
     use std::cmp::Ordering::*;
 
     let mut i = 16;

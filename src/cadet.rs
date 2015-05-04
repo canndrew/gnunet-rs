@@ -14,6 +14,17 @@ pub struct ChannelOptions {
   pub out_of_order: bool,
 }
 
+impl ChannelOptions {
+  /// Encode a `ChannelOptions` as a u32 for transmission across the network.
+  pub fn as_u32(&self) -> u32 {
+    let mut opt_code = 0;
+    if self.no_buffer    { opt_code |= 1 };
+    if self.reliable     { opt_code |= 2 };
+    if self.out_of_order { opt_code |= 4 };
+    opt_code
+  }
+}
+
 pub struct Cadet {
   service_writer: ServiceWriter,
   _callback_loop: ServiceReadLoop,
@@ -54,11 +65,7 @@ impl Cadet {
     mw.write_u32::<BigEndian>(id).unwrap();
     peer.serialize(&mut mw).unwrap();
     mw.write_u32::<BigEndian>(port).unwrap();
-    let mut opt_code = 0;
-    if opt.no_buffer    { opt_code |= 1 };
-    if opt.reliable     { opt_code |= 2 };
-    if opt.out_of_order { opt_code |= 4 };
-    mw.write_u32::<BigEndian>(opt_code).unwrap();
+    mw.write_u32::<BigEndian>(opt.as_u32()).unwrap();
     try!(mw.send());
     Ok(Channel {
       id: id,

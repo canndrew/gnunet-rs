@@ -10,6 +10,7 @@ use Configuration;
 use service::{self, connect, ServiceReader, ReadMessageError};
 use Hello;
 use util::io::ReadUtil;
+use transport::{self, TransportServiceInitError};
 
 /// The identity of a GNUnet peer.
 pub struct PeerIdentity {
@@ -70,6 +71,11 @@ pub fn iterate_peers(cfg: &Configuration) -> Result<Peers, IteratePeersError> {
     service: sr,
   })
 } 
+
+pub fn self_id(cfg: &Configuration) -> Result<PeerIdentity, TransportServiceInitError> {
+  let hello = try!(transport::self_hello(cfg));
+  Ok(hello.id)
+}
 
 /// An iterator over all the currently connected peers.
 pub struct Peers {

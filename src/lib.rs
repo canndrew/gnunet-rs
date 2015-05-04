@@ -16,7 +16,6 @@
 //! ```
 
 #![feature(unboxed_closures)]
-#![feature(unsafe_destructor)]
 #![feature(std_misc)]
 #![feature(core)]
 #![feature(libc)]
@@ -44,7 +43,7 @@ pub use gns::{Record, RecordType};
 pub use gns::{GNS, LocalOptions};
 pub use identity::{Ego, IdentityService};
 pub use hello::Hello;
-pub use peerinfo::{iterate_peers, PeerIdentity};
+pub use peerinfo::{iterate_peers, self_id, PeerIdentity};
 //pub use dht::DHT;
 
 /*
@@ -103,4 +102,5 @@ pub mod peerinfo;
 pub mod hello;
 //pub mod cadet;
 pub mod data;
+pub mod transport;
 
