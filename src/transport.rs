@@ -29,7 +29,7 @@ error_def! TransportServiceInitError {
 impl TransportService {
   pub fn init(cfg: &Configuration) -> Result<TransportService, TransportServiceInitError> {
     let (mut sr, mut sw) = try!(service::connect(cfg, "transport"));
-    let msg_length = 2 + 2 + 32;
+    let msg_length = 2 + 4 + 32;
     {
       let mut mw = sw.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_TRANSPORT_START);
       mw.write_u32::<BigEndian>(0).unwrap();
