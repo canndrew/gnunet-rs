@@ -149,7 +149,11 @@ impl Configuration {
           option.as_ptr() as *const c_char,
           &mut t);
       match r {
-        ll::GNUNET_OK => t.rel_value_us.to_i64().map(Duration::microseconds),
+        ll::GNUNET_OK => t.rel_value_us.to_u64().map(|n| {
+          let secs = n / 1000000;
+          let nans = (n % 1000000) as u32 * 1000;
+          Duration::new(secs, nans)
+        }),
         _             => None,
       }
     }

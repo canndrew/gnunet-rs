@@ -1,7 +1,7 @@
 use std::io::{self, Write};
-use byteorder::{ReadBytesExt, WriteBytesExt, BigEndian};
+use byteorder::{WriteBytesExt, BigEndian};
 
-use service::{self, ServiceReader, ServiceWriter, ReadMessageError};
+use service::{self, ReadMessageError};
 use hello::HelloDeserializeError;
 use Hello;
 use Configuration;

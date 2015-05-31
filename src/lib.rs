@@ -16,12 +16,12 @@
 //! ```
 
 #![feature(unboxed_closures)]
-#![feature(std_misc)]
 #![feature(core)]
 #![feature(libc)]
 #![feature(hash)]
 #![feature(scoped)]
 #![feature(plugin)]
+#![feature(duration)]
 
 #![plugin(error_def)]
 

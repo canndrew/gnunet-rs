@@ -10,10 +10,10 @@ readme = "README.md"
 keywords = ["gnunet", "gns", "p2p"]
 
 [dependencies]
-unix_socket = "0.3.0"
-rand = "0.3"
-byteorder = "*"
-error_def = "*"
-rust-crypto = "*"
-num = "*"
+unix_socket = ">= 0.3.0"
+rand = ">= 0.3"
+byteorder = ">= 0.3.10"
+error_def = ">= 0.3.1"
+rust-crypto = ">= 0.2.31"
+num = ">= 0.1.24"
 
