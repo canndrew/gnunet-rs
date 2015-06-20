@@ -16,16 +16,14 @@
 //! ```
 
 #![feature(unboxed_closures)]
-#![feature(core)]
 #![feature(libc)]
-#![feature(hash)]
 #![feature(scoped)]
 #![feature(plugin)]
 #![feature(duration)]
+#![feature(hash_slice)]
+#![feature(slice_bytes)]
 
 #![plugin(error_def)]
-
-#![allow(deprecated)]
 
 #![crate_name = "gnunet"]
 
