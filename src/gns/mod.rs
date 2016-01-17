@@ -10,7 +10,7 @@ use ll;
 use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
-use Configuration;
+use Cfg;
 pub use self::record::*;
 
 mod record;
@@ -48,12 +48,13 @@ impl GNS {
   ///
   /// Returns either a handle to the GNS service or a `service::ConnectError`. `cfg` contains the
   /// configuration to use to connect to the service.
-  pub fn connect(cfg: &Configuration) -> Result<GNS, service::ConnectError> {
+  pub fn connect(cfg: &Cfg) -> Result<GNS, service::ConnectError> {
     let (lookup_tx, lookup_rx) = channel::<(u32, Sender<Record>)>();
     let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
 
     let (service_reader, service_writer) = try!(service::connect(cfg, "gns"));
     let callback_loop = try!(service_reader.spawn_callback_loop(move |tpe: u16, mut reader: Cursor<Vec<u8>>| -> ProcessMessageResult {
+      println!("GNS got message!");
       loop {
         match lookup_rx.try_recv() {
           Ok((id, sender)) => {
@@ -65,6 +66,9 @@ impl GNS {
           },
         }
       }
+
+      println!("tpe == {}", tpe);
+
       // TODO: drop expired senders, this currently leaks memory as `handles` only gets bigger
       //       need a way to detect when the remote Receiver has hung up
       match tpe {
@@ -73,17 +77,21 @@ impl GNS {
             Ok(id)  => id,
             Err(_)  => return ProcessMessageResult::Reconnect,
           };
+          println!("WOW id == {}", id);
           match handles.get(&id) {
             Some(sender) => {
+              println!("WOW there's a sender for that");
               let rd_count = match reader.read_u32::<BigEndian>() {
                 Ok(x)   => x,
                 Err(_)  => return ProcessMessageResult::Reconnect,
               };
+              println!("WOW rd_count == {}", rd_count);
               for _ in 0..rd_count {
                 let rec = match Record::deserialize(&mut reader) {
                   Ok(r)   => r,
                   Err(_)  => return ProcessMessageResult::Reconnect,
                 };
+                println!("WOW we deserialised it");
                 let _ = sender.send(rec);
               };
             },
@@ -110,9 +118,9 @@ impl GNS {
   /// # Example
   ///
   /// ```rust
-  /// use gnunet::{Configuration, IdentityService, GNS, gns};
+  /// use gnunet::{Cfg, IdentityService, GNS, gns};
   ///
-  /// let config = Configuration::default().unwrap();
+  /// let config = Cfg::default().unwrap();
   /// let mut ids = IdentityService::connect(&config).unwrap();
   /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
   /// let mut gns = GNS::connect(&config).unwrap();
@@ -181,9 +189,9 @@ error_def! ConnectLookupError {
 /// # Example
 ///
 /// ```rust
-/// use gnunet::{Configuration, identity, gns};
+/// use gnunet::{Cfg, identity, gns};
 ///
-/// let config = Configuration::default().unwrap();
+/// let config = Cfg::default().unwrap();
 /// let gns_ego = identity::get_default_ego(&config, "gns-master").unwrap();
 /// let record = gns::lookup(&config,
 ///                          "www.gnu",
@@ -200,14 +208,17 @@ error_def! ConnectLookupError {
 /// one result, then disconects. If you are performing multiple lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup(
-    cfg: &Configuration,
+    cfg: &Cfg,
     name: &str,
     zone: &EcdsaPublicKey,
     record_type: RecordType,
     options: LocalOptions,
     shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupError> {
+  println!("connecting to GNS");
   let mut gns = try!(GNS::connect(cfg));
+  println!("connected to GNS");
   let mut h = try!(gns.lookup(name, zone, record_type, options, shorten));
+  println!("doing lookup");
   Ok(h.recv())
 }
 
@@ -227,9 +238,11 @@ error_def! ConnectLookupInMasterError {
 /// # Example
 ///
 /// ```rust
-/// use gnunet::{Configuration, gns};
+/// use gnunet::{Cfg, gns};
 ///
-/// let config = Configuration::default().unwrap();
+/// println!("in test lookup_in_master");
+///
+/// let config = Cfg::default().unwrap();
 /// let record = gns::lookup_in_master(&config, "www.gnu", gns::RecordType::A, None).unwrap();
 /// println!("Got the IPv4 record for www.gnu: {}", record);
 /// ```
@@ -241,18 +254,22 @@ error_def! ConnectLookupInMasterError {
 /// then disconnects from everything. If you are performing lots of lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup_in_master(
-    cfg: &Configuration,
+    cfg: &Cfg,
     name: &str,
     record_type: RecordType,
     shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupInMasterError> {
+  println!("Getting default ego");
   let ego = try!(identity::get_default_ego(cfg, "gns-master"));
+  println!("got default ego: {}", ego);
   let pk = ego.get_public_key();
   let mut it = name.split('.');
   let opt = match (it.next(), it.next(), it.next()) {
     (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
     _                             => LocalOptions::LocalMaster,
   };
+  println!("doing lookup");
   let ret = try!(lookup(cfg, name, &pk, record_type, opt, shorten));
+  println!("lookup succeeded");
   Ok(ret)
 }
 

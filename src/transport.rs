@@ -4,7 +4,7 @@ use byteorder::{WriteBytesExt, BigEndian};
 use service::{self, ReadMessageError};
 use hello::HelloDeserializeError;
 use Hello;
-use Configuration;
+use Cfg;
 use ll;
 
 pub struct TransportService {
@@ -27,7 +27,7 @@ error_def! TransportServiceInitError {
 }
 
 impl TransportService {
-  pub fn init(cfg: &Configuration) -> Result<TransportService, TransportServiceInitError> {
+  pub fn init(cfg: &Cfg) -> Result<TransportService, TransportServiceInitError> {
     let (mut sr, mut sw) = try!(service::connect(cfg, "transport"));
     let msg_length = 2 + 4 + 32;
     {
@@ -50,7 +50,7 @@ impl TransportService {
   }
 }
 
-pub fn self_hello(cfg: &Configuration) -> Result<Hello, TransportServiceInitError> {
+pub fn self_hello(cfg: &Cfg) -> Result<Hello, TransportServiceInitError> {
   let ts = try!(TransportService::init(cfg));
   Ok(ts.our_hello)
 }

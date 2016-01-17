@@ -1,10 +1,13 @@
+//! Module for communicating with GNUnet services. Implements the parts of the GNUnet IPC protocols
+//! that are common to all services.
+
 use std::io::{self, Write, Cursor};
 use std::thread;
 use std::net::Shutdown;
 use unix_socket::UnixStream;
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
-use Configuration;
+use configuration::{self, Cfg};
 use util::io::ReadUtil;
 
 /*
@@ -12,18 +15,20 @@ pub struct Service<'c> {
   //connection: Box<Stream + 'static>,
   //pub connection: Box<UnixStream>,
   pub connection: UnixStream,
-  pub cfg: &'c Configuration,
+  pub cfg: &'c Cfg,
 }
 */
 
 /// Created by `service::connect`. Used to read messages from a GNUnet service.
 pub struct ServiceReader {
-  pub connection: UnixStream, // TODO: should be UnixReader
+    /// The underlying socket wrapped by `ServiceReader`. This is a read-only socket.
+    pub connection: UnixStream, // TODO: should be UnixReader
 }
 
 /// Created by `service::connect`. Used to send messages to a GNUnet service.
 pub struct ServiceWriter {
-  pub connection: UnixStream, // TODO: should be UnixWriter
+    /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
+    pub connection: UnixStream, // TODO: should be UnixWriter
 }
 
 /// Callbacks passed to `ServiceReader::spawn_callback_loop` return a `ProcessMessageResult` to
@@ -40,19 +45,19 @@ pub enum ProcessMessageResult {
 
 /// Error that can be generated when attempting to connect to a service.
 error_def! ConnectError {
-  NotConfigured                   => "The configuration does not describe how to connect to the service",
-  Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+    NotConfigured { #[from] cause: configuration::CfgGetFilenameError }
+        => "The configuration does not describe how to connect to the service"
+            ("Config does not contain an entry for UNIXPATH in the service's section: {}", cause),
+    Io { #[from] cause: io::Error }
+        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
 }
 
 /// Attempt to connect to the local GNUnet service named `name`.
 ///
 /// eg. `connect(cfg, "arm")` will attempt to connect to the locally-running `gnunet-arm` service
 /// using the congfiguration details (eg. socket address, port etc.) in `cfg`.
-pub fn connect(cfg: &Configuration, name: &str) -> Result<(ServiceReader, ServiceWriter), ConnectError> {
-  let unixpath = match cfg.get_value_filename(name, "UNIXPATH") {
-    Some(p)   => p,
-    None      => return Err(ConnectError::NotConfigured),
-  };
+pub fn connect(cfg: &Cfg, name: &str) -> Result<(ServiceReader, ServiceWriter), ConnectError> {
+  let unixpath = try!(cfg.get_filename(name, "UNIXPATH"));
 
   // TODO: use UnixStream::split() instead when it exists
   let path = unixpath.into_os_string().into_string().unwrap();
@@ -83,7 +88,7 @@ impl ServiceReader {
             F: 'static
   {
     let reader = try!(self.connection.try_clone());
-    let callback_loop = thread::scoped(move || -> ServiceReader {
+    let callback_loop = thread::spawn(move || -> ServiceReader {
       //TODO: implement reconnection (currently fails)
       loop {
         let (tpe, mr) = match self.read_message() {
@@ -158,7 +163,7 @@ impl<'a> Write for MessageWriter<'a> {
 /// Created with `ServiceReader::spawn_callback_loop`.
 pub struct ServiceReadLoop {
   reader: UnixStream,
-  _callback_loop: thread::JoinGuard<'static, ServiceReader>,
+  _callback_loop: thread::JoinHandle<ServiceReader>,
 }
 
 impl ServiceReadLoop {

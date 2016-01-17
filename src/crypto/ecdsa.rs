@@ -9,7 +9,6 @@ use libc::{c_void, size_t, c_char};
 
 use ll;
 use crypto::hashcode::HashCode;
-use util::io::ReadUtil;
 
 /// A 256bit ECDSA public key.
 #[derive(Copy, Clone)]
@@ -48,7 +47,7 @@ impl FromStr for EcdsaPublicKey {
       let mut ret: EcdsaPublicKey = mem::uninitialized();
       let res = ll::GNUNET_CRYPTO_ecdsa_public_key_from_string(
           bytes.as_ptr() as *const i8,
-          bytes.len() as u64,
+          bytes.len() as usize,
           &mut ret.data);
       match res {
         ll::GNUNET_OK => Ok(ret),

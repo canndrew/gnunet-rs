@@ -2,7 +2,7 @@ use std::io::{self, Cursor};
 use byteorder::{BigEndian, WriteBytesExt};
 
 use ll;
-use Configuration;
+use Cfg;
 use PeerIdentity;
 use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult};
 
@@ -36,7 +36,7 @@ pub struct Channel {
 }
 
 impl Cadet {
-  pub fn init(cfg: &Configuration, listen_ports: Vec<u32>) -> Result<Cadet, service::ConnectError> {
+  pub fn init(cfg: &Cfg, listen_ports: Vec<u32>) -> Result<Cadet, service::ConnectError> {
     let (service_reader, mut service_writer) = try!(service::connect(cfg, "cadet"));
     let callback_loop = try!(service_reader.spawn_callback_loop(move |tpe: u16, mut reader: Cursor<Vec<u8>>| -> ProcessMessageResult {
       println!("Got message!: tpe == {}", tpe);

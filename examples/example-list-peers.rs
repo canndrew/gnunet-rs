@@ -1,39 +1,18 @@
 extern crate gnunet;
 
 fn main() {
-  let config = match gnunet::Configuration::default() {
-    Some(c) => c,
-    None    => {
-      println!("Error: Config file not found.");
-      return;
-    },
-  };
-  let peers = match gnunet::iterate_peers(&config) {
-    Ok(peers) => peers,
-    Err(e)    => {
-      println!("Failed to iterate peers: {}", e);
-      return;
-    },
-  };
-  for result in peers {
-    match result {
-      Err(e)  => {
-        println!("Error receiving peer info: {}", e);
-        return;
-      },
-      Ok((peerinfo, hello)) => {
+    let config = gnunet::Cfg::default().unwrap();
+    let peers = gnunet::iterate_peers(&config).unwrap();
+    for result in peers {
+        let (peerinfo, hello) = result.unwrap();
         println!("Peer: {}", peerinfo);
         if let Some(hello) = hello {
-          println!("Hello: {}", hello);
+            println!("Hello: {}", hello);
         };
         println!("");
-      },
-    }
-  };
+    };
 
-  match gnunet::self_id(&config) {
-    Ok(id)  => println!("Our id is: {}", id),
-    Err(e)  => println!("Error obtaining our own id: {}", e),
-  };
+    let local_id = gnunet::self_id(&config).unwrap();
+    println!("Our id is: {}", local_id);
 }
 

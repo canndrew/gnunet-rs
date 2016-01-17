@@ -6,10 +6,9 @@ use libc::{c_void, c_char, size_t};
 use byteorder::{self, BigEndian, ReadBytesExt, WriteBytesExt};
 
 use ll;
-use Configuration;
+use Cfg;
 use service::{self, connect, ServiceReader, ReadMessageError};
 use Hello;
-use util::io::ReadUtil;
 use transport::{self, TransportServiceInitError};
 
 /// The identity of a GNUnet peer.
@@ -60,7 +59,7 @@ error_def! IteratePeersError {
 }
 
 /// Iterate over all the currently connected peers.
-pub fn iterate_peers(cfg: &Configuration) -> Result<Peers, IteratePeersError> {
+pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
   
   let msg_length = 8u16;
@@ -72,7 +71,7 @@ pub fn iterate_peers(cfg: &Configuration) -> Result<Peers, IteratePeersError> {
   })
 } 
 
-pub fn self_id(cfg: &Configuration) -> Result<PeerIdentity, TransportServiceInitError> {
+pub fn self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
   let hello = try!(transport::self_hello(cfg));
   Ok(hello.id)
 }

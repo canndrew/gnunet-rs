@@ -1,5 +1,4 @@
 use std::fmt::{self, Write};
-use std::slice::bytes::MutableByteVector;
 
 static ENCODE_CHARS: [char; 32] = ['0', '1', '2', '3', '4', '5', '6', '7',
                                    '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 
@@ -75,7 +74,9 @@ pub fn crockford_decode(enc: &str, dec: &mut [u8]) -> Result<(), CrockfordDecode
     });
   };
 
-  dec.set_memory(0u8);
+  for b in dec.iter_mut() {
+      *b = 0u8;
+  }
 
   let mut shift: i32 = 3;
   let mut dp: usize = 0;

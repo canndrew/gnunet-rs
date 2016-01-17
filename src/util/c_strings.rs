@@ -1,8 +1,7 @@
-use std::path::Path;
-use std::ffi::CString;
+//use std::path::Path;
+//use std::ffi::{CString, NulError};
 use std::io::{self, Read};
 use std::string::FromUtf8Error;
-use std::ffi::NulError;
 use byteorder::ReadBytesExt;
 
 /// Error generated when reading a C-style NUL-terminated string from a service
@@ -72,6 +71,10 @@ pub trait ReadCString: Read {
 
 impl<T> ReadCString for T where T: Read {}
 
+/*
+ *
+ *  Currently not used anymore.
+ *
 /// A `std::path::Path` could not be converted to a utf-8 CString.
 error_def! ToCPathError {
   InvalidUnicode
@@ -94,4 +97,5 @@ pub fn to_c_path<P: ?Sized>(path: &P) -> Result<CString, ToCPathError>
   };
   Ok(path)
 }
+*/
 

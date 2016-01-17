@@ -108,7 +108,7 @@ impl fmt::Display for HashCode {
 
 impl fmt::Debug for HashCode {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    fmt::Debug::fmt(self, f)
+    fmt::Display::fmt(self, f)
   }
 }
 

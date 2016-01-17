@@ -1,7 +1,7 @@
-use std::str::from_utf8;
 use std::string;
 use std::collections::HashMap;
 use std::io::{self, Read, Write};
+use std::fmt;
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 use num::ToPrimitive;
 
@@ -10,7 +10,7 @@ use EcdsaPrivateKey;
 use EcdsaPublicKey;
 use HashCode;
 use service::{self, ServiceReader, ServiceWriter};
-use Configuration;
+use configuration::Cfg;
 use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
 
 /// A GNUnet identity.
@@ -53,6 +53,16 @@ impl Ego {
   /// Get the unique id of an ego. This is a hash of the ego's public key.
   pub fn get_id(&self) -> &HashCode {
     &self.id
+  }
+}
+
+impl fmt::Display for Ego {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    let name = match self.name {
+      Some(ref n) => &**n,
+      None => "<anonymous>",
+    };
+    write!(f, "{} ({})", name, self.id)
   }
 }
 
@@ -108,7 +118,7 @@ impl IdentityService {
   ///
   /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
   /// the configuration to use to connect to the service.
-  pub fn connect(cfg: &Configuration) -> Result<IdentityService, ConnectError> {
+  pub fn connect(cfg: &Cfg) -> Result<IdentityService, ConnectError> {
     /*
     let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
     let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
@@ -169,9 +179,9 @@ impl IdentityService {
   /// Get the ego for the default master zone.
   ///
   /// ```rust
-  /// use gnunet::{Configuration, IdentityService};
+  /// use gnunet::{Cfg, IdentityService};
   ///
-  /// let config = Configuration::default().unwrap();
+  /// let config = Cfg::default().unwrap();
   /// let mut ids = IdentityService::connect(&config).unwrap();
   /// let ego = ids.get_default_ego("gns-master").unwrap();
   /// ```
@@ -244,9 +254,9 @@ error_def! ConnectGetDefaultEgoError {
 /// Get the ego for the default master zone.
 ///
 /// ```rust
-/// use gnunet::{Configuration, identity};
+/// use gnunet::{Cfg, identity};
 ///
-/// let config = Configuration::default().unwrap();
+/// let config = Cfg::default().unwrap();
 /// let ego = identity::get_default_ego(&config, "gns-master").unwrap();
 /// ```
 ///
@@ -256,7 +266,7 @@ error_def! ConnectGetDefaultEgoError {
 /// disconnects. If you want to do multiple queries you should connect to the service with
 /// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
-    cfg: &Configuration,
+    cfg: &Cfg,
     name: &str) -> Result<Ego, ConnectGetDefaultEgoError> {
   let mut is = try!(IdentityService::connect(cfg));
   let ret = try!(is.get_default_ego(name));

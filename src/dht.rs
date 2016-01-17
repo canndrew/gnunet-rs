@@ -1,7 +1,7 @@
 use std::old_io::net::pipe::UnixStream;
 use std::old_io::util::LimitReader;
 
-use Configuration;
+use Cfg;
 use service::{Service, ConnectError, ProcessMessageResult};
 
 pub enum BlockType {
@@ -121,7 +121,7 @@ pub struct DHT {
 }
 
 impl DHT {
-  pub fn connect(cfg: Option<&Configuration>) -> Result<DHT, ConnectError> {
+  pub fn connect(cfg: Option<&Cfg>) -> Result<DHT, ConnectError> {
     let mut service = ttry!(Service::connect(cfg, "dht"));
     service.init_callback_loop(move |&mut: tpe: u16, mut read: LimitReader<UnixStream>| -> ProcessMessageResult {
       ProcessMessageResult::Continue

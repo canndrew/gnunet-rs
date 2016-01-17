@@ -1,4 +1,4 @@
-pub use self::configuration::Configuration;
+pub use self::configuration::*;
 
 pub mod configuration;
 

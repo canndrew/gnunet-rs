@@ -56,7 +56,7 @@ impl RecordType {
   /// # Example
   ///
   /// ```rust
-  /// use gnunet::gns::RecordType::{mod, A};
+  /// use gnunet::gns::RecordType::{self, A};
   ///
   /// let x = RecordType::from_u32(1);
   /// let y = RecordType::from_u32(1234);
@@ -143,7 +143,7 @@ impl Record {
       data: ll::Struct_GNUNET_GNSRECORD_Data {
         data:             data,
         expiration_time:  expiration_time,
-        data_size:        data_size,
+        data_size:        data_size as usize,
         record_type:      record_type,
         flags:            flags,
       },

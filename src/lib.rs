@@ -8,22 +8,20 @@
 //! Perform a [GNS](https://gnunet.org/gns) lookup.
 //!
 //! ```rust
-//! use gnunet::{Configuration, gns};
+//! use gnunet::{Cfg, gns};
 //!
-//! let c = Configuration::default().unwrap();
+//! let c = Cfg::default().unwrap();
 //! let r = gns::lookup_in_master(&c, "www.gnu", gns::RecordType::A, None).unwrap();
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
 #![feature(unboxed_closures)]
 #![feature(libc)]
-#![feature(scoped)]
 #![feature(plugin)]
-#![feature(duration)]
-#![feature(hash_slice)]
-#![feature(slice_bytes)]
+#![feature(into_cow)]
 
 #![plugin(error_def)]
+#![plugin(regex_macros)]
 
 #![crate_name = "gnunet"]
 
@@ -33,8 +31,9 @@ extern crate rand;
 extern crate byteorder;
 extern crate crypto as rcrypto;
 extern crate num;
+extern crate regex;
 
-pub use configuration::Configuration;
+pub use configuration::Cfg;
 pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 
 pub use gns::{Record, RecordType};
@@ -84,13 +83,37 @@ macro_rules! byteorder_error_chain {
   )
 }
 
+macro_rules! unwrap_result {
+  ($e:expr) => (
+    match $e {
+      Ok(o) => o,
+      Err(ref e) => {
+        ::print_error(e, file!(), line!());
+        panic!();
+      }
+    }
+  )
+}
+
+#[cfg(test)]
+fn print_error<E: ::std::error::Error>(error: &E, file: &str, line: u32) {
+    println!("{}:{}: unwrap_result! called on an Err", file, line);
+    let mut err: Option<&::std::error::Error> = Some(error);
+    while let Some(e) = err {
+        println!("    {}", e);
+        err = e.cause();
+    }
+}
+
 //const HOMEPAGE: &'static str = "http://github.com/canndrew/gnunet-rs";
 
-#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals, raw_pointer_derive)]
+#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
 mod ll;
 
 pub mod service;
-mod configuration;
+pub mod configuration;
+pub mod time;
+pub mod paths;
 pub mod gns;
 //pub mod dht;
 mod crypto;

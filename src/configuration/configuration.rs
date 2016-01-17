@@ -1,367 +1,492 @@
-use std::ptr;
-use libc::{c_char, c_void, size_t, free};
-use std::mem::uninitialized;
-use std::time::Duration;
-use std::str::FromStr;
-use std::str::from_utf8;
-use std::ffi::CStr;
+use std;
+use std::collections::{hash_map, HashMap};
+use std::borrow::{Borrow, IntoCow};
+use std::io::{self, Read, BufRead, BufReader};
+use std::num::{ParseIntError, ParseFloatError};
 use std::path::{Path, PathBuf};
-use num::ToPrimitive;
+use std::fs::File;
+use std::ffi::OsStr;
+use std::str::FromStr;
+use util;
+use paths;
+use time;
 
-use ll;
-use util::{to_c_path, ToCPathError};
-
-/*
- * TODO: Make this all nicer once Index is reformed
- */
-
-/*
-#[deriving(Clone)]
-pub enum ConfigValue {
-  Int(u64),
-  Float(f32),
-  Duration(Duration),
-  Size(u64),
-  String(String),
-  Choice(String),
-  Filename(Path),
-}
-*/
-
-/// A set of key-value pairs containing the configuration of a local GNUnet daemon.
-///
-/// You need one of these objects to connect to any GNUnet service as it contains (among other
-/// things) information on how to connect to the service.
-pub struct Configuration {
-  data: *mut ll::Struct_GNUNET_CONFIGURATION_Handle,
-}
-unsafe impl Send for Configuration {}
-unsafe impl Sync for Configuration {}
-
-/*
-pub struct ConfigSection<'s> {
-  conf: &mut ll::Struct_GNUNET_CONFIGURATION_Handle,
-  name: &'s str,
-}
-*/
-
-/// Errors returned by `Configuration::load`.
-error_def! ConfigurationLoadError {
-  BadPath { #[from] cause: ToCPathError } => "The path given was malformed" ("Reason: {}", cause),
-  NoSuchFile                              => "The path does not exist"
+pub struct Cfg {
+    data: HashMap<String, HashMap<String, String>>,
 }
 
-/// Errors returned by `Configuration::save`.
-error_def! ConfigurationSaveError {
-  BadPath { #[from] cause: ToCPathError } => "The path given was malformed" ("Reason: {}", cause),
-  UnknownError                            => "The underlying library call failed"
+error_def! CfgDefaultError {
+    NoDataDir
+        => "Failed to determine GNUnet installation data directory",
+    ReadDataDir { #[from] cause: io::Error }
+        => "Failed to read Gnunet installation data directory" ("Reason: {}", cause),
+    LoadFile { #[from] cause: CfgLoadRawError }
+        => "Failed to load config file" ("Reason: {}", cause),
 }
 
-impl Configuration {
-  /// Generate an empty configuration
-  pub fn empty() -> Configuration {
-    unsafe {
-      let cfg = ll::GNUNET_CONFIGURATION_create();
-      Configuration {
-        data: cfg,
-      }
-    }
-  }
-
-  /// Generate a default configuration.
-  ///
-  /// This will find and load the system-wide GNUnet config file. If it cannot find the file then
-  /// `None` is returned.
-  pub fn default() -> Option<Configuration> {
-    let cfg = Configuration::empty();
-    unsafe {
-      match ll::GNUNET_CONFIGURATION_load(cfg.data, ptr::null()) {
-        ll::GNUNET_OK => Some(cfg),
-        _             => None,
-      }
-    }
-  }
-
-  /// Load a configuration file.
-  ///
-  /// This starts by loading the system-wide config file then loads any additional options in
-  /// `filename`. If either the system-wide config or `filename` cannot be found then `None` is
-  /// returned.
-  pub fn load<P: ?Sized>(filename: &P) -> Result<Configuration, ConfigurationLoadError>
-      where P: AsRef<Path>
-  {
-    let cpath = match to_c_path(filename) {
-      Ok(cpath) => cpath,
-      Err(e)    => return Err(ConfigurationLoadError::BadPath { cause: e }),
-    };
-    let cfg = Configuration::empty();
-    unsafe {
-      let r = ll::GNUNET_CONFIGURATION_load(cfg.data, cpath.as_ptr());
-      match r {
-        ll::GNUNET_OK => Ok(cfg),
-        _             => Err(ConfigurationLoadError::NoSuchFile),
-      }
-    }
-  }
-
-  /// Get an int from the config in the form of a `u32`. `None` is returned if the `section` or
-  /// `option` are not found or if they don't index an int.
-  pub fn get_value_int(&self, section: &str, option: &str) -> Option<u64> {
-    unsafe {
-      let mut n: u64 = uninitialized();
-      let r = ll::GNUNET_CONFIGURATION_get_value_number(
-          self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          section.as_ptr() as *const c_char,
-          option.as_ptr() as *const c_char,
-          &mut n);
-      match r {
-        ll::GNUNET_OK => Some(n),
-        _             => None,
-      }
-    }
-  }
-
-  /// Get a float from the config in the form of a `f32`. `None` is returned if the `section` or
-  /// `option` are not found or if they don't index a float.
-  pub fn get_value_float(&self, section: &str, option: &str) -> Option<f32> {
-    unsafe {
-      let mut f: f32 = uninitialized();
-      let r = ll::GNUNET_CONFIGURATION_get_value_float(
-          self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          section.as_ptr() as *const c_char,
-          option.as_ptr() as *const c_char,
-          &mut f);
-      match r {
-        ll::GNUNET_OK => Some(f),
-        _             => None,
-      }
-    }
-  }
-
-  /// Get a duration from the config in the form of a `Duration`. `None` is returned if the
-  /// `section` or `option` are not found in the config or if they don't index a duration.
-  pub fn get_value_duration(&self, section: &str, option: &str) -> Option<Duration> {
-    unsafe {
-      let mut t: ll::Struct_GNUNET_TIME_Relative = uninitialized();
-      let r = ll::GNUNET_CONFIGURATION_get_value_time(
-          self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          section.as_ptr() as *const c_char,
-          option.as_ptr() as *const c_char,
-          &mut t);
-      match r {
-        ll::GNUNET_OK => t.rel_value_us.to_u64().map(|n| {
-          let secs = n / 1000000;
-          let nans = (n % 1000000) as u32 * 1000;
-          Duration::new(secs, nans)
-        }),
-        _             => None,
-      }
-    }
-  }
-
-  /// Get a file size from the config in the form of a `u64`. `None` is returned if the `section`
-  /// or `option` are not found or if they don't index a file size.
-  pub fn get_value_size(&self, section: &str, option: &str) -> Option<u64> {
-    unsafe {
-      let mut s: u64= uninitialized();
-      let r = ll::GNUNET_CONFIGURATION_get_value_size(
-          self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          section.as_ptr() as *const c_char,
-          option.as_ptr() as *const c_char,
-          &mut s);
-      match r {
-        ll::GNUNET_OK => Some(s),
-        _             => None,
-      }
-    }
-  }
-  
-  /// Get a string from the config in the form of `String`. `None` is returned if the `section` or
-  /// `option` are not found or if they don't index a string.
-  pub fn get_value_string(&self, section: &str, option: &str) -> Option<String> {
-    unsafe {
-      let mut s: *mut c_char = ptr::null::<c_char>() as *mut c_char;
-      let r = ll::GNUNET_CONFIGURATION_get_value_string(
-          self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          section.as_ptr() as *const c_char,
-          option.as_ptr() as *const c_char,
-          &mut s);
-      let cs = s as *const c_char;
-      let ret = match r {
-        // TODO: config strings that aren't utf8 will will appear to not exist
-        //       think of a better way to do this
-        ll::GNUNET_OK => from_utf8(CStr::from_ptr(cs).to_bytes()).ok().map(|s| s.to_string()),
-        _ => None,
-      };
-      free(s as *mut c_void);
-      ret
-    }
-  }
-
-  /// Get a choice value from the config. `choices` contains a list of possible choices one of
-  /// which will be returned. `None` is returned if the `section` or `option` are not found or if
-  /// they don't index a choice value or if the value is not one of the options given in `choices`.
-  ///
-  /// # Example
-  ///
-  /// ```rust
-  /// use gnunet::Configuration;
-  ///
-  /// let cfg = Configuration::default().unwrap();
-  /// let s = cfg.get_value_choice("DHT", "CACHE_RESULTS", &["YES", "NO"]);
-  /// assert!(s == Some("YES") || s == Some("NO") || s == None);
-  /// ```
-  pub fn get_value_choice<'a>(&self, section: &str, option: &str, choices: &[&'a str]) -> Option<&'a str> {
-    unsafe {
-      let c_choices = choices.iter()
-                             .map(|s| s.as_bytes().as_ptr() as *const c_char)
-                             .collect::<Vec<*const c_char>>();
-      let mut s: *const c_char = ptr::null::<c_char>() as *const c_char;
-      let r = ll::GNUNET_CONFIGURATION_get_value_choice(
-          self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          section.as_ptr() as *const c_char,
-          option.as_ptr() as *const c_char,
-          c_choices.as_ptr(),
-          &mut s);
-      match r {
-        ll::GNUNET_OK => c_choices.iter()
-                                  .zip(choices.iter())
-                                  .find(|&(&cstr, _)| cstr == s as *const c_char)
-                                  .map(|t| *t.1),
-        _             => None,
-      }
-    }
-  }
-
-  /// Get a filename value from the config in the form of a `PathBuf`. `None` is returned if the
-  /// `section` or `option` are not found or if they don't index a filename.
-  pub fn get_value_filename(&self, section: &str, option: &str) -> Option<PathBuf> {
-    unsafe {
-      let mut s: *mut c_char = ptr::null::<c_char>() as *mut c_char;
-      let r = ll::GNUNET_CONFIGURATION_get_value_filename(
-          self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle,
-          section.as_ptr() as *const c_char,
-          option.as_ptr() as *const c_char,
-          &mut s);
-      let cs = s as *const c_char;
-      let path = match from_utf8(CStr::from_ptr(cs).to_bytes()) {
-        Ok(s)   => s,
-        Err(_)  => return None,
-      };
-      let ret = match r {
-        ll::GNUNET_OK => Some(PathBuf::from(path)),
-        _             => None,
-      };
-      free(s as *mut c_void);
-      ret
-    }
-  }
-
-  /// Test whether the configuration options have been changed since the last
-  /// save.
-  pub fn is_dirty(&self) -> bool {
-    unsafe {
-      match ll::GNUNET_CONFIGURATION_is_dirty(self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle) {
-        ll::GNUNET_NO => false,
-        _             => true,
-      }
-    }
-  }
-
-  /// Save configuration to a file.
-  pub fn save<P: ?Sized>(&mut self, filename: &P) -> Result<(), ConfigurationSaveError>
-      where P: AsRef<Path>
-  {
-    let cpath = match to_c_path(filename) {
-      Ok(cpath) => cpath,
-      Err(e)    => return Err(ConfigurationSaveError::BadPath { cause: e }),
-    };
-    let res = unsafe {
-      ll::GNUNET_CONFIGURATION_write(self.data, cpath.as_ptr())
-    };
-    match res {
-      ll::GNUNET_OK => Ok(()),
-      _             => Err(ConfigurationSaveError::UnknownError),
-    }
-  }
+error_def! CfgLoadRawError {
+    FileOpen { #[from] cause: io::Error }
+        => "Failed to open file" ("Reason: {}", cause),
+    Deserialize { #[from] cause: CfgDeserializeError }
+        => "Failed to deserialize config" ("Reason: {}", cause),
 }
 
-/*
-impl<'s> Index<&'s str, ConfigSection> for Configuration {
-  fn index(&'a self, index: &&'s str) -> &'a ConfigSection {
-    ConfigSection {
-      conf: self.data,
-      name: *index,
+error_def! CfgDeserializeError {
+    Io { #[from] cause: io::Error }
+        => "I/O error reading from reader" ("Specifically: {}", cause),
+    LoadInline {
+        cause: Box<CfgLoadRawError>,
+        line_number: usize,
+        filename: String,
+    }   => "Failed to load inline configuration file" ("line {}: Failed to load \"{}\" ({})", line_number, filename, cause),
+    InlineDisabled {
+        line_number: usize,
+        filename: String,
+    } => "@INLINE@ directive in config but allow_inline is disabled" ("line {}: Will not load file \"{}\"", line_number, filename),
+    Syntax {
+        line_number: usize,
+        line: String,
+    } => "Syntax error in configuration" ("line {}: Failed to parse \"{}\"", line_number, line),
+}
+
+error_def! CfgLoadError {
+    LoadDefault { #[from] cause: CfgDefaultError }
+        => "Failed to load system default configuration" ("Reason: {}", cause),
+    LoadFile { #[from] cause: CfgLoadRawError }
+        => "Failed to load the config file" ("Reason: {}", cause),
+}
+
+error_def! CfgGetIntError {
+    NoSection   => "The config does not contain a section with that name",
+    NoKey       => "The config section does contain that key",
+    Parse { #[from] cause: ParseIntError }
+                => "The value is not a valid u64" ("Details: {}", cause),
+}
+
+error_def! CfgGetFloatError {
+    NoSection   => "The config does not contain a section with that name",
+    NoKey       => "The config section does contain that key",
+    Parse { #[from] cause: ParseFloatError }
+                => "The value is not a valid f32" ("Details: {}", cause),
+}
+
+error_def! CfgGetRelativeTimeError {
+    NoSection   => "The config does not contain a section with that name",
+    NoKey       => "The config section does contain that key",
+    Parse { #[from] cause: util::strings::ParseQuantityWithUnitsError }
+                => "The value is not a valid relative time" ("Reason: {}", cause),
+}
+
+error_def! CfgGetFilenameError {
+    NoSection   => "The config does not contain a section with that name",
+    NoKey       => "The config section does contain that key",
+    ExpandDollar { #[from] cause: CfgExpandDollarError }
+                => "Failed to '$'-expand the config entry" ("Reason: {}", cause),
+}
+
+error_def! CfgExpandDollarError {
+    NonUnicodeEnvVar { var_name: String }
+        => "Tried to expand to an environment variable containing invalid unicode"
+            ("variable: \"{}\"", var_name),
+    Syntax { pos: usize }
+        => "Syntax error in '$'-expansion"
+            ("Error at byte position {}", pos),
+    UnknownVariable { var_name: String }
+        => "Failed to expand variable"
+            ("Variable not found in PATHS section or process environment: {}", var_name),
+    UnclosedBraces
+        => "'$'-expansion includes an unclosed '{{'",
+}
+
+impl Cfg {
+    pub fn empty() -> Cfg {
+        Cfg {
+            data: HashMap::new(),
+        }
     }
-  }
-}
-*/
 
-/// Returned by `Configuration::from_str` when parsing fails.
-error_def! ConfigurationFromStrError {
-  ParsingFailed => "Failed to parse the config data"
-}
-
-impl FromStr for Configuration {
-  type Err = ConfigurationFromStrError;
-
-  fn from_str(s: &str) -> Result<Configuration, ConfigurationFromStrError> {
-    let cfg = Configuration::empty();
-    unsafe {
-      match ll::GNUNET_CONFIGURATION_deserialize(cfg.data, s.as_ptr() as *const c_char, s.len() as size_t, 1) {
-        ll::GNUNET_OK => Ok(cfg),
-        _             => Err(ConfigurationFromStrError::ParsingFailed),
-      }
+    pub fn load_raw<P: AsRef<Path>>(path: P) -> Result<Cfg, CfgLoadRawError> {
+        let f = try!(File::open(path));
+        Ok(try!(Cfg::deserialize(f, true)))
     }
-  }
-}
 
-impl ToString for Configuration {
-  fn to_string(&self) -> String {
-    unsafe {
-      let mut size: size_t = uninitialized();
-      let serialized = ll::GNUNET_CONFIGURATION_serialize(self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle, &mut size);
-      let constified = serialized as *const c_char;
-      let bytes = CStr::from_ptr(constified).to_bytes();
-      let ret = match from_utf8(bytes) {
-        Ok(s)   => s.to_string(),
-        Err(_)  => panic!("GNUNET_CONFIGURATION_serialize returned invalid utf-8"),
-      };
-      free(serialized as *mut c_void);
-      ret
+    pub fn deserialize<R: Read>(read: R, allow_inline: bool) -> Result<Cfg, CfgDeserializeError> {
+        use self::CfgDeserializeError::*;
+
+        let mut cfg = Cfg::empty();
+        let mut section = String::new();
+        let br = BufReader::new(read);
+        for (i, res_line) in br.lines().enumerate() {
+            let line_num = i + 1;
+            let line_buf = try!(res_line);
+            
+            {
+                let line = line_buf.trim();
+
+                // ignore empty lines
+                if line.is_empty() {
+                    continue;
+                }
+
+                // ignore comments
+                if line.starts_with('#') ||
+                   line.starts_with('%') {
+                    continue;
+                }
+
+                let re_inline = regex!(r"^(?i)@inline@ (.+)$");
+                if let Some(caps) = re_inline.captures(line) {
+                    let filename = caps.at(1).unwrap().trim(); // panic is logically impossible
+                    if allow_inline {
+                        let cfg_raw = match Cfg::load_raw(filename) {
+                            Ok(cfg_raw) => cfg_raw,
+                            Err(e)      => return Err(LoadInline {
+                                cause: Box::new(e),
+                                line_number: line_num,
+                                filename: filename.to_string(),
+                            })
+                        };
+                        cfg.merge(cfg_raw);
+                    }
+                    else {
+                        return Err(InlineDisabled {
+                            line_number: line_num,
+                            filename: filename.to_string(),
+                        })
+                    }
+                    continue;
+                }
+
+                let re_section = regex!(r"^\[(.+)\]$");
+                if let Some(caps) = re_section.captures(line) {
+                    section = caps.at(1).unwrap().to_string(); // panic is logically impossible
+                    continue;
+                }
+
+                let re_key_value = regex!(r"^(.+)=(.*)$");
+                if let Some(caps) = re_key_value.captures(line) {
+                    let key = caps.at(1).unwrap().trim();
+                    let value = caps.at(2).unwrap().trim();
+
+                    /*
+                     * TODO: Make this less yukk. There's a whole bunch of unnecessary allocation
+                     * and copying happening here.
+                     */
+                    match cfg.data.entry(section.clone()) {
+                        hash_map::Entry::Occupied(mut soe)  => match soe.get_mut().entry(key.to_string()) {
+                            hash_map::Entry::Occupied(mut koe)  => {
+                                koe.insert(value.to_string());
+                            },
+                            hash_map::Entry::Vacant(kve)    => {
+                                kve.insert(value.to_string());
+                            },
+                        },
+                        hash_map::Entry::Vacant(sve)    => {
+                            let map = sve.insert(HashMap::new());
+                            map.insert(key.to_string(), value.to_string());
+                        },
+                    }
+                    continue;
+                };
+            };
+
+            return Err(Syntax {
+                line_number: line_num,
+                line: line_buf,
+            })
+        }
+        Ok(cfg)
     }
-  }
-}
 
-impl Clone for Configuration {
-  fn clone(&self) -> Configuration {
-    Configuration {
-      data: unsafe {
-        ll::GNUNET_CONFIGURATION_dup(self.data as *const ll::Struct_GNUNET_CONFIGURATION_Handle)
-      },
+    pub fn merge(&mut self, mut other: Cfg) {
+        for (k, mut v) in other.data.drain() {
+            match self.data.entry(k) {
+                hash_map::Entry::Occupied(oe)    => {
+                    let map = oe.into_mut();
+                    for (k, v) in v.drain() {
+                        map.insert(k, v);
+                    }
+                },
+                hash_map::Entry::Vacant(ve) => {
+                    ve.insert(v);
+                },
+            }
+        }
     }
-  }
-}
 
-impl Drop for Configuration {
-  fn drop(&mut self) {
-    unsafe {
-      ll::GNUNET_CONFIGURATION_destroy(self.data);
+    pub fn default() -> Result<Cfg, CfgDefaultError> {
+        use self::CfgDefaultError::*;
+
+        let mut data_dir = match paths::data_dir() {
+            Some(dd)    => dd,
+            None        => return Err(NoDataDir),
+        };
+
+        data_dir.push("config.d");
+        let mut cfg = Cfg::empty();
+        let rd = match std::fs::read_dir(data_dir) {
+            Ok(dirent)  => dirent,
+            Err(e)      => return Err(ReadDataDir { cause: e }),
+        };
+
+        for res_dirent in rd {
+            let dirent = match res_dirent {
+                Ok(dirent)  => dirent,
+                Err(e)      => return Err(ReadDataDir { cause: e }),
+            };
+            let path = dirent.path();
+            if let Ok(file_type) = dirent.file_type() {
+                if path.extension() == Some(OsStr::new("conf")) && file_type.is_file() {
+                    let cfg_raw = try!(Cfg::load_raw(path));
+                    cfg.merge(cfg_raw);
+                }
+            }
+        };
+
+        Ok(cfg)
     }
-  }
+
+    pub fn load<P: AsRef<Path>>(path: P) -> Result<Cfg, CfgLoadError> {
+        let mut cfg = try!(Cfg::default());
+        let cfg_raw = try!(Cfg::load_raw(path));
+        cfg.merge(cfg_raw);
+        Ok(cfg)
+    }
+
+    pub fn get_int(&self, section: &str, key: &str) -> Result<u64, CfgGetIntError> {
+        use self::CfgGetIntError::*;
+
+        match self.data.get(section) {
+            Some(map) => match map.get(key) {
+                Some(value) => Ok(try!(u64::from_str(value))),
+                None        => Err(NoKey),
+            },
+            None    => Err(NoSection),
+        }
+    }
+
+    pub fn get_float(&self, section: &str, key: &str) -> Result<f32, CfgGetFloatError> {
+        use self::CfgGetFloatError::*;
+
+        match self.data.get(section) {
+            Some(map) => match map.get(key) {
+                Some(value) => Ok(try!(f32::from_str(value))),
+                None        => Err(NoKey),
+            },
+            None    => Err(NoSection),
+        }
+    }
+
+    pub fn get_relative_time(&self, section: &str, key: &str) -> Result<time::Relative, CfgGetRelativeTimeError> {
+        use self::CfgGetRelativeTimeError::*;
+
+        match self.data.get(section) {
+            Some(map) => match map.get(key) {
+                Some(value) => Ok(try!(time::Relative::from_str(value))),
+                None        => Err(NoKey),
+            },
+            None    => Err(NoSection),
+        }
+    }
+
+    pub fn get_filename(&self, section: &str, key: &str) -> Result<PathBuf, CfgGetFilenameError> {
+        use self::CfgGetFilenameError::*;
+
+        match self.data.get(section) {
+            Some(map) => match map.get(key) {
+                Some(value) => {
+                    let expanded = try!(self.expand_dollar(value));
+                    Ok(PathBuf::from(expanded))
+                },
+                None        => Err(NoKey),
+            },
+            None    => Err(NoSection),
+        }
+    }
+
+    pub fn set_string<'a, S, K>(&mut self, section: S, key: K, mut value: String) -> Option<String>
+            where S: IntoCow<'a, str>,
+                  K: IntoCow<'a, str>
+    {
+        let section = section.into_cow();
+        let key = key.into_cow();
+
+        if let Some(mut map) = self.data.get_mut(&*section) {
+            if let Some(mut val) = map.get_mut(&*key) {
+                std::mem::swap(val, &mut value);
+                return Some(value);
+            }
+            map.insert(section.into_owned(), value);
+            return None;
+        }
+
+        let mut map = HashMap::with_capacity(1);
+        map.insert(key.into_owned(), value);
+        self.data.insert(section.into_owned(), map);
+        None
+    }
+
+    pub fn expand_dollar<'o>(&self, orig: &'o str) -> Result<String, CfgExpandDollarError> {
+        use self::CfgExpandDollarError::*;
+
+        let lookup = |name: &str| {
+            use std::env::VarError;
+
+            match self.data.get("PATHS").and_then(|m| m.get(name)) {
+                Some(v) => Some(self.expand_dollar(v)),
+                None    => match std::env::var(name) {
+                    Ok(s)   => Some(self.expand_dollar(s.borrow())),
+                    Err(e)  => match e {
+                        VarError::NotPresent    => return None,
+                        VarError::NotUnicode(_) => return Some(Err(NonUnicodeEnvVar { var_name: name.to_string() })),
+                    }
+                }
+            }
+        };
+
+        let mut ret = String::with_capacity(orig.len());
+        let mut chars = orig.char_indices().peekable();
+
+        while let Some((_, c)) = chars.next() {
+            if c == '$' {
+                if let Some(&(_, c)) = chars.peek() {
+                    let get_name = |mut chars: std::iter::Peekable<std::str::CharIndices<'o>>| {
+                        let start = match chars.peek() {
+                            Some(&(start, _)) => start,
+                            None => orig.len(),
+                        };
+                        loop {
+                            if let Some(&(end, c)) = chars.peek() {
+                                if ! (c.is_alphanumeric() || c == '_') {
+                                    let name = unsafe { orig.slice_unchecked(start, end) };
+                                    return (name, chars);
+                                }
+                                chars.next();
+                            }
+                            else {
+                                let name = unsafe { orig.slice_unchecked(start, orig.len()) };
+                                return (name, chars)
+                            }
+                        }
+                    };
+                    if c == '{' {
+                        chars.next();
+                        if let Some(&(start, _)) = chars.peek() {
+                            let (name, nchars) = get_name(chars);
+                            chars = nchars;
+                            if name.is_empty() {
+                                // got something like "${_" where _ is not alphanumeric
+                                return Err(Syntax { pos: start });
+                            }
+                            if let Some((pos, c)) = chars.next() {
+                                match c {
+                                    '}' => {
+                                        match lookup(name) {
+                                            Some(expanded)  => ret.push_str(try!(expanded).borrow()),
+                                            None            => return Err(UnknownVariable { var_name: name.to_string() }),
+                                        }
+                                    }
+                                    ':' => {
+                                        if let Some((pos, c)) = chars.next() {
+                                            if c != '-' {
+                                                return Err(Syntax { pos: pos });
+                                            }
+                                            if let Some(&(start, _)) = chars.peek() {
+                                                let mut depth = 0usize;
+                                                let end: usize;
+                                                loop {
+                                                    if let Some((e, c)) = chars.next() {
+                                                        match c {
+                                                            '{' => depth += 1,
+                                                            '}' => {
+                                                                if depth == 0 {
+                                                                    end = e;
+                                                                    break;
+                                                                }
+                                                                else {
+                                                                    depth -= 1;
+                                                                }
+                                                            },
+                                                            _   => (),
+                                                        }
+                                                    }
+                                                    else {
+                                                        return Err(UnclosedBraces);
+                                                    }
+                                                }
+                                                if let Some(expanded) = lookup(name) {
+                                                    // have "${name:-def}" and we were able to
+                                                    // resolve `name` to `expanded`
+                                                    ret.push_str(try!(expanded).borrow());
+                                                }
+                                                else {
+                                                    // have "${name:-def}" and we were not able
+                                                    // to resolve name
+                                                    let def = unsafe { orig.slice_unchecked(start, end) };
+                                                    ret.push_str(try!(self.expand_dollar(def)).borrow());
+                                                }
+                                            }
+                                            else {
+                                                // string ended after "${name:-"
+                                                return Err(UnclosedBraces);
+                                            }
+                                        }
+                                        else {
+                                            // string ended after "${name:"
+                                            return Err(UnclosedBraces);
+                                        }
+                                    },
+                                    _   => {
+                                        // got string "${name_" where _ is an invalid character
+                                        return Err(Syntax { pos: pos });
+                                    },
+                                }
+                            }
+                            else {
+                                return Err(UnclosedBraces);
+                            }
+                        }
+                        else {
+                            return Err(UnclosedBraces);
+                        }
+                    }
+                    else {
+                        let (name, nchars) = get_name(chars);
+                        chars = nchars;
+                        match lookup(name) {
+                            Some(expanded)  => ret.push_str(try!(expanded).borrow()),
+                            None            => return Err(UnknownVariable { var_name: name.to_string() }),
+                        }
+                    }
+                }
+                else {
+                    return Err(Syntax { pos: orig.len() });
+                }
+            }
+            else {
+                ret.push(c);
+            }
+        }
+        return Ok(ret);
+    }
 }
 
-/*
-impl<'s> Index<&'s str, ConfigValue> for ConfigSection {
-  fn index(&'a self, index: &&'s str) -> &'a ConfigValue {
+#[cfg(test)]
+mod tests {
+    use std;
+    use super::*;
 
-  }
-}
-*/
+    #[test]
+    fn test_expand_dollar() {
+        let mut cfg = Cfg::empty();
 
-#[test]
-fn test() {
-  let cfg = Configuration::default();
-  let _ = cfg.clone();
+        let res = cfg.set_string("PATHS", "IN_PATHS", String::from("in_paths"));
+        assert!(res.is_none());
+        std::env::set_var("IN_ENV", "in_env");
+
+        let unexpanded = "foo $IN_PATHS $IN_ENV ${NOT_ANYWHERE:-${IN_ENV}_wub}_blah";
+        let expanded = unwrap_result!(cfg.expand_dollar(unexpanded));
+        assert_eq!(expanded, "foo in_paths in_env in_env_wub_blah");
+    }
 }
 
