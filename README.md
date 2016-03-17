@@ -1,3 +1,5 @@
+## Are you a student? We are currently accepting Google Summer of Code student applications. You can get paid to spend the summer hacking on this library or see [the full list of proposed GNUnet GSoC projects](https://gnunet.org/gsoc-2016).
+
 gnunet-rs
 =========
 
