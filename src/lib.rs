@@ -15,31 +15,32 @@
 //! println!("Got the following IPv4 record for www.gnu: {}", r);
 //! ```
 
-#![feature(unboxed_closures)]
-#![feature(libc)]
-#![feature(plugin)]
-#![feature(into_cow)]
-
-#![plugin(error_def)]
-#![plugin(regex_macros)]
-
+//#![feature(unboxed_closures)]
+//#![feature(libc)]
+//#![feature(plugin)]
+//#![feature(into_cow)]
 #![crate_name = "gnunet"]
 
-extern crate libc;
-extern crate unix_socket;
-extern crate rand;
 extern crate byteorder;
 extern crate crypto as rcrypto;
+extern crate libc;
 extern crate num;
+extern crate rand;
 extern crate regex;
+extern crate unix_socket;
+
+#[macro_use]
+extern crate quick_error;
+#[macro_use]
+extern crate lazy_static;
 
 pub use configuration::Cfg;
-pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
+pub use crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
 
+pub use gns::{LocalOptions, GNS};
 pub use gns::{Record, RecordType};
-pub use gns::{GNS, LocalOptions};
-pub use identity::{Ego, IdentityService};
 pub use hello::Hello;
+pub use identity::{Ego, IdentityService};
 pub use peerinfo::{iterate_peers, self_id, PeerIdentity};
 //pub use dht::DHT;
 
@@ -70,30 +71,32 @@ macro_rules! byteorder_error_chain {
 */
 
 macro_rules! byteorder_error_chain {
-  ($t:ident) => (
-    impl From<::byteorder::Error> for $t {
-      #[inline]
-      fn from(e: ::byteorder::Error) -> $t {
-        match e {
-          ::byteorder::Error::UnexpectedEOF => $t::Disconnected,
-          ::byteorder::Error::Io(e)         => $t::Io { cause: e },
+    ($t:ident) => {
+        impl From<::std::io::Error> for $t {
+            #[inline]
+            fn from(e: ::std::io::Error) -> $t {
+                match e.kind() {
+                    ::std::io::ErrorKind::UnexpectedEof => $t::Disconnected,
+                    _ => $t::Io { cause: e },
+                }
+            }
         }
-      }
-    }
-  )
+    };
 }
 
+/*
 macro_rules! unwrap_result {
-  ($e:expr) => (
-    match $e {
-      Ok(o) => o,
-      Err(ref e) => {
-        ::print_error(e, file!(), line!());
-        panic!();
-      }
-    }
-  )
+    ($e:expr) => {
+        match $e {
+            Ok(o) => o,
+            Err(ref e) => {
+                ::print_error(e, file!(), line!());
+                panic!();
+            }
+        }
+    };
 }
+*/
 
 #[cfg(test)]
 fn print_error<E: ::std::error::Error>(error: &E, file: &str, line: u32) {
@@ -110,18 +113,17 @@ fn print_error<E: ::std::error::Error>(error: &E, file: &str, line: u32) {
 #[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
 mod ll;
 
-pub mod service;
 pub mod configuration;
-pub mod time;
-pub mod paths;
 pub mod gns;
+pub mod paths;
+pub mod service;
+pub mod time;
 //pub mod dht;
 mod crypto;
-pub mod identity;
-mod util;
-pub mod peerinfo;
 pub mod hello;
+pub mod identity;
+pub mod peerinfo;
+mod util;
 //pub mod cadet;
 pub mod data;
 pub mod transport;
-
